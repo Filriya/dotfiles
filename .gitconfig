@@ -1,0 +1,29 @@
+[color]
+	ui = false
+	diff = true
+	interactive = true
+	status = true
+	branch = true
+[user]
+	name = Filriya
+	email = arizoxppc@gmail.com
+[alias]
+st = status -sb
+cm = commit
+br = branch
+co = checkout
+df = diff --color
+dfc = diff --cached
+pr = pull --rebase
+lg = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=short
+lgg = log --stat --pretty=format:'%Cblue%h %Cgreen%ar %Cred%an %Creset%s %Cred%d'
+lgs = log --stat --abbrev-commit --date=relative
+fix = commit --amend -C HEAD
+[gui]
+	encoding = utf-8
+[interactive]
+	singlekey = true
+[core]
+	editor = /usr/bin/vim
+	pager = less
+

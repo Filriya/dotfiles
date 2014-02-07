@@ -1,0 +1,6 @@
+.vim/bundle
+.vim/neobundle.vim
+.vim/.netrwhist
+
+.git
+.DS_Store
