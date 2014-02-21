@@ -418,8 +418,7 @@ autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "norm
 :command! Uba :Unite -auto-preview colorscheme
 
 "ヘルプを水平分割に
-nnoremap <silent> H yaw:vert<space>help<space><C-R>"<CR>
-nnoremap <C-h>  q:vert help<space>
+nnoremap H q:vert help<space>
 
 "backspaceの挙動
 set backspace=start,eol,indent
