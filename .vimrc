@@ -357,6 +357,7 @@ autocmd ColorScheme * hi PmenuSbar ctermbg=232 guibg=#080808
 autocmd ColorScheme * hi PmenuThumb ctermfg=103 ctermbg=15 guifg=#66D9EF guibg=White
 
 set background=dark
+syntax enable
 colorscheme railscasts
 
 set number
@@ -408,7 +409,6 @@ set hidden                          " 編集中でも他のファイルを開け
 set noswapfile                      " スワップファイルを作らない
 set nobackup                        " バックアップを取らない
 autocmd BufWritePre * :%s/\s\+$//ge " 保存時に行末の空白を除去する
-syntax on                           " シンタックスカラーリングオン
 
 " ファイルを開いた際に、前回終了時の行で起動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
