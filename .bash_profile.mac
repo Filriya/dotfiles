@@ -8,6 +8,14 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+#ssh-agent
+if [ $SHLVL = '1' ]; then
+  if [ "$SSH_AGENT_PID" = "" ]; then
+    eval `ssh-agent`
+    ssh-add
+  fi
+fi
+
 # GNUコマンドのエイリアスを設定
 if [ "$PS1" ] && [ -f '/usr/local/Cellar/coreutils/8.19/aliases' ]; then
   source /usr/local/Cellar/coreutils/8.19/aliases
@@ -17,30 +25,6 @@ export PATH=/usr/local/bin/:$(brew --prefix coreutils)/libexec/gnubin:$PATH
 alias ls="gls --color=auto"
 alias find=gfind
 alias xargs=gxargs
-
-# other aliases
-#alias ls='ls -G --color=auto'
-#alias ll='ls -hl --color=auto'
-
-#ctags
-alias ctags='/usr/local/Cellar/ctags/5.8/bin/ctags'
-
-#ssh-agent
-if [ $SHLVL = '1' ]; then
-  if [ "$SSH_AGENT_PID" = "" ]; then
-    eval `ssh-agent`
-    ssh-add
-  fi
-fi
-
-# Linuxと共用するbashrcの呼び出し
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-      source "$HOME/.bashrc"
-    fi
-fi
 
 # Mac用の設定
 if [ -f `brew --prefix`/etc/bash_completion ]; then
@@ -57,3 +41,13 @@ fi
 if [ -f "/usr/local/etc/bash_completion.d/git-prompt.sh" ]; then
   source /usr/local/etc/bash_completion.d/git-prompt.sh
 fi
+
+# Linuxと共用するbashrcの呼び出し
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+      source "$HOME/.bashrc"
+    fi
+fi
+
