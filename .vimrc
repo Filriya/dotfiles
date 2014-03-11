@@ -31,8 +31,7 @@ endif
 
 call neobundle#rc(expand('~/.vim/bundle/'))
 
-" doc
-NeoBundle 'vim-scripts/vimdoc-ja'
+NeoBundle 'vim-jp/vimdoc-ja'
 
 " unite
 NeoBundle 'Shougo/vimproc'
@@ -49,6 +48,17 @@ NeoBundle 'choplin/unite-vim_hacks'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mattn/wwwrenderer-vim'
 NeoBundle 'thinca/vim-openbuf'
+
+" twitter on vim
+NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'basyura/twibill.vim'
+NeoBundle 'basyura/bitly.vim'
+NeoBundle 'mattn/favstar-vim'
+NeoBundle 'basyura/TweetVim'
+NeoBundle 'yomi322/unite-tweetvim'
+
+" ios
+NeoBundle 'pekepeke/titanium-vim'
 
 " syntax
 NeoBundle 'othree/html5.vim'
@@ -69,6 +79,7 @@ NeoBundle 'tpope/vim-surround'
 NeoBundle 'deton/jasegment.vim'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'fuenor/im_control.vim'
 "NeoBundle 'rhysd/clever-f.vim'
 "NeoBundle 'kakkyz81/evervim'
 "NeoBundle 'osyo-manga/vim-over'
@@ -199,7 +210,6 @@ au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 ""  let g:unite_source_grep_max_candidates = 200
 ""endif
 
-
 "--------------------
 " neocomplcache/neocomplete
 " ------------------
@@ -244,6 +254,25 @@ else
 endif
 
 "--------------------
+" Tweetvim
+"--------------------
+nnoremap <silent> [unite]t :Unite tweetvim<CR>
+nnoremap <silent> [unite]<c-t> :Unite tweetvim<CR>
+nnoremap <silent> <space>th :TweetVimHomeTimeline<CR>
+nnoremap <silent> <space>tm :TweetVimMentions<CR>
+nnoremap <silent> <space>ts :TweetVimSay<CR>
+nnoremap <silent> <space>tb :TweetVimBitly<CR>
+
+" スクリーン名のキャッシュを利用して、neocomplcache で補完する
+if !exists('g:neocomplcache_dictionary_filetype_lists')
+  let g:neocomplcache_dictionary_filetype_lists = {}
+endif
+let neco_dic = g:neocomplcache_dictionary_filetype_lists
+let neco_dic.tweetvim_say = $HOME . '/.tweetvim/screen_name'
+
+
+
+"--------------------
 " Align
 " ------------------
 let g:Align_xstrlen = 3
@@ -251,17 +280,24 @@ let g:Align_xstrlen = 3
 "------------
 "lightline
 "------------
-
 let g:lightline = {
+      \ 'enable': {
+      \   'statusline': 1,
+      \   'tabline': 0
+      \ },
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'fugitive', 'filename' ] ]
+      \             [ 'fugitive', 'filename' ] ],
+      \   'right': [ [ 'lineinfo' ],
+      \            [ 'percent' ],
+      \            [ 'jpmode', 'fileformat', 'fileencoding', 'filetype' ] ]
       \ },
       \ 'component_function': {
       \   'fugitive': 'MyFugitive',
       \   'readonly': 'MyReadonly',
       \   'modified': 'MyModified',
-      \   'filename': 'MyFilename'
+      \   'filename': 'MyFilename',
+      \   'jpmode': 'MyJpMode'
       \ },
       \ 'separator': { 'left': '', 'right': '' },
       \ 'subseparator': { 'left': '', 'right': '' }
@@ -270,6 +306,18 @@ let g:lightline = {
 let g:unite_force_overwrite_statusline = 0
 let g:vimfiler_force_overwrite_statusline = 0
 let g:vimshell_force_overwrite_statusline = 0
+
+function! MyJpMode()
+  if exists('IMState')
+    if IMState == 2
+      return "[JPMode]"
+    elseif IMState == 0
+      return ""
+    endif
+  else
+    return ""
+  endif
+endfunction
 
 function! MyModified()
   if &filetype == "help"
@@ -299,17 +347,15 @@ endfunction
 
 function! MyFilename()
   return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-       \ ('' != expand('%t') ? expand('%t') : '[No Name]') .
-       \ ('' != MyModified() ? ' ' . MyModified() : '')
+        \ ('' != expand('%t') ? expand('%t') : '[No Name]') .
+        \ ('' != MyModified() ? ' ' . MyModified() : '')
 endfunction
 
 "--------------------
 "emmet
 "--------------------
 "ショートカットキー変更
-let g:user_emmet_expandabbr = '<C-C>'
-"zencodingのインデントをタブに変換する
-"zencodingのenをjaに変更する
+let g:user_emmet_leader_key = '<c-c>'
 let g:user_emmet_settings = { 'indentation':'  ', 'lang':'ja'}
 
 "--------------------
@@ -398,9 +444,8 @@ set ignorecase      " 大文字小文字無視
 set smartcase       " 大文字ではじめたら大文字小文字無視しない
 set incsearch       " インクリメンタルサーチ
 "set hlsearch        " 検索文字をハイライト
-
 "esc2回でハイライトを消す
-nnoremap <ESC><ESC> :noh<cr>
+nnoremap <silent> <ESC><ESC> :noh<cr>
 
 "---------------------------------
 "ファイル操作
@@ -415,7 +460,7 @@ autocmd BufWritePre * :%s/\s\+$//ge " 保存時に行末の空白を除去する
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 
 "Unite Beautiful Attack!
-:command! Uba :Unite -auto-preview colorscheme
+command! Uba :Unite -auto-preview colorscheme
 
 "ヘルプを水平分割に
 nnoremap H q:vert help<space>
@@ -445,6 +490,7 @@ noremap <C-Z> <C-A>
 "swap semicolon and colon
 noremap : ;
 noremap ; q:
+noremap q; :
 noremap / q/
 noremap ? q?
 noremap S q:%s/\v
@@ -567,5 +613,36 @@ set ffs=unix,mac,dos
 command! Unix :set ff=unix
 command! Dos :set ff=dos
 command! Mac :set ff=mac
+
+set cmdheight=1
+
+
+if has('mac')
+  if has('gui_running')
+    let IM_CtrlMode = 4
+  else
+    let IM_CtrlMode = 1
+
+    function! IMCtrl(cmd)
+      let cmd = a:cmd
+      if cmd == 'On'
+        let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {104})" > /dev/null 2>&1')
+      elseif cmd == 'Off'
+        let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {102})" > /dev/null 2>&1')
+      elseif cmd == 'Toggle'
+        let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {55, 49})" > /dev/null 2>&1')
+      endif
+      return ''
+    endfunction
+  endif
+
+  "「日本語入力固定モード」のMacVimKaoriya対策を無効化
+  let IM_CtrlMacVimKaoriya = 0
+  " ctrl+jで日本語入力固定モードをOnOff
+  inoremap <silent> <C-j> <C-^><C-r>=IMState('FixMode')<CR>
+  nnoremap <silent> <expr> <C-j> IMState('FixMode')
+endif
+
+set helplang=ja,en
 
 filetype plugin indent on
