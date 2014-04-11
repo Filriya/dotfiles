@@ -38,6 +38,11 @@
       <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::CONTROL_L, KeyCode::COMMAND_L, KeyCode::SPACE, ModifierFlag::CONTROL_L</autogen>
     </item>
     <item>
+      <name>only omnifocus</name>
+      <identifier>private.only_omnifocus</identifier>
+      <autogen>--KeyToKey-- KeyCode::TAB, KeyCode::TAB, KeyCode::JIS_EISUU</autogen>
+    </item>
+    <item>
       <name>JIS_Keyboard to US_Keyboard</name>
       <identifier>private.app_I_want_to_use_US_KEYBOARD!</identifier>
       <autogen>--KeyToKey-- KeyCode::JIS_PC_HAN_ZEN, KeyCode::ESCAPE, KeyCode::JIS_EISUU</autogen>

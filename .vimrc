@@ -37,11 +37,19 @@ NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/vimfiler'
+NeoBundle 'Shougo/neosnippet'
 NeoBundle 't9md/vim-unite-ack'
 NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'tsukkee/unite-tag'
+
+" C C++ Objective-C
+"NeoBundleLazy 'https://github.com/tokorom/cocoa.vim.git', 'syntax-only', {'autoload': {'filetypes': ['objc']}}
+"NeoBundleLazy 'https://github.com/tokorom/ctrlp-docset.git', {'autoload': {'filetypes': ['objc']}}
+"NeoBundleLazy 'https://github.com/tokorom/clang_complete.git', 'for-ios', {'autoload': {'filetypes': ['c', 'cpp', 'objc']}}
+"NeoBundleLazy 'https://github.com/tokorom/clang_complete-getopts-ios.git', {'autoload': {'filetypes': ['objc']}}
 
 " web on vim
 NeoBundle 'choplin/unite-vim_hacks'
@@ -241,7 +249,9 @@ if s:meet_neocomplete_requirements()
       \ 'vimshell' : $HOME.'/.vimshell_hist',
       \ 'javascript' : $DOTVIM.'/dict/javascript.dict',
       \ 'php' : $DOTVIM.'/dict/php.dict'
-          \ }
+      \ }
+  "コードスニペット
+  let g:neocomplete=$HOME .'/.vim/snippets'
 else
   let g:neocomplcache_enable_at_startup = 1
   let g:neocomplcache_enable_camel_case_completion = 1
@@ -252,6 +262,10 @@ else
   let g:neocomplcache_caching_percent_in_statusline = 1
   let g:neocomplcache_enable_skip_completion = 1
 endif
+  "\ 'cpp'        : $HOME . '/.vim/dict/cpp.dict',
+  "\ 'javascript' : $HOME . '/.vim/dict/javascript.dict',
+  "\ 'objc'       : $HOME . '/.vim/dict/objc.dict',
+  "\ 'objcpp'     : $HOME . '/.vim/dict/objcpp.dict',
 
 "--------------------
 " Tweetvim
