@@ -21,12 +21,12 @@
       <autogen>--KeyToKey-- KeyCode::F, ModifierFlag::CONTROL_L, KeyCode::CURSOR_RIGHT</autogen>
       <autogen>--KeyToKey-- KeyCode::P, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP</autogen>
       <autogen>--KeyToKey-- KeyCode::N, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN</autogen>
-      <autogen>--KeyToKey-- KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::VK_JIS_TOGGLE_EISUU_KANA</autogen>
     </item>
     <item>
       <name>contain_terminal</name>
       <identifier>private.bracket_left_to_escape</identifier>
       <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::ESCAPE</autogen>
+      <autogen>--KeyToKey-- KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::VK_JIS_TOGGLE_EISUU_KANA</autogen>
       <autogen>--KeyToKey-- KeyCode::M, ModifierFlag::CONTROL_L, KeyCode::RETURN</autogen>
       <autogen>--KeyToKey-- KeyCode::H, ModifierFlag::CONTROL_L, KeyCode::DELETE</autogen>
     </item>
@@ -34,8 +34,8 @@
       <name>escape from virtualbox</name>
       <identifier>private.escape_from_virtualbox</identifier>
       <only>VIRTUALBOXVM</only>
-      <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::COMMAND_L, KeyCode::COMMAND_L, KeyCode::SPACE, ModifierFlag::COMMAND_L</autogen>
-      <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::CONTROL_L, KeyCode::COMMAND_L, KeyCode::SPACE, ModifierFlag::CONTROL_L</autogen>
+      <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::COMMAND_L, KeyCode::COMMAND_R, KeyCode::SPACE, ModifierFlag::COMMAND_L</autogen>
+      <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::CONTROL_L, KeyCode::COMMAND_R, KeyCode::SPACE, ModifierFlag::CONTROL_L</autogen>
     </item>
     <item>
       <name>only omnifocus</name>

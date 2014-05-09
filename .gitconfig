@@ -6,7 +6,6 @@
 	branch = true
 [user]
 	name = Filriya
-	email = arizoxppc@gmail.com
 [alias]
 st = status -sb
 cm = commit
