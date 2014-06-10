@@ -12,6 +12,13 @@
 " imap / inoremap |    -     |  @   |       -        |     -      |  -   |    -     |
 " cmap / cnoremap |    -     |  -   |       @        |     -      |  -   |    -     |
 "-----------------------------------------------------------------------------------"
+"check mappings
+":help index.txt
+":map
+":nmap   " ノーマルモードだけ表示
+":imap   " インサートモードだけ表示
+":vmap   " ビジュアルモードだけ表示
+
 "-------------------
 ".vimrc編集ショートカット
 "-------------------
@@ -51,6 +58,8 @@ NeoBundle 'tsukkee/unite-tag'
 "NeoBundleLazy 'https://github.com/tokorom/clang_complete.git', 'for-ios', {'autoload': {'filetypes': ['c', 'cpp', 'objc']}}
 "NeoBundleLazy 'https://github.com/tokorom/clang_complete-getopts-ios.git', {'autoload': {'filetypes': ['objc']}}
 
+NeoBundleLazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
+
 " web on vim
 NeoBundle 'choplin/unite-vim_hacks'
 NeoBundle 'mattn/webapi-vim'
@@ -65,9 +74,6 @@ NeoBundle 'mattn/favstar-vim'
 NeoBundle 'basyura/TweetVim'
 NeoBundle 'yomi322/unite-tweetvim'
 
-" ios
-NeoBundle 'pekepeke/titanium-vim'
-
 " syntax
 NeoBundle 'othree/html5.vim'
 NeoBundle 'cakebaker/scss-syntax.vim'
@@ -79,18 +85,16 @@ NeoBundle 'othree/javascript-libraries-syntax.vim'
 " development:general
 NeoBundle 'Align'
 NeoBundle 'sudo.vim'
-NeoBundle 'vim-scripts/catn.vim'
+NeoBundle 'catn.vim'
+"NeoBundle 'deris/vim-rengbang'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'tpope/vim-surround'
+NeoBundleLazy 'tpope/vim-surround'
 NeoBundle 'deton/jasegment.vim'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'fuenor/im_control.vim'
-"NeoBundle 'rhysd/clever-f.vim'
-"NeoBundle 'kakkyz81/evervim'
-"NeoBundle 'osyo-manga/vim-over'
 
 " development:frontend
 NeoBundle 'mattn/emmet-vim'
@@ -245,11 +249,11 @@ if s:meet_neocomplete_requirements()
 
   let $DOTVIM = $HOME . '/.vim'
   let g:neocomplete#sources#dictionary#dictionaries = {
-      \ 'default' : '',
-      \ 'vimshell' : $HOME.'/.vimshell_hist',
-      \ 'javascript' : $DOTVIM.'/dict/javascript.dict',
-      \ 'php' : $DOTVIM.'/dict/php.dict'
-      \ }
+        \ 'default' : '',
+        \ 'vimshell' : $HOME.'/.vimshell_hist',
+        \ 'javascript' : $DOTVIM.'/dict/javascript.dict',
+        \ 'php' : $DOTVIM.'/dict/php.dict'
+        \ }
   "コードスニペット
   let g:neocomplete=$HOME .'/.vim/snippets'
 else
@@ -262,10 +266,10 @@ else
   let g:neocomplcache_caching_percent_in_statusline = 1
   let g:neocomplcache_enable_skip_completion = 1
 endif
-  "\ 'cpp'        : $HOME . '/.vim/dict/cpp.dict',
-  "\ 'javascript' : $HOME . '/.vim/dict/javascript.dict',
-  "\ 'objc'       : $HOME . '/.vim/dict/objc.dict',
-  "\ 'objcpp'     : $HOME . '/.vim/dict/objcpp.dict',
+"\ 'cpp'        : $HOME . '/.vim/dict/cpp.dict',
+"\ 'javascript' : $HOME . '/.vim/dict/javascript.dict',
+"\ 'objc'       : $HOME . '/.vim/dict/objc.dict',
+"\ 'objcpp'     : $HOME . '/.vim/dict/objcpp.dict',
 
 "--------------------
 " Tweetvim
@@ -283,6 +287,29 @@ if !exists('g:neocomplcache_dictionary_filetype_lists')
 endif
 let neco_dic = g:neocomplcache_dictionary_filetype_lists
 let neco_dic.tweetvim_say = $HOME . '/.tweetvim/screen_name'
+
+"--------------------
+" jazz vim
+"--------------------
+if neobundle#tap('jazzradio.vim')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'unite_sources' : [
+        \       'jazzradio'
+        \     ],
+        \     'commands' : [
+        \       'JazzradioUpdateChannels',
+        \       'JazzradioStop',
+        \       {
+        \         'name' : 'JazzradioPlay',
+        \         'complete' : 'customlist,jazzradio#channel_id_complete'
+        \       }
+        \     ],
+        \     'function_prefix' : 'jazzradio'
+        \   }
+        \ })
+endif
+
 
 
 
@@ -660,3 +687,5 @@ endif
 set helplang=ja,en
 
 filetype plugin indent on
+
+vnoremap S q:s/\v

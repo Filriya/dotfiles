@@ -25,7 +25,8 @@
     <item>
       <name>contain_terminal</name>
       <identifier>private.bracket_left_to_escape</identifier>
-      <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::ESCAPE</autogen>
+      <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::ESCAPE, KeyCode::JIS_EISUU</autogen>
+      <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::ESCAPE, KeyCode::JIS_EISUU</autogen>
       <autogen>--KeyToKey-- KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::VK_JIS_TOGGLE_EISUU_KANA</autogen>
       <autogen>--KeyToKey-- KeyCode::M, ModifierFlag::CONTROL_L, KeyCode::RETURN</autogen>
       <autogen>--KeyToKey-- KeyCode::H, ModifierFlag::CONTROL_L, KeyCode::DELETE</autogen>
