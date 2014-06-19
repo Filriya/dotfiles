@@ -215,12 +215,12 @@ au FileType unite nnoremap <silent> <buffer> <ESC><ESC> q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 
 " unite-grepをsilver searcherに
-""if executable('ag')
-""  let g:unite_source_grep_command = 'ag'
-""  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
-""  let g:unite_source_grep_recursive_opt = ''
-""  let g:unite_source_grep_max_candidates = 200
-""endif
+if executable('ag')
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+  let g:unite_source_grep_recursive_opt = ''
+  let g:unite_source_grep_max_candidates = 200
+endif
 
 "--------------------
 " neocomplcache/neocomplete
@@ -449,7 +449,6 @@ syntax enable
 colorscheme railscasts
 
 set number
-set helplang=ja,en
 set showmode         " モード表示
 set title            " 編集中のファイル名を表示
 set ruler            " ルーラーの表示
@@ -487,6 +486,16 @@ set incsearch       " インクリメンタルサーチ
 "set hlsearch        " 検索文字をハイライト
 "esc2回でハイライトを消す
 nnoremap <silent> <ESC><ESC> :noh<cr>
+
+" tags
+set tags&
+set tags+=plugins/tags,lib/vendor/tags,tags;
+nnoremap <C-O> <C-T>
+
+"タグジャンプ
+nnoremap <silent> <Return> <C-]>
+"QuickFix内では通常どおり
+autocmd FileType qf nnoremap <buffer> <Return> <Return>
 
 "---------------------------------
 "ファイル操作
