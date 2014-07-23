@@ -396,8 +396,27 @@ endfunction
 "emmet
 "--------------------
 "ショートカットキー変更
+"imap <c-c> = nop
 let g:user_emmet_leader_key = '<c-c>'
 let g:user_emmet_settings = { 'indentation':'  ', 'lang':'ja'}
+let g:user_emmet_settings = {
+      \  'indentation':'  ',
+      \  'lang':'ja',
+      \  'custom_expands1': {
+      \    '^\%(lorem\|lipsum\)\(\d*\)$' : function('emmet#lorem#ja#expand'),
+      \  },
+      \  'html' : {
+      \    'filters' : 'html',
+      \    'indentation' : ' '
+      \  },
+      \  'css' : {
+      \    'filters' : 'fc',
+      \  },
+      \  'php' : {
+      \    'extends' : 'html',
+      \    'filters' : 'html,c',
+      \  }
+      \}
 
 "--------------------
 "vim-quickrun
