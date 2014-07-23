@@ -6,6 +6,10 @@ autodetach on
 defscrollback 10000
 shell -$SHELL
 
+shelltitle "$ |bash"
+caption always "%?%F%{= mk}%:%{= Kk}%?%-w%?%F%{=u mW}%:%{=u KW}%?%n %t%{-}%+w%{-u} %= %c"
+hardstatus off
+
 defbce             on
 term               xterm-256color
 termcapinfo xterm-256color 'is=^[r^[mJ^[H^[?7h^[?1;4;6l'
@@ -17,9 +21,22 @@ startup_message off
 vbell off
 autodetach on
 
-caption always "%?%F%{= kw}%:%{= kW}%?%-w%{=u kW}%n %t%{-}%+w%{-u} %= %c"
-
 cjkwidth on
-hardstatus off
 source '.screenrc.local'
 
+bind x remove
+bind ^x remove
+bind o only
+bind ^o only
+bind j eval 'focus down'
+bind ^j eval 'focus down'
+bind k eval 'focus up'
+bind ^k eval 'focus up'
+bind h eval 'focus left'
+bind ^h eval 'focus left'
+bind l eval 'focus right'
+bind ^l eval 'focus right'
+bind v eval 'split -v' focus screen
+bind ^v eval 'split -v' focus screen
+bind s eval 'split' focus screen
+bind ^s eval 'split' focus screen
