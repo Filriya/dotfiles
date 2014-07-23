@@ -40,3 +40,5 @@ bind v eval 'split -v' focus screen
 bind ^v eval 'split -v' focus screen
 bind s eval 'split' focus screen
 bind ^s eval 'split' focus screen
+
+bind K kill
