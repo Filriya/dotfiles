@@ -55,3 +55,6 @@ bind -c layout n eval 'layout next'  'layout show'
 bind -c layout p eval 'layout prev'  'layout show'
 bind -c layout ^N eval 'layout next' 'command -c layout' 'layout show'
 bind -c layout ^P eval 'layout prev' 'command -c layout' 'layout show'
+
+# create layout on first launch
+layout new
