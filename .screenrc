@@ -40,5 +40,18 @@ bind v eval 'split -v' focus screen
 bind ^v eval 'split -v' focus screen
 bind s eval 'split' focus screen
 bind ^s eval 'split' focus screen
-
 bind K kill
+
+# trigger for layout sub-commands
+bind ^Y eval 'command -c layout' 'layout show'
+bind y  eval 'command -c layout' 'layout show'
+
+# create/remove layout
+bind -c layout c eval 'layout new'    'layout show'
+bind -c layout x eval 'layout remove' 'layout show'
+
+# switch to other layout
+bind -c layout n eval 'layout next'  'layout show'
+bind -c layout p eval 'layout prev'  'layout show'
+bind -c layout ^N eval 'layout next' 'command -c layout' 'layout show'
+bind -c layout ^P eval 'layout prev' 'command -c layout' 'layout show'
