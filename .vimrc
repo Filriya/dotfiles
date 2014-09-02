@@ -141,8 +141,8 @@ NeoBundle 'fuenor/JpFormat.vim'
 let g:vimfiler_as_default_explorer=1
 let g:vimfiler_safe_mode_by_default = 0
 
-nnoremap <silent> <C-U>f :VimFiler -split -auto-cd -simple -winwidth=35 -toggle -no-quit <CR>
-nnoremap <silent> <C-U><C-F> :VimFiler -split -auto-cd -simple -winwidth=35 -toggle -no-quit <CR>
+"nnoremap <silent> f :VimFiler -split -auto-cd -simple -winwidth=35 -toggle -no-quit <CR>
+nnoremap <silent> <C-F> :VimFiler -split -auto-cd -simple -winwidth=35 -toggle -no-quit <CR>
 
 autocmd! FileType vimfiler call s:my_vimfiler_settings()
 
@@ -437,8 +437,8 @@ nnoremap <C-g>v :Gitv<CR>
 "--------------------
 " syntastic
 "--------------------
-let g:syntastic_enable_signs=1
-let g:syntastic_auto_loc_list=2
+"let g:syntastic_enable_signs=1
+"let g:syntastic_auto_loc_list=2
 
 "--------------------
 " simple javascript indenter

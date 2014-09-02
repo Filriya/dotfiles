@@ -1,12 +1,13 @@
 #!/bin/sh
-#cd $(dirname $0)
-#for dotfile in .?*
-#do
-#    if [ $dotfile != '..' ] && [ $dotfile != '.git' ]
-#    then
-#        ln -Fis "$PWD/$dotfile" $HOME
-#    fi
-#done
+cd $(dirname $0)
+
+for dotfile in .?*
+do
+    if [ $dotfile != '..' ] && [ $dotfile != '.git' ]
+    then
+        ln -Fis "$PWD/$dotfile" $HOME
+    fi
+done
 
 git clone git://github.com/Shougo/neobundle.vim ~/.vim/neobundle.vim
 vim +NeoBundleInstall +q

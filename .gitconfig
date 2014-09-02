@@ -25,4 +25,7 @@ fix = commit --amend -C HEAD
 [core]
 	editor = /usr/bin/vim
 	pager = less
+	quotepath = false
 
+[i18n]
+	commitencoding = UTF-8
