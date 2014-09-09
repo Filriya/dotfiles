@@ -537,19 +537,20 @@ nnoremap H q:vert help<space>
 "backspaceの挙動
 set backspace=start,eol,indent
 
-"vim縛りプレイ
-noremap <Right> <Nop>
-noremap <Left> <Nop>
-noremap <Up> <Nop>
-noremap <Down> <Nop>
-noremap <Del> <Nop>
-
 "挿入モード便利キー
 noremap! <C-P> <Up>
 noremap! <C-N> <Down>
 noremap! <C-F> <Right>
 noremap! <C-B> <Left>
 noremap! <C-D> <Del>
+
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
+noremap <C-P> gk
+noremap <C-N> gj
+
 
 "加算
 "screenと被るので、<C-Z>へ

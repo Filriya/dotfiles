@@ -1,17 +1,6 @@
 # Make sure using latest Homebrew
 update
-
-# Update already-installed formula (takes too much time, I will do it manually later)
-# upgrade
-
-# Add Repository
-tap homebrew/versions
-tap homebrew/dupes
-tap homebrew/binary
-tap Filriya/homebrew-cask
-tap sanemat/font
-
-reinstall --powerline --vim-powerline ricty
+upgrade
 
 # Packages
 install autoconf
@@ -32,7 +21,8 @@ install ruby-build
 install --HEAD -f --use-llvm screen
 install ssh-copy-id
 install the_silver_searcher
-install vim --devel --with-lua
+install vim --with-lua --with-luajit --without-ruby --override-system-vi
+install w3m
 install wget
 
 # .dmg
@@ -46,20 +36,17 @@ cask install firefox
 cask install flash
 cask install fluid
 cask install google-chrome
-cask install google-chrome-canary
-cask install google-drive
 cask install google-japanese-ime
 cask install iterm2
 cask install kobito
-cask install keyremap4macbook
 cask install libreoffice
 cask install path-finder
 cask install teamviewer
-cask install thunderbird
 cask install virtualbox
 cask install steermouse
 
+cask install sublime-text
+cask install java
 
-
-# Remove outdated versions
+cask alfred link
 cleanup

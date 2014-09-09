@@ -14,6 +14,14 @@
       <autogen>__KeyToKey__ KeyCode::KEY_4, ModifierFlag::COMMAND_L, ModifierFlag::OPTION_L, KeyCode::VK_OPEN_URL_APP_KeyRemap4MacBook_Profile3</autogen>
     </item>
     <item>
+      <name>poker_2_to_HHKB</name>
+      <identifier>poker2_to_HHKB</identifier>
+      <autogen>--KeyToKey-- KeyCode::BACKQUOTE, KeyCode::ESCAPE</autogen>
+      <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::BACKQUOTE</autogen>
+      <autogen>--KeyToKey-- KeyCode::BACKSLASH, KeyCode::DELETE</autogen>
+      <autogen>--KeyToKey-- KeyCode::DELETE, KeyCode::BACKSLASH</autogen>
+    </item>
+    <item>
       <name>except_terminal</name>
       <identifier>private.app_vi_mode_except_Terminal</identifier>
       <not>TERMINAL</not>
@@ -73,14 +81,6 @@
       <autogen>--KeyToKey-- KeyCode::JIS_COLON, ModifierFlag::SHIFT_L, KeyCode::KEY_2, ModifierFlag::SHIFT_L </autogen>
       <autogen>--KeyToKey-- KeyCode::JIS_COLON, KeyCode::KEY_7, ModifierFlag::SHIFT_L </autogen>
       <autogen>--KeyToKey-- KeyCode::JIS_UNDERSCORE, KeyCode::SHIFT_L</autogen>
-    </item>
-    <item>
-      <name>poker_2_to_HHKB</name>
-      <identifier>poker2_to_HHKB</identifier>
-      <autogen>--KeyToKey-- KeyCode::BACKQUOTE, KeyCode::ESCAPE</autogen>
-      <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::BACKQUOTE</autogen>
-      <autogen>--KeyToKey-- KeyCode::BACKSLASH, KeyCode::DELETE</autogen>
-      <autogen>--KeyToKey-- KeyCode::DELETE, KeyCode::BACKSLASH</autogen>
     </item>
   </list>
 </root>
