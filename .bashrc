@@ -76,9 +76,6 @@ alias cl='clear'
 alias finddot='find . -name "*._*" -o -name "*.DS_Store*"'
 #alias rmdot='find . \( -name "*._*" -o -name "*.DS_Store*" \)|xargs rm'
 
-if [ -f ~/usr/local/bin/screen-4.1.0.old ]; then
-  alias screen='/Users/$USER/usr/local/bin/screen-4.1.0.old'
-fi
 alias sr='screen -rxU'
 
 alias gst='git status -sb && git stash list'
@@ -157,10 +154,13 @@ fi
 
 
 if [ "$color_prompt" = yes ]; then
-  if [ -f $BASH_COMPLETION_DIR/git ]; then
+  if [ -f $BASH_COMPLETION_DIR/git-completion.bash ]; then
+    . $BASH_COMPLETION_DIR/git-completion.bash
+    . $BASH_COMPLETION_DIR/git-prompt.sh
+    export PS1='\[\033k\033\\\]'"$USER_COLOR\u$HOST_COLOR@\h$COLOR_RESET:$PROMPT_COLOR\w$COLOR_YELLOW"'$(__git_ps1)'"$COLOR_RESET\$ "
+  elif [ -f $BASH_COMPLETION_DIR/git ]; then
     . $BASH_COMPLETION_DIR/git
     export PS1='\[\033k\033\\\]'"$USER_COLOR\u$HOST_COLOR@\h$COLOR_RESET:$PROMPT_COLOR\w$COLOR_YELLOW"'$(__git_ps1)'"$COLOR_RESET\$ "
-
   elif [ -f $BASH_COMPLETION_COMPAT_DIR/git ]; then
     export PS1='\[\033k\033\\\]'"$USER_COLOR\u$HOST_COLOR@\h$COLOR_RESET:$PROMPT_COLOR\w$COLOR_YELLOW"'$(__git_ps1)'"$COLOR_RESET\$ "
   else
