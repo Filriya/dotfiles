@@ -177,7 +177,7 @@ let g:unite_enable_ignore_case=1
 let g:unite_enable_smart_case=1
 let g:unite_update_time = 100
 let g:unite_enable_split_vertically=1
-let g:unite_winwidth = 100
+let g:unite_winwidth = 70
 let g:unite_split_rule = 'rightbelow'
 
 " バッファ一覧
