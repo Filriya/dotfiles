@@ -203,3 +203,8 @@ eval "$(rbenv init -)"
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+# wordpress completion
+if [ -f $BASH_COMPLETION_COMPAT_DIR/wp ]; then
+  . $BASH_COMPLETION_COMPAT_DIR/wp
+fi
