@@ -86,15 +86,15 @@ NeoBundle 'othree/javascript-libraries-syntax.vim'
 NeoBundle 'Align'
 NeoBundle 'sudo.vim'
 NeoBundle 'catn.vim'
-"NeoBundle 'deris/vim-rengbang'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'thinca/vim-quickrun'
-NeoBundleLazy 'tpope/vim-surround'
+NeoBundle 'tpope/vim-surround'
 NeoBundle 'deton/jasegment.vim'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'fuenor/im_control.vim'
+NeoBundle 'soramugi/auto-ctags.vim'
 
 " development:frontend
 NeoBundle 'mattn/emmet-vim'
@@ -107,26 +107,27 @@ NeoBundle 'jiangmiao/simple-javascript-indenter'
 NeoBundle 'itchyny/lightline.vim'
 
 NeoBundle 'mopp/mopkai.vim'
-NeoBundle 'baskerville/bubblegum'
-NeoBundle 'altercation/solarized'
-NeoBundle 'vim-scripts/Lucius'
-NeoBundle 'mrkn/mrkn256.vim'
-NeoBundle 'nanotech/jellybeans.vim'
-NeoBundle 'chriskempson/vim-tomorrow-theme'
-NeoBundle 'vim-scripts/desert256.vim'
-NeoBundle 'croaker/mustang-vim'
-NeoBundle 'jeffreyiacono/vim-colors-wombat'
-NeoBundle 'vim-scripts/Zenburn'
 NeoBundle 'jpo/vim-railscasts-theme'
-NeoBundle 'therubymug/vim-pyte'
-NeoBundle 'w0ng/vim-hybrid'
-NeoBundle 'vim-scripts/rdark'
-NeoBundle 'reloaded.vim'
-NeoBundle 'chlordane.vim'
-NeoBundle 'vim-scripts/jammy.vim'
+
+"NeoBundle 'baskerville/bubblegum'
+"NeoBundle 'altercation/solarized'
+"NeoBundle 'vim-scripts/Lucius'
+"NeoBundle 'mrkn/mrkn256.vim'
+"NeoBundle 'nanotech/jellybeans.vim'
+"NeoBundle 'chriskempson/vim-tomorrow-theme'
+"NeoBundle 'vim-scripts/desert256.vim'
+"NeoBundle 'croaker/mustang-vim'
+"NeoBundle 'jeffreyiacono/vim-colors-wombat'
+"NeoBundle 'vim-scripts/Zenburn'
+"NeoBundle 'therubymug/vim-pyte'
+"NeoBundle 'w0ng/vim-hybrid'
+"NeoBundle 'vim-scripts/rdark'
+"NeoBundle 'reloaded.vim'
+"NeoBundle 'chlordane.vim'
+"NeoBundle 'vim-scripts/jammy.vim'
 
 NeoBundle 'thinca/vim-scouter'
-NeoBundle 'deris/vim-duzzle'
+"NeoBundle 'deris/vim-duzzle'
 
 "ja
 NeoBundle 'fuenor/JpFormat.vim'
@@ -507,9 +508,16 @@ set incsearch       " インクリメンタルサーチ
 nnoremap <silent> <ESC><ESC> :noh<cr>
 
 " tags
-set tags&
-set tags+=plugins/tags,lib/vendor/tags,tags;
+"set tags&
+"set tags+=plugins/tags,lib/vendor/tags,tags;
+if has('path_extra')
+  set tags+=tags;
+endif
 nnoremap <C-O> <C-T>
+"let g:auto_ctags = 1
+let g:auto_ctags_directory_list = ['.git', '.svn']
+let g:auto_ctags_tags_args = '--tag-relative --recurse --sort=yes --exclude=*.js'
+
 
 "タグジャンプ
 nnoremap <silent> <Return> <C-]>

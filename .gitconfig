@@ -13,6 +13,7 @@ br = branch
 co = checkout
 df = diff --color
 dfc = diff --cached
+dfh = diff HEAD
 pr = pull --rebase
 lg = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=short
 lgg = log --stat --pretty=format:'%Cblue%h %Cgreen%ar %Cred%an %Creset%s %Cred%d'
