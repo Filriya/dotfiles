@@ -108,7 +108,7 @@ NeoBundle 'itchyny/lightline.vim'
 
 NeoBundle 'mopp/mopkai.vim'
 NeoBundle 'jpo/vim-railscasts-theme'
-
+"NeoBundle 'fruity.vim'
 "NeoBundle 'baskerville/bubblegum'
 "NeoBundle 'altercation/solarized'
 "NeoBundle 'vim-scripts/Lucius'

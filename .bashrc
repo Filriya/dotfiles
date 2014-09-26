@@ -193,9 +193,9 @@ alias sr='screen -rxU'
 alias gst='git st && echo "" && git stash list && echo ""'
 
 #screenの自動実行
-if [ $SHLVL = '1' ]; then
-  screen -U -xR -S $USER
-fi
+#if [ $SHLVL = '1' ]; then
+#  screen -U -xR -S $USER
+#fi
 
 # rbenv
 export PATH="${HOME}/.rbenv/bin:${PATH}"

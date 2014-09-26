@@ -24,7 +24,8 @@ install pcre
 install python
 install rbenv
 install ruby-build
-install --HEAD -f --use-llvm screen
+tap rcmdnk/homebrew-rcmdnkpac
+install screenutf8 --utf8
 install ssh-copy-id
 install the_silver_searcher
 install vim --with-lua --with-luajit --without-ruby --override-system-vi
