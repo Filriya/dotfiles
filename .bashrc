@@ -161,7 +161,7 @@ if [ "$color_prompt" = yes ]; then
   elif [ -f $BASH_COMPLETION_DIR/git ]; then
     . $BASH_COMPLETION_DIR/git
     export PS1='\[\033k\033\\\]'"$USER_COLOR\u$HOST_COLOR@\h$COLOR_RESET:$PROMPT_COLOR\w$COLOR_YELLOW"'$(__git_ps1)'"$COLOR_RESET\$ "
-  elif [ -f $BASH_COMPLETION_COMPAT_DIR/git ]; then
+  elif [ -f $BASH_COMPLETION_COMPAT_DIR/git-prompt ]; then
     export PS1='\[\033k\033\\\]'"$USER_COLOR\u$HOST_COLOR@\h$COLOR_RESET:$PROMPT_COLOR\w$COLOR_YELLOW"'$(__git_ps1)'"$COLOR_RESET\$ "
   else
     export PS1='\[\033k\033\\\]'"$USER_COLOR\u$HOST_COLOR@\h$COLOR_RESET:$PROMPT_COLOR\w$COLOR_RESET\$ "
