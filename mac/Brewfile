@@ -7,6 +7,8 @@ tap homebrew/binary
 tap homebrew/dupes
 tap sanemat/font
 tap phinze/homebrew-cask
+tap rcmdnk/homebrew-rcmdnkpac
+
 
 # Packages
 install autoconf
@@ -24,7 +26,13 @@ install pcre
 install python
 install rbenv
 install ruby-build
-tap rcmdnk/homebrew-rcmdnkpac
+
+cask install xquartz
+install --vim-powerline ricty
+#インストール後、下記の2コマンドを実行
+#cp -f /usr/local/Cellar/ricty/3.2.3/share/fonts/Ricty-Bold-Powerline.ttf ~/Library/Fonts
+#fc-cache -vf
+#
 install screenutf8 --utf8
 install ssh-copy-id
 install the_silver_searcher

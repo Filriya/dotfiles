@@ -6,7 +6,7 @@ autodetach on
 defscrollback 10000
 shell -$SHELL
 
-shelltitle "$ |bash"
+shelltitle "$ |zsh"
 caption always "%?%F%{= mk}%:%{= Kk}%?%-w%?%F%{=u mW}%:%{=u KW}%?%n %t%{-}%+w%{-u} %= %c"
 hardstatus off
 
@@ -22,7 +22,6 @@ vbell off
 autodetach on
 
 cjkwidth on
-source '.screenrc.local'
 
 bind x remove
 bind ^x remove

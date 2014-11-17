@@ -69,12 +69,12 @@ NeoBundle 'mattn/wwwrenderer-vim'
 NeoBundle 'thinca/vim-openbuf'
 
 " twitter on vim
-NeoBundle 'tyru/open-browser.vim'
-NeoBundle 'basyura/twibill.vim'
-NeoBundle 'basyura/bitly.vim'
-NeoBundle 'mattn/favstar-vim'
-NeoBundle 'basyura/TweetVim'
-NeoBundle 'yomi322/unite-tweetvim'
+"NeoBundle 'tyru/open-browser.vim'
+"NeoBundle 'basyura/twibill.vim'
+"NeoBundle 'basyura/bitly.vim'
+"NeoBundle 'mattn/favstar-vim'
+"NeoBundle 'basyura/TweetVim'
+"NeoBundle 'yomi322/unite-tweetvim'
 
 " syntax
 NeoBundle 'othree/html5.vim'
