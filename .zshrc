@@ -5,6 +5,7 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
+LANG="C.UTF-8"
 ZSHINITROOT="$HOME/dotfiles"
 
 # Source Prezto.
