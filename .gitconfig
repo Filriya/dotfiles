@@ -32,3 +32,5 @@ fix = commit --amend -C HEAD
 
 [i18n]
 	commitencoding = UTF-8
+[push]
+	default = matching
