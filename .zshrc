@@ -30,6 +30,11 @@ fi
 
 eval $(dircolors ${HOME}/.dircolors )
 
+# rbenv
+export PATH="${HOME}/.rbenv/bin:${PATH}"
+eval "$(rbenv init -)"
+
+# wp-completion
 autoload bashcompinit
 bashcompinit
 source $ZSHINITROOT/wp-completion.bash
