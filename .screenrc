@@ -41,7 +41,7 @@ bind s eval 'split' focus screen
 bind ^s eval 'split' focus screen
 bind K kill
 bind L redisplay
-bind q quit
+bind Q quit
 
 # trigger for layout sub-commands
 bind ^Y eval 'command -c layout' 'layout show'

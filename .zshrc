@@ -43,3 +43,5 @@ bashcompinit
 source $ZSHINITROOT/wp-completion.bash
 
 #alias myssh="ssh $@ && echo $@";
+#alias
+alias ls="ls --color=auto"
