@@ -55,7 +55,6 @@ cask install google-japanese-ime
 cask install iterm2
 cask install kobito
 cask install libreoffice
-cask install path-finder
 cask install teamviewer
 cask install virtualbox
 cask install steermouse
