@@ -146,11 +146,11 @@ let g:vimfiler_safe_mode_by_default = 0
 
 "nnoremap <silent> f :VimFiler -split -auto-cd -simple -winwidth=35 -toggle -no-quit <CR>
 nnoremap <silent> <C-F> :VimFiler -split -auto-cd -simple -explorer -winwidth=36 -toggle -no-quit <CR>
-
 autocmd! FileType vimfiler call s:my_vimfiler_settings()
 
 function! s:my_vimfiler_settings()
-  "nmap     <silent> <buffer><expr><Cr> vimfiler#smart_cursor_map("\<Plug>(vimfiler_expand_tree)", "\<Plug>(vimfiler_edit_file)")
+  nmap <buffer><C-H> <Plug>(vimfiler_switch_to_parent_directory)
+  nmap <buffer><C-L> <Plug>(vimfiler_cd_or_edit)
   nnoremap <silent> <buffer>s :call vimfiler#mappings#do_action('my_split')<Cr>
   nnoremap <silent> <buffer>v :call vimfiler#mappings#do_action('my_vsplit')<Cr>
 endfunction
