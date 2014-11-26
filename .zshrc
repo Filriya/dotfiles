@@ -45,6 +45,8 @@ source $ZSHINITROOT/wp-completion.bash
 #alias myssh="ssh $@ && echo $@";
 #alias
 alias ls="ls --color=auto"
+alias cl="clear"
+alias sr='screen -RRU'
 
 #percol
 function exists { which $1 &> /dev/null }
@@ -60,4 +62,4 @@ if exists percol; then
 
 zle -N percol_select_history
 bindkey '^R' percol_select_history
-                                                        fi
+fi

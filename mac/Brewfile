@@ -58,6 +58,7 @@ cask install libreoffice
 cask install teamviewer
 cask install virtualbox
 cask install steermouse
+cask install hosts
 
 cask install sublime-text
 cask install java
