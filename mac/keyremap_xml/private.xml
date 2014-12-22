@@ -9,10 +9,16 @@
     <equal>com.metaclassy.byword</equal>
   </appdef>
   <appdef>
-    <appname>CHROME</appname>
+    <appname>BROWSER</appname>
     <equal>com.google.Chrome.canary</equal>
+    <equal>com.google.Chrome</equal>
+    <equal>com.operasoftware.Opera</equal>
+    <equal>com.operasoftware.OperaNext</equal>
+    <equal>com.apple.Safari</equal>
+    <equal>org.mozilla.firefox</equal>
+    <equal>org.mozilla.aurora</equal>
+    <equal>org.mozilla.nightly</equal>
   </appdef>
-
   <list>
     <item>
       <name>Switch Profile</name>
@@ -38,9 +44,9 @@
       <autogen>--KeyToKey-- KeyCode::RETURN, ModifierFlag::CONTROL_L, KeyCode::TAB, KeyCode::RETURN, KeyCode::RETURN</autogen>
     </item>
     <item>
-      <name>on_chrome</name>
-      <identifier>private.chrome</identifier>
-      <only>CHROME</only>
+      <name>on_browser</name>
+      <identifier>private.browser</identifier>
+      <only>BROWSER</only>
       <autogen>--KeyToKey-- KeyCode::D, ModifierFlag::CONTROL_L,
         KeyCode::CURSOR_DOWN,
         KeyCode::CURSOR_DOWN,
@@ -87,9 +93,9 @@
     <item>
       <name>contain_terminal</name>
       <identifier>private.bracket_left_to_escape</identifier>
-      <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::JIS_EISUU</autogen>
       <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::ESCAPE, KeyCode::JIS_EISUU</autogen>
       <autogen>--KeyToKey-- KeyCode::M, ModifierFlag::CONTROL_L, KeyCode::RETURN</autogen>
+      <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::ESCAPE, KeyCode::JIS_EISUU</autogen>
       <autogen>
         __KeyOverlaidModifier__
         KeyCode::SHIFT_L,

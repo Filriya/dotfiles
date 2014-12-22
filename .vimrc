@@ -97,6 +97,8 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'fuenor/im_control.vim'
 NeoBundle 'soramugi/auto-ctags.vim'
+NeoBundle 'haya14busa/incsearch.vim'
+
 
 " development:frontend
 NeoBundle 'mattn/emmet-vim'
@@ -424,7 +426,7 @@ let g:user_emmet_settings = {
 "--------------------
 "vim-quickrun
 "--------------------
-:command! Qr :QuickRun
+"nnoremap <C-q>r :QuickRun<CR>
 
 "--------------------
 "vim-fugitive
@@ -526,6 +528,20 @@ nnoremap <silent> <Return> <C-]>
 "QuickFix内では通常どおり
 autocmd FileType qf nnoremap <buffer> <Return> <Return>
 
+if neobundle#tap('incsearch.vim')
+  map / <Plug>(incsearch-forward)
+  map ? <Plug>(incsearch-backward)
+  map g/ <Plug>(incsearch-stay)
+  highlight IncSearchCursor ctermfg=0 ctermbg=9 guifg=#000000 guibg=#FF0000
+  set hlsearch | nohlsearch
+  let g:incsearch#auto_nohlsearch = 1
+  let g:incsearch#consistent_n_direction = 1
+  let g:incsearch#do_not_save_error_message_history = 1
+  map  n <Plug>(incsearch-nohl-n)
+  map  N <Plug>(incsearch-nohl-N)
+  call neobundle#untap()
+endif
+
 "---------------------------------
 "ファイル操作
 "--------------------------------
@@ -571,8 +587,9 @@ noremap <C-Z> <C-A>
 noremap : ;
 noremap ; q:
 noremap q; :
-noremap / q/
-noremap ? q?
+
+"noremap / q/
+"noremap ? q?
 noremap S q:%s/\v
 vnoremap S q:s/\v
 
