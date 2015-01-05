@@ -34,7 +34,7 @@ fi
 eval $(dircolors ${HOME}/.dircolors )
 
 # rbenv
-export PATH="${HOME}/.rbenv/bin:${PATH}"
+export PATH="${HOME}/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
 # wp-completion
@@ -64,3 +64,6 @@ if exists percol; then
   bindkey '^R' percol_select_history
 
 fi
+
+export PATH=~/local/bin:~/bin/:"$PATH"
+
