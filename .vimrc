@@ -22,7 +22,6 @@
 "-------------------
 ".vimrc編集ショートカット
 "-------------------
-
 nnoremap <silent> <Space>ev :<C-u>edit $MYVIMRC<CR>
 nnoremap <silent> <Space>sv :<C-u>source $MYVIMRC<CR>
 
@@ -590,8 +589,11 @@ noremap q; :
 
 "noremap / q/
 "noremap ? q?
-noremap S q:%s/\v
-vnoremap S q:s/\v
+
+augroup RemapSubstitutme
+  autocmd VimEnter * noremap S q:%s/\v
+  autocmd VimEnter * vnoremap S q:s/\v
+augroup END
 
 set scrolloff=5
 set history=1000
@@ -679,7 +681,7 @@ set expandtab
 set tabstop=2
 set softtabstop=0
 set shiftwidth=2
-set smartindent
+"set cindent
 
 " 行末の空白文字を可視化
 highlight WhitespaceEOL cterm=underline ctermbg=red guibg=red
@@ -743,5 +745,3 @@ endif
 set helplang=ja,en
 
 filetype plugin indent on
-
-vnoremap S q:s/\v

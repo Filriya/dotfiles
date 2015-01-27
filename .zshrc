@@ -46,7 +46,7 @@ source $ZSHINITROOT/wp-completion.bash
 #alias
 alias ls="ls --color=auto"
 alias cl="clear"
-alias sr='screen -RRU'
+alias sr='screen -RR -U -x'
 
 #percol
 function exists { which $1 &> /dev/null }
