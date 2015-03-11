@@ -23,6 +23,7 @@
 ".vimrc編集ショートカット
 "-------------------
 nnoremap <silent> <Space>ev :<C-u>edit $MYVIMRC<CR>
+nnoremap <silent> <Space>eg :<C-u>edit ~/dotfiles/.zprezto/modules/git/alias.zsh<CR>
 nnoremap <silent> <Space>sv :<C-u>source $MYVIMRC<CR>
 
 "----------------------
