@@ -43,7 +43,14 @@ call neobundle#end()
 NeoBundle 'vim-jp/vimdoc-ja'
 
 " unite
-NeoBundle 'Shougo/vimproc'
+NeoBundle 'Shougo/vimproc', {
+      \ 'build' : {
+      \     'windows' : 'make -f make_mingw32.mak',
+      \     'cygwin' : 'make -f make_cygwin.mak',
+      \     'mac' : 'make -f make_mac.mak',
+      \     'unix' : 'make -f make_unix.mak',
+      \    },
+      \}
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim'
@@ -53,6 +60,7 @@ NeoBundle 't9md/vim-unite-ack'
 NeoBundle 'Shougo/unite-outline'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'tsukkee/unite-tag'
+NeoBundle 'osyo-manga/unite-quickfix'
 
 " C C++ Objective-C
 "NeoBundleLazy 'https://github.com/tokorom/cocoa.vim.git', 'syntax-only', {'autoload': {'filetypes': ['objc']}}
@@ -137,16 +145,11 @@ NeoBundle 'thinca/vim-scouter'
 NeoBundle 'fuenor/JpFormat.vim'
 
 "--------------------
-" vimproc
-" ------------------
-
-"--------------------
 " vimfiler
 " ------------------
 let g:vimfiler_as_default_explorer=1
 let g:vimfiler_safe_mode_by_default = 0
 
-"nnoremap <silent> f :VimFiler -split -auto-cd -simple -winwidth=35 -toggle -no-quit <CR>
 nnoremap <silent> <C-F> :VimFiler -split -auto-cd -simple -explorer -winwidth=36 -toggle -no-quit <CR>
 autocmd! FileType vimfiler call s:my_vimfiler_settings()
 
@@ -215,17 +218,14 @@ au FileType unite inoremap <silent> <buffer> <expr> <C-S> unite#do_action('below
 " ウィンドウを縦に分割して開く
 au FileType unite nnoremap <silent> <buffer> <expr> <C-V> unite#do_action('right')
 au FileType unite inoremap <silent> <buffer> <expr> <C-V> unite#do_action('right')
-" ESCキーを2回押すと終了する
-au FileType unite nnoremap <silent> <buffer> <ESC><ESC> q<CR>
-au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 
 " unite-grepをsilver searcherに
-if executable('ag')
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
-  let g:unite_source_grep_recursive_opt = ''
-  let g:unite_source_grep_max_candidates = 200
-endif
+"if executable('ag')
+"  let g:unite_source_grep_command = 'ag'
+"  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+"  let g:unite_source_grep_recursive_opt = ''
+"  let g:unite_source_grep_max_candidates = 200
+"endif
 
 "--------------------
 " neocomplcache/neocomplete
@@ -616,8 +616,21 @@ nnoremap N Nzz
 " ウィンドウ、タブ、バッファの分割・移動
 " ----------------------------------------
 " タブ移動
-nnoremap <silent> <C-T>l :<C-u>tabnext<CR>
-nnoremap <silent> <C-T>h :<C-u>tabprevious<CR>
+nnoremap <silent> <C-T><C-N> :<C-u>tabnext<CR>
+nnoremap <silent> <C-T>n :<C-u>tabnext<CR>
+nnoremap <silent> <C-T><C-P> :<C-u>tabprevious<CR>
+nnoremap <silent> <C-T>p :<C-u>tabprevious<CR>
+
+nnoremap <silent> <C-T>1 :<C-u>tabn 1<CR>
+nnoremap <silent> <C-T>2 :<C-u>tabn 2<CR>
+nnoremap <silent> <C-T>3 :<C-u>tabn 3<CR>
+nnoremap <silent> <C-T>4 :<C-u>tabn 4<CR>
+nnoremap <silent> <C-T>5 :<C-u>tabn 5<CR>
+nnoremap <silent> <C-T>6 :<C-u>tabn 6<CR>
+nnoremap <silent> <C-T>7 :<C-u>tabn 7<CR>
+nnoremap <silent> <C-T>8 :<C-u>tabn 8<CR>
+nnoremap <silent> <C-T>9 :<C-u>tabn 9<CR>
+nnoremap <silent> <C-T>0 :<C-u>tabn 10<CR>
 
 " タブ操作
 nnoremap <silent> <C-T>t :<C-u>tabnew<CR>:tabmove<CR>
