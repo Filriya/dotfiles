@@ -45,10 +45,19 @@ source $ZSHINITROOT/wp-completion.bash
 #alias
 alias ls="ls --color=auto"
 alias cl="clear"
-alias sr="screen -x -RR -U -S ${USER}"
-alias sR="screen -x"
+
+# screen
+alias sr=myScreen
 alias sl='screen -list'
-alias sc='screen -U -S'
+alias sR='screen -x -RR -U -S'
+function myScreen ()
+{
+  if [ $# -eq 1 ]; then
+    screen -x -RR -U -S $1
+  else
+    screen -x -RR -U -S ${USER}
+  fi
+}
 
 #npm
 NPM_PACKAGES="${HOME}/.npm-packages"
@@ -64,6 +73,7 @@ MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
 #percol
 function exists { which $1 &> /dev/null }
+
 
 if exists percol; then
   function percol_select_history() {
