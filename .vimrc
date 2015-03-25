@@ -56,6 +56,7 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/neosnippet'
+NeoBundle 'honza/vim-snippets'
 NeoBundle 't9md/vim-unite-ack'
 NeoBundle 'Shougo/unite-outline'
 NeoBundle 'ujihisa/unite-colorscheme'
@@ -68,7 +69,7 @@ NeoBundle 'osyo-manga/unite-quickfix'
 "NeoBundleLazy 'https://github.com/tokorom/clang_complete.git', 'for-ios', {'autoload': {'filetypes': ['c', 'cpp', 'objc']}}
 "NeoBundleLazy 'https://github.com/tokorom/clang_complete-getopts-ios.git', {'autoload': {'filetypes': ['objc']}}
 
-NeoBundleLazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
+"NeoBundleLazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
 
 " web on vim
 NeoBundle 'choplin/unite-vim_hacks'
@@ -106,6 +107,8 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'fuenor/im_control.vim'
 NeoBundle 'soramugi/auto-ctags.vim'
 NeoBundle 'haya14busa/incsearch.vim'
+NeoBundle 'tmhedberg/matchit'
+NeoBundle 'deris/vim-rengbang'
 
 
 " development:frontend
@@ -113,6 +116,10 @@ NeoBundle 'mattn/emmet-vim'
 NeoBundle 'jiangmiao/simple-javascript-indenter'
 
 " development:backend
+"NeoBundle 'shawncplus/phpcomplete.vim'
+"NeoBundle 'm2mdas/phpcomplete-extended'
+"NeoBundle 'm2mdas/phpcomplete-extended-laravel'
+"NeoBundle 'xsbeats/vim-blade'
 
 
 " colorscheme
@@ -139,7 +146,6 @@ NeoBundle 'jpo/vim-railscasts-theme'
 "NeoBundle 'vim-scripts/jammy.vim'
 
 NeoBundle 'thinca/vim-scouter'
-"NeoBundle 'deris/vim-duzzle'
 
 "ja
 NeoBundle 'fuenor/JpFormat.vim'
@@ -247,10 +253,12 @@ if s:meet_neocomplete_requirements()
   let g:neocomplete#enable_camel_case_completion = 1
   let g:neocomplete#enable_underbar_completion = 1
   let g:neocomplete#smart_case = 1
-  let g:neocomplete#min_syntax_length = 2
-  let g:neocomplete#manual_completion_start_length = 0
-  let g:neocomplete#caching_percent_in_statusline = 1
+  let g:neocomplete#min_syntax_length = 3
+  let g:neocomplete#auto_completion_start_length = 3
+  let g:neocomplete#manual_completion_start_length = 3
   let g:neocomplete#enable_skip_completion = 1
+  let g:neocomplete#enable_auto_select = 0
+  let g:neocomplete#max_list = 20
 
   let $DOTVIM = $HOME . '/.vim'
   let g:neocomplete#sources#dictionary#dictionaries = {
@@ -259,22 +267,18 @@ if s:meet_neocomplete_requirements()
         \ 'javascript' : $DOTVIM.'/dict/javascript.dict',
         \ 'php' : $DOTVIM.'/dict/php.dict'
         \ }
-  "コードスニペット
-  let g:neocomplete=$HOME .'/.vim/snippets'
-else
-  let g:neocomplcache_enable_at_startup = 1
-  let g:neocomplcache_enable_camel_case_completion = 1
-  let g:neocomplcache_enable_underbar_completion = 1
-  let g:neocomplcache_smart_case = 1
-  let g:neocomplcache_min_syntax_length = 2
-  let g:neocomplcache_manual_completion_start_length = 0
-  let g:neocomplcache_caching_percent_in_statusline = 1
-  let g:neocomplcache_enable_skip_completion = 1
 endif
-"\ 'cpp'        : $HOME . '/.vim/dict/cpp.dict',
-"\ 'javascript' : $HOME . '/.vim/dict/javascript.dict',
-"\ 'objc'       : $HOME . '/.vim/dict/objc.dict',
-"\ 'objcpp'     : $HOME . '/.vim/dict/objcpp.dict',
+
+"--------------------
+" Neosnippet
+"--------------------
+
+" Plugin key-mappings.
+imap <Tab> <Plug>(neosnippet_expand_or_jump)
+smap <Tab> <Plug>(neosnippet_expand_or_jump)
+
+" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
 
 "--------------------
 " Tweetvim
@@ -286,42 +290,38 @@ nnoremap <silent> <space>tm :TweetVimMentions<CR>
 nnoremap <silent> <space>ts :TweetVimSay<CR>
 nnoremap <silent> <space>tb :TweetVimBitly<CR>
 
-" スクリーン名のキャッシュを利用して、neocomplcache で補完する
-if !exists('g:neocomplcache_dictionary_filetype_lists')
-  let g:neocomplcache_dictionary_filetype_lists = {}
-endif
-let neco_dic = g:neocomplcache_dictionary_filetype_lists
-let neco_dic.tweetvim_say = $HOME . '/.tweetvim/screen_name'
-
 "--------------------
 " jazz vim
 "--------------------
-if neobundle#tap('jazzradio.vim')
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : [
-        \       'jazzradio'
-        \     ],
-        \     'commands' : [
-        \       'JazzradioUpdateChannels',
-        \       'JazzradioStop',
-        \       {
-        \         'name' : 'JazzradioPlay',
-        \         'complete' : 'customlist,jazzradio#channel_id_complete'
-        \       }
-        \     ],
-        \     'function_prefix' : 'jazzradio'
-        \   }
-        \ })
-endif
-
-
+"if neobundle#tap('jazzradio.vim')
+"  call neobundle#config({
+"        \   'autoload' : {
+"        \     'unite_sources' : [
+"        \       'jazzradio'
+"        \     ],
+"        \     'commands' : [
+"        \       'JazzradioUpdateChannels',
+"        \       'JazzradioStop',
+"        \       {
+"        \         'name' : 'JazzradioPlay',
+"        \         'complete' : 'customlist,jazzradio#channel_id_complete'
+"        \       }
+"        \     ],
+"        \     'function_prefix' : 'jazzradio'
+"        \   }
+"        \ })
+"endif
 
 
 "--------------------
 " Align
 " ------------------
 let g:Align_xstrlen = 3
+
+"--------------------
+" matchit
+" ------------------
+let b:match_ignorecase = 1
 
 "------------
 "lightline
@@ -403,16 +403,15 @@ endfunction
 "ショートカットキー変更
 "imap <c-c> = nop
 let g:user_emmet_leader_key = '<c-c>'
-let g:user_emmet_settings = { 'indentation':'  ', 'lang':'ja'}
 let g:user_emmet_settings = {
-      \  'indentation':'  ',
+      \  'indentation': '  ',
       \  'lang':'ja',
       \  'custom_expands1': {
       \    '^\%(lorem\|lipsum\)\(\d*\)$' : function('emmet#lorem#ja#expand'),
       \  },
       \  'html' : {
       \    'filters' : 'html',
-      \    'indentation' : ' '
+      \    'indentation' : '  '
       \  },
       \  'css' : {
       \    'filters' : 'fc',
@@ -450,10 +449,16 @@ nnoremap <C-g>v :Gitv<CR>
 "--------------------
 let g:SimpleJsIndenter_BriefMode=1
 
+"--------------------
+" php completion
+"--------------------
+"let g:phpcomplete_extended_auto_add_use = 0
+"let g:phpcomplete_index_composer_command = "composer"
+"let g:phpcomplete_extended_use_default_mapping = 0
+
 "-----------------------
 " 表示系
 "-----------------------
-
 set t_co=256
 
 " カーソルの色
@@ -521,12 +526,6 @@ nnoremap <C-O> <C-T>
 "let g:auto_ctags = 1
 let g:auto_ctags_directory_list = ['.git', '.svn']
 let g:auto_ctags_tags_args = '--tag-relative --recurse --sort=yes --exclude=*.js'
-
-
-"タグジャンプ
-nnoremap <silent> <Return> <C-]>
-"QuickFix内では通常どおり
-autocmd FileType qf nnoremap <buffer> <Return> <Return>
 
 if neobundle#tap('incsearch.vim')
   map / <Plug>(incsearch-forward)
@@ -596,9 +595,9 @@ augroup RemapSubstitutme
   autocmd VimEnter * vnoremap S q:s/\v
 augroup END
 
-set scrolloff=5
+set scrolloff=0
 set history=1000
-set cmdwinheight=5
+set cmdwinheight=3
 
 autocmd CmdwinEnter * call s:init_cmdwin()
 function! s:init_cmdwin()
