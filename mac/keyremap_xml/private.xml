@@ -44,43 +44,6 @@
       <autogen>--KeyToKey-- KeyCode::RETURN, ModifierFlag::CONTROL_L, KeyCode::TAB, KeyCode::RETURN, KeyCode::RETURN</autogen>
     </item>
     <item>
-      <name>on_browser</name>
-      <identifier>private.browser</identifier>
-      <only>BROWSER</only>
-      <autogen>--KeyToKey-- KeyCode::D, ModifierFlag::CONTROL_L,
-        KeyCode::CURSOR_DOWN,
-        KeyCode::CURSOR_DOWN,
-        KeyCode::CURSOR_DOWN,
-        KeyCode::CURSOR_DOWN,
-        KeyCode::CURSOR_DOWN,
-        KeyCode::CURSOR_DOWN,
-        KeyCode::CURSOR_DOWN,
-        KeyCode::CURSOR_DOWN,
-        KeyCode::CURSOR_DOWN,
-        KeyCode::CURSOR_DOWN,
-        KeyCode::CURSOR_DOWN,
-        KeyCode::CURSOR_DOWN,
-        KeyCode::CURSOR_DOWN,
-        KeyCode::CURSOR_DOWN,
-        KeyCode::CURSOR_DOWN</autogen>
-      <autogen>--KeyToKey-- KeyCode::E, ModifierFlag::CONTROL_L,
-        KeyCode::CURSOR_UP,
-        KeyCode::CURSOR_UP,
-        KeyCode::CURSOR_UP,
-        KeyCode::CURSOR_UP,
-        KeyCode::CURSOR_UP,
-        KeyCode::CURSOR_UP,
-        KeyCode::CURSOR_UP,
-        KeyCode::CURSOR_UP,
-        KeyCode::CURSOR_UP,
-        KeyCode::CURSOR_UP,
-        KeyCode::CURSOR_UP,
-        KeyCode::CURSOR_UP,
-        KeyCode::CURSOR_UP,
-        KeyCode::CURSOR_UP,
-        KeyCode::CURSOR_UP</autogen>
-    </item>
-    <item>
       <name>except_terminal</name>
       <identifier>private.app_vi_mode_except_Terminal</identifier>
       <not>TERMINAL</not>
@@ -109,12 +72,18 @@
         KeyCode::JIS_KANA,
       </autogen>
     </item>
+    <replacementdef>
+      <replacementname>VIRTUAL_BOX_HOST_KEY</replacementname>
+      <replacementvalue>KeyCode::COMMAND_R</replacementvalue>
+    </replacementdef>
     <item>
       <name>escape from virtualbox</name>
       <identifier>private.escape_from_virtualbox</identifier>
       <only>VIRTUALBOXVM</only>
-      <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::COMMAND_L, KeyCode::COMMAND_R, KeyCode::SPACE, ModifierFlag::COMMAND_L</autogen>
-      <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::CONTROL_L, KeyCode::COMMAND_R, KeyCode::SPACE, ModifierFlag::CONTROL_L</autogen>
+      <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::COMMAND_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::SPACE, ModifierFlag::COMMAND_R</autogen>
+      <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::CONTROL_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::SPACE, ModifierFlag::CONTROL_L</autogen>
+      <autogen>--KeyToKey-- KeyCode::B, ModifierFlag::OPTION_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::B, ModifierFlag::OPTION_L</autogen>
+      <autogen>--KeyToKey-- KeyCode::F, ModifierFlag::OPTION_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::F, ModifierFlag::OPTION_L</autogen>
     </item>
     <item>
       <name>JIS_Keyboard to US_Keyboard</name>

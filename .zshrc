@@ -18,6 +18,11 @@ fi
 
 # Customize to your needs...
 
+# load zshrc.local
+if [ -f ${HOME}/.zshrc.local ]; then
+  . ${HOME}/.zshrc.local
+fi
+
 # linuxとosx、個別にロードしたい設定
 if [ `uname` = "Darwin" ]; then
   #mac用のコード
@@ -47,10 +52,9 @@ alias ls="ls --color=auto"
 alias cl="clear"
 
 # screen
-alias sr=myScreen
+alias sr=myScreenLaunch
 alias sl='screen -list'
-alias sR='screen -x -RR -U -S'
-function myScreen ()
+function myScreenLaunch ()
 {
   if [ $# -eq 1 ]; then
     screen -x -RR -U -S $1
@@ -74,9 +78,9 @@ MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 #percol
 function exists { which $1 &> /dev/null }
 
-
 if exists percol; then
-  function percol_select_history() {
+  function percol_select_history()
+  {
     local tac
     exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
     BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
@@ -86,7 +90,17 @@ if exists percol; then
 
   zle -N percol_select_history
   bindkey '^R' percol_select_history
+fi
 
+#prompt color
+function changecolor()
+{
+  local color=$1
+  PROMPT=`echo $PROMPT|awk -v color=$color '{gsub(/135/, color); print $0}'`
+}
+
+if [ ${PROMPTCOLORUSER} ]; then
+  changecolor $PROMPTCOLORUSER
 fi
 
 export PATH=~/local/bin:~/bin/:"$PATH"

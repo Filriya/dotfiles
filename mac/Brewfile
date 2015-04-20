@@ -26,6 +26,8 @@ install pcre
 install python
 install rbenv
 install ruby-build
+install duplicity
+install rdiff-backup
 
 cask install xquartz
 install --vim-powerline ricty

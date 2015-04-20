@@ -472,6 +472,8 @@ autocmd ColorScheme * hi Pmenu ctermfg=73 ctermbg=16 guifg=#66D9EF guibg=#000000
 autocmd ColorScheme * hi PmenuSel ctermfg=252 ctermbg=23 guibg=#808080
 autocmd ColorScheme * hi PmenuSbar ctermbg=232 guibg=#080808
 autocmd ColorScheme * hi PmenuThumb ctermfg=103 ctermbg=15 guifg=#66D9EF guibg=White
+" vimfiler 名前変更時の文字色
+autocmd ColorScheme * hi Todo term=standout ctermfg=yellow ctermbg=11 gui=italic guifg=#BC9458
 
 set background=dark
 syntax enable
