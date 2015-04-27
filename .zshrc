@@ -5,7 +5,7 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
-#LANG="C.UTF-8"
+# LANG="C.UTF-8"
 LC_CTYPE="en_US.UTF-8"
 LC_ALL="en_US.UTF-8"
 
@@ -25,12 +25,12 @@ fi
 
 # linuxとosx、個別にロードしたい設定
 if [ `uname` = "Darwin" ]; then
-  #mac用のコード
+  # mac用のコード
   if [ -f "$ZSHINITROOT/osx.zsh" ]; then
     source "$ZSHINITROOT/osx.zsh"
   fi
 elif [ `uname` = "Linux" ]; then
-  #Linux用のコード
+  # Linux用のコード
   if [ -f "$ZSHINITROOT/linux.zsh" ]; then
     source "$ZSHINITROOT/linux.zsh"
   fi
@@ -47,7 +47,7 @@ autoload bashcompinit
 bashcompinit
 source $ZSHINITROOT/wp-completion.bash
 
-#alias
+# alias
 alias ls="ls --color=auto"
 alias cl="clear"
 
@@ -63,7 +63,7 @@ function myScreenLaunch ()
   fi
 }
 
-#npm
+# npm
 NPM_PACKAGES="${HOME}/.npm-packages"
 
 NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
@@ -75,7 +75,7 @@ PATH="$NPM_PACKAGES/bin:$PATH"
 unset MANPATH # delete if you already modified MANPATH elsewhere in your config
 MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
-#percol
+# percol
 function exists { which $1 &> /dev/null }
 
 if exists percol; then
@@ -92,7 +92,7 @@ if exists percol; then
   bindkey '^R' percol_select_history
 fi
 
-#prompt color
+# prompt color
 function changecolor()
 {
   local color=$1
@@ -102,6 +102,9 @@ function changecolor()
 if [ ${PROMPTCOLORUSER} ]; then
   changecolor $PROMPTCOLORUSER
 fi
+
+# default editor
+EDITOR=`which vim`
 
 export PATH=~/local/bin:~/bin/:"$PATH"
 
