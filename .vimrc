@@ -87,7 +87,6 @@ NeoBundle 'thinca/vim-openbuf'
 
 " syntax
 NeoBundle 'othree/html5.vim'
-NeoBundle 'cakebaker/scss-syntax.vim'
 NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'cakebaker/scss-syntax.vim'
 NeoBundle 'hail2u/vim-css3-syntax'
@@ -109,6 +108,7 @@ NeoBundle 'soramugi/auto-ctags.vim'
 NeoBundle 'haya14busa/incsearch.vim'
 NeoBundle 'tmhedberg/matchit'
 NeoBundle 'deris/vim-rengbang'
+NeoBundle 'nathanaelkane/vim-indent-guides'
 
 
 " development:frontend
@@ -193,6 +193,7 @@ let g:unite_update_time = 100
 let g:unite_enable_split_vertically=1
 let g:unite_winwidth = 70
 let g:unite_split_rule = 'rightbelow'
+let g:unite_source_history_yank_enable = 1
 
 " バッファ一覧
 noremap [unite]b :Unite buffer<CR>
@@ -215,6 +216,9 @@ nnoremap [unite]<C-H> :Unite vim_hacks<CR>
 "vim outline
 nnoremap [unite]o :Unite outline<CR>
 nnoremap [unite]<C-O> :Unite outline<CR>
+"yank histroy
+nnoremap [unite]y :Unite history/yank<CR>
+nnoremap [unite]<C-Y> :<C-u>Unite history/yank<CR>
 " 全部乗せ
 nnoremap [unite]<C-U> :Unite -buffer-name=files buffer file_mru bookmark file<CR>
 
@@ -456,6 +460,13 @@ let g:SimpleJsIndenter_BriefMode=1
 "let g:phpcomplete_index_composer_command = "composer"
 "let g:phpcomplete_extended_use_default_mapping = 0
 
+"--------------------
+" Indent guide
+"--------------------
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_enable_on_vim_startup = 1
+hi IndentGuidesOdd  ctermbg=black
+hi IndentGuidesEven ctermbg=darkgrey
 "-----------------------
 " 表示系
 "-----------------------
@@ -571,10 +582,10 @@ noremap! <C-F> <Right>
 noremap! <C-B> <Left>
 noremap! <C-D> <Del>
 
-noremap j gj
-noremap k gk
-noremap gj j
-noremap gk k
+"noremap j gj
+"noremap k gk
+"noremap gj j
+"noremap gk k
 noremap <C-P> gk
 noremap <C-N> gj
 
