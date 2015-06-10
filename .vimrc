@@ -38,7 +38,6 @@ endif
 
 call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
-call neobundle#end()
 
 NeoBundle 'vim-jp/vimdoc-ja'
 
@@ -150,6 +149,20 @@ NeoBundle 'thinca/vim-scouter'
 "ja
 NeoBundle 'fuenor/JpFormat.vim'
 
+function! s:meet_neocomplete_requirements()
+  return has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
+endfunction
+
+if s:meet_neocomplete_requirements()
+  NeoBundle 'Shougo/neocomplete.vim'
+  NeoBundleFetch 'Shougo/neocomplcache.vim'
+else
+  NeoBundleFetch 'Shougo/neocomplete.vim'
+  NeoBundle 'Shougo/neocomplcache.vim'
+endif
+
+call neobundle#end()
+
 "--------------------
 " vimfiler
 " ------------------
@@ -240,18 +253,6 @@ au FileType unite inoremap <silent> <buffer> <expr> <C-V> unite#do_action('right
 "--------------------
 " neocomplcache/neocomplete
 " ------------------
-function! s:meet_neocomplete_requirements()
-  return has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
-endfunction
-
-if s:meet_neocomplete_requirements()
-  NeoBundle 'Shougo/neocomplete.vim'
-  NeoBundleFetch 'Shougo/neocomplcache.vim'
-else
-  NeoBundleFetch 'Shougo/neocomplete.vim'
-  NeoBundle 'Shougo/neocomplcache.vim'
-endif
-
 if s:meet_neocomplete_requirements()
   let g:neocomplete#enable_at_startup = 1
   let g:neocomplete#enable_camel_case_completion = 1
@@ -470,25 +471,28 @@ hi IndentGuidesEven ctermbg=darkgrey
 "-----------------------
 " 表示系
 "-----------------------
-set t_co=256
+set t_Co=256
 
-" カーソルの色
+"" カーソルの色
 autocmd ColorScheme * hi CursorLine term=underline cterm=none ctermbg=237
-" タブラインの色
+"" タブラインの色
 autocmd ColorScheme * hi TabLineSel  term=bold cterm=underline,bold ctermfg=White ctermbg=Black gui=bold,underline guifg=LightGray guibg=DarkBlue
 autocmd ColorScheme * hi TabLine     term=reverse ctermfg=Gray ctermbg=black guifg=Black guibg=black
 autocmd ColorScheme * hi TabLineFill term=bold cterm=underline,bold ctermfg=Gray ctermbg=black gui=reverse,bold guifg=black guibg=black
-"補完メニューの色
+
+""補完メニューの色
 autocmd ColorScheme * hi Pmenu ctermfg=73 ctermbg=16 guifg=#66D9EF guibg=#000000
 autocmd ColorScheme * hi PmenuSel ctermfg=252 ctermbg=23 guibg=#808080
 autocmd ColorScheme * hi PmenuSbar ctermbg=232 guibg=#080808
 autocmd ColorScheme * hi PmenuThumb ctermfg=103 ctermbg=15 guifg=#66D9EF guibg=White
-" vimfiler 名前変更時の文字色
-autocmd ColorScheme * hi Todo term=standout ctermfg=yellow ctermbg=11 gui=italic guifg=#BC9458
+"" vimfiler 名前変更時の文字色
+"autocmd ColorScheme * hi Todo term=standout ctermfg=yellow ctermbg=11 gui=italic guifg=#BC9458
 
 set background=dark
 syntax enable
 colorscheme railscasts
+"colorscheme mopkai
+
 
 set number
 set showmode         " モード表示

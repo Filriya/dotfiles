@@ -24,11 +24,11 @@ fix = commit --amend -C HEAD
 [interactive]
 	singlekey = true
 [core]
-	editor = /usr/local/bin/vim
-	pager = less
+	editor = ~/local/bin/vim
 	quotepath = false
 	autocrlf = false
 	safecrlf = true
+  pager = less=-R less
 
 [i18n]
 	commitencoding = UTF-8

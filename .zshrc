@@ -109,5 +109,5 @@ fi
 # default editor
 EDITOR=`which vim`
 
-export PATH=~/local/bin:~/bin/:"$PATH"
+export PATH=${HOME}/local/bin:~/bin/:"$PATH"
 
