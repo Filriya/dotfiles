@@ -169,10 +169,11 @@ call neobundle#end()
 let g:vimfiler_as_default_explorer=1
 let g:vimfiler_safe_mode_by_default = 0
 
-nnoremap <silent> <C-F> :VimFiler -split -auto-cd -simple -explorer -winwidth=36 -toggle -no-quit <CR>
+nnoremap <silent> <C-F> :VimFiler -split  -simple -explorer -winwidth=36 -toggle -force-quit -find <CR>
 autocmd! FileType vimfiler call s:my_vimfiler_settings()
 
 function! s:my_vimfiler_settings()
+  nmap <buffer><C-Q> <Plug>(vimfiler_hide)
   nmap <buffer><C-H> <Plug>(vimfiler_switch_to_parent_directory)
   nmap <buffer><C-L> <Plug>(vimfiler_cd_or_edit)
   nnoremap <silent> <buffer>s :call vimfiler#mappings#do_action('my_split')<Cr>
@@ -235,12 +236,19 @@ nnoremap [unite]<C-Y> :<C-u>Unite history/yank<CR>
 " 全部乗せ
 nnoremap [unite]<C-U> :Unite -buffer-name=files buffer file_mru bookmark file<CR>
 
-" ウィンドウを分割して開く
-au FileType unite nnoremap <silent> <buffer> <expr> <C-S> unite#do_action('below')
-au FileType unite inoremap <silent> <buffer> <expr> <C-S> unite#do_action('below')
-" ウィンドウを縦に分割して開く
-au FileType unite nnoremap <silent> <buffer> <expr> <C-V> unite#do_action('right')
-au FileType unite inoremap <silent> <buffer> <expr> <C-V> unite#do_action('right')
+"unite.vimを開いている間のキーマッピング
+autocmd FileType unite call s:my_unite_settings()
+function! s:my_unite_settings()
+  " ウィンドウを分割して開く
+  nnoremap <silent> <buffer> <expr> <C-S> unite#do_action('below')
+  inoremap <silent> <buffer> <expr> <C-S> unite#do_action('below')
+  " ウィンドウを縦に分割して開く
+  nnoremap <silent> <buffer> <expr> <C-V> unite#do_action('right')
+  inoremap <silent> <buffer> <expr> <C-V> unite#do_action('right')
+  " C-Qで終了
+  nmap <silent> <buffer> <C-Q> <Plug>(unite_exit)
+  imap <silent> <buffer> <C-Q> <Plug>(unite_exit)
+endfunction
 
 " unite-grepをsilver searcherに
 "if executable('ag')

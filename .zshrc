@@ -110,4 +110,5 @@ fi
 EDITOR=`which vim`
 
 export PATH=${HOME}/local/bin:~/bin/:"$PATH"
+stty -ixon
 
