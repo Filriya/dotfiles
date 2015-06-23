@@ -169,7 +169,8 @@ call neobundle#end()
 let g:vimfiler_as_default_explorer=1
 let g:vimfiler_safe_mode_by_default = 0
 
-nnoremap <silent> <C-F> :VimFiler -split  -simple -explorer -winwidth=36 -toggle -force-quit -find <CR>
+nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=36 -toggle  <CR>
+nnoremap <silent> <space>F :VimFiler -split -simple -explorer -winwidth=36 -toggle -force-quit -find <CR>
 autocmd! FileType vimfiler call s:my_vimfiler_settings()
 
 function! s:my_vimfiler_settings()
