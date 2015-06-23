@@ -68,8 +68,6 @@ NeoBundle 'osyo-manga/unite-quickfix'
 "NeoBundleLazy 'https://github.com/tokorom/clang_complete.git', 'for-ios', {'autoload': {'filetypes': ['c', 'cpp', 'objc']}}
 "NeoBundleLazy 'https://github.com/tokorom/clang_complete-getopts-ios.git', {'autoload': {'filetypes': ['objc']}}
 
-"NeoBundleLazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
-
 " web on vim
 NeoBundle 'choplin/unite-vim_hacks'
 NeoBundle 'mattn/webapi-vim'
@@ -89,7 +87,8 @@ NeoBundle 'othree/html5.vim'
 NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'cakebaker/scss-syntax.vim'
 NeoBundle 'hail2u/vim-css3-syntax'
-NeoBundle 'othree/javascript-libraries-syntax.vim'
+"NeoBundle 'othree/javascript-libraries-syntax.vim'
+NeoBundle 'othree/yajs.vim'
 
 " development:general
 NeoBundle 'Align'
@@ -98,6 +97,7 @@ NeoBundle 'catn.vim'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'osyo-manga/unite-quickrun_config'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'deton/jasegment.vim'
 NeoBundle 'scrooloose/syntastic'
@@ -107,7 +107,7 @@ NeoBundle 'soramugi/auto-ctags.vim'
 NeoBundle 'haya14busa/incsearch.vim'
 NeoBundle 'tmhedberg/matchit'
 NeoBundle 'deris/vim-rengbang'
-NeoBundle 'nathanaelkane/vim-indent-guides'
+"NeoBundle 'nathanaelkane/vim-indent-guides'
 
 
 " development:frontend
@@ -125,26 +125,15 @@ NeoBundle 'jiangmiao/simple-javascript-indenter'
 NeoBundle 'itchyny/lightline.vim'
 
 NeoBundle 'mopp/mopkai.vim'
-NeoBundle 'jpo/vim-railscasts-theme'
-"NeoBundle 'fruity.vim'
-"NeoBundle 'baskerville/bubblegum'
-"NeoBundle 'altercation/solarized'
-"NeoBundle 'vim-scripts/Lucius'
-"NeoBundle 'mrkn/mrkn256.vim'
-"NeoBundle 'nanotech/jellybeans.vim'
-"NeoBundle 'chriskempson/vim-tomorrow-theme'
-"NeoBundle 'vim-scripts/desert256.vim'
-"NeoBundle 'croaker/mustang-vim'
-"NeoBundle 'jeffreyiacono/vim-colors-wombat'
-"NeoBundle 'vim-scripts/Zenburn'
-"NeoBundle 'therubymug/vim-pyte'
-"NeoBundle 'w0ng/vim-hybrid'
-"NeoBundle 'vim-scripts/rdark'
-"NeoBundle 'reloaded.vim'
-"NeoBundle 'chlordane.vim'
-"NeoBundle 'vim-scripts/jammy.vim'
+NeoBundle 'altercation/solarized'
+NeoBundle 'nanotech/jellybeans.vim'
+NeoBundle 'chriskempson/vim-tomorrow-theme'
 
+" others
+NeoBundle 'thinca/vim-threes'
 NeoBundle 'thinca/vim-scouter'
+NeoBundleLazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
+
 
 "ja
 NeoBundle 'fuenor/JpFormat.vim'
@@ -200,7 +189,7 @@ call unite#custom_action('file', 'my_vsplit', s:my_action)
 "----------
 "unite prefix key.
 nnoremap [unite] <Nop>
-nmap <C-U> [unite]
+nmap <space>u [unite]
 let g:unite_enable_start_insert=1
 let g:unite_enable_ignore_case=1
 let g:unite_enable_smart_case=1
@@ -235,6 +224,7 @@ nnoremap [unite]<C-O> :Unite outline<CR>
 nnoremap [unite]y :Unite history/yank<CR>
 nnoremap [unite]<C-Y> :<C-u>Unite history/yank<CR>
 " 全部乗せ
+nnoremap [unite]u :Unite -buffer-name=files buffer file_mru bookmark file<CR>
 nnoremap [unite]<C-U> :Unite -buffer-name=files buffer file_mru bookmark file<CR>
 
 "unite.vimを開いている間のキーマッピング
@@ -307,24 +297,24 @@ nnoremap <silent> <space>tb :TweetVimBitly<CR>
 "--------------------
 " jazz vim
 "--------------------
-"if neobundle#tap('jazzradio.vim')
-"  call neobundle#config({
-"        \   'autoload' : {
-"        \     'unite_sources' : [
-"        \       'jazzradio'
-"        \     ],
-"        \     'commands' : [
-"        \       'JazzradioUpdateChannels',
-"        \       'JazzradioStop',
-"        \       {
-"        \         'name' : 'JazzradioPlay',
-"        \         'complete' : 'customlist,jazzradio#channel_id_complete'
-"        \       }
-"        \     ],
-"        \     'function_prefix' : 'jazzradio'
-"        \   }
-"        \ })
-"endif
+if neobundle#tap('jazzradio.vim')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'unite_sources' : [
+        \       'jazzradio'
+        \     ],
+        \     'commands' : [
+        \       'JazzradioUpdateChannels',
+        \       'JazzradioStop',
+        \       {
+        \         'name' : 'JazzradioPlay',
+        \         'complete' : 'customlist,jazzradio#channel_id_complete'
+        \       }
+        \     ],
+        \     'function_prefix' : 'jazzradio'
+        \   }
+        \ })
+endif
 
 
 "--------------------
@@ -440,7 +430,10 @@ let g:user_emmet_settings = {
 "vim-quickrun
 "--------------------
 "nnoremap <C-q>r :QuickRun<CR>
-
+"let g:quickrun_config['babel'] = {
+"      \ 'cmdopt': '--stage 1',
+"      \ 'exec': "babel %o %s | node"
+"      \ }
 "--------------------
 "vim-fugitive
 "--------------------
@@ -483,10 +476,10 @@ hi IndentGuidesEven ctermbg=darkgrey
 set t_Co=256
 
 "" カーソルの色
-autocmd ColorScheme * hi CursorLine term=underline cterm=none ctermbg=237
+"autocmd ColorScheme * hi CursorLine term=underline cterm=none ctermbg=237
 "" タブラインの色
 autocmd ColorScheme * hi TabLineSel  term=bold cterm=underline,bold ctermfg=White ctermbg=Black gui=bold,underline guifg=LightGray guibg=DarkBlue
-autocmd ColorScheme * hi TabLine     term=reverse ctermfg=Gray ctermbg=black guifg=Black guibg=black
+autocmd ColorScheme * hi TabLine     term=reverse cterm=underline ctermfg=Gray ctermbg=black guifg=Black guibg=black
 autocmd ColorScheme * hi TabLineFill term=bold cterm=underline,bold ctermfg=Gray ctermbg=black gui=reverse,bold guifg=black guibg=black
 
 ""補完メニューの色
@@ -494,14 +487,12 @@ autocmd ColorScheme * hi Pmenu ctermfg=73 ctermbg=16 guifg=#66D9EF guibg=#000000
 autocmd ColorScheme * hi PmenuSel ctermfg=252 ctermbg=23 guibg=#808080
 autocmd ColorScheme * hi PmenuSbar ctermbg=232 guibg=#080808
 autocmd ColorScheme * hi PmenuThumb ctermfg=103 ctermbg=15 guifg=#66D9EF guibg=White
-"" vimfiler 名前変更時の文字色
-"autocmd ColorScheme * hi Todo term=standout ctermfg=yellow ctermbg=11 gui=italic guifg=#BC9458
+" vimfiler 名前変更時の文字色
+" autocmd ColorScheme * hi Todo term=standout ctermfg=yellow ctermbg=11 gui=italic guifg=#BC9458
 
-set background=dark
 syntax enable
-colorscheme railscasts
-"colorscheme mopkai
-
+set background=dark
+colorscheme mopkai
 
 set number
 set showmode         " モード表示
@@ -574,7 +565,7 @@ set autoread                        " 更新時自動再読込み
 set hidden                          " 編集中でも他のファイルを開けるようにする
 set noswapfile                      " スワップファイルを作らない
 set nobackup                        " バックアップを取らない
-autocmd BufWritePre * :%s/\s\+$//ge " 保存時に行末の空白を除去する
+"autocmd BufWritePre * :%s/\s\+$//ge " 保存時に行末の空白を除去する
 
 " ファイルを開いた際に、前回終了時の行で起動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
@@ -595,13 +586,6 @@ noremap! <C-F> <Right>
 noremap! <C-B> <Left>
 noremap! <C-D> <Del>
 
-"noremap j gj
-"noremap k gk
-"noremap gj j
-"noremap gk k
-noremap <C-P> gk
-noremap <C-N> gj
-
 
 "加算
 "screenと被るので、<C-Z>へ
@@ -612,9 +596,6 @@ noremap <C-Z> <C-A>
 noremap : ;
 noremap ; q:
 noremap q; :
-
-"noremap / q/
-"noremap ? q?
 
 augroup RemapSubstitutme
   autocmd VimEnter * noremap S q:%s/\v
@@ -724,7 +705,8 @@ set shiftwidth=2
 
 " 行末の空白文字を可視化
 highlight WhitespaceEOL cterm=underline ctermbg=red guibg=red
-au BufWinEnter * let w:m1 = matchadd("WhitespaceEOL", ' +$')
+au BufWinEnter * let w:m1 = matchadd("WhitespaceEOL", '\ +$')
+au WinEnter * let w:m1 = matchadd("WhitespaceEOL", '\ +$')
 
 " 行頭のTAB文字を可視化
 highlight TabString ctermbg=red guibg=red

@@ -7,7 +7,7 @@ defscrollback 10000
 shell -$SHELL
 
 shelltitle "$ |zsh"
-caption always "%?%F%{= mk}%:%{= Kk}%?%-w%?%F%{=u mW}%:%{=u KW}%?%n %t%{-}%+w%{-u} %= %c"
+caption always "%?%F%{= rK}%:%{= Kk}%?%-w%?%F%{=u rW}%:%{=u KW}%?%n %t%{-}%+w%{-u} %= %c"
 hardstatus off
 
 defbce             on

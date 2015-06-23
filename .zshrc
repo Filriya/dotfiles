@@ -47,9 +47,22 @@ autoload bashcompinit
 bashcompinit
 source $ZSHINITROOT/wp-completion.bash
 
+agent="$HOME/tmp/ssh-agent-$USER"
+if [ -S "$SSH_AUTH_SOCK" ]; then
+  case $SSH_AUTH_SOCK in
+  /tmp/*/agent.[0-9]*)
+    ln -snf "$SSH_AUTH_SOCK" $agent && export SSH_AUTH_SOCK=$agent
+  esac
+elif [ -S $agent ]; then
+  export SSH_AUTH_SOCK=$agent
+else
+  echo "no ssh-agent"
+fi
+
 # alias
 alias ls="ls --color=auto"
 alias cl="clear"
+
 
 # screen
 alias sr=myScreenLaunch
@@ -105,6 +118,16 @@ function changecolor()
 if [ ${PROMPTCOLORUSER} ]; then
   changecolor $PROMPTCOLORUSER
 fi
+
+function colorcode()
+{
+  for c in {000..015}; do echo -n "\e[38;5;${c}m $c" ; [ $(($c%6)) -eq 5 ] && echo;done;echo
+  echo
+  for c in {016..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($((c-16))%6)) -eq 5 ] && echo;done;echo
+}
+
+# aws completion
+source /usr/local/bin/aws_zsh_completer.sh
 
 # default editor
 EDITOR=`which vim`

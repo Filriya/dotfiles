@@ -9,6 +9,11 @@
     <equal>com.metaclassy.byword</equal>
   </appdef>
   <appdef>
+    <appname>LIBREOFFICE</appname>
+    <equal>org.libreoffice.script</equal>
+  </appdef>
+
+  <appdef>
     <appname>BROWSER</appname>
     <equal>com.google.Chrome.canary</equal>
     <equal>com.google.Chrome</equal>
@@ -28,9 +33,33 @@
       <autogen>__KeyToKey__ KeyCode::KEY_3, ModifierFlag::COMMAND_L, ModifierFlag::OPTION_L, KeyCode::VK_OPEN_URL_APP_KeyRemap4MacBook_Profile2</autogen>
       <autogen>__KeyToKey__ KeyCode::KEY_4, ModifierFlag::COMMAND_L, ModifierFlag::OPTION_L, KeyCode::VK_OPEN_URL_APP_KeyRemap4MacBook_Profile3</autogen>
     </item>
+    <replacementdef>
+      <replacementname>VIRTUAL_BOX_HOST_KEY</replacementname>
+      <replacementvalue>KeyCode::COMMAND_R</replacementvalue>
+    </replacementdef>
+    <item>
+      <name>virtualbox</name>
+      <identifier>private.escape_from_virtualbox</identifier>
+      <only>VIRTUALBOXVM</only>
+      <autogen>--KeyToKey-- KeyCode::F, ModifierFlag::CONTROL_L, ModifierFlag::SHIFT_L, KeyCode::F, ModifierFlag::CONTROL_L</autogen>
+      <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::COMMAND_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::SPACE, ModifierFlag::COMMAND_R</autogen>
+      <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::CONTROL_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::SPACE, ModifierFlag::CONTROL_L</autogen>
+      <autogen>--KeyToKey-- KeyCode::B, ModifierFlag::OPTION_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::B, ModifierFlag::OPTION_L</autogen>
+      <autogen>--KeyToKey-- KeyCode::F, ModifierFlag::OPTION_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::F, ModifierFlag::OPTION_L</autogen>
+    </item>
+    <item>
+      <name>libreoffice</name>
+      <identifier>private.libreoffice</identifier>
+      <only>LIBREOFFICE</only>
+      <autogen>--KeyToKey-- KeyCode::TAB, ModifierFlag::CONTROL_L, KeyCode::PAGEDOWN, ModifierFlag::CONTROL_L</autogen>
+      <autogen>--KeyToKey-- KeyCode::TAB, ModifierFlag::CONTROL_L, ModifierFlag::SHIFT_L, KeyCode::PAGEUP, ModifierFlag::CONTROL_L</autogen>
+    </item>
     <item>
       <name>poker_2_to_HHKB</name>
       <identifier>poker2_to_HHKB</identifier>
+      <device_only>
+        DeviceVendor::RawValue::0x0f39, DeviceProduct::RawValue::0x0611
+      </device_only>
       <autogen>--KeyToKey-- KeyCode::BACKQUOTE, KeyCode::ESCAPE</autogen>
       <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::BACKQUOTE</autogen>
       <autogen>--KeyToKey-- KeyCode::BACKSLASH, KeyCode::DELETE</autogen>
@@ -56,6 +85,8 @@
     <item>
       <name>contain_terminal</name>
       <identifier>private.bracket_left_to_escape</identifier>
+      <not>VIRTUALBOXVM</not>
+      <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::COMMAND_L, KeyCode::SPACE, ModifierFlag::COMMAND_L, KeyCode::JIS_EISUU</autogen>
       <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::ESCAPE, KeyCode::JIS_EISUU</autogen>
       <autogen>--KeyToKey-- KeyCode::M, ModifierFlag::CONTROL_L, KeyCode::RETURN</autogen>
       <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::ESCAPE, KeyCode::JIS_EISUU</autogen>
@@ -71,19 +102,6 @@
         KeyCode::VK_CONFIG_SYNC_KEYDOWNUP_notsave_japanese_command2eisuukana_prefer_command_v2, ModifierFlag::SHIFT_R,
         KeyCode::JIS_KANA,
       </autogen>
-    </item>
-    <replacementdef>
-      <replacementname>VIRTUAL_BOX_HOST_KEY</replacementname>
-      <replacementvalue>KeyCode::COMMAND_R</replacementvalue>
-    </replacementdef>
-    <item>
-      <name>escape from virtualbox</name>
-      <identifier>private.escape_from_virtualbox</identifier>
-      <only>VIRTUALBOXVM</only>
-      <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::COMMAND_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::SPACE, ModifierFlag::COMMAND_R</autogen>
-      <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::CONTROL_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::SPACE, ModifierFlag::CONTROL_L</autogen>
-      <autogen>--KeyToKey-- KeyCode::B, ModifierFlag::OPTION_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::B, ModifierFlag::OPTION_L</autogen>
-      <autogen>--KeyToKey-- KeyCode::F, ModifierFlag::OPTION_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::F, ModifierFlag::OPTION_L</autogen>
     </item>
     <item>
       <name>JIS_Keyboard to US_Keyboard</name>

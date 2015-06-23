@@ -1,76 +1,101 @@
+S.log('[SLATE] ----------- Start Loading Config -----------');
+
 // Create Operations
 var defaultWidth = 2560;
 var defaultHeight = 1440;
+var width = defaultWidth/2;
+var height = defaultHeight/2;
+//var win = S.window();
+//var rect = win.size();
+var sc = S.screen();
+var rect = sc.rect();
 
-var pushRight = slate.operation("push", {
-  "direction" : "right",
-  "style" : "bar-resize:screenSizeX/2"
-});
-var pushLeft = slate.operation("push", {
-  "direction" : "left",
-  "style" : "bar-resize:screenSizeX/2"
-});
-var pushTop = slate.operation("push", {
-  "direction" : "top",
-  "style" : "bar-resize:screenSizeY/2"
+var pushRight = S.operation("move", {
+  "x" : width,
+  "y" : 0,
+  "width" : width,
+  "height" : "screenSizeY"
 });
 
-var pushBottom = slate.operation("push", {
+var pushLeft = S.operation("move", {
+  "x" : 0,
+  "y" : 0,
+  "width" : width,
+  "height" : "screenSizeY"
+});
+var pushTop = S.operation("move", {
+  "x" : 0,
+  "y" : 0,
+  "width" : "screenSizeX",
+  "height" : height
+});
+
+var pushBottom = S.operation("push", {
   "direction" : "bottom",
   "style" : "bar-resize:screenSizeY/2"
 });
 
-var fullscreen = slate.operation("move", {
+var fullscreen = S.operation("move", {
   "x" : "screenOriginX",
   "y" : "screenOriginY",
-  "width" : "screenSizeX",
-  "height" : "screenSizeY"
+  "width" : width,
+  "height" : height
 });
 
-var pushTopRight = function(width, height) {
-  width = width === null? width : defaultWidth/2;
-  height = height === null? height : defaultHeight/2;
+var pushTopRight = S.operation("corner", {
+  "direction" : "top-right",
+  "width" : width,
+  "height" : height
+});
 
-  slate.operation("corner", {
-    "direction" : "top-right",
-    "width" : width,
-    "height" : height
-  }).run();
-};
-
-var pushTopLeft = slate.operation("corner", {
+var pushTopLeft = S.operation("corner", {
   "direction" : "top-left",
-  "width" : "screenSizeX/2",
-  "height" : "screenSizeY/2"
+  "width" : width,
+  "height" : height
 });
 
-var pushCenterRight = slate.operation("move", {
-  "x" : "screenSizeX/2",
-  "y" : "screenSizeY/3",
-  "width" : "screenSizeX/2",
-  "height" : "screenSizeY/2"
+var pushCenterRight = S.operation("move", {
+  "x" : width,
+  "y" : height,
+  "width" : width,
+  "height" : height
 });
 
-//var pushTopLeft = slate.operation("push", {
+//var pushTopLeft = S.operation("push", {
 //  "direction" : "left",
-//  "height" : "screenSizeX/2"
+//  "height" : width
 //});
 
-var pushBottomRight = slate.operation("corner", {
+var pushBottomRight = S.operation("corner", {
   "direction" : "bottom-right",
-  "width" : "screenSizeX/2",
-  "height" : "screenSizeY/2"
+  "width" : width,
+  "height" : height
 });
 
-var pushBottomLeft = slate.operation("corner", {
+var pushBottomLeft = S.operation("corner", {
   "direction" : "bottom-left",
-  "width" : "screenSizeX/2",
-  "height" : "screenSizeY/2"
+  "width" : width,
+  "height" : height
 });
 
-// Bind A Crazy Function to 1+ctrl
-slate.bindAll({
-  "d:alt": slate.op("chain", {
+var focusUp = S.operation("focus", {
+  "direction": "up"
+});
+
+var focusDown = S.operation("focus", {
+  "direction": "down"
+});
+
+var focusLeft = S.operation("focus", {
+  "direction": "left"
+});
+
+var focusRight = S.operation("focus", {
+  "direction": "right"
+});
+
+S.bindAll({
+  "d:alt": S.op("chain", {
     "operations": [
       pushRight,
       pushCenterRight
@@ -84,5 +109,11 @@ slate.bindAll({
   "q:alt": pushTopLeft,
   "c:alt": pushBottomRight,
   "z:alt": pushBottomLeft,
-  "r:alt;shift;ctrl": slate.op('relaunch')
+  "h:alt": focusLeft,
+  "j:alt": focusDown,
+  "k:alt": focusUp,
+  "l:alt": focusRight,
+  "r:alt;shift;ctrl": S.op('relaunch')
 });
+
+S.log('[SLATE] ----------- End Loading Config -----------');
