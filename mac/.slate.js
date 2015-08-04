@@ -10,12 +10,20 @@ var height = defaultHeight/2;
 var sc = S.screen();
 var rect = sc.rect();
 
-var pushRight = S.operation("move", {
-  "x" : width,
-  "y" : 0,
-  "width" : width,
-  "height" : "screenSizeY"
-});
+var pushRight = [
+  S.operation("move", {
+    "x" : width,
+    "y" : 0,
+    "width" : width,
+    "height" : "screenSizeY",
+  }),
+  S.operation("move", {
+    "x" : width,
+    "y" : height * 2/3,
+    "width" : width,
+    "height" : height
+  })
+];
 
 var pushLeft = S.operation("move", {
   "x" : 0,
@@ -38,8 +46,8 @@ var pushBottom = S.operation("push", {
 var fullscreen = S.operation("move", {
   "x" : "screenOriginX",
   "y" : "screenOriginY",
-  "width" : width,
-  "height" : height
+  "width" : "screenSizeX",
+  "height" : "screenSizeY"
 });
 
 var pushTopRight = S.operation("corner", {
@@ -54,12 +62,6 @@ var pushTopLeft = S.operation("corner", {
   "height" : height
 });
 
-var pushCenterRight = S.operation("move", {
-  "x" : width,
-  "y" : height,
-  "width" : width,
-  "height" : height
-});
 
 //var pushTopLeft = S.operation("push", {
 //  "direction" : "left",
@@ -96,10 +98,7 @@ var focusRight = S.operation("focus", {
 
 S.bindAll({
   "d:alt": S.op("chain", {
-    "operations": [
-      pushRight,
-      pushCenterRight
-    ]
+    "operations": pushRight
   }),
   "a:alt": pushLeft,
   "w:alt": pushTop,

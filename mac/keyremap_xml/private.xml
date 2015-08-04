@@ -12,7 +12,10 @@
     <appname>LIBREOFFICE</appname>
     <equal>org.libreoffice.script</equal>
   </appdef>
-
+  <appdef>
+    <appname>UNREALEDITOR</appname>
+    <equal>com.epicgames.UE4Editor</equal>
+  </appdef>
   <appdef>
     <appname>BROWSER</appname>
     <equal>com.google.Chrome.canary</equal>
@@ -24,6 +27,11 @@
     <equal>org.mozilla.aurora</equal>
     <equal>org.mozilla.nightly</equal>
   </appdef>
+  <appdef>
+    <appname>TODOIST</appname>
+    <equal>com.todoist.mac.Todoist</equal>
+  </appdef>
+
   <list>
     <item>
       <name>Switch Profile</name>
@@ -48,11 +56,11 @@
       <autogen>--KeyToKey-- KeyCode::F, ModifierFlag::OPTION_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::F, ModifierFlag::OPTION_L</autogen>
     </item>
     <item>
-      <name>libreoffice</name>
-      <identifier>private.libreoffice</identifier>
-      <only>LIBREOFFICE</only>
-      <autogen>--KeyToKey-- KeyCode::TAB, ModifierFlag::CONTROL_L, KeyCode::PAGEDOWN, ModifierFlag::CONTROL_L</autogen>
-      <autogen>--KeyToKey-- KeyCode::TAB, ModifierFlag::CONTROL_L, ModifierFlag::SHIFT_L, KeyCode::PAGEUP, ModifierFlag::CONTROL_L</autogen>
+      <name>todoist</name>
+      <identifier>private.todoist</identifier>
+      <only>TODOIST</only>
+      <autogen>--KeyToKey-- KeyCode::P, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP, ModifierFlag::CONTROL_L</autogen>
+      <autogen>--KeyToKey-- KeyCode::N, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN, ModifierFlag::CONTROL_L</autogen>
     </item>
     <item>
       <name>poker_2_to_HHKB</name>
