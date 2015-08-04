@@ -24,7 +24,7 @@ fix = commit --amend -C HEAD
 [interactive]
 	singlekey = true
 [core]
-	editor = ~/local/bin/vim
+	editor = /usr/local/bin/vim
 	quotepath = false
 	autocrlf = false
 	safecrlf = true
