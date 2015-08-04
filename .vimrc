@@ -55,7 +55,7 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/neosnippet'
-NeoBundle 'honza/vim-snippets'
+NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 't9md/vim-unite-ack'
 NeoBundle 'Shougo/unite-outline'
 NeoBundle 'ujihisa/unite-colorscheme'
@@ -75,12 +75,12 @@ NeoBundle 'mattn/wwwrenderer-vim'
 NeoBundle 'thinca/vim-openbuf'
 
 " twitter on vim
-"NeoBundle 'tyru/open-browser.vim'
-"NeoBundle 'basyura/twibill.vim'
-"NeoBundle 'basyura/bitly.vim'
-"NeoBundle 'mattn/favstar-vim'
-"NeoBundle 'basyura/TweetVim'
-"NeoBundle 'yomi322/unite-tweetvim'
+NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'basyura/twibill.vim'
+NeoBundle 'basyura/bitly.vim'
+NeoBundle 'mattn/favstar-vim'
+NeoBundle 'basyura/TweetVim'
+NeoBundle 'yomi322/unite-tweetvim'
 
 " syntax
 NeoBundle 'othree/html5.vim'
@@ -494,7 +494,7 @@ syntax enable
 set background=dark
 colorscheme mopkai
 
-set number
+set nonumber
 set showmode         " モード表示
 set title            " 編集中のファイル名を表示
 set ruler            " ルーラーの表示
@@ -594,6 +594,7 @@ noremap <C-Z> <C-A>
 "command line windowを表示
 "swap semicolon and colon
 noremap : ;
+"noremap ; :
 noremap ; q:
 noremap q; :
 
@@ -604,7 +605,7 @@ augroup END
 
 set scrolloff=0
 set history=1000
-set cmdwinheight=3
+set cmdwinheight=1
 
 autocmd CmdwinEnter * call s:init_cmdwin()
 function! s:init_cmdwin()
@@ -714,7 +715,7 @@ au BufWinEnter * let w:m2 = matchadd("TabString", '^\t+')
 au WinEnter * let w:m2 = matchadd("TabString", '^\t+')
 
 " 全角スペースの表示
-highlight ZenkakuSpace cterm=underline ctermbg=red guibg=red
+highlight ZenkakuSpace cterm=underline
 au BufWinEnter * let w:m3 = matchadd("ZenkakuSpace", '　')
 au WinEnter * let w:m3 = matchadd("ZenkakuSpace", '　')
 

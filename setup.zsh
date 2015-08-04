@@ -27,17 +27,9 @@ git clone git://github.com/Shougo/vimproc.vim ~/.vim/bundle/vimproc
 cd ~/.vim/bundle/vimproc
 echo "vimproc setup"
 if [ `uname` = "Darwin" ]; then
-  echo -n "Make make_mac?[y/n] "
-  read flag
-  if [ ${flag} = 'y' ]; then
-    make -f make_mac.mak
-  fi
+  make -f make_mac.mak
 elif [ `uname` = "Linux" ]; then
-  echo -n "Make make_unix.mak?[y/n] "
-  read flag
-  if [ ${flag} = 'y' ]; then
-    make -f make_unix.mak
-  fi
+  make -f make_unix.mak
 fi
 
 #vimのpluginをインストール
