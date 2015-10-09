@@ -277,12 +277,27 @@ endif
 " Neosnippet
 "--------------------
 
-" Plugin key-mappings.
-imap <Tab> <Plug>(neosnippet_expand_or_jump)
-smap <Tab> <Plug>(neosnippet_expand_or_jump)
+"" Plugin key-mappings.
+"imap <Tab> <Plug>(neosnippet_expand_or_jump)
+"smap <Tab> <Plug>(neosnippet_expand_or_jump)
+"
+"" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory='~/.vim/snippets'
 
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
+" SuperTab like snippets behavior.
+imap <expr><TAB>
+ \ pumvisible() ? "\<Plug>(neosnippet_expand_or_jump)" :
+ \ neosnippet#expandable_or_jumpable() ?
+ \   "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
 
 "--------------------
 " Tweetvim
@@ -605,7 +620,7 @@ augroup END
 
 set scrolloff=0
 set history=1000
-set cmdwinheight=1
+set cmdwinheight=3
 
 autocmd CmdwinEnter * call s:init_cmdwin()
 function! s:init_cmdwin()
@@ -615,6 +630,7 @@ function! s:init_cmdwin()
 endfunction
 
 " 検索時語句を中心にする
+nnoremap * *zz
 nnoremap n nzz
 nnoremap N Nzz
 
@@ -700,7 +716,7 @@ endfunction
 "--------------
 set expandtab
 set tabstop=2
-set softtabstop=0
+set softtabstop=2
 set shiftwidth=2
 "set cindent
 
