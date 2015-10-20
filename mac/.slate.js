@@ -1,47 +1,87 @@
 S.log('[SLATE] ----------- Start Loading Config -----------');
+var util = {
+  //  eachAppWindow: function(f) {
+  //    S.eachApp(function(app) {
+  //      app.eachWindow(f);
+  //    });
+  //  },
 
+  //  key: function(k, mod) {
+  //    return k + ':alt' + (mod ? ',' + mod : '');
+  //  },
+
+  //  focusWindow: function(f) {
+  //    var hit = false;
+  //    S.eachApp(function(app) {
+  //      if (hit) return;
+  //      app.eachWindow(function(win) {
+  //        if (hit) return;
+  //        if (f(win)) {
+  //          win.focus();
+  //          hit = true;
+  //        }
+  //      });
+  //    });
+  //  },
+
+  //nextScreen: function(screen) {
+  //  return S.screenForRef(String( (screen.id()+1)%S.screenCount() ));
+  //},
+
+  getScreenRect: function(win) {
+    var win = S.window();
+    var sc = win.screen();
+    return sc.rect();
+  }
+};
 // Create Operations
-var defaultWidth = 2560;
-var defaultHeight = 1440;
-var width = defaultWidth/2;
-var height = defaultHeight/2;
-//var win = S.window();
-//var rect = win.size();
-var sc = S.screen();
-var rect = sc.rect();
+var windowWidth = 2560/2;
+var windowHeight = 1440/2;
 
-var pushRight = [
-  S.operation("move", {
-    "x" : width,
-    "y" : 0,
-    "width" : width,
-    "height" : "screenSizeY",
-  }),
-  S.operation("move", {
-    "x" : width,
-    "y" : height * 2/3,
-    "width" : width,
-    "height" : height
-  })
-];
+//S.log('[SLATE] win.screen:' + sc.rect().width);
+//S.log('[SLATE] rect.width:' + rect.width + ' rect.height:' + rect.height);
 
-var pushLeft = S.operation("move", {
-  "x" : 0,
-  "y" : 0,
-  "width" : width,
-  "height" : "screenSizeY"
-});
-var pushTop = S.operation("move", {
-  "x" : 0,
-  "y" : 0,
-  "width" : "screenSizeX",
-  "height" : height
-});
+var pushRight = S.op("chain", {
+  'operations': [
+    function(win) {
+      if (!win) return;
+      var scRect = util.getScreenRect(win);
+      var rect = {
+        "x" : scRect.width - windowWidth,
+        "y" : scRect.y,
+        "width" : windowWidth,
+        "height" : scRect.height,
+      }
+        win.doOperation('move', rect);
+      },
+      function(win) {
+        if (!win) return;
+        var scRect = util.getScreenRect(win);
+        var rect = {
+          "x" : scRect.width - windowWidth,
+          "y" : (scRect.height - windowHeight) /2,
+          "width" : windowWidth,
+          "height" : windowHeight
+        }
+        win.doOperation('move', rect);
+      }
+    ]
+  }
+);
 
-var pushBottom = S.operation("push", {
-  "direction" : "bottom",
-  "style" : "bar-resize:screenSizeY/2"
-});
+var pushLeft = function(win) {
+  if (!win) return;
+
+  var scRect = util.getScreenRect(win);
+
+  var rect = {
+    "x": scRect.x,
+    "y": 0,
+    "width": windowWidth,
+    "height": scRect.height
+  }
+  win.doOperation('move', rect);
+};
 
 var fullscreen = S.operation("move", {
   "x" : "screenOriginX",
@@ -52,67 +92,43 @@ var fullscreen = S.operation("move", {
 
 var pushTopRight = S.operation("corner", {
   "direction" : "top-right",
-  "width" : width,
-  "height" : height
+  "width" : windowWidth,
+  "height" : windowHeight
 });
 
 var pushTopLeft = S.operation("corner", {
   "direction" : "top-left",
-  "width" : width,
-  "height" : height
+  "width" : windowWidth,
+  "height" : windowHeight
 });
-
-
-//var pushTopLeft = S.operation("push", {
-//  "direction" : "left",
-//  "height" : width
-//});
 
 var pushBottomRight = S.operation("corner", {
   "direction" : "bottom-right",
-  "width" : width,
-  "height" : height
+  "width" : windowWidth,
+  "height" : windowHeight
 });
 
 var pushBottomLeft = S.operation("corner", {
   "direction" : "bottom-left",
-  "width" : width,
-  "height" : height
+  "width" : windowWidth,
+  "height" : windowHeight
 });
 
-var focusUp = S.operation("focus", {
-  "direction": "up"
-});
+var nextWindow = function(win) {
+}
 
-var focusDown = S.operation("focus", {
-  "direction": "down"
-});
-
-var focusLeft = S.operation("focus", {
-  "direction": "left"
-});
-
-var focusRight = S.operation("focus", {
-  "direction": "right"
-});
 
 S.bindAll({
-  "d:alt": S.op("chain", {
-    "operations": pushRight
-  }),
+  "d:alt": pushRight,
   "a:alt": pushLeft,
-  "w:alt": pushTop,
-  "x:alt": pushBottom,
+  //"w:alt": pushTop,
+  //"x:alt": pushBottom,
   "s:alt": fullscreen,
   "e:alt": pushTopRight,
   "q:alt": pushTopLeft,
   "c:alt": pushBottomRight,
   "z:alt": pushBottomLeft,
-  "h:alt": focusLeft,
-  "j:alt": focusDown,
-  "k:alt": focusUp,
-  "l:alt": focusRight,
-  "r:alt;shift;ctrl": S.op('relaunch')
+  "r:alt,shift": S.op('relaunch')
 });
 
 S.log('[SLATE] ----------- End Loading Config -----------');

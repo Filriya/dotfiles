@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+  echo "実行するには最低1個の引数が必要です。" 1>&2
+  exit 1
+fi
+
+echo 'display notification "'$3'" with title "'$1'" subtitle "'$2'"'|osascript
