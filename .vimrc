@@ -74,8 +74,12 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mattn/wwwrenderer-vim'
 NeoBundle 'thinca/vim-openbuf'
 
-" twitter on vim
+" markdown
+NeoBundle 'plasticboy/vim-markdown'
+NeoBundle 'kannokanno/previm'
 NeoBundle 'tyru/open-browser.vim'
+
+" twitter on vim
 NeoBundle 'basyura/twibill.vim'
 NeoBundle 'basyura/bitly.vim'
 NeoBundle 'mattn/favstar-vim'
@@ -83,7 +87,7 @@ NeoBundle 'basyura/TweetVim'
 NeoBundle 'yomi322/unite-tweetvim'
 
 " syntax
-NeoBundle 'othree/html5.vim'
+"NeoBundle 'othree/html5.vim'
 NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'cakebaker/scss-syntax.vim'
 NeoBundle 'hail2u/vim-css3-syntax'
@@ -158,16 +162,19 @@ call neobundle#end()
 let g:vimfiler_as_default_explorer=1
 let g:vimfiler_safe_mode_by_default = 0
 
-nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=36 -toggle  <CR>
-nnoremap <silent> <space>F :VimFiler -split -simple -explorer -winwidth=36 -toggle -force-quit -find <CR>
+nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=36 -toggle -force-quit -find <CR>
+nnoremap <silent> <space>F :VimFiler -split -simple -explorer -winwidth=36 -toggle  <CR>
 autocmd! FileType vimfiler call s:my_vimfiler_settings()
 
 function! s:my_vimfiler_settings()
   nmap <buffer><C-Q> <Plug>(vimfiler_hide)
-  nmap <buffer><C-H> <Plug>(vimfiler_switch_to_parent_directory)
-  nmap <buffer><C-L> <Plug>(vimfiler_cd_or_edit)
+  nmap <buffer>H <Plug>(vimfiler_switch_to_parent_directory)
+  nmap <buffer>L <Plug>(vimfiler_cd_or_edit)
   nnoremap <silent> <buffer>s :call vimfiler#mappings#do_action('my_split')<Cr>
   nnoremap <silent> <buffer>v :call vimfiler#mappings#do_action('my_vsplit')<Cr>
+  nmap <buffer><space>w [myWindow]
+  nmap <buffer><space>t [myWindowTab]
+  nmap <S-Space> <Plug>(vimfiler_toggle_mark_current_line)
 endfunction
 
 let s:my_action = { 'is_selectable' : 1 }
@@ -304,10 +311,6 @@ endif
 "--------------------
 nnoremap <silent> [unite]t :Unite tweetvim<CR>
 nnoremap <silent> [unite]<c-t> :Unite tweetvim<CR>
-nnoremap <silent> <space>th :TweetVimHomeTimeline<CR>
-nnoremap <silent> <space>tm :TweetVimMentions<CR>
-nnoremap <silent> <space>ts :TweetVimSay<CR>
-nnoremap <silent> <space>tb :TweetVimBitly<CR>
 
 "--------------------
 " jazz vim
@@ -465,6 +468,10 @@ nnoremap <C-g>v :Gitv<CR>
 "--------------------
 "let g:syntastic_enable_signs=1
 "let g:syntastic_auto_loc_list=2
+let g:syntastic_mode_map={ 'mode': 'active',
+      \ 'active_filetypes': [],
+      \ 'passive_filetypes': ['html'] }
+
 
 "--------------------
 " simple javascript indenter
@@ -485,6 +492,13 @@ let g:indent_guides_auto_colors = 0
 let g:indent_guides_enable_on_vim_startup = 1
 hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
+
+"--------------------
+" Markdown
+"--------------------
+au BufRead,BufNewFile *.md set filetype=markdown
+let g:previm_open_cmd = 'open -a "Google Chrome"'
+
 "-----------------------
 " 表示系
 "-----------------------
@@ -637,33 +651,35 @@ nnoremap N Nzz
 " ----------------------------------------
 " <t> commands
 " ウィンドウ、タブ、バッファの分割・移動
+" Window Tab Buffer
 " ----------------------------------------
-" タブ移動
-nnoremap <silent> <C-T><C-N> :<C-u>tabnext<CR>
-nnoremap <silent> <C-T>n :<C-u>tabnext<CR>
-nnoremap <silent> <C-T><C-P> :<C-u>tabprevious<CR>
-nnoremap <silent> <C-T>p :<C-u>tabprevious<CR>
+nmap <space>t [myWindowTab]
+nmap <space>w [myWindow]
 
-nnoremap <silent> <C-T>1 :<C-u>tabn 1<CR>
-nnoremap <silent> <C-T>2 :<C-u>tabn 2<CR>
-nnoremap <silent> <C-T>3 :<C-u>tabn 3<CR>
-nnoremap <silent> <C-T>4 :<C-u>tabn 4<CR>
-nnoremap <silent> <C-T>5 :<C-u>tabn 5<CR>
-nnoremap <silent> <C-T>6 :<C-u>tabn 6<CR>
-nnoremap <silent> <C-T>7 :<C-u>tabn 7<CR>
-nnoremap <silent> <C-T>8 :<C-u>tabn 8<CR>
-nnoremap <silent> <C-T>9 :<C-u>tabn 9<CR>
-nnoremap <silent> <C-T>0 :<C-u>tabn 10<CR>
+nnoremap [myWindow] <C-w>
+
+
+nnoremap <silent> [myWindowTab]l :<C-u>tabnext<CR>
+nnoremap <silent> [myWindowTab]h :<C-u>tabprevious<CR>
+
+nnoremap <silent> [myWindowTab]1 :<C-u>tabn 1<CR>
+nnoremap <silent> [myWindowTab]2 :<C-u>tabn 2<CR>
+nnoremap <silent> [myWindowTab]3 :<C-u>tabn 3<CR>
+nnoremap <silent> [myWindowTab]4 :<C-u>tabn 4<CR>
+nnoremap <silent> [myWindowTab]5 :<C-u>tabn 5<CR>
+nnoremap <silent> [myWindowTab]6 :<C-u>tabn 6<CR>
+nnoremap <silent> [myWindowTab]7 :<C-u>tabn 7<CR>
+nnoremap <silent> [myWindowTab]8 :<C-u>tabn 8<CR>
+nnoremap <silent> [myWindowTab]9 :<C-u>tabn 9<CR>
+nnoremap <silent> [myWindowTab]0 :<C-u>tabn 10<CR>
 
 " タブ操作
-nnoremap <silent> <C-T>t :<C-u>tabnew<CR>:tabmove<CR>
-nnoremap <silent> <C-T><C-T> :<C-u>tabnew<CR>:tabmove<CR>
-nnoremap <silent> <C-T>d :<C-u>tabclose<CR>
-nnoremap <silent> <C-T><C-D> :<C-u>tabclose<CR>
+nnoremap <silent> [myWindowTab]t :<C-u>tabnew<CR>:tabmove<CR>
+nnoremap <silent> [myWindowTab]d :<C-u>tabclose<CR>
 
 " ウィンドウの分割<C-T>
-nnoremap <silent> <C-T>v :<C-u>vsp<CR>
-nnoremap <silent> <C-T>s :<C-u>sp<CR>
+nnoremap <silent> [myWindow]v :<C-u>vsp<CR>
+nnoremap <silent> [myWindow]s :<C-u>sp<CR>
 
 "<C-d>とあわせて左手だけでスクロール
 nnoremap <C-e> <C-u>
@@ -715,8 +731,8 @@ endfunction
 "タブキーの処理
 "--------------
 set expandtab
-set tabstop=2
-set softtabstop=2
+"set tabstop=2
+set softtabstop=-1
 set shiftwidth=2
 "set cindent
 
