@@ -3,14 +3,14 @@
 "-----------------------------------------------------------------------------------"
 " コマンド        | ノーマル | 挿入 | コマンドライン | ビジュアル | 選択 | 演算待ち |
 " map  / noremap  |    @     |  -   |       -        |     @      |  @   |    @     |
-" nmap / nnoremap |    @     |  -   |       -        |     -      |  -   |    -     |
-" vmap / vnoremap |    -     |  -   |       -        |     @      |  @   |    -     |
-" omap / onoremap |    -     |  -   |       -        |     -      |  -   |    @     |
-" xmap / xnoremap |    -     |  -   |       -        |     @      |  -   |    -     |
-" smap / snoremap |    -     |  -   |       -        |     -      |  @   |    -     |
 " map! / noremap! |    -     |  @   |       @        |     -      |  -   |    -     |
+" nmap / nnoremap |    @     |  -   |       -        |     -      |  -   |    -     |
 " imap / inoremap |    -     |  @   |       -        |     -      |  -   |    -     |
 " cmap / cnoremap |    -     |  -   |       @        |     -      |  -   |    -     |
+" vmap / vnoremap |    -     |  -   |       -        |     @      |  @   |    -     |
+" xmap / xnoremap |    -     |  -   |       -        |     @      |  -   |    -     |
+" smap / snoremap |    -     |  -   |       -        |     -      |  @   |    -     |
+" omap / onoremap |    -     |  -   |       -        |     -      |  -   |    @     |
 "-----------------------------------------------------------------------------------"
 "check mappings
 ":help index.txt
@@ -162,8 +162,8 @@ call neobundle#end()
 let g:vimfiler_as_default_explorer=1
 let g:vimfiler_safe_mode_by_default = 0
 
-nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=36 -toggle -force-quit -find <CR>
-nnoremap <silent> <space>F :VimFiler -split -simple -explorer -winwidth=36 -toggle  <CR>
+"nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=36 -toggle -force-quit -find <CR>
+nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=36 -toggle  -find<CR>
 autocmd! FileType vimfiler call s:my_vimfiler_settings()
 
 function! s:my_vimfiler_settings()
@@ -208,31 +208,24 @@ let g:unite_source_history_yank_enable = 1
 
 " バッファ一覧
 noremap [unite]b :Unite buffer<CR>
-noremap [unite]<C-B> :Unite buffer<CR>
 " 最近使ったファイルの一覧
 noremap [unite]m :Unite file_mru<CR>
-noremap [unite]<C-M> :Unite file_mru<CR>
+" カレントディレクトリ以下のファイル
+nnoremap [unite]f :Unite file_rec/async:!<CR>
 " レジスタ一覧
-nnoremap [unite]r :Unite -buffer-name=register register<CR>
-nnoremap [unite]<C-R> :Unite -buffer-name=register register<CR>
+nnoremap [unite]R :Unite -buffer-name=register register<CR>
 "ブックマーク一覧
 nnoremap [unite]c :Unite bookmark<CR>
-nnoremap [unite]<C-C> :Unite bookmark<CR>
 "ブックマークに追加
 nnoremap [unite]a :UniteBookmarkAdd<CR>
-nnoremap [unite]<C-A> :UniteBookmarkAdd<CR>
 "vim hacks
 nnoremap [unite]h :Unite vim_hacks<CR>
-nnoremap [unite]<C-H> :Unite vim_hacks<CR>
 "vim outline
 nnoremap [unite]o :Unite outline<CR>
-nnoremap [unite]<C-O> :Unite outline<CR>
 "yank histroy
 nnoremap [unite]y :Unite history/yank<CR>
-nnoremap [unite]<C-Y> :<C-u>Unite history/yank<CR>
 " 全部乗せ
 nnoremap [unite]u :Unite -buffer-name=files buffer file_mru bookmark file<CR>
-nnoremap [unite]<C-U> :Unite -buffer-name=files buffer file_mru bookmark file<CR>
 
 "unite.vimを開いている間のキーマッピング
 autocmd FileType unite call s:my_unite_settings()
@@ -311,6 +304,7 @@ endif
 "--------------------
 nnoremap <silent> [unite]t :Unite tweetvim<CR>
 nnoremap <silent> [unite]<c-t> :Unite tweetvim<CR>
+nnoremap <silent> <space>ts :TweetVimSay<CR>
 
 "--------------------
 " jazz vim
