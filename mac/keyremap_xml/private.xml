@@ -49,11 +49,10 @@
       <name>virtualbox</name>
       <identifier>private.escape_from_virtualbox</identifier>
       <only>VIRTUALBOXVM</only>
-      <autogen>--KeyToKey-- KeyCode::F, ModifierFlag::CONTROL_L, ModifierFlag::SHIFT_L, KeyCode::F, ModifierFlag::CONTROL_L</autogen>
       <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::COMMAND_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::SPACE, ModifierFlag::COMMAND_R</autogen>
       <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::CONTROL_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::SPACE, ModifierFlag::CONTROL_L</autogen>
-      <autogen>--KeyToKey-- KeyCode::B, ModifierFlag::OPTION_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::B, ModifierFlag::OPTION_L</autogen>
-      <autogen>--KeyToKey-- KeyCode::F, ModifierFlag::OPTION_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::F, ModifierFlag::OPTION_L</autogen>
+      <autogen>--KeyToKey-- KeyCode::CURSOR_LEFT, ModifierFlag::CONTROL_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::CURSOR_LEFT, ModifierFlag::CONTROL_L</autogen>
+      <autogen>--KeyToKey-- KeyCode::CURSOR_RIGHT, ModifierFlag::CONTROL_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::CURSOR_RIGHT, ModifierFlag::CONTROL_L</autogen>
     </item>
     <item>
       <name>todoist</name>
@@ -81,35 +80,12 @@
       <autogen>--KeyToKey-- KeyCode::RETURN, ModifierFlag::CONTROL_L, KeyCode::TAB, KeyCode::RETURN, KeyCode::RETURN</autogen>
     </item>
     <item>
-      <name>except_terminal</name>
-      <identifier>private.app_vi_mode_except_Terminal</identifier>
-      <not>TERMINAL</not>
-      <autogen>--KeyToKey-- KeyCode::B, ModifierFlag::CONTROL_L, KeyCode::CURSOR_LEFT</autogen>
-      <autogen>--KeyToKey-- KeyCode::F, ModifierFlag::CONTROL_L, KeyCode::CURSOR_RIGHT</autogen>
-      <autogen>--KeyToKey-- KeyCode::P, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP</autogen>
-      <autogen>--KeyToKey-- KeyCode::N, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN</autogen>
-      <autogen>--KeyToKey-- KeyCode::H, ModifierFlag::CONTROL_L, KeyCode::DELETE</autogen>
-    </item>
-    <item>
       <name>contain_terminal</name>
       <identifier>private.bracket_left_to_escape</identifier>
       <not>VIRTUALBOXVM</not>
       <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::COMMAND_L, KeyCode::SPACE, ModifierFlag::COMMAND_L, KeyCode::JIS_EISUU</autogen>
       <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::ESCAPE, KeyCode::JIS_EISUU</autogen>
-      <autogen>--KeyToKey-- KeyCode::M, ModifierFlag::CONTROL_L, KeyCode::RETURN</autogen>
       <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::ESCAPE, KeyCode::JIS_EISUU</autogen>
-      <autogen>
-        __KeyOverlaidModifier__
-        KeyCode::SHIFT_L,
-        KeyCode::VK_CONFIG_SYNC_KEYDOWNUP_notsave_japanese_command2eisuukana_prefer_command_v2, ModifierFlag::SHIFT_L,
-        KeyCode::JIS_EISUU,
-      </autogen>
-      <autogen>
-        __KeyOverlaidModifier__
-        KeyCode::SHIFT_R,
-        KeyCode::VK_CONFIG_SYNC_KEYDOWNUP_notsave_japanese_command2eisuukana_prefer_command_v2, ModifierFlag::SHIFT_R,
-        KeyCode::JIS_KANA,
-      </autogen>
     </item>
     <item>
       <name>JIS_Keyboard to US_Keyboard</name>
