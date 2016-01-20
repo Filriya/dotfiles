@@ -1,36 +1,35 @@
+[include]
+    path = .gitconfig.local
 [color]
-	ui = false
-	diff = true
-	interactive = true
-	status = true
-	branch = true
-[user]
-	name = Filriya
+  ui = false
+  diff = true
+  interactive = true
+  status = true
+  branch = true
 [alias]
-st = status -sb
-cm = commit
-br = branch
-co = checkout
-df = diff --color
-dfc = diff --cached
-dfh = diff HEAD
-pr = pull --rebase
-lg = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=short
-lgg = log --stat --pretty=format:'%Cblue%h %Cgreen%ar %Cred%an %Creset%s %Cred%d'
-lgs = log --stat --abbrev-commit --date=relative
-fix = commit --amend -C HEAD
+  st = status -sb
+  cm = commit
+  br = branch
+  co = checkout
+  df = diff --color
+  dfc = diff --cached
+  dfh = diff HEAD
+  pr = pull --rebase
+  lg = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=short
+  lgg = log --stat --pretty=format:'%Cblue%h %Cgreen%ar %Cred%an %Creset%s %Cred%d'
+  lgs = log --stat --abbrev-commit --date=relative
+  fix = commit --amend -C HEAD
 [gui]
-	encoding = utf-8
+  encoding = utf-8
 [interactive]
-	singlekey = true
+  singlekey = true
 [core]
-	editor = /usr/local/bin/vim
-	quotepath = false
-	autocrlf = false
-	safecrlf = true
+  editor = /usr/local/bin/vim
+  quotepath = false
+  autocrlf = false
+  safecrlf = true
   pager = less=-R less
-
 [i18n]
-	commitencoding = UTF-8
+  commitencoding = UTF-8
 [push]
-	default = matching
+  default = matching

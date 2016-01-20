@@ -91,23 +91,6 @@ PATH="$NPM_PACKAGES/bin:$PATH"
 #unset MANPATH # delete if you already modified MANPATH elsewhere in your config
 #MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
-# percol
-function exists { which $1 &> /dev/null }
-
-if exists percol; then
-  function percol_select_history()
-  {
-    local tac
-    exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-    BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
-    CURSOR=$#BUFFER         # move cursor
-    zle -R -c               # refresh
-  }
-
-  zle -N percol_select_history
-  bindkey '^R' percol_select_history
-fi
-
 # prompt color
 function changecolor()
 {
@@ -132,6 +115,29 @@ source /usr/local/bin/aws_zsh_completer.sh
 # default editor
 EDITOR=`which vim`
 
-export PATH=${HOME}/local/bin:~/bin/:"$PATH"
+# set gopath
+export GOPATH=${HOME}/gopath
+
+export PATH=${HOME}/local/bin:~/bin/:${GOPATH}/bin:"$PATH"
+
+if type peco 2>/dev/null 1>/dev/null; then
+  local tac
+  if which tac > /dev/null; then
+    tac="tac"
+  else
+    tac="tail -r"
+  fi
+
+  function peco_select_history()
+  {
+    BUFFER=`history -n 1 | eval $tac | peco`
+    CURSOR=$#BUFFER
+    zle reset-prompt
+  }
+
+  zle -N peco_select_history
+  bindkey '^R' peco_select_history
+fi
+
 stty -ixon
 

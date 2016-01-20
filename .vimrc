@@ -1,4 +1,5 @@
 "-----------------------------------------------------------------------------------"
+"
 " Mappings                                                                          |
 "-----------------------------------------------------------------------------------"
 " コマンド        | ノーマル | 挿入 | コマンドライン | ビジュアル | 選択 | 演算待ち |
@@ -154,6 +155,25 @@ else
   NeoBundle 'Shougo/neocomplcache.vim'
 endif
 
+if neobundle#tap('jazzradio.vim')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'unite_sources' : [
+        \       'jazzradio'
+        \     ],
+        \     'commands' : [
+        \       'JazzradioUpdateChannels',
+        \       'JazzradioStop',
+        \       {
+        \         'name' : 'JazzradioPlay',
+        \         'complete' : 'customlist,jazzradio#channel_id_complete'
+        \       }
+        \     ],
+        \     'function_prefix' : 'jazzradio'
+        \   }
+        \ })
+endif
+
 call neobundle#end()
 
 "--------------------
@@ -305,28 +325,6 @@ endif
 nnoremap <silent> [unite]t :Unite tweetvim<CR>
 nnoremap <silent> [unite]<c-t> :Unite tweetvim<CR>
 nnoremap <silent> <space>ts :TweetVimSay<CR>
-
-"--------------------
-" jazz vim
-"--------------------
-if neobundle#tap('jazzradio.vim')
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : [
-        \       'jazzradio'
-        \     ],
-        \     'commands' : [
-        \       'JazzradioUpdateChannels',
-        \       'JazzradioStop',
-        \       {
-        \         'name' : 'JazzradioPlay',
-        \         'complete' : 'customlist,jazzradio#channel_id_complete'
-        \       }
-        \     ],
-        \     'function_prefix' : 'jazzradio'
-        \   }
-        \ })
-endif
 
 
 "--------------------
@@ -653,6 +651,7 @@ nmap <space>w [myWindow]
 nnoremap [myWindow] <C-w>
 
 
+nnoremap <silent> [myWindowTab] <Nop>
 nnoremap <silent> [myWindowTab]l :<C-u>tabnext<CR>
 nnoremap <silent> [myWindowTab]h :<C-u>tabprevious<CR>
 
