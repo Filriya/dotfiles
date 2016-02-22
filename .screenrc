@@ -7,7 +7,7 @@ defscrollback 10000
 shell -$SHELL
 
 shelltitle "$ |zsh"
-caption always "%?%F%{= rK}%:%{= Kk}%?%-w%?%F%{=u rW}%:%{=u KW}%?%n %t%{-}%+w%{-u} %= %?%F%{= rW}%:%{= KW}%?%M %d %c"
+caption always "%?%F%{= rK}%:%{= Kk}%?%-w%?%F%{=u rW}%:%{=u KW}%?%n %t%{-}%+w%{-u} %= %c"
 hardstatus off
 
 defbce             on
@@ -48,14 +48,12 @@ bind ^Y eval 'command -c layout' 'layout show'
 bind y  eval 'command -c layout' 'layout show'
 
 # create/remove layout
-bind -c layout c eval 'layout new'    'layout show'
-bind -c layout x eval 'layout remove' 'layout show'
+bind C eval 'layout new'    'next' 'layout show'
+bind X eval 'layout remove' 'next' 'layout show'
 
 # switch to other layout
-bind -c layout n eval 'layout next'  'layout show'
-bind -c layout p eval 'layout prev'  'layout show'
-bind -c layout ^N eval 'layout next' 'command -c layout' 'layout show'
-bind -c layout ^P eval 'layout prev' 'command -c layout' 'layout show'
+bind N eval 'layout next' 'layout show'
+bind P eval 'layout prev' 'layout show'
 
 # create layout on first launch
 #'layout new' 'split -v' 'focus screen' 'split -s' 'focus screen'
