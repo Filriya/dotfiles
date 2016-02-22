@@ -23,6 +23,8 @@ if [ -f ${HOME}/.zshrc.local ]; then
   . ${HOME}/.zshrc.local
 fi
 
+unset GREP_OPTIONS
+
 # linuxとosx、個別にロードしたい設定
 if [ `uname` = "Darwin" ]; then
   # mac用のコード
