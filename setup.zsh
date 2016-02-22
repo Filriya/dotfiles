@@ -17,6 +17,15 @@ do
   fi
 done
 
+if [ ! -e $HOME/.gitconfig.local ]; then
+  echo "Create .gitconfig.local"
+  echo -n "Name? >"
+  read name
+  echo -n "Email? >"
+  read email
+  m4 -D__NAME__=$name -D__EMAIL__=$email gitconfig.local.m4 > $HOME/.gitconfig.local
+fi
+
 #vim関連設定
 
 #neobundleとvimprocだけは先にcloneしておく
