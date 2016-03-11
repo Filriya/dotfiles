@@ -62,8 +62,10 @@ else
 fi
 
 # alias
-alias ls="ls --color=auto"
+alias ls="ls -G"
 alias cl="clear"
+
+alias lg="ls -al|grep"
 
 
 # screen
@@ -77,6 +79,14 @@ function myScreenLaunch ()
     screen -x -RR -U -S ${USER}
   fi
 }
+
+
+_srcomp() {
+  compadd `screen -list| perl -wne 'if ( $_=~ /[0-9]+\.(\S*)/){ printf $1; printf " "}'`
+}
+
+compdef _srcomp sr
+
 
 # npm
 NPM_PACKAGES="${HOME}/.npm-packages"
@@ -94,15 +104,15 @@ PATH="$NPM_PACKAGES/bin:$PATH"
 #MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
 # prompt color
-function changecolor()
-{
-  local color=$1
-  PROMPT=`echo $PROMPT|awk -v color=$color '{gsub(/135/, color); print $0}'`
-}
-
-if [ ${PROMPTCOLORUSER} ]; then
-  changecolor $PROMPTCOLORUSER
-fi
+#function changecolor()
+#{
+#  local color=$1
+#  PROMPT=`echo $PROMPT|awk -v color=$color '{gsub(/135/, color); print $0}'`
+#}
+#
+#if [ ${PROMPTCOLORUSER} ]; then
+#  changecolor $PROMPTCOLORUSER
+#fi
 
 function colorcode()
 {
@@ -142,4 +152,22 @@ if type peco 2>/dev/null 1>/dev/null; then
 fi
 
 stty -ixon
+source ~/.zsh.d/z.sh
 
+function peco-z-search
+{
+  which peco z > /dev/null
+  if [ $? -ne 0 ]; then
+    echo "Please install peco and z"
+    return 1
+  fi
+  local res=$(z | sort -rn | cut -c 12- | peco)
+  if [ -n "$res" ]; then
+    BUFFER+="cd $res"
+    zle accept-line
+  else
+    return 1
+  fi
+}
+zle -N peco-z-search
+bindkey '^s' peco-z-search
