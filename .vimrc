@@ -28,153 +28,45 @@ nnoremap <silent> <Space>eg :<C-u>edit ~/dotfiles/.zprezto/modules/git/alias.zsh
 nnoremap <silent> <Space>sv :<C-u>source $MYVIMRC<CR>
 
 "----------------------
-"neobundle
+"dein
 "----------------------
 filetype off
 filetype plugin indent off
 
-if has('vim_starting')
-  set runtimepath+=~/.vim/neobundle.vim/
+" プラグインが実際にインストールされるディレクトリ
+let s:dein_dir = expand('~/.vim.bundle')
+" dein.vim 本体
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+" dein.vim がなければ github から落としてくる
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  endif
+  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 endif
 
-call neobundle#begin(expand('~/.vim/bundle/'))
-NeoBundleFetch 'Shougo/neobundle.vim'
+" 設定開始
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
 
-NeoBundle 'vim-jp/vimdoc-ja'
+  " プラグインリストを収めた TOML ファイル
+  let s:toml      = '~/.vim/dein.toml'
+  let s:lazy_toml = '~/.vim/dein_lazy.toml'
 
-" unite
-NeoBundle 'Shougo/vimproc', {
-      \ 'build' : {
-      \     'windows' : 'make -f make_mingw32.mak',
-      \     'cygwin' : 'make -f make_cygwin.mak',
-      \     'mac' : 'make -f make_mac.mak',
-      \     'unix' : 'make -f make_unix.mak',
-      \    },
-      \}
-NeoBundle 'Shougo/vimshell'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'Shougo/vimfiler'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 't9md/vim-unite-ack'
-NeoBundle 'Shougo/unite-outline'
-NeoBundle 'ujihisa/unite-colorscheme'
-NeoBundle 'tsukkee/unite-tag'
-NeoBundle 'osyo-manga/unite-quickfix'
+  " TOML を読み込み、キャッシュしておく
+  call dein#load_toml(s:toml,      {'lazy': 0})
+  call dein#load_toml(s:lazy_toml, {'lazy': 1})
 
-" C C++ Objective-C
-"NeoBundleLazy 'https://github.com/tokorom/cocoa.vim.git', 'syntax-only', {'autoload': {'filetypes': ['objc']}}
-"NeoBundleLazy 'https://github.com/tokorom/ctrlp-docset.git', {'autoload': {'filetypes': ['objc']}}
-"NeoBundleLazy 'https://github.com/tokorom/clang_complete.git', 'for-ios', {'autoload': {'filetypes': ['c', 'cpp', 'objc']}}
-"NeoBundleLazy 'https://github.com/tokorom/clang_complete-getopts-ios.git', {'autoload': {'filetypes': ['objc']}}
-
-" web on vim
-NeoBundle 'choplin/unite-vim_hacks'
-NeoBundle 'mattn/webapi-vim'
-NeoBundle 'mattn/wwwrenderer-vim'
-NeoBundle 'thinca/vim-openbuf'
-
-" markdown
-NeoBundle 'plasticboy/vim-markdown'
-NeoBundle 'kannokanno/previm'
-NeoBundle 'tyru/open-browser.vim'
-
-" twitter on vim
-NeoBundle 'basyura/twibill.vim'
-NeoBundle 'basyura/bitly.vim'
-NeoBundle 'mattn/favstar-vim'
-NeoBundle 'basyura/TweetVim'
-NeoBundle 'yomi322/unite-tweetvim'
-
-" syntax
-"NeoBundle 'othree/html5.vim'
-NeoBundle 'hail2u/vim-css3-syntax'
-NeoBundle 'cakebaker/scss-syntax.vim'
-NeoBundle 'hail2u/vim-css3-syntax'
-"NeoBundle 'othree/javascript-libraries-syntax.vim'
-NeoBundle 'othree/yajs.vim'
-
-" development:general
-NeoBundle 'Align'
-NeoBundle 'sudo.vim'
-NeoBundle 'catn.vim'
-NeoBundle 'thinca/vim-ref'
-NeoBundle 'thinca/vim-qfreplace'
-NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'osyo-manga/unite-quickrun_config'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'deton/jasegment.vim'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'fuenor/im_control.vim'
-NeoBundle 'soramugi/auto-ctags.vim'
-NeoBundle 'haya14busa/incsearch.vim'
-NeoBundle 'tmhedberg/matchit'
-NeoBundle 'deris/vim-rengbang'
-"NeoBundle 'nathanaelkane/vim-indent-guides'
-
-
-" development:frontend
-NeoBundle 'mattn/emmet-vim'
-NeoBundle 'jiangmiao/simple-javascript-indenter'
-
-" development:backend
-"NeoBundle 'shawncplus/phpcomplete.vim'
-"NeoBundle 'm2mdas/phpcomplete-extended'
-"NeoBundle 'm2mdas/phpcomplete-extended-laravel'
-"NeoBundle 'xsbeats/vim-blade'
-
-
-" colorscheme
-NeoBundle 'itchyny/lightline.vim'
-
-NeoBundle 'mopp/mopkai.vim'
-NeoBundle 'altercation/solarized'
-NeoBundle 'nanotech/jellybeans.vim'
-NeoBundle 'chriskempson/vim-tomorrow-theme'
-
-" others
-NeoBundle 'thinca/vim-threes'
-NeoBundle 'thinca/vim-scouter'
-NeoBundleLazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
-
-
-"ja
-NeoBundle 'fuenor/JpFormat.vim'
-
-function! s:meet_neocomplete_requirements()
-  return has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
-endfunction
-
-if s:meet_neocomplete_requirements()
-  NeoBundle 'Shougo/neocomplete.vim'
-  NeoBundleFetch 'Shougo/neocomplcache.vim'
-else
-  NeoBundleFetch 'Shougo/neocomplete.vim'
-  NeoBundle 'Shougo/neocomplcache.vim'
+  " 設定終了
+  call dein#end()
+  call dein#save_state()
 endif
 
-if neobundle#tap('jazzradio.vim')
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : [
-        \       'jazzradio'
-        \     ],
-        \     'commands' : [
-        \       'JazzradioUpdateChannels',
-        \       'JazzradioStop',
-        \       {
-        \         'name' : 'JazzradioPlay',
-        \         'complete' : 'customlist,jazzradio#channel_id_complete'
-        \       }
-        \     ],
-        \     'function_prefix' : 'jazzradio'
-        \   }
-        \ })
+" もし、未インストールものがあったらインストール
+if dein#check_install()
+  call dein#install()
 endif
-
-call neobundle#end()
 
 "--------------------
 " vimfiler
@@ -182,7 +74,6 @@ call neobundle#end()
 let g:vimfiler_as_default_explorer=1
 let g:vimfiler_safe_mode_by_default = 0
 
-"nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=36 -toggle -force-quit -find <CR>
 nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=36 -toggle  -find<CR>
 autocmd! FileType vimfiler call s:my_vimfiler_settings()
 
@@ -272,7 +163,7 @@ endfunction
 "--------------------
 " neocomplcache/neocomplete
 " ------------------
-if s:meet_neocomplete_requirements()
+if dein#tap('neocomplete.vim')
   let g:neocomplete#enable_at_startup = 1
   let g:neocomplete#enable_camel_case_completion = 1
   let g:neocomplete#enable_underbar_completion = 1
@@ -306,18 +197,20 @@ let g:neosnippet#snippets_directory='~/.vim/snippets'
 
 " SuperTab like snippets behavior.
 imap <expr><TAB>
- \ pumvisible() ? "\<Plug>(neosnippet_expand_or_jump)" :
- \ neosnippet#expandable_or_jumpable() ?
- \   "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+      \ pumvisible() ? "\<Plug>(neosnippet_expand_or_jump)" :
+      \ neosnippet#expandable_or_jumpable() ?
+      \   "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+      \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " For conceal markers.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-endif
+"if has('conceal')
+"  set conceallevel=2 concealcursor=niv
+"endif
+set conceallevel=0
+let g:vim_json_syntax_conceal = 0
 
 "--------------------
 " Tweetvim
@@ -468,7 +361,7 @@ let g:syntastic_mode_map={ 'mode': 'active',
 "--------------------
 " simple javascript indenter
 "--------------------
-let g:SimpleJsIndenter_BriefMode=1
+"let g:SimpleJsIndenter_BriefMode=1
 
 "--------------------
 " php completion
@@ -565,7 +458,7 @@ nnoremap <C-O> <C-T>
 let g:auto_ctags_directory_list = ['.git', '.svn']
 let g:auto_ctags_tags_args = '--tag-relative --recurse --sort=yes --exclude=*.js'
 
-if neobundle#tap('incsearch.vim')
+if dein#tap('incsearch.vim')
   map / <Plug>(incsearch-forward)
   map ? <Plug>(incsearch-backward)
   map g/ <Plug>(incsearch-stay)
@@ -576,7 +469,6 @@ if neobundle#tap('incsearch.vim')
   let g:incsearch#do_not_save_error_message_history = 1
   map  n <Plug>(incsearch-nohl-n)
   map  N <Plug>(incsearch-nohl-N)
-  call neobundle#untap()
 endif
 
 "---------------------------------
@@ -752,7 +644,7 @@ augroup END
 " ファイル読み込み時の文字コード検索順
 set termencoding=utf-8
 set enc=utf-8
-set fencs=utf-8,sjis,utf-16,ucs-bom,euc-jp,cp932,iso-2022-jp,ucs-2le,ucs-2,utf-8
+set fencs=utf-8,utf-16,sjis,ucs-bom,euc-jp,cp932,iso-2022-jp,ucs-2le,ucs-2
 set ffs=unix,mac,dos
 
 "file format

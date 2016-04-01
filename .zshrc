@@ -16,6 +16,10 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.prompt" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zshrc.prompt"
+fi
+
 # Customize to your needs...
 
 # load zshrc.local
@@ -28,13 +32,13 @@ unset GREP_OPTIONS
 # linuxとosx、個別にロードしたい設定
 if [ `uname` = "Darwin" ]; then
   # mac用のコード
-  if [ -f "$ZSHINITROOT/osx.zsh" ]; then
+  if [ -f "$ZSHINITROOT/.zshrc.osx" ]; then
     source "$ZSHINITROOT/osx.zsh"
   fi
 elif [ `uname` = "Linux" ]; then
   # Linux用のコード
-  if [ -f "$ZSHINITROOT/linux.zsh" ]; then
-    source "$ZSHINITROOT/linux.zsh"
+  if [ -f "$ZSHINITROOT/.zshrc.linux" ]; then
+    source "$ZSHINITROOT/.zshrc.linux"
   fi
 fi
 
@@ -171,3 +175,5 @@ function peco-z-search
 }
 zle -N peco-z-search
 bindkey '^s' peco-z-search
+
+

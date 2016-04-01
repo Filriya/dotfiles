@@ -6,6 +6,7 @@ brew upgrade
 brew tap homebrew/versions
 brew tap homebrew/binary
 brew tap homebrew/dupes
+brew tap homebrew/php
 brew tap sanemat/font
 brew tap phinze/homebrew-cask
 brew tap rcmdnk/homebrew-rcmdnkpac
@@ -44,6 +45,11 @@ brew install watch
 brew install wdiff --with-gettext
 brew install wget
 
+brew install peco
+brew install z
+
+brew install php56 --with-apxs2=/usr/sbin/apxs --with-gmp
+
 brew cask install xquartz
 brew install --vim-powerline ricty
 #インストール後、下記の2コマンドを実行
@@ -58,29 +64,29 @@ brew install w3m
 brew install wget
 
 # .dmg
-brew cask install alfred
-brew cask install appcleaner
-brew cask install bettertouchtool
-brew cask install dash
-brew cask install dropbox
-brew cask install evernote
-brew cask install firefox
-brew cask install flash
-brew cask install fluid
-brew cask install google-chrome
-brew cask install google-japanese-ime
-brew cask install iterm2
-brew cask install kobito
-brew cask install libreoffice
-brew cask install teamviewer
-brew cask install virtualbox
-brew cask install steermouse
-brew cask install hosts
-
-brew cask install sublime-text
-brew cask install java
-
-brew cask alfred link
+#brew cask install alfred
+#brew cask install appcleaner
+#brew cask install bettertouchtool
+#brew cask install dash
+#brew cask install dropbox
+#brew cask install evernote
+#brew cask install firefox
+#brew cask install flash
+#brew cask install fluid
+#brew cask install google-chrome
+#brew cask install google-japanese-ime
+#brew cask install iterm2
+#brew cask install kobito
+#brew cask install libreoffice
+#brew cask install teamviewer
+#brew cask install virtualbox
+#brew cask install steermouse
+#brew cask install hosts
+#
+#brew cask install sublime-text
+#brew cask install java
+#
+#brew cask alfred link
 brew cleanup
 
 #drwxr-xr-x   3 root     wheel 102 10  9 19:59 Active Users.app

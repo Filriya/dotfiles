@@ -1,0 +1,25 @@
+export PATH=/usr/local/bin:$(brew --prefix coreutils)/libexec/gnubin:$PATH
+
+current=`pwd`
+
+#cd ~/projects/secondpress-devops/vagrant
+#function runVagrant ()
+#{
+#  read Answer\?'Start vagrant? [Y/n]'
+#  case $Answer in
+#    '' | [Yy]* )
+#      vagrant up
+#      break;
+#      ;;
+#    [Nn]* )
+#      echo No!
+#      break;
+#      ;;
+#    * )
+#      echo Please answer YES or NO.
+#      ;;
+#  esac
+#}
+#test `vagrant status|grep default| grep running|wc -l` -eq 0 && runVagrant
+#
+#cd $current

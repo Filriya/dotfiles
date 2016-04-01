@@ -8,7 +8,8 @@
   branch = true
 [alias]
   st = status -sb
-  cm = commit
+  cm = commit -m
+  cma = commit -am
   br = branch
   co = checkout
   df = diff --color
