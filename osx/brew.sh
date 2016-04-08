@@ -58,6 +58,7 @@ brew install --vim-powerline ricty
 #
 brew install screenutf8 --utf8
 brew install ssh-copy-id
+brew install keychain
 brew install the_silver_searcher
 brew install vim --with-lua --with-luajit --without-ruby --override-system-vi
 brew install w3m

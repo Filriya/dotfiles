@@ -33,7 +33,7 @@ unset GREP_OPTIONS
 if [ `uname` = "Darwin" ]; then
   # mac用のコード
   if [ -f "$ZSHINITROOT/.zshrc.osx" ]; then
-    source "$ZSHINITROOT/osx.zsh"
+    source "$ZSHINITROOT/.zshrc.osx"
   fi
 elif [ `uname` = "Linux" ]; then
   # Linux用のコード
@@ -66,7 +66,6 @@ else
 fi
 
 # alias
-alias ls="ls -G"
 alias cl="clear"
 
 alias lg="ls -al|grep"

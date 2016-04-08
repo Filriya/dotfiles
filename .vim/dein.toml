@@ -127,8 +127,6 @@ repo =  'tmhedberg/matchit'
 [[plugins]]
 repo =  'deris/vim-rengbang'
 [[plugins]]
-repo =  'nathanaelkane/vim-indent-guides'
-[[plugins]]
 repo =  'Shougo/neocomplete.vim'
 
 #
@@ -156,6 +154,8 @@ repo =  'xsbeats/vim-blade'
 repo =  'itchyny/lightline.vim'
 [[plugins]]
 repo =  'mopp/mopkai.vim'
+[[plugins]]
+repo =  'reedes/vim-colors-pencil'
 
 #
 # others

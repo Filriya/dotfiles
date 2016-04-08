@@ -24,6 +24,7 @@
 ".vimrc編集ショートカット
 "-------------------
 nnoremap <silent> <Space>ev :<C-u>edit $MYVIMRC<CR>
+nnoremap <silent> <Space>et :<C-u>edit $HOME/.vim/dein.toml<CR>
 nnoremap <silent> <Space>eg :<C-u>edit ~/dotfiles/.zprezto/modules/git/alias.zsh<CR>
 nnoremap <silent> <Space>sv :<C-u>source $MYVIMRC<CR>
 
@@ -56,7 +57,7 @@ if dein#load_state(s:dein_dir)
 
   " TOML を読み込み、キャッシュしておく
   call dein#load_toml(s:toml,      {'lazy': 0})
-  call dein#load_toml(s:lazy_toml, {'lazy': 1})
+  "call dein#load_toml(s:lazy_toml, {'lazy': 1})
 
   " 設定終了
   call dein#end()
@@ -75,6 +76,7 @@ let g:vimfiler_as_default_explorer=1
 let g:vimfiler_safe_mode_by_default = 0
 
 nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=36 -toggle  -find<CR>
+
 autocmd! FileType vimfiler call s:my_vimfiler_settings()
 
 function! s:my_vimfiler_settings()
@@ -233,7 +235,11 @@ let b:match_ignorecase = 1
 "------------
 "lightline
 "------------
+set background=dark
+colorscheme mopkai
+
 let g:lightline = {
+      \ 'colorscheme': 'wombat',
       \ 'enable': {
       \   'statusline': 1,
       \   'tabline': 0
@@ -405,9 +411,6 @@ autocmd ColorScheme * hi PmenuThumb ctermfg=103 ctermbg=15 guifg=#66D9EF guibg=W
 " autocmd ColorScheme * hi Todo term=standout ctermfg=yellow ctermbg=11 gui=italic guifg=#BC9458
 
 syntax enable
-set background=dark
-colorscheme mopkai
-
 set nonumber
 set showmode         " モード表示
 set title            " 編集中のファイル名を表示
