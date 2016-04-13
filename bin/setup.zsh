@@ -9,11 +9,11 @@ for rcfile in "${ZDOTDIR:-$HOME}"/dotfiles/.zprezto/runcoms/^(README.md|zshrc|zp
 done
 
 #dotfile関連設定
-for dotfile in .?*
+for dotfile in ../?*
 do
   if [ $dotfile != '..' ] && [ $dotfile != '.git' ]
   then
-    ln -Fs "$PWD/$dotfile" $HOME
+    ln -fs "$PWD/$dotfile" $HOME
   fi
 done
 

@@ -28,6 +28,8 @@ nnoremap <silent> <Space>et :<C-u>edit $HOME/.vim/dein.toml<CR>
 nnoremap <silent> <Space>eg :<C-u>edit ~/dotfiles/.zprezto/modules/git/alias.zsh<CR>
 nnoremap <silent> <Space>sv :<C-u>source $MYVIMRC<CR>
 
+set nomore
+
 "----------------------
 "dein
 "----------------------
@@ -49,11 +51,11 @@ endif
 
 " 設定開始
 if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
-
   " プラグインリストを収めた TOML ファイル
   let s:toml      = '~/.vim/dein.toml'
   let s:lazy_toml = '~/.vim/dein_lazy.toml'
+
+  call dein#begin(s:dein_dir, [$MYVIMRC, s:toml])
 
   " TOML を読み込み、キャッシュしておく
   call dein#load_toml(s:toml,      {'lazy': 0})
