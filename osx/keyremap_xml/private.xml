@@ -84,6 +84,7 @@
       <identifier>private.bracket_left_to_escape</identifier>
       <not>VIRTUALBOXVM</not>
       <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::COMMAND_L, KeyCode::SPACE, ModifierFlag::COMMAND_L, KeyCode::JIS_EISUU</autogen>
+      <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::CONTROL_L, KeyCode::SPACE, ModifierFlag::CONTROL_L, KeyCode::JIS_EISUU</autogen>
       <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::ESCAPE, KeyCode::JIS_EISUU</autogen>
       <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::ESCAPE, KeyCode::JIS_EISUU</autogen>
     </item>

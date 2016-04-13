@@ -507,6 +507,10 @@ noremap! <C-D> <Del>
 "screenと被るので、<C-Z>へ
 noremap <C-Z> <C-A>
 
+inoremap {<Enter> {<CR><CR>}<UP><tab>
+inoremap [<Enter> [<CR><CR>]<UP><tab>
+inoremap (<Enter> (<CR><CR>)<UP><tab>
+
 "command line windowを表示
 "swap semicolon and colon
 noremap : ;
@@ -658,31 +662,31 @@ command! Mac :set ff=mac
 set cmdheight=1
 
 
-if has('mac')
-  if has('gui_running')
-    let IM_CtrlMode = 4
-  else
-    let IM_CtrlMode = 1
-
-    function! IMCtrl(cmd)
-      let cmd = a:cmd
-      if cmd == 'On'
-        let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {104})" > /dev/null 2>&1')
-      elseif cmd == 'Off'
-        let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {102})" > /dev/null 2>&1')
-      elseif cmd == 'Toggle'
-        let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {55, 49})" > /dev/null 2>&1')
-      endif
-      return ''
-    endfunction
-  endif
-
-  "「日本語入力固定モード」のMacVimKaoriya対策を無効化
-  let IM_CtrlMacVimKaoriya = 0
-  " ctrl+jで日本語入力固定モードをOnOff
-  inoremap <silent> <C-j> <C-^><C-r>=IMState('FixMode')<CR>
-  nnoremap <silent> <expr> <C-j> IMState('FixMode')
-endif
+"if has('mac')
+"  if has('gui_running')
+"    let IM_CtrlMode = 4
+"  else
+"    let IM_CtrlMode = 1
+"
+"    function! IMCtrl(cmd)
+"      let cmd = a:cmd
+"      if cmd == 'On'
+"        let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {104})" > /dev/null 2>&1')
+"      elseif cmd == 'Off'
+"        let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {102})" > /dev/null 2>&1')
+"      elseif cmd == 'Toggle'
+"        let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {55, 49})" > /dev/null 2>&1')
+"      endif
+"      return ''
+"    endfunction
+"  endif
+"
+"  "「日本語入力固定モード」のMacVimKaoriya対策を無効化
+"  let IM_CtrlMacVimKaoriya = 0
+"  " ctrl+jで日本語入力固定モードをOnOff
+"  inoremap <silent> <C-j> <C-^><C-r>=IMState('FixMode')<CR>
+"  nnoremap <silent> <expr> <C-j> IMState('FixMode')
+"endif
 
 set helplang=ja,en
 
