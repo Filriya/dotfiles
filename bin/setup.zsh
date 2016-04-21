@@ -23,23 +23,6 @@ if [ ! -e $HOME/.gitconfig.local ]; then
   read name
   echo -n "Email? >"
   read email
-  m4 -D__NAME__=$name -D__EMAIL__=$email gitconfig.local.m4 > $HOME/.gitconfig.local
+  m4 -D__NAME__=$name -D__EMAIL__=$email $HOME/dotfiles/.gitconfig.local.m4 > $HOME/.gitconfig.local
 fi
 
-#vim関連設定
-
-#neobundleとvimprocだけは先にcloneしておく
-git clone git://github.com/Shougo/neobundle.vim ~/.vim/neobundle.vim
-git clone git://github.com/Shougo/vimproc.vim ~/.vim/bundle/vimproc
-
-#vimprocのmake
-cd ~/.vim/bundle/vimproc
-echo "vimproc setup"
-if [ `uname` = "Darwin" ]; then
-  make -f make_mac.mak
-elif [ `uname` = "Linux" ]; then
-  make -f make_unix.mak
-fi
-
-#vimのpluginをインストール
-vim +NeoBundleInstall +q
