@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<root>
+<?xml version="1.0"?> <root>
   <appdef>
     <appname>VIRTUALBOXVM</appname>
     <equal>org.virtualbox.app.VirtualBoxVM</equal>
@@ -113,7 +112,5 @@
       <autogen>--KeyToKey-- KeyCode::JIS_COLON, KeyCode::KEY_7, ModifierFlag::SHIFT_L </autogen>
       <autogen>--KeyToKey-- KeyCode::JIS_UNDERSCORE, KeyCode::SHIFT_L</autogen>
     </item>
-  </list>
-</root>
-
+  </list> </root>
 

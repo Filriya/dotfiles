@@ -42,8 +42,6 @@ elif [ `uname` = "Linux" ]; then
   fi
 fi
 
-eval $(dircolors ${HOME}/.dircolors )
-
 # rbenv
 export PATH="${HOME}/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
@@ -174,5 +172,7 @@ function peco-z-search
 }
 zle -N peco-z-search
 bindkey '^s' peco-z-search
+
+eval $(dircolors ${HOME}/.dircolors )
 
 

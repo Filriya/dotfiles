@@ -77,7 +77,7 @@ endif
 let g:vimfiler_as_default_explorer=1
 let g:vimfiler_safe_mode_by_default = 0
 
-nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=36 -toggle  -find<CR>
+nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=30 -toggle  -find<CR>
 
 autocmd! FileType vimfiler call s:my_vimfiler_settings()
 
@@ -192,10 +192,6 @@ endif
 " Neosnippet
 "--------------------
 
-"" Plugin key-mappings.
-"imap <Tab> <Plug>(neosnippet_expand_or_jump)
-"smap <Tab> <Plug>(neosnippet_expand_or_jump)
-"
 "" Tell Neosnippet about the other snippets
 let g:neosnippet#snippets_directory='~/.vim/snippets'
 
@@ -259,9 +255,7 @@ let g:lightline = {
       \   'modified': 'MyModified',
       \   'filename': 'MyFilename',
       \   'jpmode': 'MyJpMode'
-      \ },
-      \ 'separator': { 'left': '', 'right': '' },
-      \ 'subseparator': { 'left': '', 'right': '' }
+      \ }
       \ }
 
 let g:unite_force_overwrite_statusline = 0
@@ -428,6 +422,8 @@ set display=uhex     " 印字不可能文字を16進数で表示
 set nf=hex           " 数値インクリメントは10進数か16進数
 set splitbelow       " 水平分割時は新しいwindowを下に
 set splitright       " 垂直分割時は新しいwindowを右に
+
+set pastetoggle=<space>p
 
 augroup cch
   autocmd! cch

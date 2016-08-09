@@ -83,7 +83,7 @@ var pushLeft = function(win) {
   win.doOperation('move', rect);
 };
 
-var fullscreen = S.operation("move", {
+var fullscreen = slate.operation("move", {
   "x" : "screenOriginX",
   "y" : "screenOriginY",
   "width" : "screenSizeX",

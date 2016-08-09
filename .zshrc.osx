@@ -1,5 +1,5 @@
-export PATH=/usr/local/bin:$(brew --prefix coreutils)/libexec/gnubin:$PATH
-alias ls="ls --color"
-
-current=`pwd`
-
+#export PATH=/usr/local/bin:$(brew --prefix coreutils)/libexec/gnubin:$PATH
+#alias ls="ls -G"
+#
+#current=`pwd`
+#
