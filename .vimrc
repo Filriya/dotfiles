@@ -85,26 +85,12 @@ function! s:my_vimfiler_settings()
   nmap <buffer><C-Q> <Plug>(vimfiler_hide)
   nmap <buffer>H <Plug>(vimfiler_switch_to_parent_directory)
   nmap <buffer>L <Plug>(vimfiler_cd_or_edit)
-  nnoremap <silent> <buffer>s :call vimfiler#mappings#do_action('my_split')<Cr>
-  nnoremap <silent> <buffer>v :call vimfiler#mappings#do_action('my_vsplit')<Cr>
+  nnoremap <silent><buffer><expr> v vimfiler#do_switch_action('vsplit')
+  nnoremap <silent><buffer><expr> s vimfiler#do_switch_action('split')[
   nmap <buffer><space>w [myWindow]
   nmap <buffer><space>t [myWindowTab]
   nmap <S-Space> <Plug>(vimfiler_toggle_mark_current_line)
 endfunction
-
-let s:my_action = { 'is_selectable' : 1 }
-function! s:my_action.func(candidates)
-  wincmd p
-  exec 'split '. a:candidates[0].action__path
-endfunction
-call unite#custom_action('file', 'my_split', s:my_action)
-
-let s:my_action = { 'is_selectable' : 1 }
-function! s:my_action.func(candidates)
-  wincmd p
-  exec 'vsplit '. a:candidates[0].action__path
-endfunction
-call unite#custom_action('file', 'my_vsplit', s:my_action)
 
 "-----------
 "unite
