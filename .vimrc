@@ -485,6 +485,7 @@ noremap! <C-N> <Down>
 noremap! <C-F> <Right>
 noremap! <C-B> <Left>
 noremap! <C-D> <Del>
+noremap! <C-[> <ESC>
 
 
 "加算
