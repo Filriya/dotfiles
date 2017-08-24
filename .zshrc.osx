@@ -2,4 +2,4 @@
 #alias ls="ls -G"
 #
 #current=`pwd`
-#
+alias ctags="`brew --prefix`/bin/ctags"

@@ -30,6 +30,38 @@ nnoremap <silent> <Space>sv :<C-u>source $MYVIMRC<CR>
 
 set nomore
 
+"--------------
+"space 系ショートカットまとめ
+"--------------
+
+" Unite
+nnoremap [unite] <Nop>
+nmap <space> [unite]
+noremap [unite]b :Unite buffer<CR>
+nnoremap [unite]u :Unite -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap [unite]r :Unite file_rec/async:!<CR>
+noremap [unite]m :Unite file_mru<CR>
+
+nnoremap [unite]R :Unite -buffer-name=register register<CR>
+nnoremap [unite]y :Unite history/yank<CR>
+nnoremap [unite]o :Unite outline<CR>
+
+" Vimfiler
+nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=30 -toggle  -find<CR>
+
+" window操作
+nmap <space>t [myWindowTab]
+nmap <space>w [myWindow]
+
+"ファイルのリロード
+nnoremap <silent> <Space>R :e<CR>
+
+" ペーストモードのトグル
+nnoremap <Space>p :a!<CR>
+
+
+
+
 "----------------------
 "dein
 "----------------------
@@ -77,27 +109,29 @@ endif
 let g:vimfiler_as_default_explorer=1
 let g:vimfiler_safe_mode_by_default = 0
 
-nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=30 -toggle  -find<CR>
-
 autocmd! FileType vimfiler call s:my_vimfiler_settings()
 
 function! s:my_vimfiler_settings()
-  nmap <buffer><C-Q> <Plug>(vimfiler_hide)
   nmap <buffer>H <Plug>(vimfiler_switch_to_parent_directory)
   nmap <buffer>L <Plug>(vimfiler_cd_or_edit)
   nnoremap <silent><buffer><expr> v vimfiler#do_switch_action('vsplit')
-  nnoremap <silent><buffer><expr> s vimfiler#do_switch_action('split')[
+  nnoremap <silent><buffer><expr> s vimfiler#do_switch_action('split')
   nmap <buffer><space>w [myWindow]
   nmap <buffer><space>t [myWindowTab]
-  nmap <S-Space> <Plug>(vimfiler_toggle_mark_current_line)
+  nnoremap <buffer><silent>/ :call MyUniteFileCurrentDir()<CR>
+  nnoremap <buffer><silent>? /
 endfunction
+
+function! MyUniteFileCurrentDir()
+  let s  = ':Unite file_rec -horizontal -start-insert -path='
+  let s .= vimfiler#helper#_get_file_directory()
+  execute s
+endfunction
+
 
 "-----------
 "unite
 "----------
-"unite prefix key.
-nnoremap [unite] <Nop>
-nmap <space>u [unite]
 let g:unite_enable_start_insert=1
 let g:unite_enable_ignore_case=1
 let g:unite_enable_smart_case=1
@@ -106,27 +140,6 @@ let g:unite_enable_split_vertically=1
 let g:unite_winwidth = 70
 let g:unite_split_rule = 'rightbelow'
 let g:unite_source_history_yank_enable = 1
-
-" バッファ一覧
-noremap [unite]b :Unite buffer<CR>
-" 最近使ったファイルの一覧
-noremap [unite]m :Unite file_mru<CR>
-" カレントディレクトリ以下のファイル
-nnoremap [unite]f :Unite file_rec/async:!<CR>
-" レジスタ一覧
-nnoremap [unite]R :Unite -buffer-name=register register<CR>
-"ブックマーク一覧
-nnoremap [unite]c :Unite bookmark<CR>
-"ブックマークに追加
-nnoremap [unite]a :UniteBookmarkAdd<CR>
-"vim hacks
-nnoremap [unite]h :Unite vim_hacks<CR>
-"vim outline
-nnoremap [unite]o :Unite outline<CR>
-"yank histroy
-nnoremap [unite]y :Unite history/yank<CR>
-" 全部乗せ
-nnoremap [unite]u :Unite -buffer-name=files buffer file_mru bookmark file<CR>
 
 "unite.vimを開いている間のキーマッピング
 autocmd FileType unite call s:my_unite_settings()
@@ -140,15 +153,23 @@ function! s:my_unite_settings()
   " C-Qで終了
   nmap <silent> <buffer> <C-Q> <Plug>(unite_exit)
   imap <silent> <buffer> <C-Q> <Plug>(unite_exit)
+
+  " ESCで終了
+  nmap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
+  nmap <silent> <buffer> <C-[><C-[> <Plug>(unite_exit)
+  imap <silent> <buffer> <C-[><C-[> <Plug>(unite_exit)
+
+  "nnoremap <silent> <buffer> <expr> <CR> unite#do_action('right')
+  "inoremap <silent> <buffer> <expr> <CR> unite#do_action('right')
 endfunction
 
-" unite-grepをsilver searcherに
-"if executable('ag')
-"  let g:unite_source_grep_command = 'ag'
-"  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
-"  let g:unite_source_grep_recursive_opt = ''
-"  let g:unite_source_grep_max_candidates = 200
-"endif
+function! MyUniteOpen()
+  if winwidth(0) <= 35
+    <Plug>(vimfiler_expand_or_edit)
+  else
+    unite#do_action('default')
+  endif
+endfunction
 
 "--------------------
 " neocomplcache/neocomplete
@@ -191,19 +212,15 @@ imap <expr><TAB>
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
       \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
-" For conceal markers.
-"if has('conceal')
-"  set conceallevel=2 concealcursor=niv
-"endif
 set conceallevel=0
 let g:vim_json_syntax_conceal = 0
 
 "--------------------
 " Tweetvim
 "--------------------
-nnoremap <silent> [unite]t :Unite tweetvim<CR>
-nnoremap <silent> [unite]<c-t> :Unite tweetvim<CR>
-nnoremap <silent> <space>ts :TweetVimSay<CR>
+"nnoremap <silent> [unite]t :Unite tweetvim<CR>
+"nnoremap <silent> [unite]<c-t> :Unite tweetvim<CR>
+"nnoremap <silent> <space>ts :TweetVimSay<CR>
 
 
 "--------------------
@@ -219,8 +236,6 @@ let b:match_ignorecase = 1
 "------------
 "lightline
 "------------
-set background=dark
-colorscheme mopkai
 
 let g:lightline = {
       \ 'colorscheme': 'wombat',
@@ -321,10 +336,9 @@ let g:user_emmet_settings = {
 "vim-quickrun
 "--------------------
 "nnoremap <C-q>r :QuickRun<CR>
-"let g:quickrun_config['babel'] = {
-"      \ 'cmdopt': '--stage 1',
-"      \ 'exec': "babel %o %s | node"
-"      \ }
+let g:quickrun_config ={}
+let g:quickrun_config.scheme = { 'scheme': { 'command': 'gosh'}}
+
 "--------------------
 "vim-fugitive
 "--------------------
@@ -375,8 +389,8 @@ let g:previm_open_cmd = 'open -a "Google Chrome"'
 "-----------------------
 " 表示系
 "-----------------------
+syntax on
 set t_Co=256
-
 "" カーソルの色
 "autocmd ColorScheme * hi CursorLine term=underline cterm=none ctermbg=237
 "" タブラインの色
@@ -389,11 +403,17 @@ autocmd ColorScheme * hi Pmenu ctermfg=73 ctermbg=16 guifg=#66D9EF guibg=#000000
 autocmd ColorScheme * hi PmenuSel ctermfg=252 ctermbg=23 guibg=#808080
 autocmd ColorScheme * hi PmenuSbar ctermbg=232 guibg=#080808
 autocmd ColorScheme * hi PmenuThumb ctermfg=103 ctermbg=15 guifg=#66D9EF guibg=White
-" vimfiler 名前変更時の文字色
-" autocmd ColorScheme * hi Todo term=standout ctermfg=yellow ctermbg=11 gui=italic guifg=#BC9458
+autocmd ColorScheme * hi Delimiter ctermfg=247
+autocmd ColorScheme * hi Comment ctermfg=73
+"Unite Beautiful Attack!
+command! Uba :Unite -auto-preview colorscheme
 
-syntax enable
-set nonumber
+set background=dark
+colorscheme mopkai
+
+
+"set nonumber
+set number
 set showmode         " モード表示
 set title            " 編集中のファイル名を表示
 set ruler            " ルーラーの表示
@@ -409,7 +429,21 @@ set nf=hex           " 数値インクリメントは10進数か16進数
 set splitbelow       " 水平分割時は新しいwindowを下に
 set splitright       " 垂直分割時は新しいwindowを右に
 
-set pastetoggle=<space>p
+augroup paste
+  if &term =~ "xterm"
+    let &t_SI .= "\e[?2004h"
+    let &t_EI .= "\e[?2004l"
+    let &pastetoggle = "\e[201~"
+
+    function! XTermPasteBegin(ret)
+      set paste
+      return a:ret
+    endfunction
+
+    inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
+  endif
+augroup END
+
 
 augroup cch
   autocmd! cch
@@ -470,8 +504,6 @@ set nobackup                        " バックアップを取らない
 " ファイルを開いた際に、前回終了時の行で起動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 
-"Unite Beautiful Attack!
-command! Uba :Unite -auto-preview colorscheme
 
 "ヘルプを水平分割に
 nnoremap H q:vert help<space>
@@ -529,12 +561,6 @@ nnoremap N Nzz
 " ウィンドウ、タブ、バッファの分割・移動
 " Window Tab Buffer
 " ----------------------------------------
-nmap <space>t [myWindowTab]
-nmap <space>w [myWindow]
-
-nnoremap [myWindow] <C-w>
-
-
 nnoremap <silent> [myWindowTab] <Nop>
 nnoremap <silent> [myWindowTab]l :<C-u>tabnext<CR>
 nnoremap <silent> [myWindowTab]h :<C-u>tabprevious<CR>
@@ -557,6 +583,11 @@ nnoremap <silent> [myWindowTab]d :<C-u>tabclose<CR>
 " ウィンドウの分割<C-T>
 nnoremap <silent> [myWindow]v :<C-u>vsp<CR>
 nnoremap <silent> [myWindow]s :<C-u>sp<CR>
+
+" ウィンドウの移動
+nnoremap <silent> [myWindow]r <C-W>r
+nnoremap <silent> [myWindow]x <C-W>x
+nnoremap <silent> [myWindow]t <C-W>T
 
 "<C-d>とあわせて左手だけでスクロール
 nnoremap <C-e> <C-u>
@@ -645,6 +676,7 @@ command! Dos :set ff=dos
 command! Mac :set ff=mac
 
 set cmdheight=1
+
 
 
 "if has('mac')

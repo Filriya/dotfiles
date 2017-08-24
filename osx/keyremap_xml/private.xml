@@ -31,6 +31,7 @@
     <equal>com.todoist.mac.Todoist</equal>
   </appdef>
 
+
   <list>
     <item>
       <name>Switch Profile</name>
@@ -40,10 +41,12 @@
       <autogen>__KeyToKey__ KeyCode::KEY_3, ModifierFlag::COMMAND_L, ModifierFlag::OPTION_L, KeyCode::VK_OPEN_URL_APP_KeyRemap4MacBook_Profile2</autogen>
       <autogen>__KeyToKey__ KeyCode::KEY_4, ModifierFlag::COMMAND_L, ModifierFlag::OPTION_L, KeyCode::VK_OPEN_URL_APP_KeyRemap4MacBook_Profile3</autogen>
     </item>
+
     <replacementdef>
       <replacementname>VIRTUAL_BOX_HOST_KEY</replacementname>
       <replacementvalue>KeyCode::COMMAND_R</replacementvalue>
     </replacementdef>
+
     <item>
       <name>virtualbox</name>
       <identifier>private.escape_from_virtualbox</identifier>
@@ -53,6 +56,7 @@
       <autogen>--KeyToKey-- KeyCode::CURSOR_LEFT, ModifierFlag::CONTROL_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::CURSOR_LEFT, ModifierFlag::CONTROL_L</autogen>
       <autogen>--KeyToKey-- KeyCode::CURSOR_RIGHT, ModifierFlag::CONTROL_L, {{VIRTUAL_BOX_HOST_KEY}}, KeyCode::CURSOR_RIGHT, ModifierFlag::CONTROL_L</autogen>
     </item>
+
     <item>
       <name>todoist</name>
       <identifier>private.todoist</identifier>
@@ -60,6 +64,8 @@
       <autogen>--KeyToKey-- KeyCode::P, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP, ModifierFlag::CONTROL_L</autogen>
       <autogen>--KeyToKey-- KeyCode::N, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN, ModifierFlag::CONTROL_L</autogen>
     </item>
+
+
     <item>
       <name>poker_2_to_HHKB</name>
       <identifier>poker2_to_HHKB</identifier>

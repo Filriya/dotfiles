@@ -86,6 +86,10 @@ repo =  'cakebaker/scss-syntax.vim'
 repo =  'othree/javascript-libraries-syntax.vim'
 #[[plugins]]
 repo =  'othree/yajs.vim'
+[[plugins]]
+repo =  'mxw/vim-jsx'
+
+
 
 #
 # development:general

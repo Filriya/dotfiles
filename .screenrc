@@ -2,16 +2,16 @@ defencoding utf-8
 encoding utf-8 utf-8
 multiuser on
 autodetach on
+hardstatus off
 
 defscrollback 10000
 shell -$SHELL
 
 shelltitle "$ |zsh"
 caption always "%?%F%{= rK}%:%{= Kk}%?%-w%?%F%{=u rW}%:%{=u KW}%?%n %t%{-}%+w%{-u} %= %c"
-hardstatus off
 
 defbce             on
-term               xterm-256color
+#term               xterm-256color
 termcapinfo xterm-256color 'is=^[r^[mJ^[H^[?7h^[?1;4;6l'
 termcapinfo xterm* 'Co#256:pa#32767:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
 termcapinfo kterm* 'Co#256:pa#32767:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
@@ -58,11 +58,11 @@ bind P eval 'layout prev' 'layout show'
 # create layout on first launch
 #'layout new' 'split -v' 'focus screen' 'split -s' 'focus screen'
 layout new
-screen
+screen 0 vim
 split -v
 focus
-screen
+screen 1
 split -s
 focus
-screen
+screen 2
 focus

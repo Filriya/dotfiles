@@ -49,6 +49,8 @@ brew install wget
 brew install peco
 brew install z
 
+brew install nativefier
+
 brew install homebrew/php/php70
 
 brew cask install xquartz

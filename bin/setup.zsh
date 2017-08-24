@@ -9,10 +9,12 @@ for rcfile in "${ZDOTDIR:-$HOME}"/dotfiles/.zprezto/runcoms/^(README.md|zshrc|zp
 done
 
 #dotfile関連設定
-for dotfile in ../.*
+cd ../
+for dotfile in .*
 do
   if [ $dotfile != '..' ] && [ $dotfile != '.git' ]
   then
+    echo $dotfile
     ln -fs "$PWD/$dotfile" $HOME
   fi
 done
@@ -23,6 +25,6 @@ if [ ! -e $HOME/.gitconfig.local ]; then
   read name
   echo -n "Email? >"
   read email
-  m4 -D__NAME__=$name -D__EMAIL__=$email $HOME/dotfiles/.gitconfig.local.m4 > $HOME/.gitconfig.local
+  m4 -D__NAME__=$name -D__EMAIL__=$email $HOME/dotfiles/gitconfig.local.m4 > $HOME/.gitconfig.local
 fi
 
