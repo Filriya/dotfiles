@@ -132,7 +132,7 @@ function! s:my_vimfiler_settings()
 endfunction
 
 function! MyUniteFileCurrentDir()
-  let s  = ':Unite file_rec -horizontal -start-insert -path='
+  let s  = ':Unite file_rec/async -horizontal -start-insert -path='
   let s .= vimfiler#helper#_get_file_directory()
   execute s
 endfunction
