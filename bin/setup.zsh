@@ -1,6 +1,6 @@
 #!/bin/zsh
 cd $(dirname $0)
-git submodule update --init --recursive
+git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 
 #prezto関連設定
 setopt EXTENDED_GLOB
