@@ -137,13 +137,11 @@ repo =  'jiangmiao/simple-javascript-indenter'
 
 #
 # development:backend
-#[[plugins]]
-repo =  'shawncplus/phpcomplete.vim'
-#[[plugins]]
+[[plugins]]
 repo =  'm2mdas/phpcomplete-extended'
-#[[plugins]]
+[[plugins]]
 repo =  'm2mdas/phpcomplete-extended-laravel'
-#[[plugins]]
+[[plugins]]
 repo =  'xsbeats/vim-blade'
 
 #
@@ -160,8 +158,8 @@ repo =  'reedes/vim-colors-pencil'
 # others
 #[[plugins]]
 #repo =  'thinca/vim-threes'
-#[[plugins]]
-#repo =  'thinca/vim-scouter'
+[[plugins]]
+repo =  'thinca/vim-scouter'
 #[[plugins]]
 #repo = Lazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
 #
