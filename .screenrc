@@ -58,7 +58,6 @@ bind P eval 'layout prev' 'layout show'
 # create layout on first launch
 #'layout new' 'split -v' 'focus screen' 'split -s' 'focus screen'
 layout new
-screen 0 vim
 split -v
 focus
 screen 1
@@ -66,3 +65,4 @@ split -s
 focus
 screen 2
 focus
+screen 0 vim
