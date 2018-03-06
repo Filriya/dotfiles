@@ -524,7 +524,8 @@ autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "norm
 
 
 "ヘルプを水平分割に
-nnoremap H q:vert help<space>
+"nnoremap H q:vert help<space>
+nnoremap H :vert help<space>
 
 "backspaceの挙動
 set backspace=start,eol,indent
@@ -545,13 +546,15 @@ noremap <C-Z> <C-A>
 "command line windowを表示
 "swap semicolon and colon
 noremap : ;
-"noremap ; :
-noremap ; q:
-noremap q; :
+noremap ; :
+"noremap ; q:
+"noremap q; :
 
 augroup RemapSubstitutme
-  autocmd VimEnter * noremap S q:%s/\v
-  autocmd VimEnter * vnoremap S q:s/\v
+  "autocmd VimEnter * noremap S q:%s/\v
+  "autocmd VimEnter * vnoremap S q:s/\v
+  autocmd VimEnter * noremap S :%s/\v
+  autocmd VimEnter * vnoremap S :s/\v
 augroup END
 
 set scrolloff=0
@@ -563,6 +566,7 @@ function! s:init_cmdwin()
   nnoremap <buffer> <silent> <Esc><Esc> :<C-u>quit<CR>
   inoremap <buffer> <silent> <Esc><Esc> <Esc>:<C-u>quit<CR>
   startinsert!
+  resize 3
 endfunction
 
 " 検索時語句を中心にする
