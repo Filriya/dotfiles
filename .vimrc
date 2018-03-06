@@ -46,15 +46,12 @@ nnoremap [unite]R :Unite -buffer-name=register register<CR>
 nnoremap [unite]y :Unite history/yank<CR>
 nnoremap [unite]o :Unite outline<CR>
 
-" Vimfiler
-nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=30 -toggle  -find<CR>
+nnoremap <silent> [unite]g  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
 
-" window操作
-nmap <space>t [myWindowTab]
-nmap <space>w [myWindow]
+
 
 "ファイルのリロード
-nnoremap <silent> <Space>R :e<CR>
+nnoremap <silent> <jpace>R :e<CR>
 
 " ペーストモードのトグル
 nnoremap <Space>p :a!<CR>
@@ -108,18 +105,30 @@ endif
 " ------------------
 let g:vimfiler_as_default_explorer=1
 let g:vimfiler_safe_mode_by_default = 0
+let g:vimfiler_enable_auto_cd = 1
+
+nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=30 -toggle  -find<CR>
 
 autocmd! FileType vimfiler call s:my_vimfiler_settings()
 
 function! s:my_vimfiler_settings()
-  nmap <buffer>H <Plug>(vimfiler_switch_to_parent_directory)
-  nmap <buffer>L <Plug>(vimfiler_cd_or_edit)
+  nnoremap <buffer>H <Plug>(vimfiler_switch_to_parent_directory)
+  nnoremap <buffer>L <Plug>(vimfiler_cd_or_edit)
   nnoremap <silent><buffer><expr> v vimfiler#do_switch_action('vsplit')
   nnoremap <silent><buffer><expr> s vimfiler#do_switch_action('split')
-  nmap <buffer><space>w [myWindow]
-  nmap <buffer><space>t [myWindowTab]
   nnoremap <buffer><silent>/ :call MyUniteFileCurrentDir()<CR>
   nnoremap <buffer><silent>? /
+
+  nunmap <buffer><space> <Nop>
+  "nmap <space> <Plug>(vimfiler_toggle_mark_current_line)
+  "nmap <silent><space>t [myWindowTab]
+  "nmap <silent><space>w [myWindow] 
+  "nmap <silent><space>t <C-t>
+  nnoremap <buffer><silent><space>wl :wincmd l<CR>
+":[count]winc[md] {arg}
+  " ウィンドウの移動
+  "nmap <silent>[myWindow]  <C-W>
+  "nmap <silent>[myWindowTab]  <C-T>
 endfunction
 
 function! MyUniteFileCurrentDir()
@@ -127,6 +136,8 @@ function! MyUniteFileCurrentDir()
   let s .= vimfiler#helper#_get_file_directory()
   execute s
 endfunction
+
+set modifiable
 
 
 "-----------
@@ -151,13 +162,13 @@ function! s:my_unite_settings()
   nnoremap <silent> <buffer> <expr> <C-V> unite#do_action('right')
   inoremap <silent> <buffer> <expr> <C-V> unite#do_action('right')
   " C-Qで終了
-  nmap <silent> <buffer> <C-Q> <Plug>(unite_exit)
-  imap <silent> <buffer> <C-Q> <Plug>(unite_exit)
+  nnoremap <silent> <buffer> <C-Q> <Plug>(unite_exit)
+  inoremap <silent> <buffer> <C-Q> <Plug>(unite_exit)
 
   " ESCで終了
-  nmap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
-  nmap <silent> <buffer> <C-[><C-[> <Plug>(unite_exit)
-  imap <silent> <buffer> <C-[><C-[> <Plug>(unite_exit)
+  nnoremap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
+  nnoremap <silent> <buffer> <C-[><C-[> <Plug>(unite_exit)
+  inoremap <silent> <buffer> <C-[><C-[> <Plug>(unite_exit)
 
   "nnoremap <silent> <buffer> <expr> <CR> unite#do_action('right')
   "inoremap <silent> <buffer> <expr> <CR> unite#do_action('right')
@@ -170,6 +181,13 @@ function! MyUniteOpen()
     unite#do_action('default')
   endif
 endfunction
+
+" unite grepにhw(highway)を使う
+"if executable('hw')
+"  let g:unite_source_grep_command = 'hw'
+"  let g:unite_source_grep_default_opts = '--no-group --no-color'
+"  let g:unite_source_grep_recursive_opt = ''
+"endif
 
 "--------------------
 " neocomplcache/neocomplete
@@ -311,7 +329,7 @@ endfunction
 "emmet
 "--------------------
 "ショートカットキー変更
-"imap <c-c> = nop
+"imap <c-c> = <nop>
 let g:user_emmet_leader_key = '<c-c>'
 let g:user_emmet_settings = {
       \  'indentation': '  ',
@@ -524,10 +542,6 @@ noremap! <C-[> <ESC>
 "screenと被るので、<C-Z>へ
 noremap <C-Z> <C-A>
 
-inoremap {<Enter> {<CR><CR>}<UP><tab>
-inoremap [<Enter> [<CR><CR>]<UP><tab>
-inoremap (<Enter> (<CR><CR>)<UP><tab>
-
 "command line windowを表示
 "swap semicolon and colon
 noremap : ;
@@ -561,7 +575,14 @@ nnoremap N Nzz
 " ウィンドウ、タブ、バッファの分割・移動
 " Window Tab Buffer
 " ----------------------------------------
-nnoremap <silent> [myWindowTab] <Nop>
+" window操作
+nmap <space>t [myWindowTab]
+nmap <space>w [myWindow]
+
+" ウィンドウの移動
+nmap <silent> [myWindow]  <C-w>
+nmap <silent> [myWindowTab] <C-t>
+
 nnoremap <silent> [myWindowTab]l :<C-u>tabnext<CR>
 nnoremap <silent> [myWindowTab]h :<C-u>tabprevious<CR>
 
@@ -576,6 +597,7 @@ nnoremap <silent> [myWindowTab]8 :<C-u>tabn 8<CR>
 nnoremap <silent> [myWindowTab]9 :<C-u>tabn 9<CR>
 nnoremap <silent> [myWindowTab]0 :<C-u>tabn 10<CR>
 
+
 " タブ操作
 nnoremap <silent> [myWindowTab]t :<C-u>tabnew<CR>:tabmove<CR>
 nnoremap <silent> [myWindowTab]d :<C-u>tabclose<CR>
@@ -584,10 +606,6 @@ nnoremap <silent> [myWindowTab]d :<C-u>tabclose<CR>
 nnoremap <silent> [myWindow]v :<C-u>vsp<CR>
 nnoremap <silent> [myWindow]s :<C-u>sp<CR>
 
-" ウィンドウの移動
-nnoremap <silent> [myWindow]r <C-W>r
-nnoremap <silent> [myWindow]x <C-W>x
-nnoremap <silent> [myWindow]t <C-W>T
 
 "<C-d>とあわせて左手だけでスクロール
 nnoremap <C-e> <C-u>
@@ -641,7 +659,7 @@ endfunction
 set expandtab
 "set tabstop=2
 set softtabstop=-1
-set shiftwidth=2
+set shiftwidth=4
 "set cindent
 
 " 行末の空白文字を可視化
@@ -667,13 +685,17 @@ augroup END
 " ファイル読み込み時の文字コード検索順
 set termencoding=utf-8
 set enc=utf-8
-set fencs=utf-8,utf-16,sjis,ucs-bom,euc-jp,cp932,iso-2022-jp,ucs-2le,ucs-2
+set fencs=utf-8,sjis,utf-16,ucs-bom,euc-jp,cp932,iso-2022-jp,ucs-2le,ucs-2
 set ffs=unix,mac,dos
 
 "file format
 command! Unix :set ff=unix
 command! Dos :set ff=dos
 command! Mac :set ff=mac
+
+"file enc
+command! Sjis :e ++enc=sjis
+command! Utf8 :e ++enc=utf8
 
 set cmdheight=1
 

@@ -80,17 +80,26 @@ brew cask install google-japanese-ime
 brew cask install iterm2
 brew cask install karabiner
 brew cask install libreoffice
-brew cask install slate
 brew cask install teamviewer
 brew cask install virtualbox
 brew cask install vagrant
 brew cask install hosts
 brew cask install the-unarchiver
-brew cask install flashlight
 
 brew cask install sublime-text
 brew cask install java
-#
+
+#brew cask install google-chrome-canary
+#brew cask install hyperswitch
+#brew cask install google music manager
+#brew cask install quickres
+#brew cask install translate-tab
+#brew cask install vmware fusion
+#brew cask install todoist
+#brew cask install franz
+#brew cask install popclip
+#brew cask install listbook
+
 #brew cask alfred link
 brew cleanup
 
