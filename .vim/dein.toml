@@ -16,6 +16,8 @@ repo =  'Shougo/unite.vim'
 [[plugins]]
 repo =  'Shougo/neomru.vim'
 [[plugins]]
+repo =  'Shougo/neoyank.vim'
+[[plugins]]
 repo =  'Shougo/vimfiler'
 [[plugins]]
 repo =  'Shougo/neosnippet'
@@ -143,8 +145,9 @@ repo =  'm2mdas/phpcomplete-extended'
 repo =  'm2mdas/phpcomplete-extended-laravel'
 [[plugins]]
 repo =  'xsbeats/vim-blade'
+[[plugins]]
+repo =  'vim-scripts/PDV--phpDocumentor-for-Vim'
 
-#
 
 # colorscheme
 [[plugins]]

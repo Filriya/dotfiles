@@ -20,6 +20,8 @@
 ":imap   " インサートモードだけ表示
 ":vmap   " ビジュアルモードだけ表示
 
+set nocompatible
+
 "-------------------
 ".vimrc編集ショートカット
 "-------------------
@@ -40,21 +42,18 @@ nmap <space> [unite]
 noremap [unite]b :Unite buffer<CR>
 nnoremap [unite]u :Unite -buffer-name=files buffer file_mru bookmark file<CR>
 nnoremap [unite]r :Unite file_rec/async:!<CR>
-noremap [unite]m :Unite file_mru<CR>
 
-nnoremap [unite]R :Unite -buffer-name=register register<CR>
+"nnoremap [unite]R :Unite -buffer-name=register register<CR>
 nnoremap [unite]y :Unite history/yank<CR>
 nnoremap [unite]o :Unite outline<CR>
 
 nnoremap <silent> [unite]g  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
 
-
-
 "ファイルのリロード
-nnoremap <silent> <jpace>R :e<CR>
+nnoremap <silent> <space>R :e<CR>
 
 " ペーストモードのトグル
-nnoremap <Space>p :a!<CR>
+"nnoremap <Space>P :a!<CR>
 
 
 
@@ -119,16 +118,7 @@ function! s:my_vimfiler_settings()
   nnoremap <buffer><silent>/ :call MyUniteFileCurrentDir()<CR>
   nnoremap <buffer><silent>? /
 
-  nunmap <buffer><space> <Nop>
-  "nmap <space> <Plug>(vimfiler_toggle_mark_current_line)
-  "nmap <silent><space>t [myWindowTab]
-  "nmap <silent><space>w [myWindow] 
-  "nmap <silent><space>t <C-t>
   nnoremap <buffer><silent><space>wl :wincmd l<CR>
-":[count]winc[md] {arg}
-  " ウィンドウの移動
-  "nmap <silent>[myWindow]  <C-W>
-  "nmap <silent>[myWindowTab]  <C-T>
 endfunction
 
 function! MyUniteFileCurrentDir()
@@ -153,51 +143,48 @@ let g:unite_split_rule = 'rightbelow'
 let g:unite_source_history_yank_enable = 1
 
 "unite.vimを開いている間のキーマッピング
-autocmd FileType unite call s:my_unite_settings()
+if dein#tap('unite.vim')
+    autocmd! FileType unite call s:my_unite_settings()
+endif
+
 function! s:my_unite_settings()
   " ウィンドウを分割して開く
-  nnoremap <silent> <buffer> <expr> <C-S> unite#do_action('below')
-  inoremap <silent> <buffer> <expr> <C-S> unite#do_action('below')
+  nnoremap <silent><buffer><expr> <C-S> unite#do_action('below')
+  inoremap <silent><buffer><expr> <C-S> unite#do_action('below')
   " ウィンドウを縦に分割して開く
-  nnoremap <silent> <buffer> <expr> <C-V> unite#do_action('right')
-  inoremap <silent> <buffer> <expr> <C-V> unite#do_action('right')
+  nnoremap <silent><buffer><expr> <C-V> unite#do_action('right')
+  inoremap <silent><buffer><expr> <C-V> unite#do_action('right')
   " C-Qで終了
-  nnoremap <silent> <buffer> <C-Q> <Plug>(unite_exit)
-  inoremap <silent> <buffer> <C-Q> <Plug>(unite_exit)
+  nmap <silent><buffer> <C-q> q
+  imap <silent><buffer> <C-q> <ESC>q
 
   " ESCで終了
-  nnoremap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
-  nnoremap <silent> <buffer> <C-[><C-[> <Plug>(unite_exit)
-  inoremap <silent> <buffer> <C-[><C-[> <Plug>(unite_exit)
+  nmap <silent><buffer> <ESC> q
+  nmap <silent><buffer> <C-[> q
 
-  "nnoremap <silent> <buffer> <expr> <CR> unite#do_action('right')
-  "inoremap <silent> <buffer> <expr> <CR> unite#do_action('right')
 endfunction
 
-function! MyUniteOpen()
-  if winwidth(0) <= 35
-    <Plug>(vimfiler_expand_or_edit)
-  else
-    unite#do_action('default')
-  endif
-endfunction
-
-" unite grepにhw(highway)を使う
-"if executable('hw')
-"  let g:unite_source_grep_command = 'hw'
-"  let g:unite_source_grep_default_opts = '--no-group --no-color'
-"  let g:unite_source_grep_recursive_opt = ''
-"endif
 
 "--------------------
 " neocomplcache/neocomplete
-" ------------------
+" ------------------"
+let g:auto_ctags = 1
+let g:auto_ctags_directory_list = ['.git', '.svn']
+let g:auto_ctags_tags_args = "--tag-relative"." "
+            \ "--recurse"." "
+            \ "--sort=yes"." " 
+            \ "--exclude=*.js"." " 
+            \ "--regex-php=/get([a-z|A-Z|0-9]+)Attribute/\1/"." " 
+            \ "--regex-php=/scope([a-z|A-Z|0-9]+)/\1/"
+
+
 if dein#tap('neocomplete.vim')
   let g:neocomplete#enable_at_startup = 1
   let g:neocomplete#enable_camel_case_completion = 1
   let g:neocomplete#enable_underbar_completion = 1
   let g:neocomplete#smart_case = 1
   let g:neocomplete#min_syntax_length = 3
+
   let g:neocomplete#auto_completion_start_length = 3
   let g:neocomplete#manual_completion_start_length = 3
   let g:neocomplete#enable_skip_completion = 1
@@ -209,9 +196,22 @@ if dein#tap('neocomplete.vim')
         \ 'default' : '',
         \ 'vimshell' : $HOME.'/.vimshell_hist',
         \ 'javascript' : $DOTVIM.'/dict/javascript.dict',
+        \ 'scheme' : $DOTVIM. '/dict/gosh.dict',
         \ 'php' : $DOTVIM.'/dict/php.dict'
         \ }
 endif
+
+"--------------------
+" php complete
+"--------------------
+let g:phpcomplete_index_composer_command = "composer.phar"
+autocmd  FileType  php setlocal omnifunc=phpcomplete_extended#CompletePHP
+
+"--------------------
+" php documentor
+"--------------------
+nnoremap <Space>p :call PhpDocSingle()<CR>
+vnoremap <Space>p :call PhpDocRange()<CR>
 
 "--------------------
 " Neosnippet
@@ -384,13 +384,6 @@ let g:syntastic_mode_map={ 'mode': 'active',
 "let g:SimpleJsIndenter_BriefMode=1
 
 "--------------------
-" php completion
-"--------------------
-"let g:phpcomplete_extended_auto_add_use = 0
-"let g:phpcomplete_index_composer_command = "composer"
-"let g:phpcomplete_extended_use_default_mapping = 0
-
-"--------------------
 " Indent guide
 "--------------------
 let g:indent_guides_auto_colors = 0
@@ -487,15 +480,11 @@ set incsearch       " インクリメンタルサーチ
 nnoremap <silent> <ESC><ESC> :noh<cr>
 
 " tags
-"set tags&
-"set tags+=plugins/tags,lib/vendor/tags,tags;
+set tagstack
 if has('path_extra')
   set tags+=tags;
 endif
 nnoremap <C-O> <C-T>
-"let g:auto_ctags = 1
-let g:auto_ctags_directory_list = ['.git', '.svn']
-let g:auto_ctags_tags_args = '--tag-relative --recurse --sort=yes --exclude=*.js'
 
 if dein#tap('incsearch.vim')
   map / <Plug>(incsearch-forward)
@@ -531,10 +520,10 @@ nnoremap H :vert help<space>
 set backspace=start,eol,indent
 
 "挿入モード便利キー
-noremap! <C-P> <Up>
-noremap! <C-N> <Down>
-noremap! <C-F> <Right>
-noremap! <C-B> <Left>
+"noremap! <C-P> <Up>
+"noremap! <C-N> <Down>
+"noremap! <C-F> <Right>
+"noremap! <C-B> <Left>
 noremap! <C-D> <Del>
 noremap! <C-[> <ESC>
 
@@ -547,12 +536,8 @@ noremap <C-Z> <C-A>
 "swap semicolon and colon
 noremap : ;
 noremap ; :
-"noremap ; q:
-"noremap q; :
 
 augroup RemapSubstitutme
-  "autocmd VimEnter * noremap S q:%s/\v
-  "autocmd VimEnter * vnoremap S q:s/\v
   autocmd VimEnter * noremap S :%s/\v
   autocmd VimEnter * vnoremap S :s/\v
 augroup END

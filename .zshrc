@@ -11,6 +11,8 @@ LC_ALL="en_US.UTF-8"
 
 ZSHINITROOT="$HOME/dotfiles"
 
+setopt nonomatch
+
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -86,6 +88,8 @@ alias cl="clear"
 alias lg="ls -al|grep"
 
 alias gosh='rlwrap gosh'
+
+alias ptags='ctags --tag-relative --recurse --sort=yes --exclude=*.js'
 
 
 # screen
