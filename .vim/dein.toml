@@ -96,11 +96,11 @@ repo =  'mxw/vim-jsx'
 #
 # development:general
 [[plugins]]
-repo =  'Align'
+repo =  'vim-scripts/Align'
 [[plugins]]
-repo =  'sudo.vim'
+repo =  'vim-scripts/sudo.vim'
 [[plugins]]
-repo =  'catn.vim'
+repo =  'vim-scripts/catn.vim'
 [[plugins]]
 repo =  'thinca/vim-ref'
 [[plugins]]
