@@ -520,10 +520,10 @@ nnoremap H :vert help<space>
 set backspace=start,eol,indent
 
 "挿入モード便利キー
-"noremap! <C-P> <Up>
-"noremap! <C-N> <Down>
-"noremap! <C-F> <Right>
-"noremap! <C-B> <Left>
+noremap! <C-P> <Up>
+noremap! <C-N> <Down>
+noremap! <C-F> <Right>
+noremap! <C-B> <Left>
 noremap! <C-D> <Del>
 noremap! <C-[> <ESC>
 
@@ -535,11 +535,12 @@ noremap <C-Z> <C-A>
 "command line windowを表示
 "swap semicolon and colon
 noremap : ;
-noremap ; :
+noremap ; q:
+"noremap ; :
 
 augroup RemapSubstitutme
-  autocmd VimEnter * noremap S :%s/\v
-  autocmd VimEnter * vnoremap S :s/\v
+  autocmd VimEnter * noremap S q:%s/\v
+  autocmd VimEnter * vnoremap S q:s/\v
 augroup END
 
 set scrolloff=0

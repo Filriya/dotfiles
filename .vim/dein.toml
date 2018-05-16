@@ -139,10 +139,10 @@ repo =  'jiangmiao/simple-javascript-indenter'
 
 #
 # development:backend
-[[plugins]]
-repo =  'm2mdas/phpcomplete-extended'
-[[plugins]]
-repo =  'm2mdas/phpcomplete-extended-laravel'
+#[[plugins]]
+#repo =  'm2mdas/phpcomplete-extended'
+#[[plugins]]
+#repo =  'm2mdas/phpcomplete-extended-laravel'
 [[plugins]]
 repo =  'xsbeats/vim-blade'
 [[plugins]]
