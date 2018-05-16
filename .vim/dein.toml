@@ -132,8 +132,8 @@ repo =  'Shougo/neocomplete.vim'
 
 #
 # development:frontend
-[[plugins]]
-repo =  'mattn/emmet-vim'
+#[[plugins]]
+#repo =  'mattn/emmet-vim'
 [[plugins]]
 repo =  'jiangmiao/simple-javascript-indenter'
 
