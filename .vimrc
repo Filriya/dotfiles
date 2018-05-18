@@ -56,6 +56,13 @@ nnoremap <silent> <space>R :e<CR>
 "nnoremap <Space>P :a!<CR>
 
 
+"----------------------
+" caw.vim
+"----------------------
+"" 行の最初の文字の前にコメント文字をトグル
+nmap <space>c <Plug>(caw:hatpos:toggle)
+vmap <space>c <Plug>(caw:hatpos:toggle)
+
 
 
 "----------------------

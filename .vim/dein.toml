@@ -102,6 +102,8 @@ repo =  'vim-scripts/sudo.vim'
 [[plugins]]
 repo =  'vim-scripts/catn.vim'
 [[plugins]]
+repo =  'tyru/caw.vim'
+[[plugins]]
 repo =  'thinca/vim-ref'
 [[plugins]]
 repo =  'thinca/vim-qfreplace'
