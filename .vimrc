@@ -129,7 +129,8 @@ function! s:my_vimfiler_settings()
 endfunction
 
 function! MyUniteFileCurrentDir()
-  let s  = ':Unite file_rec/async -horizontal -start-insert -path='
+  let s  = ':Unite file_rec/async:! -horizontal -start-insert -path='
+  "let s  = ':Unite file_rec -horizontal -start-insert -path='
   let s .= vimfiler#helper#_get_file_directory()
   execute s
 endfunction
@@ -148,6 +149,8 @@ let g:unite_enable_split_vertically=1
 let g:unite_winwidth = 70
 let g:unite_split_rule = 'rightbelow'
 let g:unite_source_history_yank_enable = 1
+let g:unite_source_rec_max_cache_files = 0
+call unite#custom#source('file_rec,file_rec/async', 'max_candidates', 0)
 
 "unite.vimを開いている間のキーマッピング
 if dein#tap('unite.vim')
