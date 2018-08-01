@@ -193,10 +193,10 @@ if dein#tap('neocomplete.vim')
   let g:neocomplete#enable_camel_case_completion = 1
   let g:neocomplete#enable_underbar_completion = 1
   let g:neocomplete#smart_case = 1
-  let g:neocomplete#min_syntax_length = 3
+  let g:neocomplete#min_syntax_length = 2
 
-  let g:neocomplete#auto_completion_start_length = 3
-  let g:neocomplete#manual_completion_start_length = 3
+  let g:neocomplete#auto_completion_start_length = 2
+  let g:neocomplete#manual_completion_start_length = 2
   let g:neocomplete#enable_skip_completion = 1
   let g:neocomplete#enable_auto_select = 0
   let g:neocomplete#max_list = 20
@@ -383,9 +383,11 @@ nnoremap <C-g>v :Gitv<CR>
 "--------------------
 "let g:syntastic_enable_signs=1
 "let g:syntastic_auto_loc_list=2
-let g:syntastic_mode_map={ 'mode': 'active',
-      \ 'active_filetypes': [],
-      \ 'passive_filetypes': ['html'] }
+let g:syntastic_mode_map = {
+            \ 'mode': 'active',
+            \ 'active_filetypes': ['php', 'sh', 'vim', 'python'],
+            \ 'passive_filetypes': ['html', 'haskell']
+            \}
 
 
 "--------------------
@@ -429,6 +431,7 @@ autocmd ColorScheme * hi Comment ctermfg=73
 "Unite Beautiful Attack!
 command! Uba :Unite -auto-preview colorscheme
 
+set t_Co=256 
 set background=dark
 colorscheme mopkai
 
