@@ -69,6 +69,11 @@ alias lg="ls -al|grep"
 alias gosh='rlwrap gosh'
 alias ptags='ctags --tag-relative --recurse --sort=yes --exclude=*.js'
 
+# haskell stack
+alias ghc='stack ghc --'
+alias ghci='stack ghci --'
+alias runhaskell='stack runhaskell --'
+
 # screen
 alias sr=myScreenLaunch
 alias sl='screen -list'
@@ -127,8 +132,8 @@ function colorcode()
   for c in {016..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($((c-16))%6)) -eq 5 ] && echo;done;echo
 }
 
-# aws completion
-source /usr/local/bin/aws_zsh_completer.sh
+# # aws completion
+# source /usr/local/bin/aws_zsh_completer.sh
 
 # default editor
 EDITOR=`which vim`
@@ -136,7 +141,7 @@ EDITOR=`which vim`
 # set gopath
 export GOPATH=${HOME}/gopath
 
-export PATH=${HOME}/local/bin:~/bin/:${GOPATH}/bin:"$PATH"
+export PATH=${HOME}/local/bin:~/bin:${GOPATH}/bin:"$PATH"
 
 #peco and z
 if type peco 2>/dev/null 1>/dev/null; then
@@ -186,8 +191,18 @@ eval $(dircolors ${HOME}/.dircolors )
 alias clang-omp='/usr/local/opt/llvm/bin/clang -fopenmp -L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib'
 alias clang-omp++='/usr/local/opt/llvm/bin/clang++ -fopenmp -L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib'
 
+
 export PATH=$HOME/.composer/vendor/bin:$PATH
+
 setopt hist_ignore_all_dups
 setopt hist_ignore_space
 
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
 
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/filriya/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/filriya/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/filriya/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/filriya/google-cloud-sdk/completion.zsh.inc'; fi

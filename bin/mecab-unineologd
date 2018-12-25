@@ -1,0 +1,2 @@
+#/bin/zsh
+mecab -d /usr/local/lib/mecab/dic/mecab-unidic-neologd $@

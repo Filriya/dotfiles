@@ -59,7 +59,7 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
-					<string>HOME=/Volumes/WD_3TB /Applications/Dropbox_hdd.app/Contents/MacOS/Dropbox &amp; </string>
+					<string>HOME=/Volumes/WD_2TB /Applications/Dropbox_hdd.app/Contents/MacOS/Dropbox &amp; </string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>
@@ -68,21 +68,6 @@
 					<string>/bin/zsh</string>
 					<key>source</key>
 					<string></string>
-				</dict>
-				<key>ActionRuntimeParameters</key>
-				<dict>
-					<key>COMMAND_STRING</key>
-					<string>HOME=/Volumes/WD_3TB /Applications/Dropbox_hdd.app/Contents/MacOS/Dropbox &amp; </string>
-					<key>CheckedForUserDefaultShell</key>
-					<true/>
-					<key>inputMethod</key>
-					<integer>0</integer>
-					<key>shell</key>
-					<string>/bin/zsh</string>
-					<key>source</key>
-					<string></string>
-					<key>temporary items path</key>
-					<string>/var/folders/j0/fl3lpfcs6hj6gn4fy8slhnzc0000gn/T/C6C9D820-D200-465B-8808-D196F9440D37/1/com.apple.RunShellScript</string>
 				</dict>
 				<key>BundleIdentifier</key>
 				<string>com.apple.RunShellScript</string>

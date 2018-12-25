@@ -1,0 +1,7 @@
+#!/bin/zsh
+cat -  | { \
+ > >(mecab-ipadic -Owakati | sed 's/^/IPADIC\t:/' | nl) \
+ > >(mecab-ipaneologd -Owakati | sed 's/^/IPANEO\t:/' | nl) \
+ > >(mecab-unidic -Owakati | sed 's/^/UNIDIC\t:/' | nl) \
+ > >(mecab-unineologd -Owakati | sed 's/^/UNINEO\t:/' | nl) \
+} | sort | cut -f2- | sed 's/^IPADIC/\n&/' | sed '1d'

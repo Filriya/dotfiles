@@ -55,15 +55,12 @@ nnoremap <silent> <space>R :e<CR>
 " ペーストモードのトグル
 "nnoremap <Space>P :a!<CR>
 
-
 "----------------------
 " caw.vim
 "----------------------
 "" 行の最初の文字の前にコメント文字をトグル
 nmap <space>c <Plug>(caw:hatpos:toggle)
 vmap <space>c <Plug>(caw:hatpos:toggle)
-
-
 
 "----------------------
 "dein
@@ -129,10 +126,15 @@ function! s:my_vimfiler_settings()
 endfunction
 
 function! MyUniteFileCurrentDir()
-  let s  = ':Unite file_rec/async:! -horizontal -start-insert -path='
-  "let s  = ':Unite file_rec -horizontal -start-insert -path='
-  let s .= vimfiler#helper#_get_file_directory()
-  execute s
+    if exists('b:vimfiler.current_dir')
+        let buffer_dir = b:vimfiler.current_dir
+    else
+        let buffer_dir = expand('%:p:h')
+    endif
+    let s  = ':Unite -horizontal -start-insert file_rec/async:'
+    " "let s  = ':Unite file_rec -horizontal -start-insert -path='
+    let s .= buffer_dir
+    execute s
 endfunction
 
 set modifiable
@@ -158,19 +160,19 @@ if dein#tap('unite.vim')
 endif
 
 function! s:my_unite_settings()
-  " ウィンドウを分割して開く
-  nnoremap <silent><buffer><expr> <C-S> unite#do_action('below')
-  inoremap <silent><buffer><expr> <C-S> unite#do_action('below')
-  " ウィンドウを縦に分割して開く
-  nnoremap <silent><buffer><expr> <C-V> unite#do_action('right')
-  inoremap <silent><buffer><expr> <C-V> unite#do_action('right')
-  " C-Qで終了
-  nmap <silent><buffer> <C-q> q
-  imap <silent><buffer> <C-q> <ESC>q
+    " ウィンドウを分割して開く
+    nnoremap <silent><buffer><expr> <C-S> unite#do_action('below')
+    inoremap <silent><buffer><expr> <C-S> unite#do_action('below')
+    " ウィンドウを縦に分割して開く
+    nnoremap <silent><buffer><expr> <C-V> unite#do_action('right')
+    inoremap <silent><buffer><expr> <C-V> unite#do_action('right')
+    " C-Qで終了
+    nmap <silent><buffer> <C-q> q
+    imap <silent><buffer> <C-q> <ESC>q
 
-  " ESCで終了
-  nmap <silent><buffer> <ESC> q
-  nmap <silent><buffer> <C-[> q
+    " ESCで終了
+    nmap <silent><buffer> <ESC> q
+    nmap <silent><buffer> <C-[> q
 
 endfunction
 
@@ -189,26 +191,26 @@ let g:auto_ctags_tags_args = "--tag-relative"." "
 
 
 if dein#tap('neocomplete.vim')
-  let g:neocomplete#enable_at_startup = 1
-  let g:neocomplete#enable_camel_case_completion = 1
-  let g:neocomplete#enable_underbar_completion = 1
-  let g:neocomplete#smart_case = 1
-  let g:neocomplete#min_syntax_length = 2
+    let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_camel_case_completion = 1
+    let g:neocomplete#enable_underbar_completion = 1
+    let g:neocomplete#smart_case = 1
+    let g:neocomplete#min_syntax_length = 2
 
-  let g:neocomplete#auto_completion_start_length = 2
-  let g:neocomplete#manual_completion_start_length = 2
-  let g:neocomplete#enable_skip_completion = 1
-  let g:neocomplete#enable_auto_select = 0
-  let g:neocomplete#max_list = 20
+    let g:neocomplete#auto_completion_start_length = 2
+    let g:neocomplete#manual_completion_start_length = 2
+    let g:neocomplete#enable_skip_completion = 1
+    let g:neocomplete#enable_auto_select = 0
+    let g:neocomplete#max_list = 20
 
-  let $DOTVIM = $HOME . '/.vim'
-  let g:neocomplete#sources#dictionary#dictionaries = {
-        \ 'default' : '',
-        \ 'vimshell' : $HOME.'/.vimshell_hist',
-        \ 'javascript' : $DOTVIM.'/dict/javascript.dict',
-        \ 'scheme' : $DOTVIM. '/dict/gosh.dict',
-        \ 'php' : $DOTVIM.'/dict/php.dict'
-        \ }
+    let $DOTVIM = $HOME . '/.vim'
+    let g:neocomplete#sources#dictionary#dictionaries = {
+                \ 'default' : '',
+                \ 'vimshell' : $HOME.'/.vimshell_hist',
+                \ 'javascript' : $DOTVIM.'/dict/javascript.dict',
+                \ 'scheme' : $DOTVIM. '/dict/gosh.dict',
+                \ 'php' : $DOTVIM.'/dict/php.dict'
+                \ }
 endif
 
 "--------------------
@@ -232,13 +234,13 @@ let g:neosnippet#snippets_directory='~/.vim/snippets'
 
 " SuperTab like snippets behavior.
 imap <expr><TAB>
-      \ pumvisible() ? "\<Plug>(neosnippet_expand_or_jump)" :
-      \ neosnippet#expandable_or_jumpable() ?
-      \   "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+            \ pumvisible() ? "\<Plug>(neosnippet_expand_or_jump)" :
+            \ neosnippet#expandable_or_jumpable() ?
+            \   "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-      \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+            \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 set conceallevel=0
 let g:vim_json_syntax_conceal = 0
@@ -266,73 +268,73 @@ let b:match_ignorecase = 1
 "------------
 
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'enable': {
-      \   'statusline': 1,
-      \   'tabline': 0
-      \ },
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'fugitive', 'filename' ] ],
-      \   'right': [ [ 'lineinfo' ],
-      \            [ 'percent' ],
-      \            [ 'jpmode', 'fileformat', 'fileencoding', 'filetype' ] ]
-      \ },
-      \ 'component_function': {
-      \   'fugitive': 'MyFugitive',
-      \   'readonly': 'MyReadonly',
-      \   'modified': 'MyModified',
-      \   'filename': 'MyFilename',
-      \   'jpmode': 'MyJpMode'
-      \ }
-      \ }
+            \ 'colorscheme': 'wombat',
+            \ 'enable': {
+            \   'statusline': 1,
+            \   'tabline': 0
+            \ },
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ],
+            \             [ 'fugitive', 'filename' ] ],
+            \   'right': [ [ 'lineinfo' ],
+            \            [ 'percent' ],
+            \            [ 'jpmode', 'fileformat', 'fileencoding', 'filetype' ] ]
+            \ },
+            \ 'component_function': {
+            \   'fugitive': 'MyFugitive',
+            \   'readonly': 'MyReadonly',
+            \   'modified': 'MyModified',
+            \   'filename': 'MyFilename',
+            \   'jpmode': 'MyJpMode'
+            \ }
+            \ }
 
 let g:unite_force_overwrite_statusline = 0
 let g:vimfiler_force_overwrite_statusline = 0
 let g:vimshell_force_overwrite_statusline = 0
 
 function! MyJpMode()
-  if exists('IMState')
-    if IMState == 2
-      return "[JPMode]"
-    elseif IMState == 0
-      return ""
+    if exists('IMState')
+        if IMState == 2
+            return "[JPMode]"
+        elseif IMState == 0
+            return ""
+        endif
+    else
+        return ""
     endif
-  else
-    return ""
-  endif
 endfunction
 
 function! MyModified()
-  if &filetype == "help"
-    return ""
-  elseif &modified
-    return "+"
-  elseif &modifiable
-    return ""
-  else
-    return ""
-  endif
+    if &filetype == "help"
+        return ""
+    elseif &modified
+        return "+"
+    elseif &modifiable
+        return ""
+    else
+        return ""
+    endif
 endfunction
 
 function! MyReadonly()
-  if &filetype == "help"
-    return ""
-  elseif &readonly
-    return ""
-  else
-    return ""
-  endif
+    if &filetype == "help"
+        return ""
+    elseif &readonly
+        return ""
+    else
+        return ""
+    endif
 endfunction
 
 function! MyFugitive()
-  return exists('*fugitive#head') && strlen(fugitive#head()) ? ' '.fugitive#head() : ''
+    return exists('*fugitive#head') && strlen(fugitive#head()) ? ' '.fugitive#head() : ''
 endfunction
 
 function! MyFilename()
-  return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-        \ ('' != expand('%t') ? expand('%t') : '[No Name]') .
-        \ ('' != MyModified() ? ' ' . MyModified() : '')
+    return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+                \ ('' != expand('%t') ? expand('%t') : '[No Name]') .
+                \ ('' != MyModified() ? ' ' . MyModified() : '')
 endfunction
 
 "--------------------
@@ -342,23 +344,23 @@ endfunction
 "imap <c-c> = <nop>
 let g:user_emmet_leader_key = '<c-c>'
 let g:user_emmet_settings = {
-      \  'indentation': '  ',
-      \  'lang':'ja',
-      \  'custom_expands1': {
-      \    '^\%(lorem\|lipsum\)\(\d*\)$' : function('emmet#lorem#ja#expand'),
-      \  },
-      \  'html' : {
-      \    'filters' : 'html',
-      \    'indentation' : '  '
-      \  },
-      \  'css' : {
-      \    'filters' : 'fc',
-      \  },
-      \  'php' : {
-      \    'extends' : 'html',
-      \    'filters' : 'html,c',
-      \  }
-      \}
+            \  'indentation': '  ',
+            \  'lang':'ja',
+            \  'custom_expands1': {
+            \    '^\%(lorem\|lipsum\)\(\d*\)$' : function('emmet#lorem#ja#expand'),
+            \  },
+            \  'html' : {
+            \    'filters' : 'html',
+            \    'indentation' : '  '
+            \  },
+            \  'css' : {
+            \    'filters' : 'fc',
+            \  },
+            \  'php' : {
+            \    'extends' : 'html',
+            \    'filters' : 'html,c',
+            \  }
+            \}
 
 "--------------------
 "vim-quickrun
@@ -413,6 +415,11 @@ let g:previm_open_cmd = 'open -a "Google Chrome"'
 " 表示系
 "-----------------------
 syntax on
+augroup vimrc-highlight
+    autocmd!
+    autocmd Syntax * if 10000 < line('$') | syntax off | endif
+augroup END
+
 set t_Co=256
 "" カーソルの色
 "autocmd ColorScheme * hi CursorLine term=underline cterm=none ctermbg=237
@@ -442,7 +449,9 @@ set showmode         " モード表示
 set title            " 編集中のファイル名を表示
 set ruler            " ルーラーの表示
 set showcmd          " 入力中のコマンドをステータスに表示する
-set showmatch        " 括弧入力時の対応する括弧を表示
+"set showmatch        " 括弧入力時の対応する括弧を表示
+"set matchtime=1
+"set matchpairs& matchpairs+=<:>
 set laststatus=2     " ステータスラインを常に表示
 set cursorline       " 下線
 set wrap           " 画面幅で折り返す
@@ -454,25 +463,25 @@ set splitbelow       " 水平分割時は新しいwindowを下に
 set splitright       " 垂直分割時は新しいwindowを右に
 
 augroup paste
-  if &term =~ "xterm"
-    let &t_SI .= "\e[?2004h"
-    let &t_EI .= "\e[?2004l"
-    let &pastetoggle = "\e[201~"
+    if &term =~ "xterm"
+        let &t_SI .= "\e[?2004h"
+        let &t_EI .= "\e[?2004l"
+        let &pastetoggle = "\e[201~"
 
-    function! XTermPasteBegin(ret)
-      set paste
-      return a:ret
-    endfunction
+        function! XTermPasteBegin(ret)
+            set paste
+            return a:ret
+        endfunction
 
-    inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
-  endif
+        inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
+    endif
 augroup END
 
 
 augroup cch
-  autocmd! cch
-  autocmd WinLeave * set nocursorline
-  autocmd WinEnter,BufRead * set cursorline
+    autocmd! cch
+    autocmd WinLeave * set nocursorline
+    autocmd WinEnter,BufRead * set cursorline
 augroup END
 
 "-------------------------------
@@ -495,21 +504,21 @@ nnoremap <silent> <ESC><ESC> :noh<cr>
 " tags
 set tagstack
 if has('path_extra')
-  set tags+=tags;
+    set tags+=tags;
 endif
 nnoremap <C-O> <C-T>
 
 if dein#tap('incsearch.vim')
-  map / <Plug>(incsearch-forward)
-  map ? <Plug>(incsearch-backward)
-  map g/ <Plug>(incsearch-stay)
-  highlight IncSearchCursor ctermfg=0 ctermbg=9 guifg=#000000 guibg=#FF0000
-  set hlsearch | nohlsearch
-  let g:incsearch#auto_nohlsearch = 1
-  let g:incsearch#consistent_n_direction = 1
-  let g:incsearch#do_not_save_error_message_history = 1
-  map  n <Plug>(incsearch-nohl-n)
-  map  N <Plug>(incsearch-nohl-N)
+    map / <Plug>(incsearch-forward)
+    map ? <Plug>(incsearch-backward)
+    map g/ <Plug>(incsearch-stay)
+    highlight IncSearchCursor ctermfg=0 ctermbg=9 guifg=#000000 guibg=#FF0000
+    set hlsearch | nohlsearch
+    let g:incsearch#auto_nohlsearch = 1
+    let g:incsearch#consistent_n_direction = 1
+    let g:incsearch#do_not_save_error_message_history = 1
+    map  n <Plug>(incsearch-nohl-n)
+    map  N <Plug>(incsearch-nohl-N)
 endif
 
 "---------------------------------
@@ -552,8 +561,8 @@ noremap ; q:
 "noremap ; :
 
 augroup RemapSubstitutme
-  autocmd VimEnter * noremap S q:%s/\v
-  autocmd VimEnter * vnoremap S q:s/\v
+    autocmd VimEnter * noremap S q:%s/\v
+    autocmd VimEnter * vnoremap S q:s/\v
 augroup END
 
 set scrolloff=0
@@ -562,10 +571,10 @@ set cmdwinheight=3
 
 autocmd CmdwinEnter * call s:init_cmdwin()
 function! s:init_cmdwin()
-  nnoremap <buffer> <silent> <Esc><Esc> :<C-u>quit<CR>
-  inoremap <buffer> <silent> <Esc><Esc> <Esc>:<C-u>quit<CR>
-  startinsert!
-  resize 3
+    nnoremap <buffer> <silent> <Esc><Esc> :<C-u>quit<CR>
+    inoremap <buffer> <silent> <Esc><Esc> <Esc>:<C-u>quit<CR>
+    startinsert!
+    resize 3
 endfunction
 
 " 検索時語句を中心にする
@@ -617,43 +626,43 @@ vnoremap <C-e> <C-u>
 set tabline=%!MyTabLine()
 
 function! MyTabLine()
-  let s = ''
-  for i in range(tabpagenr('$'))
-    " select the highlighting
-    if i + 1 == tabpagenr()
-      let s .= '%#TabLineSel#'
-    else
-      let s .= '%#TabLine#'
+    let s = ''
+    for i in range(tabpagenr('$'))
+        " select the highlighting
+        if i + 1 == tabpagenr()
+            let s .= '%#TabLineSel#'
+        else
+            let s .= '%#TabLine#'
+        endif
+
+        " set the tab page number (for mouse clicks)
+        let s .= '%' . (i + 1) . 'T'
+
+        " the label is made by MyTabLabel()
+        let s .= ' %{MyTabLabel(' . (i + 1) . ')} '
+    endfor
+
+    " after the last tab fill with TabLineFill and reset tab page nr
+    let s .= '%#TabLineFill#%T'
+
+    " right-align the label to close the current tab page
+    if tabpagenr('$') > 1
+        let s .= '%=%#TabLine#%999Xclose'
     endif
 
-    " set the tab page number (for mouse clicks)
-    let s .= '%' . (i + 1) . 'T'
-
-    " the label is made by MyTabLabel()
-    let s .= ' %{MyTabLabel(' . (i + 1) . ')} '
-  endfor
-
-  " after the last tab fill with TabLineFill and reset tab page nr
-  let s .= '%#TabLineFill#%T'
-
-  " right-align the label to close the current tab page
-  if tabpagenr('$') > 1
-    let s .= '%=%#TabLine#%999Xclose'
-  endif
-
-  return s
+    return s
 endfunction
 
 function! MyTabLabel(n)
-  let buflist = tabpagebuflist(a:n)
-  let winnr = tabpagewinnr(a:n)
-  let label =  bufname(buflist[winnr - 1])
-  let label = fnamemodify(label, ":t")
+    let buflist = tabpagebuflist(a:n)
+    let winnr = tabpagewinnr(a:n)
+    let label =  bufname(buflist[winnr - 1])
+    let label = fnamemodify(label, ":t")
 
-  "タブ番号を付加
-  let label = a:n . ':' . label
+    "タブ番号を付加
+    let label = a:n . ':' . label
 
-  return label
+    return label
 endfunction
 
 "---------------
@@ -681,8 +690,8 @@ au BufWinEnter * let w:m3 = matchadd("ZenkakuSpace", '　')
 au WinEnter * let w:m3 = matchadd("ZenkakuSpace", '　')
 
 augroup vimrc-checktime
-  autocmd!
-  autocmd WinEnter * checktime
+    autocmd!
+    autocmd WinEnter * checktime
 augroup END
 
 " ファイル読み込み時の文字コード検索順

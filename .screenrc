@@ -54,7 +54,8 @@ bind X eval 'layout remove' 'next' 'layout show'
 bind N eval 'layout next' 'layout show'
 bind P eval 'layout prev' 'layout show'
 
-caption always "%?%F%{= rK}%:%{= Kk}%?%-w%?%F%{=u rW}%:%{=u KW}%?%n %t%{-}%+w%{-u} %= %c"
+caption always "%?%F%{= rk}%:%{= Rw}%?%-w%?%F%{=u rW}%:%{=u Rk}%?%n %t%{-}%+w%{-u} %= %c"
+#caption always "%?%F%{= yk}%:%{= Yw}%?%-w%?%F%{=u yW}%:%{=u Yk}%?%n %t%{-}%+w%{-u} %= %c" #prod
 
 # create layout on first launch
 #'layout new' 'split -v' 'focus screen' 'split -s' 'focus screen'
