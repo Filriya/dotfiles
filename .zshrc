@@ -164,7 +164,7 @@ if type peco 2>/dev/null 1>/dev/null; then
 fi
 
 stty -ixon
-source ~/.zsh.d/z.sh
+source "${HOME}/.zsh.d/z.sh"
 
 function peco-z-search
 {

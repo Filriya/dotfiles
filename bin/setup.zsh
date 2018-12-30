@@ -1,6 +1,7 @@
 #!/bin/zsh
 cd $(dirname $0)
 git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+git clone https://github.com/rupa/z.git ~/.zsh.d
 
 #prezto関連設定
 setopt EXTENDED_GLOB
@@ -18,6 +19,7 @@ do
     ln -fs "$PWD/$dotfile" $HOME
   fi
 done
+ln -Fs "${ZDOTDIR:-$HOME}"/dotfiles/bin "${ZDOTDIR:-$HOME}/"
 
 if [ ! -e $HOME/.gitconfig.local ]; then
   echo "Create .gitconfig.local"

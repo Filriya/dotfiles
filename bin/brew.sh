@@ -3,14 +3,10 @@
 brew update
 brew upgrade
 
-brew tap homebrew/versions
-brew tap homebrew/binary
-brew tap homebrew/dupes
-brew tap homebrew/php
 brew tap sanemat/font
 brew tap phinze/homebrew-cask
 brew tap rcmdnk/homebrew-rcmdnkpac
-
+brew tap homebrew/cask-versions 
 
 # Packages
 brew install autoconf
@@ -71,35 +67,34 @@ brew install wget
 brew cask install 1password
 brew cask install alfred
 brew cask install appcleaner
+brew cask install bettertouchtool
 brew cask install dropbox
 brew cask install evernote
 brew cask install firefox
-brew cask install fluid
+brew cask install franz
 brew cask install google-chrome
+brew cask install google-chrome-canary
 brew cask install google-japanese-ime
+brew cask install hyperswitch
 brew cask install iterm2
-brew cask install karabiner
-brew cask install libreoffice
-brew cask install teamviewer
+brew cask install karabiner-elements
 brew cask install virtualbox
+brew cask install vmware fusion
 brew cask install vagrant
+brew cask install todoist
 brew cask install hosts
 brew cask install the-unarchiver
 
 brew cask install sublime-text
 brew cask install java
 
-#brew cask install google-chrome-canary
-#brew cask install hyperswitch
-#brew cask install google music manager
-#brew cask install quickres
-#brew cask install translate-tab
-#brew cask install vmware fusion
-#brew cask install todoist
-#brew cask install franz
-#brew cask install popclip
-#brew cask install listbook
+brew cask install marshallofsound-google-play-music-player
 
-#brew cask alfred link
+#brew cask install translate-tab
+#brew cask install google music manager
+
+#brew cask install translate-tab
+brew cask install popclip
+
 brew cleanup
 
