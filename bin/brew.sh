@@ -17,12 +17,12 @@ brew install brew-cask
 brew install lua
 brew install luajit
 brew install git
+brew install gibo
 brew install mercurial
 brew install pcre
 brew install python
 brew install rbenv
 brew install ruby-build
-brew install duplicity
 brew install rdiff-backup
 
 brew install binutils
@@ -44,10 +44,10 @@ brew install wget
 
 brew install peco
 brew install z
+brew install sleepwatcher
 
-brew install nativefier
-
-brew install homebrew/php/php70
+# brew install homebrew/php/php72
+brew install php
 
 brew cask install xquartz
 brew install --vim-powerline ricty
@@ -82,19 +82,19 @@ brew cask install virtualbox
 brew cask install vmware fusion
 brew cask install vagrant
 brew cask install todoist
-brew cask install hosts
 brew cask install the-unarchiver
+brew cask install skim
 
 brew cask install sublime-text
 brew cask install java
 
 brew cask install marshallofsound-google-play-music-player
+brew cask install translate-tab
 
-#brew cask install translate-tab
-#brew cask install google music manager
-
-#brew cask install translate-tab
+# brew cask install objektiv
 brew cask install popclip
+brew cask install kindle
+brew cask install vagrant
 
 brew cleanup
 

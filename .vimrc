@@ -47,7 +47,7 @@ nnoremap [unite]r :Unite file_rec/async:!<CR>
 nnoremap [unite]y :Unite history/yank<CR>
 nnoremap [unite]o :Unite outline<CR>
 
-nnoremap <silent> [unite]g  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+" nnoremap <silent> [unite]g  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
 
 "ファイルのリロード
 nnoremap <silent> <space>R :e<CR>
@@ -154,12 +154,15 @@ let g:unite_source_history_yank_enable = 1
 let g:unite_source_rec_max_cache_files = 0
 call unite#custom#source('file_rec,file_rec/async', 'max_candidates', 0)
 
+
+
 "unite.vimを開いている間のキーマッピング
 if dein#tap('unite.vim')
-    autocmd! FileType unite call s:my_unite_settings()
+    autocmd!
+    autocmd FileType unite call <SID>unite_settings()
 endif
 
-function! s:my_unite_settings()
+function! s:unite_settings()
     " ウィンドウを分割して開く
     nnoremap <silent><buffer><expr> <C-S> unite#do_action('below')
     inoremap <silent><buffer><expr> <C-S> unite#do_action('below')
@@ -174,7 +177,17 @@ function! s:my_unite_settings()
     nmap <silent><buffer> <ESC> q
     nmap <silent><buffer> <C-[> q
 
+    "unite_source別設定
+    for source in unite#get_current_unite().sources
+        let source_name = substitute(source.name, '[-/]', '_', 'g')
+        if !empty(source_name) && has_key(s:unite_hooks, source_name)
+            call s:unite_hooks[source_name]()
+        endif
+    endfor
+
 endfunction
+
+let s:unite_hooks = {}
 
 
 "--------------------
@@ -328,7 +341,7 @@ function! MyReadonly()
 endfunction
 
 function! MyFugitive()
-    return exists('*fugitive#head') && strlen(fugitive#head()) ? ' '.fugitive#head() : ''
+    return exists('*fugitive#head') && strlen(fugitive#head()) ? ''.fugitive#head() : ''
 endfunction
 
 function! MyFilename()
@@ -370,15 +383,47 @@ let g:quickrun_config ={}
 let g:quickrun_config.scheme = { 'scheme': { 'command': 'gosh'}}
 
 "--------------------
+"vim-unite-giti
+"--------------------
+" nnoremap <silent>[unite]gP :Unite giti/pull_request/base -no-start-insert -horizontal<CR>
+nnoremap <silent>[unite]gs :Unite giti/status -no-start-insert<CR>
+nnoremap <silent>[unite]gb :Unite giti/branch_all -no-start-insert<CR>
+nnoremap <silent>[unite]gl :Unite giti/log -no-start-insert<CR>
+
+function! s:unite_hooks.giti_status()
+    " nnoremap <silent><buffer><expr>gM unite#do_action('ammend')
+    nnoremap <silent><buffer><expr>gm unite#do_action('commit')
+    nnoremap <silent><buffer><expr>ga unite#do_action('stage')
+    nnoremap <silent><buffer><expr>gc unite#do_action('checkout')
+    nnoremap <silent><buffer><expr>gd unite#do_action('diff')
+    nnoremap <silent><buffer><expr>gu unite#do_action('unstage')
+endfunction
+
+function! s:unite_hooks.giti_branch()
+    nnoremap <silent><buffer><expr>d unite#do_action('delete')
+    nnoremap <silent><buffer><expr>D unite#do_action('delete_force')
+endfunction
+
+function! s:unite_hooks.giti_branch_all()
+    call s:unite_hooks.source_giti_branch()
+endfunction
+
+function! s:unite_hooks.giti_log()
+    nnoremap <silent><buffer><expr>gd unite#do_action('diff')
+    nnoremap <silent><buffer><expr>d unite#do_action('diff')
+endfunction
+
+"--------------------
 "vim-fugitive
 "--------------------
-nnoremap <C-g>s :Gstatus<CR>
-nnoremap <C-g>a :Gwrite<CR>
-nnoremap <C-g>r :Gread<CR>
-nnoremap <C-g>c :Gcommit<CR>
-nnoremap <C-g>b :Gblame<CR>
-nnoremap <C-g>d :Gdiff<CR>
-nnoremap <C-g>v :Gitv<CR>
+nnoremap <C-g>l :Glog --oneline<CR>
+" nnoremap <C-g>s :Gstatus<CR>
+" nnoremap <C-g>a :Gwrite<CR>
+" nnoremap <C-g>r :Gread<CR>
+" nnoremap <C-g>c :Gcommit<CR>
+" nnoremap <C-g>b :Gblame<CR>
+" nnoremap <C-g>d :Gdiff<CR>
+" nnoremap <C-g>v :Gitv<CR>
 
 "--------------------
 " syntastic
@@ -417,7 +462,7 @@ let g:previm_open_cmd = 'open -a "Google Chrome"'
 syntax on
 augroup vimrc-highlight
     autocmd!
-    autocmd Syntax * if 10000 < line('$') | syntax off | endif
+    autocmd Syntax * if 100000 < line('$') | syntax off | endif
 augroup END
 
 set t_Co=256
@@ -712,6 +757,17 @@ command! Utf8 :e ++enc=utf8
 set cmdheight=1
 
 
+" Jq
+command! -nargs=? Jq call s:Jq(<f-args>)
+function! s:Jq(...)
+    if 0 == a:0
+        let l:arg = "."
+    else
+        let l:arg = a:1
+    endif
+    execute "%! jq \"" . l:arg . "\""
+endfunction
+
 
 "if has('mac')
 "  if has('gui_running')
@@ -740,5 +796,4 @@ set cmdheight=1
 "endif
 
 set helplang=ja,en
-
 filetype plugin indent on

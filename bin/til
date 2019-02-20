@@ -1,0 +1,31 @@
+#!/bin/sh
+
+rootDir=~/projects/til
+
+if [ $# = 0 ] ; then
+    echo "第一引数に言語を指定してください"
+    exit 1
+fi
+
+if [ ! -d ${rootDir} ]; then
+    echo "tilディレクトリが存在しません"
+    exit 1
+fi
+
+ext=$1
+langDir=$rootDir/$ext
+file=$langDir/sandbox.$ext
+
+if [ ! -d ${langDir} ]; then
+    mkdir $langDir
+fi
+
+if [ ! -f ${file} ]; then
+    touch $file
+fi
+
+cd $langDir
+# screen -x -RR -U -S $ext
+vim $file
+exec $SHELL
+

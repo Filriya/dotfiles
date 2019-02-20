@@ -1,2 +1,1 @@
-
-  au! BufRead,BufNewFile *.scss setfiletype scss
+au! BufRead,BufNewFile *.scss set filetype=scss

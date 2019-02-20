@@ -2,37 +2,37 @@
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
-repo =  'vim-jp/vimdoc-ja'
+repo = 'vim-jp/vimdoc-ja'
 
 # unite
 [[plugins]]
-repo =  'Shougo/vimproc'
+repo = 'Shougo/vimproc'
 build = 'make'
 
 [[plugins]]
-repo =  'Shougo/vimshell'
+repo = 'Shougo/vimshell'
 [[plugins]]
-repo =  'Shougo/unite.vim'
+repo = 'Shougo/unite.vim'
 [[plugins]]
-repo =  'Shougo/neomru.vim'
+repo = 'Shougo/neomru.vim'
 [[plugins]]
-repo =  'Shougo/neoyank.vim'
+repo = 'Shougo/neoyank.vim'
 [[plugins]]
-repo =  'Shougo/vimfiler'
+repo = 'Shougo/vimfiler'
 [[plugins]]
-repo =  'Shougo/neosnippet'
+repo = 'Shougo/neosnippet'
 [[plugins]]
-repo =  'Shougo/neosnippet-snippets'
+repo = 'Shougo/neosnippet-snippets'
 [[plugins]]
-repo =  't9md/vim-unite-ack'
+repo = 't9md/vim-unite-ack'
 [[plugins]]
-repo =  'Shougo/unite-outline'
+repo = 'Shougo/unite-outline'
 [[plugins]]
-repo =  'ujihisa/unite-colorscheme'
+repo = 'ujihisa/unite-colorscheme'
 [[plugins]]
-repo =  'tsukkee/unite-tag'
+repo = 'tsukkee/unite-tag'
 [[plugins]]
-repo =  'osyo-manga/unite-quickfix'
+repo = 'osyo-manga/unite-quickfix'
 
 ## C C++ Objective-C
 #[[plugins]]
@@ -46,137 +46,139 @@ repo =  'osyo-manga/unite-quickfix'
 
 # web on vim
 [[plugins]]
-repo =  'choplin/unite-vim_hacks'
+repo = 'choplin/unite-vim_hacks'
 [[plugins]]
-repo =  'mattn/webapi-vim'
+repo = 'mattn/webapi-vim'
 [[plugins]]
-repo =  'mattn/wwwrenderer-vim'
+repo = 'mattn/wwwrenderer-vim'
 [[plugins]]
-repo =  'thinca/vim-openbuf'
+repo = 'thinca/vim-openbuf'
 
 #
 # markdown
 [[plugins]]
-repo =  'plasticboy/vim-markdown'
+repo = 'plasticboy/vim-markdown'
 [[plugins]]
-repo =  'kannokanno/previm'
+repo = 'kannokanno/previm'
 [[plugins]]
-repo =  'tyru/open-browser.vim'
+repo = 'tyru/open-browser.vim'
 
 #
 # twitter on vim
 [[plugins]]
-repo =  'basyura/twibill.vim'
+repo = 'basyura/twibill.vim'
 [[plugins]]
-repo =  'basyura/bitly.vim'
+repo = 'basyura/bitly.vim'
 [[plugins]]
-repo =  'mattn/favstar-vim'
+repo = 'mattn/favstar-vim'
 [[plugins]]
-repo =  'basyura/TweetVim'
+repo = 'basyura/TweetVim'
 [[plugins]]
-repo =  'yomi322/unite-tweetvim'
+repo = 'yomi322/unite-tweetvim'
 
 #
 # syntax
 #[[plugins]]
-repo =  'othree/html5.vim'
+repo = 'othree/html5.vim'
 [[plugins]]
-repo =  'hail2u/vim-css3-syntax'
+repo = 'hail2u/vim-css3-syntax'
 [[plugins]]
-repo =  'cakebaker/scss-syntax.vim'
+repo = 'cakebaker/scss-syntax.vim'
 #[[plugins]]
-repo =  'othree/javascript-libraries-syntax.vim'
+repo = 'othree/javascript-libraries-syntax.vim'
 #[[plugins]]
-repo =  'othree/yajs.vim'
-[[plugins]]
-repo =  'mxw/vim-jsx'
+repo = 'othree/yajs.vim'
+#[[plugins]]
+#repo = 'mxw/vim-jsx'
 
 
 
 #
 # development:general
 [[plugins]]
-repo =  'vim-scripts/Align'
+repo = 'vim-scripts/Align'
 [[plugins]]
-repo =  'vim-scripts/sudo.vim'
+repo = 'vim-scripts/sudo.vim'
 [[plugins]]
-repo =  'vim-scripts/catn.vim'
+repo = 'vim-scripts/catn.vim'
 [[plugins]]
-repo =  'tyru/caw.vim'
+repo = 'tyru/caw.vim'
 [[plugins]]
-repo =  'thinca/vim-ref'
+repo = 'thinca/vim-ref'
 [[plugins]]
-repo =  'thinca/vim-qfreplace'
+repo = 'thinca/vim-qfreplace'
 [[plugins]]
-repo =  'thinca/vim-quickrun'
+repo = 'thinca/vim-quickrun'
 [[plugins]]
-repo =  'osyo-manga/unite-quickrun_config'
+repo = 'osyo-manga/unite-quickrun_config'
 [[plugins]]
-repo =  'tpope/vim-surround'
+repo = 'tpope/vim-surround'
 [[plugins]]
-repo =  'deton/jasegment.vim'
+repo = 'deton/jasegment.vim'
 [[plugins]]
-repo =  'scrooloose/syntastic'
+repo = 'scrooloose/syntastic'
 [[plugins]]
-repo =  'tpope/vim-fugitive'
+repo = 'tpope/vim-fugitive'
 [[plugins]]
-repo =  'fuenor/im_control.vim'
+repo = 'kmnk/vim-unite-giti.git'
 [[plugins]]
-repo =  'soramugi/auto-ctags.vim'
+repo = 'fuenor/im_control.vim'
+# [[plugins]]
+# repo = 'soramugi/auto-ctags.vim'
 [[plugins]]
-repo =  'haya14busa/incsearch.vim'
+repo = 'haya14busa/incsearch.vim'
 [[plugins]]
-repo =  'tmhedberg/matchit'
+repo = 'tmhedberg/matchit'
 [[plugins]]
-repo =  'deris/vim-rengbang'
+repo = 'deris/vim-rengbang'
 [[plugins]]
-repo =  'Shougo/neocomplete.vim'
+repo = 'Shougo/neocomplete.vim'
 
 #
 # development:frontend
 #[[plugins]]
-#repo =  'mattn/emmet-vim'
+#repo = 'mattn/emmet-vim'
 [[plugins]]
-repo =  'jiangmiao/simple-javascript-indenter'
+repo = 'jiangmiao/simple-javascript-indenter'
 
 #
 # development:backend
 #[[plugins]]
-#repo =  'm2mdas/phpcomplete-extended'
+#repo = 'm2mdas/phpcomplete-extended'
 #[[plugins]]
-#repo =  'm2mdas/phpcomplete-extended-laravel'
+#repo = 'm2mdas/phpcomplete-extended-laravel'
 [[plugins]]
-repo =  'xsbeats/vim-blade'
+repo = 'xsbeats/vim-blade'
 [[plugins]]
-repo =  'vim-scripts/PDV--phpDocumentor-for-Vim'
+repo = 'vim-scripts/PDV--phpDocumentor-for-Vim'
 [[plugins]]
-repo =  'davidhalter/jedi-vim'
+repo = 'davidhalter/jedi-vim'
 #[[plugins]]
-#repo =  'kevinw/pyflakes-vim'
+#repo = 'kevinw/pyflakes-vim'
 #[[plugins]]
-#repo =  'nvie/vim-flake8'
+#repo = 'nvie/vim-flake8'
 #[[plugins]]
-#repo =  'Yggdroot/indentLine'
+#repo = 'Yggdroot/indentLine'
 
 
 # colorscheme
 [[plugins]]
-repo =  'itchyny/lightline.vim'
+repo = 'itchyny/lightline.vim'
 [[plugins]]
-repo =  'mopp/mopkai.vim'
+repo = 'mopp/mopkai.vim'
 [[plugins]]
-repo =  'reedes/vim-colors-pencil'
+repo = 'reedes/vim-colors-pencil'
 
 #
 # others
 #[[plugins]]
-#repo =  'thinca/vim-threes'
+#repo = 'thinca/vim-threes'
 [[plugins]]
-repo =  'thinca/vim-scouter'
+repo = 'thinca/vim-scouter'
 #[[plugins]]
 #repo = Lazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
 #
 #
 #ja
 [[plugins]]
-repo =  'fuenor/JpFormat.vim'
+repo = 'fuenor/JpFormat.vim'

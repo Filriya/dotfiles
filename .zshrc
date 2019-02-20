@@ -187,6 +187,10 @@ bindkey '^s' peco-z-search
 # color
 eval $(dircolors ${HOME}/.dircolors )
 
+# history
+setopt hist_ignore_dups
+
+
 # clang
 alias clang-omp='/usr/local/opt/llvm/bin/clang -fopenmp -L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib'
 alias clang-omp++='/usr/local/opt/llvm/bin/clang++ -fopenmp -L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib'
