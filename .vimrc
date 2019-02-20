@@ -594,7 +594,6 @@ noremap! <C-B> <Left>
 noremap! <C-D> <Del>
 noremap! <C-[> <ESC>
 
-
 "加算
 "screenと被るので、<C-Z>へ
 noremap <C-Z> <C-A>

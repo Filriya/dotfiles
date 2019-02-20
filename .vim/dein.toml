@@ -140,6 +140,9 @@ repo = 'Shougo/neocomplete.vim'
 #repo = 'mattn/emmet-vim'
 [[plugins]]
 repo = 'jiangmiao/simple-javascript-indenter'
+[[plugins]]
+repo = "posva/vim-vue"
+on_ft = ["vue"]
 
 #
 # development:backend
