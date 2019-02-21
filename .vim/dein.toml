@@ -143,6 +143,8 @@ repo = 'jiangmiao/simple-javascript-indenter'
 [[plugins]]
 repo = "posva/vim-vue"
 on_ft = ["vue"]
+[[plugins]]
+repo = "digitaltoad/vim-pug"
 
 #
 # development:backend

@@ -112,7 +112,6 @@ let g:vimfiler_enable_auto_cd = 1
 
 nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=30 -toggle  -find<CR>
 
-autocmd! FileType vimfiler call s:my_vimfiler_settings()
 
 function! s:my_vimfiler_settings()
   nnoremap <buffer>H <Plug>(vimfiler_switch_to_parent_directory)
@@ -154,12 +153,11 @@ let g:unite_source_history_yank_enable = 1
 let g:unite_source_rec_max_cache_files = 0
 call unite#custom#source('file_rec,file_rec/async', 'max_candidates', 0)
 
-
-
 "unite.vimを開いている間のキーマッピング
 if dein#tap('unite.vim')
     autocmd!
     autocmd FileType unite call <SID>unite_settings()
+    autocmd FileType vimfiler call s:my_vimfiler_settings()
 endif
 
 function! s:unite_settings()
