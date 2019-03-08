@@ -11,32 +11,20 @@ LC_ALL="en_US.UTF-8"
 
 ZSHINITROOT="$HOME/dotfiles"
 
+fpath=($ZSHINITROOT/zsh $fpath)
+path=($HOME/bin $path)
+
 setopt nonomatch
 
 # Source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
-
-if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.prompt" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zshrc.prompt"
-fi
-
 if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.local" ]]; then
   source "${ZDOTDIR:-$HOME}/.zshrc.local"
+else 
+  zstyle ':prezto:module:prompt' theme 'mysorin' 9
 fi
 
-# linuxとosx、個別にロードしたい設定
-if [ `uname` = "Darwin" ]; then
-  # mac用のコード
-  if [ -f "$ZSHINITROOT/.zshrc.osx" ]; then
-    source "$ZSHINITROOT/.zshrc.osx"
-  fi
-elif [ `uname` = "Linux" ]; then
-  # Linux用のコード
-  if [ -f "$ZSHINITROOT/.zshrc.linux" ]; then
-    source "$ZSHINITROOT/.zshrc.linux"
-  fi
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
 case $OSTYPE in
@@ -45,29 +33,48 @@ case $OSTYPE in
     if [ -x /usr/libexec/path_helper ]; then
       eval `/usr/libexec/path_helper -s`
     fi
+    if [ -f "$ZSHINITROOT/.zshrc.macos" ]; then
+      source "$ZSHINITROOT/.zshrc.macos"
+    fi
+    ;;
+  linux*)
+    # Linux用のコード
+    if [ -f "$ZSHINITROOT/.zshrc.linux" ]; then
+      source "$ZSHINITROOT/.zshrc.linux"
+    fi
     ;;
 esac
 
-export PATH=/usr/local/opt/coreutils/libexec/gnubin:${PATH}
-export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:${MANPATH}
-
 unset GREP_OPTIONS
 
-
-# rbenv
-export PATH="${HOME}/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-
-
 # linux keychain
-keychain --nogui --quiet ~/.ssh/id_rsa
-source ~/.keychain/$HOST-sh
+if [ "$SSH_TTY" == "" ]; then
+  keychain --nogui --quiet ~/.ssh/id_rsa
+  source ~/.keychain/$HOST-sh
+fi
 
 # alias
 alias cl="clear"
-alias lg="ls -al|grep"
+alias lp="ls -al|peco"
 alias gosh='rlwrap gosh'
 alias ptags='ctags --tag-relative --recurse --sort=yes --exclude=*.js'
+
+# promptが更新されない
+# function cdup() {
+#    cd ..
+#    zle reset-prompt
+# }
+# zle -N cdup
+# bindkey '\^' cdup
+
+function starteditor() {
+  exec < /dev/tty
+  ${EDITOR}
+  zle reset-prompt
+}
+zle -N starteditor
+bindkey '^\^' starteditor
+
 
 # haskell stack
 alias ghc='stack ghc --'
@@ -75,9 +82,8 @@ alias ghci='stack ghci --'
 alias runhaskell='stack runhaskell --'
 
 # screen
-alias sr=myScreenLaunch
 alias sl='screen -list'
-function myScreenLaunch ()
+function sr ()
 {
   if [ $# -eq 1 ]; then
     screen -x -RR -U -S $1
@@ -86,7 +92,14 @@ function myScreenLaunch ()
   fi
 }
 
-setopt prompt_subst
+_sr() {
+   compadd `screen -list| perl -wne 'if ( $_=~ /[1-9]+\.(\S*)/){ printf "$1\n";}'`
+}
+
+compdef _sr sr
+
+# screen 表示用
+export TERM=xterm-256color
 function eliptical_pwd {
   local pwd="${PWD/#$HOME/~}"
 
@@ -109,104 +122,93 @@ case $TERM in
     ;;
 esac
 
-
-
-_srcomp() {
-  compadd `screen -list| perl -wne 'if ( $_=~ /[0-9]+\.(\S*)/){ printf $1; printf " "}'`
-}
-
-compdef _srcomp sr
-
-# npm
-NPM_PACKAGES="${HOME}/.npm-packages"
-
-NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
-
-export PATH=${NPM_PACKAGES}/bin:${PATH}
-
-# prompt color
-function colorcode()
-{
-  for c in {000..015}; do echo -n "\e[38;5;${c}m $c" ; [ $(($c%6)) -eq 5 ] && echo;done;echo
-    echo
-  for c in {016..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($((c-16))%6)) -eq 5 ] && echo;done;echo
-}
-
-# # aws completion
-# source /usr/local/bin/aws_zsh_completer.sh
-
 # default editor
 EDITOR=`which vim`
 
-# set gopath
-export GOPATH=${HOME}/gopath
-
-export PATH=${HOME}/local/bin:~/bin:${GOPATH}/bin:"$PATH"
-
 #peco and z
 if type peco 2>/dev/null 1>/dev/null; then
-  local tac
-  if which tac > /dev/null; then
-    tac="tac"
-  else
-    tac="tail -r"
-  fi
+    local tac
+    if which tac > /dev/null; then
+        tac="tac"
+    else
+        tac="tail -r"
+    fi
 
-  function peco_select_history()
-  {
-    BUFFER=`history -n 1 | eval $tac | peco`
-    CURSOR=$#BUFFER
-    zle reset-prompt
-  }
+    function peco_select_history()
+    {
+        BUFFER=`history -n 1 | eval $tac | peco`
+        CURSOR=$#BUFFER
+        zle reset-prompt
+    }
 
-  zle -N peco_select_history
-  bindkey '^R' peco_select_history
+    zle -N peco_select_history
+    bindkey '^R' peco_select_history
+
 fi
 
-stty -ixon
-source "${HOME}/.zsh.d/z.sh"
+if [ -e "$HOME/.zsh.d/z.sh" ]; then
+    source "${HOME}/.zsh.d/z.sh"
 
-function peco-z-search
-{
-  which peco z > /dev/null
-  if [ $? -ne 0 ]; then
-    echo "Please install peco and z"
-    return 1
-  fi
-  local res=$(z | sort -rn | cut -c 12- | peco)
-  if [ -n "$res" ]; then
-    BUFFER+="cd $res"
-    zle accept-line
-  else
-    return 1
-  fi
-}
-zle -N peco-z-search
-bindkey '^s' peco-z-search
-
-# color
-eval $(dircolors ${HOME}/.dircolors )
+    function peco-z-search
+    {
+        which peco z > /dev/null
+        if [ $? -ne 0 ]; then
+            echo "Please install peco and z"
+            return 1
+        fi
+        local res=$(z | sort -rn | cut -c 12- | peco)
+        if [ -n "$res" ]; then
+            BUFFER+="cd $res"
+            zle accept-line
+        else
+            return 1
+        fi
+    }
+    zle -N peco-z-search
+    bindkey '^s' peco-z-search
+fi
 
 # history
 setopt hist_ignore_dups
-
+setopt hist_ignore_space
+setopt EXTENDED_HISTORY
+export HISTSIZE=1000
+export SAVEHIST=100000
 
 # clang
 alias clang-omp='/usr/local/opt/llvm/bin/clang -fopenmp -L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib'
 alias clang-omp++='/usr/local/opt/llvm/bin/clang++ -fopenmp -L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib'
 
 
-export PATH=$HOME/.composer/vendor/bin:$PATH
-
-setopt hist_ignore_all_dups
-setopt hist_ignore_space
-
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-
-
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/filriya/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/filriya/google-cloud-sdk/path.zsh.inc'; fi
+    if [ -f '/Users/filriya/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/filriya/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/filriya/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/filriya/google-cloud-sdk/completion.zsh.inc'; fi
+    if [ -f '/Users/filriya/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/filriya/google-cloud-sdk/completion.zsh.inc'; fi
+
+
+# SSH/SCP/RSYNC
+# :completion:function:completer:command:argument:tag.
+# ^Xh
+#
+zstyle ':completion:*:(ssh|scp|rsync):*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
+zstyle ':completion:*:(scp|rsync):*' group-order files hosts-host all-files users hosts-domain hosts-ipaddr
+zstyle ':completion:*:ssh:*' group-order hosts-host users hosts-domain users hosts-ipaddr
+zstyle ':completion:*:(ssh|scp|rsync):*:hosts-host' ignored-patterns '*(.|:)*' loopback ip6-loopback localhost ip6-localhost broadcasthost
+zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
+zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
+
+zstyle ':completion:*:hosts' hosts
+
+cache_hosts_file="${ZDOTDIR:-$HOME}/.cache_hosts"
+print_cache_hosts () {
+    if [ ! -f $cache_hosts_file ]; then
+        update_cache_hosts
+    fi
+    print $cache_hosts_file
+}
+update_cache_hosts () {
+    ag -if "Host " ~/.ssh/conf.d |awk '{print $2}'|sort >  $cache_hosts_file
+}
+
+_cache_hosts=(print_cache_hosts )

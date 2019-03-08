@@ -19,4 +19,12 @@
 # 15 bright white
 #
 #
-prompt_sorin_setup 9 7 3
+
+# develop
+# zstyle ':prezto:module:prompt' theme 'mysorin' 9
+
+# staging
+# zstyle ':prezto:module:prompt' theme 'mysorin' 6
+
+# production
+# zstyle ':prezto:module:prompt' theme 'mysorin' 3

@@ -15,7 +15,8 @@ termcapinfo xterm-256color 'is=^[r^[mJ^[H^[?7h^[?1;4;6l'
 termcapinfo xterm* 'Co#256:pa#32767:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
 termcapinfo kterm* 'Co#256:pa#32767:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
 
-escape ^a^a
+# escape ^a^a
+escape ^Tt
 startup_message off
 vbell off
 autodetach on
@@ -40,7 +41,7 @@ bind s eval 'split' focus screen
 bind ^s eval 'split' focus screen
 bind K kill
 bind L redisplay
-bind Q quit
+bind q quit
 
 # trigger for layout sub-commands
 bind ^Y eval 'command -c layout' 'layout show'
@@ -54,11 +55,12 @@ bind X eval 'layout remove' 'next' 'layout show'
 bind N eval 'layout next' 'layout show'
 bind P eval 'layout prev' 'layout show'
 
-caption always "%?%F%{= rk}%:%{= Rw}%?%-w%?%F%{=u rW}%:%{=u Rk}%?%n %t%{-}%+w%{-u} %= %02c:%s"
+caption always "%?%F%{= rk}%:%{= Rw}%?%-w%?%F%{=u rW}%:%{=u Rk}%?%n %t%{-}%+w%{-u} %= %{ .k}%02c:%s"
 #caption always "%?%F%{= yk}%:%{= Yw}%?%-w%?%F%{=u yW}%:%{=u Yk}%?%n %t%{-}%+w%{-u} %= %c" #prod
 
 # create layout on first launch
 #'layout new' 'split -v' 'focus screen' 'split -s' 'focus screen'
+layout new
 layout new
 split -v
 focus
@@ -70,3 +72,5 @@ focus
 screen 0 vim
 
 source ~/.screenrc.local
+layout new
+layout prev

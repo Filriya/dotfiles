@@ -30,12 +30,15 @@
   autocrlf = false
   safecrlf = true
   pager = less=-R less
+  excludesfile = ~/.gitignore_global
 [i18n]
   commitencoding = UTF-8
 [push]
   default = simple
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+[ghq]
+  root = ~/projects

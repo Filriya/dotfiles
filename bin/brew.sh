@@ -42,9 +42,14 @@ brew install watch
 brew install wdiff --with-gettext
 brew install wget
 
+brew install zsh
+# etc/shells に追加
+echo /usr/local/bin/zsh | sudo tee -a /etc/shells
+
 brew install peco
 brew install z
 brew install sleepwatcher
+brew install ghq hub
 
 # brew install homebrew/php/php72
 brew install php

@@ -53,7 +53,10 @@ nnoremap [unite]o :Unite outline<CR>
 nnoremap <silent> <space>R :e<CR>
 
 " ペーストモードのトグル
-"nnoremap <Space>P :a!<CR>
+set pastetoggle=<space>p
+
+" ヘルプ
+nnoremap <space>h :vert help<space>
 
 "----------------------
 " caw.vim
@@ -118,8 +121,7 @@ function! s:my_vimfiler_settings()
   nnoremap <buffer>L <Plug>(vimfiler_cd_or_edit)
   nnoremap <silent><buffer><expr> v vimfiler#do_switch_action('vsplit')
   nnoremap <silent><buffer><expr> s vimfiler#do_switch_action('split')
-  nnoremap <buffer><silent>/ :call MyUniteFileCurrentDir()<CR>
-  nnoremap <buffer><silent>? /
+  nnoremap <buffer><silent>? :call MyUniteFileCurrentDir()<CR>
 
   nnoremap <buffer><silent><space>wl :wincmd l<CR>
 endfunction
@@ -146,8 +148,9 @@ let g:unite_enable_start_insert=1
 let g:unite_enable_ignore_case=1
 let g:unite_enable_smart_case=1
 let g:unite_update_time = 100
-let g:unite_enable_split_vertically=1
-let g:unite_winwidth = 70
+" let g:unite_enable_split_vertically=1
+" let g:unite_winwidth = 70
+let g:unite_winheight = 30
 let g:unite_split_rule = 'rightbelow'
 let g:unite_source_history_yank_enable = 1
 let g:unite_source_rec_max_cache_files = 0
@@ -353,7 +356,7 @@ endfunction
 "--------------------
 "ショートカットキー変更
 "imap <c-c> = <nop>
-let g:user_emmet_leader_key = '<c-c>'
+let g:user_emmet_eader_key = '<c-c>'
 let g:user_emmet_settings = {
             \  'indentation': '  ',
             \  'lang':'ja',
@@ -463,9 +466,48 @@ augroup vimrc-highlight
     autocmd Syntax * if 100000 < line('$') | syntax off | endif
 augroup END
 
+function! s:get_syn_id(transparent)
+  let synid = synID(line("."), col("."), 1)
+  if a:transparent
+    return synIDtrans(synid)
+  else
+    return synid
+  endif
+endfunction
+
+function! s:get_syn_attr(synid)
+  let name = synIDattr(a:synid, "name")
+  let ctermfg = synIDattr(a:synid, "fg", "cterm")
+  let ctermbg = synIDattr(a:synid, "bg", "cterm")
+  let guifg = synIDattr(a:synid, "fg", "gui")
+  let guibg = synIDattr(a:synid, "bg", "gui")
+  return {
+        \ "name": name,
+        \ "ctermfg": ctermfg,
+        \ "ctermbg": ctermbg,
+        \ "guifg": guifg,
+        \ "guibg": guibg}
+endfunction
+
+function! s:get_syn_info()
+  let baseSyn = s:get_syn_attr(s:get_syn_id(0))
+  echo "name: " . baseSyn.name .
+        \ " ctermfg: " . baseSyn.ctermfg .
+        \ " ctermbg: " . baseSyn.ctermbg .
+        \ " guifg: " . baseSyn.guifg .
+        \ " guibg: " . baseSyn.guibg
+  let linkedSyn = s:get_syn_attr(s:get_syn_id(1))
+  echo "link to"
+  echo "name: " . linkedSyn.name .
+        \ " ctermfg: " . linkedSyn.ctermfg .
+        \ " ctermbg: " . linkedSyn.ctermbg .
+        \ " guifg: " . linkedSyn.guifg .
+        \ " guibg: " . linkedSyn.guibg
+endfunction
+command! SyntaxInfo call s:get_syn_info()
+command! Uba :Unite -auto-preview colorscheme
+
 set t_Co=256
-"" カーソルの色
-"autocmd ColorScheme * hi CursorLine term=underline cterm=none ctermbg=237
 "" タブラインの色
 autocmd ColorScheme * hi TabLineSel  term=bold cterm=underline,bold ctermfg=White ctermbg=Black gui=bold,underline guifg=LightGray guibg=DarkBlue
 autocmd ColorScheme * hi TabLine     term=reverse cterm=underline ctermfg=Gray ctermbg=black guifg=Black guibg=black
@@ -476,15 +518,18 @@ autocmd ColorScheme * hi Pmenu ctermfg=73 ctermbg=16 guifg=#66D9EF guibg=#000000
 autocmd ColorScheme * hi PmenuSel ctermfg=252 ctermbg=23 guibg=#808080
 autocmd ColorScheme * hi PmenuSbar ctermbg=232 guibg=#080808
 autocmd ColorScheme * hi PmenuThumb ctermfg=103 ctermbg=15 guifg=#66D9EF guibg=White
+
+" 選択
+autocmd ColorScheme * hi Visual ctermbg=239
+
+"" その他
+autocmd ColorScheme * hi CursorLine ctermbg=236 cterm=none
 autocmd ColorScheme * hi Delimiter ctermfg=247
 autocmd ColorScheme * hi Comment ctermfg=73
-"Unite Beautiful Attack!
-command! Uba :Unite -auto-preview colorscheme
 
 set t_Co=256 
 set background=dark
 colorscheme mopkai
-
 
 "set nonumber
 set number
@@ -579,7 +624,7 @@ autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "norm
 
 "ヘルプを水平分割に
 "nnoremap H q:vert help<space>
-nnoremap H :vert help<space>
+"nnoremap H :vert help<space>
 
 "backspaceの挙動
 set backspace=start,eol,indent
