@@ -54,27 +54,20 @@ if [ "$SSH_TTY" == "" ]; then
 fi
 
 # alias
-alias cl="clear"
 alias lp="ls -al|peco"
 alias gosh='rlwrap gosh'
-alias ptags='ctags --tag-relative --recurse --sort=yes --exclude=*.js'
+alias phptags='ctags --tag-relative --recurse --sort=yes --exclude=*.js'
 
-# promptが更新されない
-# function cdup() {
-#    cd ..
-#    zle reset-prompt
-# }
-# zle -N cdup
-# bindkey '\^' cdup
-
-function starteditor() {
-  exec < /dev/tty
-  ${EDITOR}
-  zle reset-prompt
+function cdup() {
+   zle kill-whole-line
+   cd ..
+   # zle reset-prompt
+   zle accept-line
 }
-zle -N starteditor
-bindkey '^\^' starteditor
+zle -N cdup
+bindkey '^\^' cdup
 
+bindkey '^q' beginning-of-line
 
 # haskell stack
 alias ghc='stack ghc --'
@@ -82,18 +75,41 @@ alias ghci='stack ghci --'
 alias runhaskell='stack runhaskell --'
 
 # screen
-alias sl='screen -list'
 function sr ()
 {
+  # 現在アタッチしているscreenのセッション名
+  local sty=`echo $STY|perl -pe "s/.*\.(.*)/\1/g"`
+
+  # 何も受け取ってなければユーザー名
   if [ $# -eq 1 ]; then
-    screen -x -RR -U -S $1
+    local tty=$1
   else
-    screen -x -RR -U -S ${USER}
+    local tty=${USER}
+  fi
+
+  # 現在のscreenのセッションと、パラメータを比較
+  #
+  if [[ "$sty" =~ ^$tty ]]; then
+      # 先頭一致していたら何もしない
+      echo "$sty is already attached!"
+  elif [[ $sty != "" ]]; then
+      # screenにアタッチしていたら、一旦抜ける
+      # screen -d $STY
+
+      # TODO この処理がscreen内で処理される(当然)のでうまく動かない
+      #screen -x -RR -U -S $tty 
+  else 
+      screen -x -RR -U -S $tty
   fi
 }
 
+alias sl='screen_list'
+function screen_list ()
+{
+   screen -list| perl -wne 'if ( $_=~ /[0-9]+\.(\S*)/){ printf "$1\n";}'
+}
 _sr() {
-   compadd `screen -list| perl -wne 'if ( $_=~ /[1-9]+\.(\S*)/){ printf "$1\n";}'`
+   compadd `screen_list`
 }
 
 compdef _sr sr
@@ -125,6 +141,15 @@ esac
 # default editor
 EDITOR=`which vim`
 
+function starteditor() {
+  exec < /dev/tty
+  ${EDITOR}
+  zle reset-prompt
+}
+zle -N starteditor
+bindkey '^@' starteditor
+
+
 #peco and z
 if type peco 2>/dev/null 1>/dev/null; then
     local tac
@@ -135,14 +160,13 @@ if type peco 2>/dev/null 1>/dev/null; then
     fi
 
     function peco_select_history()
-    {
-        BUFFER=`history -n 1 | eval $tac | peco`
-        CURSOR=$#BUFFER
+    { 
+        BUFFER=`history -n 1 | eval $tac | peco` CURSOR=$#BUFFER
         zle reset-prompt
     }
 
     zle -N peco_select_history
-    bindkey '^R' peco_select_history
+    bindkey '^r' peco_select_history
 
 fi
 
@@ -168,12 +192,36 @@ if [ -e "$HOME/.zsh.d/z.sh" ]; then
     bindkey '^s' peco-z-search
 fi
 
+# リポジトリにcd
+function peco-repo-list () {
+  local ghqroot=`ghq root`
+  local selected_dir=`ghq list -p|perl -pse 's/$root\///' -- -root=$ghqroot|peco`
+  
+  if [ -n "$selected_dir" ]; then
+    BUFFER="cd ${ghqroot}/${selected_dir} && sr $selected_dir"
+    zle accept-line
+  fi
+  zle clear-screen
+}
+zle -N peco-repo-list
+
+bindkey '^t' peco-repo-list
+
+
 # history
-setopt hist_ignore_dups
-setopt hist_ignore_space
-setopt EXTENDED_HISTORY
-export HISTSIZE=1000
-export SAVEHIST=100000
+export HISTFILE=~/.zsh_history #履歴ファイルの設定
+export HISTSIZE=1000000 # メモリに保存される履歴の件数。(保存数だけ履歴を検索できる)
+export SAVEHIST=1000000 # ファイルに何件保存するか
+setopt extended_history # 実行時間とかも保存する
+setopt share_history # 別のターミナルでも履歴を参照できるようにする
+setopt hist_ignore_all_dups # 過去に同じ履歴が存在する場合、古い履歴を削除し重複しない 
+setopt hist_ignore_space # コマンド先頭スペースの場合保存しない
+setopt hist_verify # ヒストリを呼び出してから実行する間に一旦編集できる状態になる
+setopt hist_reduce_blanks #余分なスペースを削除してヒストリに記録する
+setopt hist_save_no_dups # historyコマンドは残さない
+setopt hist_expire_dups_first # 古い履歴を削除する必要がある場合、まず重複しているものから削除
+setopt hist_expand # 補完時にヒストリを自動的に展開する
+setopt inc_append_history # 履歴をインクリメンタルに追加 
 
 # clang
 alias clang-omp='/usr/local/opt/llvm/bin/clang -fopenmp -L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib'
@@ -190,7 +238,7 @@ alias clang-omp++='/usr/local/opt/llvm/bin/clang++ -fopenmp -L/usr/local/opt/llv
 # SSH/SCP/RSYNC
 # :completion:function:completer:command:argument:tag.
 # ^Xh
-#
+
 zstyle ':completion:*:(ssh|scp|rsync):*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
 zstyle ':completion:*:(scp|rsync):*' group-order files hosts-host all-files users hosts-domain hosts-ipaddr
 zstyle ':completion:*:ssh:*' group-order hosts-host users hosts-domain users hosts-ipaddr
@@ -208,7 +256,7 @@ print_cache_hosts () {
     print $cache_hosts_file
 }
 update_cache_hosts () {
-    ag -if "Host " ~/.ssh/conf.d |awk '{print $2}'|sort >  $cache_hosts_file
+    ag -if "Host " ~/.ssh/conf.d |awk '{print $2}'|sort >|  $cache_hosts_file
 }
-
+update_cache_hosts
 _cache_hosts=(print_cache_hosts )
