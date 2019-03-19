@@ -15,7 +15,7 @@ termcapinfo xterm-256color 'is=^[r^[mJ^[H^[?7h^[?1;4;6l'
 termcapinfo xterm* 'Co#256:pa#32767:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
 termcapinfo kterm* 'Co#256:pa#32767:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
 
-# escape ^a^a
+# escape ^Aa
 escape ^Tt
 startup_message off
 vbell off
