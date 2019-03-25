@@ -248,15 +248,17 @@ zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<-
 
 zstyle ':completion:*:hosts' hosts
 
-cache_hosts_file="${ZDOTDIR:-$HOME}/.cache_hosts"
-print_cache_hosts () {
-    if [ ! -f $cache_hosts_file ]; then
-        update_cache_hosts
-    fi
-    print $cache_hosts_file
-}
-update_cache_hosts () {
-    ag -if "Host " ~/.ssh/conf.d |awk '{print $2}'|sort >|  $cache_hosts_file
-}
-update_cache_hosts
-_cache_hosts=(print_cache_hosts )
+if [ "$SSH_TTY" == "" ]; then
+    cache_hosts_file="${ZDOTDIR:-$HOME}/.cache_hosts"
+    print_cache_hosts () {
+        if [ ! -f $cache_hosts_file ]; then
+            update_cache_hosts
+        fi
+        print $cache_hosts_file
+    }
+    update_cache_hosts () {
+        ag -if "Host " ~/.ssh/conf.d |awk '{print $2}'|sort >|  $cache_hosts_file
+    }
+    update_cache_hosts
+    _cache_hosts=(print_cache_hosts )
+fi

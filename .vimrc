@@ -113,16 +113,18 @@ let g:vimfiler_as_default_explorer=1
 let g:vimfiler_safe_mode_by_default = 0
 let g:vimfiler_enable_auto_cd = 1
 
-nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=30 -toggle  -find<CR>
+nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=40 -toggle  -find<CR>
+
 
 
 function! s:my_vimfiler_settings()
-  nnoremap <buffer>H <Plug>(vimfiler_switch_to_parent_directory)
-  nnoremap <buffer>L <Plug>(vimfiler_cd_or_edit)
+  nnoremap <silent><buffer>H <Plug>(vimfiler_switch_to_parent_directory)
+  nnoremap <silent><buffer>L <Plug>(vimfiler_cd_or_edit)
+  nnoremap <silent><buffer><expr> t vimfiler#do_switch_action('tabopen')
   nnoremap <silent><buffer><expr> v vimfiler#do_switch_action('vsplit')
   nnoremap <silent><buffer><expr> s vimfiler#do_switch_action('split')
   nnoremap <buffer><silent>? :call MyUniteFileCurrentDir()<CR>
-
+  " 隣のウインドウに戻る
   nnoremap <buffer><silent><space>wl :wincmd l<CR>
 endfunction
 
@@ -204,28 +206,44 @@ let g:auto_ctags_tags_args = "--tag-relative"." "
             \ "--regex-php=/scope([a-z|A-Z|0-9]+)/\1/"
 
 
-if dein#tap('neocomplete.vim')
-    let g:neocomplete#enable_at_startup = 1
-    let g:neocomplete#enable_camel_case_completion = 1
-    let g:neocomplete#enable_underbar_completion = 1
-    let g:neocomplete#smart_case = 1
-    let g:neocomplete#min_syntax_length = 2
+if dein#tap('deoplete.nvim')
+    let g:deoplete#enable_at_startup = 1
+    let g:deoplete#enable_camel_case_completion = 1
+    let g:deoplete#enable_underbar_completion = 1
+    let g:deoplete#smart_case = 1
+    let g:deoplete#min_syntax_length = 2
 
-    let g:neocomplete#auto_completion_start_length = 2
-    let g:neocomplete#manual_completion_start_length = 2
-    let g:neocomplete#enable_skip_completion = 1
-    let g:neocomplete#enable_auto_select = 0
-    let g:neocomplete#max_list = 20
+    let g:deoplete#auto_completion_start_length = 2
+    let g:deoplete#manual_completion_start_length = 2
+    let g:deoplete#enable_skip_completion = 1
+    let g:deoplete#enable_auto_select = 0
+    let g:deoplete#max_list = 20
 
     let $DOTVIM = $HOME . '/.vim'
-    let g:neocomplete#sources#dictionary#dictionaries = {
-                \ 'default' : '',
-                \ 'vimshell' : $HOME.'/.vimshell_hist',
-                \ 'javascript' : $DOTVIM.'/dict/javascript.dict',
-                \ 'scheme' : $DOTVIM. '/dict/gosh.dict',
-                \ 'php' : $DOTVIM.'/dict/php.dict'
-                \ }
 endif
+
+" if dein#tap('neocomplete.vim')
+"     let g:neocomplete#enable_at_startup = 1
+"     let g:neocomplete#enable_camel_case_completion = 1
+"     let g:neocomplete#enable_underbar_completion = 1
+"     let g:neocomplete#smart_case = 1
+"     let g:neocomplete#min_syntax_length = 2
+"
+"     let g:neocomplete#auto_completion_start_length = 2
+"     let g:neocomplete#manual_completion_start_length = 2
+"     let g:neocomplete#enable_skip_completion = 1
+"     let g:neocomplete#enable_auto_select = 0
+"     let g:neocomplete#max_list = 20
+"
+"     let $DOTVIM = $HOME . '/.vim'
+"     let g:neocomplete#sources#dictionary#dictionaries = {
+"                \ 'default' : '',
+"                \ 'vimshell' : $HOME.'/.vimshell_hist',
+"                \ 'javascript' : $DOTVIM.'/dict/javascript.dict',
+"                \ 'scheme' : $DOTVIM. '/dict/gosh.dict',
+"                \ 'php' : $DOTVIM.'/dict/php.dict'
+"                \ }
+" endif
 
 "--------------------
 " php complete
@@ -674,36 +692,32 @@ nnoremap N Nzz
 " ウィンドウ、タブ、バッファの分割・移動
 " Window Tab Buffer
 " ----------------------------------------
-" window操作
-nmap <space>t [myWindowTab]
-nmap <space>w [myWindow]
 
 " ウィンドウの移動
-nmap <silent> [myWindow]  <C-w>
-nmap <silent> [myWindowTab] <C-t>
+nnoremap <silent> <C-t>t :<C-u>tabnew<CR>
 
-nnoremap <silent> [myWindowTab]l :<C-u>tabnext<CR>
-nnoremap <silent> [myWindowTab]h :<C-u>tabprevious<CR>
+nnoremap <silent> <C-t>l :<C-u>tabnext<CR>
+nnoremap <silent> <C-t>h :<C-u>tabprevious<CR>
 
-nnoremap <silent> [myWindowTab]1 :<C-u>tabn 1<CR>
-nnoremap <silent> [myWindowTab]2 :<C-u>tabn 2<CR>
-nnoremap <silent> [myWindowTab]3 :<C-u>tabn 3<CR>
-nnoremap <silent> [myWindowTab]4 :<C-u>tabn 4<CR>
-nnoremap <silent> [myWindowTab]5 :<C-u>tabn 5<CR>
-nnoremap <silent> [myWindowTab]6 :<C-u>tabn 6<CR>
-nnoremap <silent> [myWindowTab]7 :<C-u>tabn 7<CR>
-nnoremap <silent> [myWindowTab]8 :<C-u>tabn 8<CR>
-nnoremap <silent> [myWindowTab]9 :<C-u>tabn 9<CR>
-nnoremap <silent> [myWindowTab]0 :<C-u>tabn 10<CR>
+nnoremap <silent> <C-t>1 :<C-u>tabn 1<CR>
+nnoremap <silent> <C-t>2 :<C-u>tabn 2<CR>
+nnoremap <silent> <C-t>3 :<C-u>tabn 3<CR>
+nnoremap <silent> <C-t>4 :<C-u>tabn 4<CR>
+nnoremap <silent> <C-t>5 :<C-u>tabn 5<CR>
+nnoremap <silent> <C-t>6 :<C-u>tabn 6<CR>
+nnoremap <silent> <C-t>7 :<C-u>tabn 7<CR>
+nnoremap <silent> <C-t>8 :<C-u>tabn 8<CR>
+nnoremap <silent> <C-t>9 :<C-u>tabn 9<CR>
+nnoremap <silent> <C-t>0 :<C-u>tabn 10<CR>
 
 
 " タブ操作
-nnoremap <silent> [myWindowTab]t :<C-u>tabnew<CR>:tabmove<CR>
-nnoremap <silent> [myWindowTab]d :<C-u>tabclose<CR>
+nnoremap <silent> <C-t>t :<C-u>tabnew<CR>:tabmove<CR>
+nnoremap <silent> <C-t>d :<C-u>tabclose<CR>
 
 " ウィンドウの分割<C-T>
-nnoremap <silent> [myWindow]v :<C-u>vsp<CR>
-nnoremap <silent> [myWindow]s :<C-u>sp<CR>
+nnoremap <silent> <C-w>v :<C-u>vsp<CR>
+nnoremap <silent> <C-w>s :<C-u>sp<CR>
 
 
 "<C-d>とあわせて左手だけでスクロール

@@ -104,6 +104,8 @@ repo = 'vim-scripts/catn.vim'
 [[plugins]]
 repo = 'tyru/caw.vim'
 [[plugins]]
+repo = 'Shougo/context_filetype.vim'
+[[plugins]]
 repo = 'thinca/vim-ref'
 [[plugins]]
 repo = 'thinca/vim-qfreplace'
@@ -131,8 +133,21 @@ repo = 'haya14busa/incsearch.vim'
 repo = 'tmhedberg/matchit'
 [[plugins]]
 repo = 'deris/vim-rengbang'
+#[[plugins]]
+#repo = 'Shougo/neocomplete.vim'
+
 [[plugins]]
-repo = 'Shougo/neocomplete.vim'
+repo = 'Shougo/deoplete.nvim'
+[[plugins]]
+repo = 'roxma/nvim-yarp'
+[[plugins]]
+repo = 'roxma/vim-hug-neovim-rpc'
+[[plugins]]
+repo = 'Shougo/neco-vim'
+[[plugins]]
+repo = 'Shougo/neco-syntax'
+[[plugins]]
+repo = 'ujihisa/neco-look'
 
 #
 # development:frontend

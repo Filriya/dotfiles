@@ -1,2 +1,5 @@
 alias ls="ls --color=auto"
 
+# linuxbrew
+path=("/home/linuxbrew/.linuxbrew/bin" "/home/linuxbrew/.linuxbrew/sbin" $path)
+
