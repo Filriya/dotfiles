@@ -1,7 +1,7 @@
 if [ `uname` = "Darwin" ]; then
   #mac用のコード
-  if [ -f ~/.bash_profile.mac ]; then
-  . ~/.bash_profile.mac
+  if [ -f ~/.bash_profile.darwin ]; then
+  . ~/.bash_profile.darwin
   fi
 elif [ `uname` = "Linux" ]; then
   #Linux用のコード

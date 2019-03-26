@@ -33,8 +33,8 @@ case $OSTYPE in
     if [ -x /usr/libexec/path_helper ]; then
       eval `/usr/libexec/path_helper -s`
     fi
-    if [ -f "$ZSHINITROOT/.zshrc.macos" ]; then
-      source "$ZSHINITROOT/.zshrc.macos"
+    if [ -f "$ZSHINITROOT/.zshrc.darwin" ]; then
+      source "$ZSHINITROOT/.zshrc.darwin"
     fi
     ;;
   linux*)
@@ -57,6 +57,12 @@ fi
 alias lp="ls -al|peco"
 alias gosh='rlwrap gosh'
 alias phptags='ctags --tag-relative --recurse --sort=yes --exclude=*.js'
+
+if [[ -f ~/dircolors/dircolors.solarized && -x `which dircolors` ]]; then
+  eval `dircolors ${HOME}/dircolors/dircolors.solarized`
+  zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+fi
+
 
 function cdup() {
    zle kill-whole-line
@@ -206,6 +212,9 @@ function peco-repo-list () {
 zle -N peco-repo-list
 
 bindkey '^t' peco-repo-list
+
+#hub
+function git(){hub "$@"}
 
 
 # history

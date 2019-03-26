@@ -54,21 +54,18 @@ brew install ghq hub
 # brew install homebrew/php/php72
 brew install php
 
-brew cask install xquartz
-brew install --vim-powerline ricty
-#インストール後、下記の2コマンドを実行
-#cp -f /usr/local/Cellar/ricty/3.2.3/share/fonts/Ricty-Bold-Powerline.ttf ~/Library/Fonts
-#fc-cache -vf
-#
 brew install screenutf8 --utf8
 brew install ssh-copy-id
 brew install keychain
 brew install the_silver_searcher
 brew install vim --with-lua --with-luajit --without-ruby --override-system-vi
+pip3 install nvim
+brew install nvim
 brew install w3m
 brew install wget
 
 # .dmg
+brew cask install xquartz
 brew cask install 1password
 brew cask install alfred
 brew cask install appcleaner

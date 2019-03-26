@@ -25,8 +25,8 @@ set nocompatible
 "-------------------
 ".vimrc編集ショートカット
 "-------------------
-nnoremap <silent> <Space>ev :<C-u>edit $MYVIMRC<CR>
-nnoremap <silent> <Space>et :<C-u>edit $HOME/.vim/dein.toml<CR>
+nnoremap <silent> <Space>ev :<C-u>tabnew<CR>:tabmove<CR>:<C-u>edit $MYVIMRC<CR>
+nnoremap <silent> <Space>et :<C-u>tabnew<CR>:tabmove<CR>:<C-u>edit $HOME/.vim/dein.toml<CR>
 nnoremap <silent> <Space>eg :<C-u>edit ~/dotfiles/.zprezto/modules/git/alias.zsh<CR>
 nnoremap <silent> <Space>sv :<C-u>source $MYVIMRC<CR>
 
@@ -770,10 +770,9 @@ endfunction
 "タブキーの処理
 "--------------
 set expandtab
-"set tabstop=2
-set softtabstop=-1
+set tabstop=4
+set softtabstop=4
 set shiftwidth=4
-"set cindent
 
 " 行末の空白文字を可視化
 highlight WhitespaceEOL cterm=underline ctermbg=red guibg=red
