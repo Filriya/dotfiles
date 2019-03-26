@@ -25,10 +25,10 @@ set nocompatible
 "-------------------
 ".vimrc編集ショートカット
 "-------------------
-nnoremap <silent> <Space>ev :<C-u>tabnew<CR>:tabmove<CR>:<C-u>edit $MYVIMRC<CR>
-nnoremap <silent> <Space>et :<C-u>tabnew<CR>:tabmove<CR>:<C-u>edit $HOME/.vim/dein.toml<CR>
-nnoremap <silent> <Space>eg :<C-u>edit ~/dotfiles/.zprezto/modules/git/alias.zsh<CR>
-nnoremap <silent> <Space>sv :<C-u>source $MYVIMRC<CR>
+nnoremap <silent> <Leader>ev :<C-u>edit $MYVIMRC<CR>
+nnoremap <silent> <Leader>et :<C-u>edit $HOME/.vim/dein.toml<CR>
+nnoremap <silent> <Leader>eg :<C-u>edit ~/dotfiles/.zprezto/modules/git/alias.zsh<CR>
+nnoremap <silent> <Leader>evs :<C-u>source $MYVIMRC<CR>
 
 set nomore
 
@@ -37,33 +37,35 @@ set nomore
 "--------------
 
 " Unite
-nnoremap [unite] <Nop>
-nmap <space> [unite]
-noremap [unite]b :Unite buffer<CR>
-nnoremap [unite]u :Unite -buffer-name=files buffer file_mru bookmark file<CR>
-nnoremap [unite]r :Unite file_rec/async:!<CR>
+nnoremap <Leader> <Nop>
+nmap <space> <Leader>
+noremap <Leader>b :Unite buffer<CR>
+nnoremap <Leader>u :Unite -buffer-name=files file_mru bookmark file<CR>
+" nnoremap <Leader>r :Unite file_rec/async:!<CR>
 
-"nnoremap [unite]R :Unite -buffer-name=register register<CR>
-nnoremap [unite]y :Unite history/yank<CR>
-nnoremap [unite]o :Unite outline<CR>
-
-" nnoremap <silent> [unite]g  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+"nnoremap <Leader>R :Unite -buffer-name=register register<CR>
+nnoremap <Leader>y :Unite history/yank<CR>
+nnoremap <Leader>o :Unite outline -vertical<CR>
 
 "ファイルのリロード
-nnoremap <silent> <space>R :e<CR>
+nnoremap <silent> <Leader>R :e<CR>
 
 " ペーストモードのトグル
-set pastetoggle=<space>p
+set pastetoggle=<Leader>p
 
 " ヘルプ
-nnoremap <space>h :vert help<space>
+nnoremap <Leader>h :vert help<space>
+
+" 保存
+nnoremap <Leader>w :w<CR>
+
 
 "----------------------
 " caw.vim
 "----------------------
 "" 行の最初の文字の前にコメント文字をトグル
-nmap <space>c <Plug>(caw:hatpos:toggle)
-vmap <space>c <Plug>(caw:hatpos:toggle)
+nmap <Leader>c <Plug>(caw:hatpos:toggle)
+vmap <Leader>c <Plug>(caw:hatpos:toggle)
 
 "----------------------
 "dein
@@ -113,9 +115,7 @@ let g:vimfiler_as_default_explorer=1
 let g:vimfiler_safe_mode_by_default = 0
 let g:vimfiler_enable_auto_cd = 1
 
-nnoremap <silent> <space>f :VimFiler -split -simple -explorer -winwidth=40 -toggle  -find<CR>
-
-
+nnoremap <silent> <Leader>f :VimFiler -split -simple -explorer -winwidth=40 -toggle  -find<CR>
 
 function! s:my_vimfiler_settings()
   nnoremap <silent><buffer>H <Plug>(vimfiler_switch_to_parent_directory)
@@ -125,7 +125,6 @@ function! s:my_vimfiler_settings()
   nnoremap <silent><buffer><expr> s vimfiler#do_switch_action('split')
   nnoremap <buffer><silent>? :call MyUniteFileCurrentDir()<CR>
   " 隣のウインドウに戻る
-  nnoremap <buffer><silent><space>wl :wincmd l<CR>
 endfunction
 
 function! MyUniteFileCurrentDir()
@@ -151,7 +150,7 @@ let g:unite_enable_ignore_case=1
 let g:unite_enable_smart_case=1
 let g:unite_update_time = 100
 " let g:unite_enable_split_vertically=1
-" let g:unite_winwidth = 70
+let g:unite_winwidth = 40
 let g:unite_winheight = 10 
 let g:unite_split_rule = 'rightbelow'
 let g:unite_source_history_yank_enable = 1
@@ -196,7 +195,7 @@ let s:unite_hooks = {}
 "--------------------
 " neocomplcache/neocomplete
 " ------------------"
-let g:auto_ctags = 1
+" let g:auto_ctags = 1
 let g:auto_ctags_directory_list = ['.git', '.svn']
 let g:auto_ctags_tags_args = "--tag-relative"." "
             \ "--recurse"." "
@@ -204,6 +203,8 @@ let g:auto_ctags_tags_args = "--tag-relative"." "
             \ "--exclude=*.js"." " 
             \ "--regex-php=/get([a-z|A-Z|0-9]+)Attribute/\1/"." " 
             \ "--regex-php=/scope([a-z|A-Z|0-9]+)/\1/"
+
+set tags+=.git/tags
 
 
 if dein#tap('deoplete.nvim')
@@ -217,52 +218,47 @@ if dein#tap('deoplete.nvim')
     let g:deoplete#manual_completion_start_length = 2
     let g:deoplete#enable_skip_completion = 1
     let g:deoplete#enable_auto_select = 0
-    let g:deoplete#max_list = 20
+    let g:deoplete#max_list = 500
 
     let $DOTVIM = $HOME . '/.vim'
+
+    let g:deoplete#sources = {}
+    let g:deoplete#sources.php = ['omni', 'phpactor', 'ultisnips', 'buffer']
+
+
+elseif dein#tap('neocomplete.vim')
+    let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_camel_case_completion = 1
+    let g:neocomplete#enable_underbar_completion = 1
+    let g:neocomplete#smart_case = 1
+    let g:neocomplete#min_syntax_length = 2
+
+    let g:neocomplete#auto_completion_start_length = 2
+    let g:neocomplete#manual_completion_start_length = 2
+    let g:neocomplete#enable_skip_completion = 1
+    let g:neocomplete#enable_auto_select = 0
+    let g:neocomplete#max_list = 20
+
+    let $DOTVIM = $HOME . '/.vim'
+    let g:neocomplete#sources#dictionary#dictionaries = {
+               \ 'default' : ''
+               \ }
 endif
 
-" if dein#tap('neocomplete.vim')
-"     let g:neocomplete#enable_at_startup = 1
-"     let g:neocomplete#enable_camel_case_completion = 1
-"     let g:neocomplete#enable_underbar_completion = 1
-"     let g:neocomplete#smart_case = 1
-"     let g:neocomplete#min_syntax_length = 2
-"
-"     let g:neocomplete#auto_completion_start_length = 2
-"     let g:neocomplete#manual_completion_start_length = 2
-"     let g:neocomplete#enable_skip_completion = 1
-"     let g:neocomplete#enable_auto_select = 0
-"     let g:neocomplete#max_list = 20
-"
-"     let $DOTVIM = $HOME . '/.vim'
-"     let g:neocomplete#sources#dictionary#dictionaries = {
-"                \ 'default' : '',
-"                \ 'vimshell' : $HOME.'/.vimshell_hist',
-"                \ 'javascript' : $DOTVIM.'/dict/javascript.dict',
-"                \ 'scheme' : $DOTVIM. '/dict/gosh.dict',
-"                \ 'php' : $DOTVIM.'/dict/php.dict'
-"                \ }
-" endif
 
-"--------------------
-" php complete
-"--------------------
-let g:phpcomplete_index_composer_command = "composer.phar"
-autocmd  FileType  php setlocal omnifunc=phpcomplete_extended#CompletePHP
 
 "--------------------
 " php documentor
 "--------------------
-nnoremap <Space>p :call PhpDocSingle()<CR>
-vnoremap <Space>p :call PhpDocRange()<CR>
+" nnoremap <Leader>p :call PhpDocSingle()<CR>
+" vnoremap <Leader>p :call PhpDocRange()<CR>
 
 "--------------------
 " Neosnippet
 "--------------------
 
 "" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/snippets'
+let g:neosnippet#snippets_directory='~/.vim/snippets,~/.vim.bundle/repos/github.com/Shougo/neosnippet-snippets/neosnippets'
 
 " SuperTab like snippets behavior.
 imap <expr><TAB>
@@ -276,13 +272,6 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 
 set conceallevel=0
 let g:vim_json_syntax_conceal = 0
-
-"--------------------
-" Tweetvim
-"--------------------
-"nnoremap <silent> [unite]t :Unite tweetvim<CR>
-"nnoremap <silent> [unite]<c-t> :Unite tweetvim<CR>
-"nnoremap <silent> <space>ts :TweetVimSay<CR>
 
 
 "--------------------
@@ -404,10 +393,10 @@ let g:quickrun_config.scheme = { 'scheme': { 'command': 'gosh'}}
 "--------------------
 "vim-unite-giti
 "--------------------
-" nnoremap <silent>[unite]gP :Unite giti/pull_request/base -no-start-insert -horizontal<CR>
-nnoremap <silent>[unite]gs :Unite giti/status -no-start-insert<CR>
-nnoremap <silent>[unite]gb :Unite giti/branch_all -no-start-insert<CR>
-nnoremap <silent>[unite]gl :Unite giti/log -no-start-insert<CR>
+" nnoremap <silent><Leader>gP :Unite giti/pull_request/base -no-start-insert -horizontal<CR>
+nnoremap <silent><Leader>gs :Unite giti/status -no-start-insert<CR>
+nnoremap <silent><Leader>gb :Unite giti/branch_all -no-start-insert<CR>
+nnoremap <silent><Leader>gl :Unite giti/log -no-start-insert<CR>
 
 function! s:unite_hooks.giti_status()
     " nnoremap <silent><buffer><expr>gM unite#do_action('ammend')
@@ -639,6 +628,9 @@ set nobackup                        " バックアップを取らない
 " ファイルを開いた際に、前回終了時の行で起動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 
+vnoremap <silent> y y`]
+vnoremap <silent> p p`]
+nnoremap <silent> p p`]
 
 "ヘルプを水平分割に
 "nnoremap H q:vert help<space>
@@ -693,8 +685,7 @@ nnoremap N Nzz
 " Window Tab Buffer
 " ----------------------------------------
 
-" ウィンドウの移動
-nnoremap <silent> <C-t>t :<C-u>tabnew<CR>
+" タブの操作
 
 nnoremap <silent> <C-t>l :<C-u>tabnext<CR>
 nnoremap <silent> <C-t>h :<C-u>tabprevious<CR>
@@ -710,9 +701,9 @@ nnoremap <silent> <C-t>8 :<C-u>tabn 8<CR>
 nnoremap <silent> <C-t>9 :<C-u>tabn 9<CR>
 nnoremap <silent> <C-t>0 :<C-u>tabn 10<CR>
 
-
 " タブ操作
 nnoremap <silent> <C-t>t :<C-u>tabnew<CR>:tabmove<CR>
+nnoremap <silent> <C-t><C-t> :<C-u>tabnew<CR>:tabmove<CR>
 nnoremap <silent> <C-t>d :<C-u>tabclose<CR>
 
 " ウィンドウの分割<C-T>
@@ -770,9 +761,9 @@ endfunction
 "タブキーの処理
 "--------------
 set expandtab
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=-1
+set shiftwidth=2
 
 " 行末の空白文字を可視化
 highlight WhitespaceEOL cterm=underline ctermbg=red guibg=red

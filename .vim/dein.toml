@@ -34,16 +34,6 @@ repo = 'tsukkee/unite-tag'
 [[plugins]]
 repo = 'osyo-manga/unite-quickfix'
 
-## C C++ Objective-C
-#[[plugins]]
-#repo = Lazy 'https://github.com/tokorom/cocoa.vim.git', 'syntax-only', {'autoload': {'filetypes': ['objc']}}
-##[[plugins]]
-#repo = Lazy 'https://github.com/tokorom/ctrlp-docset.git', {'autoload': {'filetypes': ['objc']}}
-##[[plugins]]
-#repo = Lazy 'https://github.com/tokorom/clang_complete.git', 'for-ios', {'autoload': {'filetypes': ['c', 'cpp', 'objc']}}
-##[[plugins]]
-#repo = Lazy 'https://github.com/tokorom/clang_complete-getopts-ios.git', {'autoload': {'filetypes': ['objc']}}
-
 # web on vim
 [[plugins]]
 repo = 'choplin/unite-vim_hacks'
@@ -125,8 +115,8 @@ repo = 'tpope/vim-fugitive'
 repo = 'kmnk/vim-unite-giti.git'
 [[plugins]]
 repo = 'fuenor/im_control.vim'
-# [[plugins]]
-# repo = 'soramugi/auto-ctags.vim'
+[[plugins]]
+repo = 'soramugi/auto-ctags.vim'
 [[plugins]]
 repo = 'haya14busa/incsearch.vim'
 [[plugins]]
@@ -146,8 +136,6 @@ repo = 'roxma/vim-hug-neovim-rpc'
 repo = 'Shougo/neco-vim'
 [[plugins]]
 repo = 'Shougo/neco-syntax'
-[[plugins]]
-repo = 'ujihisa/neco-look'
 
 #
 # development:frontend
@@ -160,25 +148,21 @@ repo = "posva/vim-vue"
 on_ft = ["vue"]
 [[plugins]]
 repo = "digitaltoad/vim-pug"
+[[plugins]]
+repo = "wokalski/autocomplete-flow"
 
 #
 # development:backend
-#[[plugins]]
-#repo = 'm2mdas/phpcomplete-extended'
-#[[plugins]]
-#repo = 'm2mdas/phpcomplete-extended-laravel'
 [[plugins]]
 repo = 'xsbeats/vim-blade'
 [[plugins]]
 repo = 'vim-scripts/PDV--phpDocumentor-for-Vim'
 [[plugins]]
-repo = 'davidhalter/jedi-vim'
-#[[plugins]]
-#repo = 'kevinw/pyflakes-vim'
-#[[plugins]]
-#repo = 'nvie/vim-flake8'
-#[[plugins]]
-#repo = 'Yggdroot/indentLine'
+repo  = 'phpactor/phpactor'
+on_ft = ['php']
+build = 'composer install'
+[[plugins]]
+repo = 'kristijanhusak/deoplete-phpactor'
 
 
 # colorscheme
