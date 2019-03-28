@@ -1,0 +1,59 @@
+#!/bin/bash
+
+usage() {
+cat << EOS
+usage: vmup [-l|-h] [search]
+
+  -h: help
+  -l: vmの一覧を出力。ここで出てくる情報に対してgrepをかける
+
+vagrantをどこからでも起動できるようにするコマンドです。
+第一引数に文字列を渡すとその文字列でgrepしたもの、渡さなかった場合はpecoで選択したものを起動します。
+
+require: peco
+EOS
+}
+
+# options
+while getopts lh OPT
+do
+  case $OPT in
+    "l" ) MODE="LIST" ;;
+    "h" ) MODE="HELP" ;;
+  esac
+done
+
+shift $((OPTIND - 1))
+
+if [ "$MODE" = "HELP" ]; then
+    usage
+    exit 0
+fi
+
+
+# マシンのリスト作成
+machines=$(cat ~/.vagrant.d/data/machine-index/index \
+    | jq -r '.machines | to_entries | map([.value.name, .key, .value.state, .value.vagrantfile_path])[] | join (" ")' \
+    | perl -pe "s/([\S]* [\S]{7})[\S]*(.*)/\1\2/" \
+    | column -t)
+
+if [ "$MODE" = "LIST" ]; then
+    echo "$machines"
+    exit 0
+fi
+
+
+# マシンを選択
+if [ $# -eq 0 ]; then
+    machine=$(echo "$machines"| peco)
+else 
+    machine=$(echo "$machines"| grep $1)
+fi
+
+machineid=$(echo $machine | cut -d " " -f 2)
+machinePath=$(echo $machine | cut -d " " -f 4)
+
+
+echo -e "\033[0;36mvagrant up $machinePath\033[0;m"
+
+vagrant up $machineid

@@ -556,6 +556,7 @@ set display=uhex     " 印字不可能文字を16進数で表示
 set nf=hex           " 数値インクリメントは10進数か16進数
 set splitbelow       " 水平分割時は新しいwindowを下に
 set splitright       " 垂直分割時は新しいwindowを右に
+set ambiwidth=double "絵文字
 
 augroup paste
     if &term =~ "xterm"

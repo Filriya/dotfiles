@@ -1,10 +1,3 @@
-#
-# Executes commands at the start of an interactive session.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
-
 # LANG="C.UTF-8"
 LC_CTYPE="en_US.UTF-8"
 LC_ALL="en_US.UTF-8"

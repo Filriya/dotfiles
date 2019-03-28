@@ -5,7 +5,6 @@ brew upgrade
 
 brew tap sanemat/font
 brew tap phinze/homebrew-cask
-brew tap rcmdnk/homebrew-rcmdnkpac
 brew tap homebrew/cask-versions 
 
 # Packages
@@ -54,7 +53,7 @@ brew install ghq hub
 # brew install homebrew/php/php72
 brew install php
 
-brew install screenutf8 --utf8
+brew install rcmdnk/rcmdnkpac/screenutf8 --utf8
 brew install ssh-copy-id
 brew install keychain
 brew install the_silver_searcher

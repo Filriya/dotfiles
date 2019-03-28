@@ -69,6 +69,7 @@ split -s
 focus
 screen 2
 focus
-screen 0 vim
+screen 0
 layout new
+next
 layout prev

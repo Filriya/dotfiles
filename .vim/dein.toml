@@ -181,8 +181,10 @@ repo = 'reedes/vim-colors-pencil'
 repo = 'thinca/vim-scouter'
 #[[plugins]]
 #repo = Lazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
-#
-#
+
+
 #ja
 [[plugins]]
 repo = 'fuenor/JpFormat.vim'
+
+
