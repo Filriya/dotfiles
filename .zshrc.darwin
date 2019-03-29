@@ -1,6 +1,0 @@
-alias ls="ls --color=auto"
-alias ctags="`brew --prefix`/bin/ctags"
-
-export PATH=/usr/local/opt/coreutils/libexec/gnubin:${PATH}
-export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:${MANPATH}
-
