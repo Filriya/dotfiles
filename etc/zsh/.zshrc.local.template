@@ -20,8 +20,8 @@
 #
 #
 
-# develop
-# zstyle ':prezto:module:prompt' theme 'mysorin' 9
+#develop
+style ':prezto:module:prompt' theme 'mysorin' 9
 
 # staging
 # zstyle ':prezto:module:prompt' theme 'mysorin' 6

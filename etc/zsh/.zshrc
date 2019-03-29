@@ -5,11 +5,11 @@ LC_ALL="en_US.UTF-8"
 fpath=(${ZDOTDIR:-$HOME}/.zsh.prompt $fpath)
 path=(${ZDOTDIR:-$HOME}/bin $path)
 
-if [ ! -e $HOME/.zprezto ]; then
+if [ ! -e $HOME/.zsh.bundle/.zprezto ]; then
     git clone --recursive https://github.com/sorin-ionescu/prezto.git "${HOME}/.zsh.bundle/.zprezto"
 fi
 
-if [ ! -e $HOME/.zsh.d ]; then
+if [ ! -e $HOME/.zsh.bundle/z ]; then
     git clone https://github.com/rupa/z.git "${HOME}/.zsh.bundle/z"
 fi
 
@@ -98,6 +98,7 @@ alias ghci='stack ghci --'
 alias runhaskell='stack runhaskell --'
 
 # screen
+function sr()
 {
   # 現在アタッチしているscreenのセッション名
   local sty=`echo $STY|perl -pe "s/.*\.(.*)/\1/g"`
