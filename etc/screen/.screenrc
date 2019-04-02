@@ -62,7 +62,6 @@ caption always "%?%F%{= rk}%:%{= Rw}%?%-w%?%F%{=u rW}%:%{=u Rk}%?%n %t%{-}%+w%{-
 source ~/.screenrc.local
 
 layout new
-layout new
 split -v
 focus
 screen 1

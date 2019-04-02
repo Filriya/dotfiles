@@ -58,6 +58,7 @@ nnoremap <Leader>h :vert help<space>
 
 " 保存
 nnoremap <Leader>w :w<CR>
+nnoremap <Leader>q :wq<CR>
 
 "----------------------
 " caw.vim
@@ -149,7 +150,7 @@ let g:unite_enable_smart_case=1
 let g:unite_update_time = 100
 " let g:unite_enable_split_vertically=1
 let g:unite_winwidth = 40
-let g:unite_winheight = 10 
+let g:unite_winheight = 10
 let g:unite_split_rule = 'rightbelow'
 let g:unite_source_history_yank_enable = 1
 let g:unite_source_rec_max_cache_files = 0
@@ -197,9 +198,9 @@ let s:unite_hooks = {}
 let g:auto_ctags_directory_list = ['.git', '.svn']
 let g:auto_ctags_tags_args = "--tag-relative"." "
             \ "--recurse"." "
-            \ "--sort=yes"." " 
-            \ "--exclude=*.js"." " 
-            \ "--regex-php=/get([a-z|A-Z|0-9]+)Attribute/\1/"." " 
+            \ "--sort=yes"." "
+            \ "--exclude=*.js"." "
+            \ "--regex-php=/get([a-z|A-Z|0-9]+)Attribute/\1/"." "
             \ "--regex-php=/scope([a-z|A-Z|0-9]+)/\1/"
 
 set tags+=.git/tags
@@ -531,7 +532,7 @@ autocmd ColorScheme * hi Visual ctermbg=238
 autocmd ColorScheme * hi Delimiter ctermfg=247
 autocmd ColorScheme * hi Comment ctermfg=73
 
-set t_Co=256 
+set t_Co=256
 set background=dark
 colorscheme mopkai
 
@@ -602,16 +603,22 @@ endif
 nnoremap <C-O> <C-T>
 
 if dein#tap('incsearch.vim')
-    map / <Plug>(incsearch-forward)
-    map ? <Plug>(incsearch-backward)
-    map g/ <Plug>(incsearch-stay)
     highlight IncSearchCursor ctermfg=0 ctermbg=9 guifg=#000000 guibg=#FF0000
     set hlsearch | nohlsearch
     let g:incsearch#auto_nohlsearch = 1
     let g:incsearch#consistent_n_direction = 1
-    let g:incsearch#do_not_save_error_message_history = 1
-    map  n <Plug>(incsearch-nohl-n)
-    map  N <Plug>(incsearch-nohl-N)
+    let g:incsearch#do_not_save_error_message_history = 2
+    let g:incsearch#magic = '\V' " very nomagic
+
+    map / <Plug>(incsearch-forward)
+    map ? <Plug>(incsearch-backward)
+    map g/ <Plug>(incsearch-stay)
+    map n  <Plug>(incsearch-nohl-n)
+    map N  <Plug>(incsearch-nohl-N)
+    map *  <Plug>(incsearch-nohl-*)
+    map #  <Plug>(incsearch-nohl-#)
+    map g* <Plug>(incsearch-nohl-g*)
+    map g# <Plug>(incsearch-nohl-g#)
 endif
 
 "---------------------------------

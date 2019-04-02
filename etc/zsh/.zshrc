@@ -18,7 +18,7 @@ setopt nonomatch
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.local" ]]; then
   source "${ZDOTDIR:-$HOME}/.zshrc.local"
-else 
+else
   zstyle ':prezto:module:prompt' theme 'mysorin' 9
 fi
 
@@ -103,10 +103,11 @@ function sr()
       # screen -d $STY
 
       # TODO この処理がscreen内で処理される(当然)のでうまく動かない
-      #screen -x -RR -U -S $tty 
-  else 
+      #screen -x -RR -U -S $tty
+  else
       screen -x -RR -U -S $tty
   fi
+  echo hoge
 }
 
 alias sl='screen_list'
@@ -157,11 +158,10 @@ bindkey '^@' starteditor
 
 #peco and z
 if type peco 2>/dev/null 1>/dev/null; then
-    local tac
     if which tac > /dev/null; then
-        tac="tac"
+        local tac="tac"
     else
-        tac="tail -r"
+        local tac="tail -r"
     fi
 
     function peco_select_history()
@@ -194,23 +194,38 @@ if [ -e "$HOME/.zsh.bundle/z/z.sh" ]; then
         fi
     }
     zle -N peco-z-search
-    bindkey '^t' peco-z-search
+    bindkey '^s' peco-z-search
 fi
 
 # リポジトリにcd
 function peco-repo-list () {
   local ghqroot=`ghq root`
   local selected_dir=`ghq list -p|perl -pse 's/$root\///' -- -root=$ghqroot|peco`
-  
+
   if [ -n "$selected_dir" ]; then
-    BUFFER="cd ${ghqroot}/${selected_dir} && sr $selected_dir"
-    zle accept-line
+    local current_screen_name=`echo $STY|perl -pe "s/.*\.(.*)/\1/g"`
+    local screen_name=$(echo $selected_dir|perl -pse 's/[\.\/]/_/g')
+
+    # 現在attach中のscreenと同じなら何もしない
+    if [ $current_screen_name = $screen_name ]; then
+      echo $screen_name is already attached!
+      return 1
+    fi
+    # if [ ${#current_screen_name} -gt 0 ]; then
+    #   BUFFER="screen -d $current_screen_name && "
+    # fi
+    if sl | grep -x $screen_name > /dev/null; then
+      BUFFER+="cd ${ghqroot}/${selected_dir} && screen -d -xRR $screen_name"
+    else
+      BUFFER+="cd ${ghqroot}/${selected_dir} && screen -d -S $screen_name"
+    fi
+    # zle accept-line
   fi
-  zle clear-screen
+  # zle clear-screen
 }
 zle -N peco-repo-list
 
-bindkey '^s' peco-repo-list
+bindkey '^t' peco-repo-list
 
 #hub
 # function git(){hub "$@"}
@@ -221,24 +236,24 @@ export HISTSIZE=1000000 # メモリに保存される履歴の件数。(保存�
 export SAVEHIST=1000000 # ファイルに何件保存するか
 setopt extended_history # 実行時間とかも保存する
 setopt share_history # 別のターミナルでも履歴を参照できるようにする
-setopt hist_ignore_all_dups # 過去に同じ履歴が存在する場合、古い履歴を削除し重複しない 
+setopt hist_ignore_all_dups # 過去に同じ履歴が存在する場合、古い履歴を削除し重複しない
 setopt hist_ignore_space # コマンド先頭スペースの場合保存しない
 setopt hist_verify # ヒストリを呼び出してから実行する間に一旦編集できる状態になる
 setopt hist_reduce_blanks #余分なスペースを削除してヒストリに記録する
 setopt hist_save_no_dups # historyコマンドは残さない
 setopt hist_expire_dups_first # 古い履歴を削除する必要がある場合、まず重複しているものから削除
 setopt hist_expand # 補完時にヒストリを自動的に展開する
-setopt inc_append_history # 履歴をインクリメンタルに追加 
+setopt inc_append_history # 履歴をインクリメンタルに追加
 
 # clang
 alias clang-omp='/usr/local/opt/llvm/bin/clang -fopenmp -L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib'
 alias clang-omp++='/usr/local/opt/llvm/bin/clang++ -fopenmp -L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib'
 
 # The next line updates PATH for the Google Cloud SDK.
-    if [ -f '/Users/filriya/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/filriya/google-cloud-sdk/path.zsh.inc'; fi
+  if [ -f '/Users/filriya/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/filriya/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-    if [ -f '/Users/filriya/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/filriya/google-cloud-sdk/completion.zsh.inc'; fi
+  if [ -f '/Users/filriya/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/filriya/google-cloud-sdk/completion.zsh.inc'; fi
 
 
 # SSH/SCP/RSYNC
@@ -255,19 +270,19 @@ zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<-
 zstyle ':completion:*:hosts' hosts
 
 if [ "$SSH_TTY" == "" ]; then
-    cache_hosts_file="${ZDOTDIR:-$HOME}/.cache_hosts"
-    print_cache_hosts () {
-        if [ ! -f $cache_hosts_file ]; then
-            update_cache_hosts
-        fi
-        print $cache_hosts_file
-    }
-    update_cache_hosts () {
-        ag -if "Host " ~/.ssh/conf.d |awk '{print $2}'|sort >|  $cache_hosts_file
-    }
-    update_cache_hosts
-    _cache_hosts=(print_cache_hosts )
-fi
+  cache_hosts_file="${ZDOTDIR:-$HOME}/.cache_hosts"
+  print_cache_hosts () {
+    if [ ! -f $cache_hosts_file ]; then
+      update_cache_hosts
+    fi
+    print $cache_hosts_file
+  }
+update_cache_hosts () {
+  ag -if "Host " ~/.ssh/conf.d |awk '{print $2}'|sort >|  $cache_hosts_file
+  }
+update_cache_hosts
+_cache_hosts=(print_cache_hosts )
+  fi
 
 #
 # Defines Git aliases.
@@ -304,7 +319,7 @@ alias gbS='git show-branch --all'
 # alias gbV='git branch --verbose --verbose'
 # alias gbx='git branch --delete'
 # alias gbX='git branch --delete --force'
- 
+
 # # Commit (c)
 alias gc='git commit --verbose'
 alias gcm='git commit --message'
@@ -328,7 +343,7 @@ alias gcY='git cherry -v'
 # alias gcSf='git commit -S --amend --reuse-message HEAD'
 # alias gcSF='git commit -S --verbose --amend'
 # alias gcsS='git show --pretty=short --show-signature'
- 
+
 # Conflict (C)
 alias gCl='git --no-pager diff --name-only --diff-filter=U'
 alias gCa='git add $(gCl)'
@@ -337,7 +352,7 @@ alias gCo='git checkout --ours --'
 alias gCO='gCo $(gCl)'
 alias gCt='git checkout --theirs --'
 alias gCT='gCt $(gCl)'
- 
+
 # Data (d)
 alias gd='git ls-files'
 alias gdc='git ls-files --cached'
@@ -346,7 +361,7 @@ alias gdm='git ls-files --modified'
 alias gdo='git ls-files --other --exclude-standard'
 alias gdk='git ls-files --killed'
 alias gdi='git status --porcelain --short --ignored | sed -n "s/^!! //p"'
- 
+
 # Fetch (f)
 alias gf='git fetch'
 alias gfa='git fetch --all'
@@ -362,7 +377,7 @@ alias gfr='git pull --rebase'
 # alias gFl='git flow release'
 # alias gFh='git flow hotfix'
 # alias gFs='git flow support'
-# 
+#
 # alias gFfl='git flow feature list'
 # alias gFfs='git flow feature start'
 # alias gFff='git flow feature finish'
@@ -373,7 +388,7 @@ alias gfr='git pull --rebase'
 # alias gFfc='git flow feature checkout'
 # alias gFfm='git flow feature pull'
 # alias gFfx='git flow feature delete'
-# 
+#
 # alias gFbl='git flow bugfix list'
 # alias gFbs='git flow bugfix start'
 # alias gFbf='git flow bugfix finish'
@@ -384,7 +399,7 @@ alias gfr='git pull --rebase'
 # alias gFbc='git flow bugfix checkout'
 # alias gFbm='git flow bugfix pull'
 # alias gFbx='git flow bugfix delete'
-# 
+#
 # alias gFll='git flow release list'
 # alias gFls='git flow release start'
 # alias gFlf='git flow release finish'
@@ -395,7 +410,7 @@ alias gfr='git pull --rebase'
 # alias gFlc='git flow release checkout'
 # alias gFlm='git flow release pull'
 # alias gFlx='git flow release delete'
-# 
+#
 # alias gFhl='git flow hotfix list'
 # alias gFhs='git flow hotfix start'
 # alias gFhf='git flow hotfix finish'
@@ -406,7 +421,7 @@ alias gfr='git pull --rebase'
 # alias gFhc='git flow hotfix checkout'
 # alias gFhm='git flow hotfix pull'
 # alias gFhx='git flow hotfix delete'
-# 
+#
 # alias gFsl='git flow support list'
 # alias gFss='git flow support start'
 # alias gFsf='git flow support finish'
@@ -421,11 +436,11 @@ alias gfr='git pull --rebase'
 # Grep (g)
 # alias gg='git grep'
 alias gg='git grep --ignore-case'
-alias ggl='git grep --files-with-matches'
-alias ggL='git grep --files-without-matches'
-alias ggv='git grep --invert-match'
-alias ggw='git grep --word-regexp'
- 
+  alias ggl='git grep --files-with-matches'
+  alias ggL='git grep --files-without-matches'
+  alias ggv='git grep --invert-match'
+  alias ggw='git grep --word-regexp'
+
 # Index (i)
 alias gia='git add'
 alias giap='git add --patch'
@@ -438,7 +453,7 @@ alias gir='git reset'
 alias girp='git reset --patch'
 alias gix='git rm -r --cached'
 alias giX='git rm -rf --cached'
- 
+
 # Log (l)
 alias gl='git log --topo-order --pretty=format:"${_git_log_medium_format}"'
 alias gls='git log --topo-order --stat --patch --full-diff --pretty=format:"${_git_log_medium_format}"'
@@ -519,7 +534,7 @@ alias gtv='git verify-tag'
 
 # Working Copy (w)
 alias gw='git status --ignore-submodules=${_git_status_ignore_submodules} --short'
-# alias gwS='git status --ignore-submodules=${_git_status_ignore_submodules}'
+alias gws='git status --ignore-submodules=${_git_status_ignore_submodules}'
 alias gwd='git diff --no-ext-diff'
 alias gwD='git diff --no-ext-diff --word-diff'
 alias gwr='git reset --soft'
@@ -534,15 +549,15 @@ function git_branch_list()
 {
   local=$(git branch|perl -pe "s/\* /  /")
   no_branch=$(git branch -r|perl -pe "s/origin\///g"|perl -ne "print if ! /->/")
-  no_branch=$(echo -ne "$local\n$no_branch"|sort|uniq -u)
-  remote=$(git branch -r|perl -ne "print if ! /->/")
+    no_branch=$(echo -ne "$local\n$no_branch"|sort|uniq -u)
+    remote=$(git branch -r|perl -ne "print if ! /->/")
 
-  local_print=$(echo $local|perl -pe "s/^  /  * /")
-  no_branch_print=$(echo $no_branch|perl -pe "s/^  /  + /")
-  remote_print=$(echo $remote|perl -pe "s/^  /  = /")
-  
-  echo -e "$local_print\n$no_branch_print\n$remote_print" 
-}
+      local_print=$(echo $local|perl -pe "s/^  /  * /")
+      no_branch_print=$(echo $no_branch|perl -pe "s/^  /  + /")
+      remote_print=$(echo $remote|perl -pe "s/^  /  = /")
 
-alias -g B='`git_branch_list| peco | sed -e "s/^\*[ ]*//g"`'
+      echo -e "$local_print\n$no_branch_print\n$remote_print"
+    }
+
+  alias -g B='`git_branch_list| peco | sed -e "s/^\*[ ]*//g"`'
 

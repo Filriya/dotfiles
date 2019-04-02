@@ -86,7 +86,7 @@ repo = 'othree/yajs.vim'
 #
 # development:general
 [[plugins]]
-repo = 'vim-scripts/Align'
+repo = 'junegunn/vim-easy-align'
 [[plugins]]
 repo = 'vim-scripts/sudo.vim'
 [[plugins]]
