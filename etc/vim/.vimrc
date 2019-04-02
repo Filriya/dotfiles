@@ -693,7 +693,9 @@ nnoremap N Nzz
 " タブの操作
 
 nnoremap <silent> <C-t>l :<C-u>tabnext<CR>
+nnoremap <silent> <C-t><C-l> :<C-u>tabnext<CR>
 nnoremap <silent> <C-t>h :<C-u>tabprevious<CR>
+nnoremap <silent> <C-t><C-h> :<C-u>tabprevious<CR>
 
 nnoremap <silent> <C-t>1 :<C-u>tabn 1<CR>
 nnoremap <silent> <C-t>2 :<C-u>tabn 2<CR>
@@ -710,6 +712,7 @@ nnoremap <silent> <C-t>0 :<C-u>tabn 10<CR>
 nnoremap <silent> <C-t>t :<C-u>tabnew<CR>:tabmove<CR>
 nnoremap <silent> <C-t><C-t> :<C-u>tabnew<CR>:tabmove<CR>
 nnoremap <silent> <C-t>d :<C-u>tabclose<CR>
+nnoremap <silent> <C-t><C-d> :<C-u>tabclose<CR>
 
 " ウィンドウの分割<C-T>
 nnoremap <silent> <C-w>v :<C-u>vsp<CR>
