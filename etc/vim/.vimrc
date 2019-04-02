@@ -26,9 +26,9 @@ set nocompatible
 ".vimrc編集ショートカット
 "-------------------
 nnoremap <silent> <Leader>ev :<C-u>edit $MYVIMRC<CR>
-nnoremap <silent> <Leader>et :<C-u>edit $HOME/.vim/dein.toml<CR>
-nnoremap <silent> <Leader>eg :<C-u>edit ~/dotfiles/.zprezto/modules/git/alias.zsh<CR>
 nnoremap <silent> <Leader>evs :<C-u>source $MYVIMRC<CR>
+nnoremap <silent> <Leader>et :<C-u>edit $HOME/.vim/dein.toml<CR>
+nnoremap <silent> <Leader>ez :<C-u>edit $HOME/.zshrc<CR>
 
 set nomore
 
@@ -37,8 +37,8 @@ set nomore
 "--------------
 
 " Unite
-nnoremap <Leader> <Nop>
-nmap <space> <Leader>
+noremap <Leader> <Nop>
+map <space> <Leader>
 noremap <Leader>b :Unite buffer<CR>
 nnoremap <Leader>u :Unite -buffer-name=files file_mru bookmark file<CR>
 " nnoremap <Leader>r :Unite file_rec/async:!<CR>
@@ -621,7 +621,7 @@ set autoread                        " 更新時自動再読込み
 set hidden                          " 編集中でも他のファイルを開けるようにする
 set noswapfile                      " スワップファイルを作らない
 set nobackup                        " バックアップを取らない
-"autocmd BufWritePre * :%s/\s\+$//ge " 保存時に行末の空白を除去する
+autocmd BufWritePre * :%s/\s\+$//ge " 保存時に行末の空白を除去する
 
 " ファイルを開いた際に、前回終了時の行で起動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif

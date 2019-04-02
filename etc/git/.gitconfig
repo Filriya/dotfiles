@@ -36,6 +36,8 @@
   commitencoding = UTF-8
 [push]
   default = simple
+[merge]
+  tool = vimdiff
 [filter "lfs"]
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
