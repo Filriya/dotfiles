@@ -1,3 +1,3 @@
 #!/bin/bash
-vagrant global-status| grep saved | cut -f 1 -d " "|xargs --no-run-if-empty vagrant halt
-vagrant global-status| grep running | cut -f 1 -d " "|xargs --no-run-if-empty vagrant halt
+vmlist| grep saved | cut -f 1 -d " "|xargs --no-run-if-empty vagrant halt
+vmlist| grep running | cut -f 1 -d " "|xargs --no-run-if-empty vagrant halt

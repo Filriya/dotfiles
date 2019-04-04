@@ -58,7 +58,8 @@ nnoremap <Leader>h :vert help<space>
 
 " 保存
 nnoremap <Leader>w :w<CR>
-nnoremap <Leader>q :wq<CR>
+nnoremap <Leader>q :q<CR>
+nnoremap <Leader>wq :wq<CR>
 
 "----------------------
 " caw.vim
@@ -274,9 +275,12 @@ let g:vim_json_syntax_conceal = 0
 
 
 "--------------------
-" Align
+" EasyAlign
 " ------------------
-let g:Align_xstrlen = 3
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 "--------------------
 " matchit

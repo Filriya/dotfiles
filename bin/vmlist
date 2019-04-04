@@ -1,0 +1,5 @@
+#!/bin/bash
+cat ~/.vagrant.d/data/machine-index/index \
+  | jq -r '.machines | to_entries | map([.key, .value.name, .value.state, .value.vagrantfile_path])[] | join (" ")' \
+  | perl -pe "s/([\S]{7})[\S]*(.*)/\1\2/" \
+  | column -t

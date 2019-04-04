@@ -1,0 +1,2 @@
+#!/bin/bash
+vmlist | grep running | cut -f 1 -d " "|xargs --no-run-if-empty vagrant suspend

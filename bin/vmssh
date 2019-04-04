@@ -1,33 +1,5 @@
 #!/bin/bash
 
-usage() {
-cat << EOS
-usage: vmup [-h] [search]
-
-  -h: help
-
-vagrantをどこからでも起動できるようにするコマンドです。
-第一引数に文字列を渡すとその文字列でgrepしたもの、渡さなかった場合はpecoで選択したものを起動します。
-
-require: peco
-EOS
-}
-
-# options
-while getopts h OPT
-do
-  case $OPT in
-    "h" ) MODE="HELP" ;;
-  esac
-done
-
-shift $((OPTIND - 2))
-
-if [ "$MODE" = "HELP" ]; then
-    usage
-    exit 0
-fi
-
 # マシンのリスト作成
 machines=`vmlist`
 
@@ -47,7 +19,9 @@ echo -e "\033[0;36mvagrant up $machinePath\033[0;m"
 
 if [ $machineStat = "poweroff" ]; then
   vagrant up $machineId
+  vagrant ssh $machineId
 elif [ $machineStat = "saved" ]; then
   vagrant resume $machineId
+  vagrant ssh $machineId
 fi
 

@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 #
 # A simple theme that displays relevant, contextual information.
 #
@@ -170,7 +172,7 @@ ${SSH_TTY:+"%F{'$1'}%n%f%F{7}@%f%F{'$1'}%m%f "}%F{4}${_prompt_mysorin_pwd}%(!. %
   PROMPT+='$python_info[virtualenv]${editor_info[overwrite]}%(?:: %F{1'
   PROMPT+=${show_return}
   PROMPT+='%f)${VIM:+" %B%F{6}V%f%b"}${_prompt_mysorin_git}'
-  PROMPT+=' 
+  PROMPT+='
 ${editor_info[keymap]} '
   SPROMPT='zsh: correct %F{1}%R%f to %F{2}%r%f [nyae]? '
 }
