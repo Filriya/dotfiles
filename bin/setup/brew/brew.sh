@@ -29,7 +29,7 @@ brew install ghq hub
 brew install screen
 brew install the_silver_searcher
 
-brew tap tkengo/highway && brew install highway
+brew install ripgrep
 
 # nvim
 brew install vim

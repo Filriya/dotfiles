@@ -24,6 +24,10 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zsh.bundle/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zsh.bundle/.zprezto/init.zsh"
 fi
 
+if [ -e "$HOME/.zsh.bundle/z/z.sh" ]; then
+  source "${HOME}/.zsh.bundle/z/z.sh"
+fi
+
 # Source OS-specific settings
 case $OSTYPE in
   darwin*)
@@ -106,9 +110,9 @@ case $TERM in
     preexec() {
       echo -ne "\ek$1\e\\"
     }
-  precmd() {
-    echo -ne "\ek$(eliptical_pwd)\e\\"
-  }
+    precmd() {
+      echo -ne "\ek$(eliptical_pwd)\e\\"
+    }
 ;;
 esac
 
@@ -182,12 +186,10 @@ if type peco 2>/dev/null 1>/dev/null; then
     zle reset-prompt
   }
 
-zle -N peco_select_history
-bindkey '^r' peco_select_history
+  zle -N peco_select_history
+  bindkey '^r' peco_select_history
 fi
 
-if [ -e "$HOME/.zsh.bundle/z/z.sh" ]; then
-  source "${HOME}/.zsh.bundle/z/z.sh"
 
   function peco-z-search
   {
@@ -206,7 +208,6 @@ if [ -e "$HOME/.zsh.bundle/z/z.sh" ]; then
   }
 zle -N peco-z-search
 bindkey '^s' peco-z-search
-fi
 #hub
 # function git(){hub "$@"}
 
@@ -230,10 +231,13 @@ alias clang-omp='/usr/local/opt/llvm/bin/clang -fopenmp -L/usr/local/opt/llvm/li
 alias clang-omp++='/usr/local/opt/llvm/bin/clang++ -fopenmp -L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib'
 
 # The next line updates PATH for the Google Cloud SDK.
-  if [ -f '/Users/filriya/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/filriya/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/Users/filriya/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/filriya/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-  if [ -f '/Users/filriya/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/filriya/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/Users/filriya/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/filriya/google-cloud-sdk/completion.zsh.inc'; fi
+
+# rg ripgrep
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
 
 # SSH/SCP/RSYNC
