@@ -26,7 +26,7 @@ set nocompatible
 ".vimrc編集ショートカット
 "-------------------
 nnoremap <silent> <Leader>ev :<C-u>edit $MYVIMRC<CR>
-nnoremap <silent> <Leader>evs :<C-u>source $MYVIMRC<CR>
+nnoremap <silent> <Leader>es :<C-u>source $MYVIMRC<CR>
 nnoremap <silent> <Leader>et :<C-u>edit $HOME/.vim/dein.toml<CR>
 nnoremap <silent> <Leader>ez :<C-u>edit $HOME/.zshrc<CR>
 
@@ -48,10 +48,10 @@ nnoremap <Leader>y :Unite history/yank<CR>
 nnoremap <Leader>o :Unite outline -vertical<CR>
 
 "ファイルのリロード
-nnoremap <silent> <Leader>R :e<CR>
+nnoremap <silent> <Leader>R :<C-u>e<CR>
 
-" ペーストモードのトグル
-set pastetoggle=<Leader>p
+" ペーストモード
+nnoremap <Leader>p :<C-u>a!<CR>
 
 " ヘルプ
 nnoremap <Leader>h :vert help<space>
@@ -62,50 +62,31 @@ nnoremap <Leader>q :q<CR>
 nnoremap <Leader>wq :wq<CR>
 
 "----------------------
-" caw.vim
-"----------------------
-"" 行の最初の文字の前にコメント文字をトグル
-nmap <Leader>c <Plug>(caw:hatpos:toggle)
-vmap <Leader>c <Plug>(caw:hatpos:toggle)
-
-"----------------------
 "dein
 "----------------------
 filetype off
 filetype plugin indent off
 
-" プラグインが実際にインストールされるディレクトリ
-let s:dein_dir = expand('~/.vim.bundle')
-" dein.vim 本体
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+let s:dein_dir = expand('~/.vim.bundle') " プラグインが実際にインストールされるディレクトリ
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim' " dein.vim 本体
 
-" dein.vim がなければ github から落としてくる
-if &runtimepath !~# '/dein.vim'
-  if !isdirectory(s:dein_repo_dir)
-    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
-  endif
-  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+" deinが入っていなければinstall
+if !isdirectory(s:dein_repo_dir)
+  call system('git clone https://github.com/Shougo/dein.vim ' . shellescape(s:dein_repo_dir))
 endif
 
 " 設定開始
+let &runtimepath = s:dein_repo_dir .",". &runtimepath
 if dein#load_state(s:dein_dir)
-  " プラグインリストを収めた TOML ファイル
   let s:toml      = '~/.vim/dein.toml'
-  let s:lazy_toml = '~/.vim/dein_lazy.toml'
-
   call dein#begin(s:dein_dir, [$MYVIMRC, s:toml])
-
-  " TOML を読み込み、キャッシュしておく
-  call dein#load_toml(s:toml,      {'lazy': 0})
-  "call dein#load_toml(s:lazy_toml, {'lazy': 1})
-
-  " 設定終了
+  call dein#load_toml(s:toml, {'lazy': 0})
   call dein#end()
   call dein#save_state()
 endif
 
 " もし、未インストールものがあったらインストール
-if dein#check_install()
+if has('vim_starting') && dein#check_install()
   call dein#install()
 endif
 
@@ -115,8 +96,9 @@ endif
 let g:vimfiler_as_default_explorer=1
 let g:vimfiler_safe_mode_by_default = 0
 let g:vimfiler_enable_auto_cd = 1
+let g:vimfiler_ignore_pattern = '^\%(.git\|.DS_Store\)$'
 
-nnoremap <silent> <Leader>f :VimFiler -split -simple -explorer -winwidth=40 -toggle  -find<CR>
+nnoremap <silent> <C-e> :VimFiler -split -simple -explorer -winwidth=40 -toggle  -find<CR>
 
 function! s:my_vimfiler_settings()
   nnoremap <silent><buffer>H <Plug>(vimfiler_switch_to_parent_directory)
@@ -281,6 +263,96 @@ let g:vim_json_syntax_conceal = 0
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+
+"----------------------
+" caw.vim
+"----------------------
+"" 行の最初の文字の前にコメント文字をトグル
+nmap <Leader>c <Plug>(caw:hatpos:toggle)
+vmap <Leader>c <Plug>(caw:hatpos:toggle)
+
+"----------------------
+" easymotion
+"----------------------
+let g:EasyMotion_do_mapping = 0 " デフォルトマップを無効化
+
+let g:EasyMotion_smartcase = 1
+let g:EasyMotion_use_migemo = 1
+let g:EasyMotion_startofline = 0
+let g:EasyMotion_use_upper = 1 " Show target key with upper case to improve readability
+let g:EasyMotion_enter_jump_first = 1
+let g:EasyMotion_space_jump_first = 1
+let g:EasyMotion_keys = "; WERTASDFFFGZXCV UIOPHJNM"
+
+" <Leader>f{char} to move to {char}
+map  f <Plug>(easymotion-fl)
+map  F <Plug>(easymotion-Fl)
+map  t <Plug>(easymotion-tl)
+map  T <Plug>(easymotion-Tl)
+
+" s{char}{char} to move to {char}{char}
+nmap s <Plug>(easymotion-overwin-f2)
+vmap s <Plug>(easymotion-bd-f2)
+
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+
+
+function! s:incsearch_config(...) abort
+  return incsearch#util#deepextend(deepcopy({
+ \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+ \   'keymap': {
+ \     "\<C-l>": '<Over>(easymotion)'
+ \   },
+ \   'is_expr': 0
+ \ }), get(a:, 1, {}))
+endfunction
+
+noremap <silent><expr> / incsearch#go(<SID>incsearch_config())
+noremap <silent><expr> ?  incsearch#go(<SID>incsearch_config({'command': '?'}))
+" noremap <silent><expr> g/ incsearch#go(<SID>incsearch_config({'is_stay': 1}))
+
+if dein#tap('incsearch.vim')
+    highlight IncSearchCursor ctermfg=0 ctermbg=9 guifg=#000000 guibg=#FF0000
+    set hlsearch | nohlsearch
+    let g:incsearch#auto_nohlsearch = 1
+    let g:incsearch#consistent_n_direction = 1
+    let g:incsearch#do_not_save_error_message_history = 2
+    let g:incsearch#magic = '\V' " very nomagic
+
+    " noremap / <Plug>(incsearch-forward)
+    " noremap ? <Plug>(incsearch-backward)
+    " noremap g/ <Plug>(incsearch-stay)
+    noremap n  <Plug>(incsearch-nohl-n)
+    noremap N  <Plug>(incsearch-nohl-N)
+    noremap *  <Plug>(incsearch-nohl-*)
+    noremap #  <Plug>(incsearch-nohl-#)
+    noremap g* <Plug>(incsearch-nohl-g*)
+    noremap g# <Plug>(incsearch-nohl-g#)
+endif
+
+"--------------------
+" haya14busa/incsearch-migemo.vim
+"--------------------
+function! s:config_migemo(...) abort
+  return extend(copy({
+  \   'converters': [
+  \     incsearch#config#migemo#converter(),
+  \   ],
+  \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+  \   'keymap': {"\<C-l>": '<Over>(easymotion)'},
+  \   'is_expr': 0,
+  \ }), get(a:, 1, {}))
+endfunction
+
+noremap <silent><expr> <Leader>/ incsearch#go(<SID>config_migemo())
+noremap <silent><expr> <Leader>? incsearch#go(<SID>config_migemo({'command': '?'}))
+" noremap <silent><expr> <Leader>g/ incsearch#go(<SID>config_migemo({'is_stay': 1}))
+
 
 "--------------------
 " matchit
@@ -606,25 +678,6 @@ if has('path_extra')
 endif
 nnoremap <C-O> <C-T>
 
-if dein#tap('incsearch.vim')
-    highlight IncSearchCursor ctermfg=0 ctermbg=9 guifg=#000000 guibg=#FF0000
-    set hlsearch | nohlsearch
-    let g:incsearch#auto_nohlsearch = 1
-    let g:incsearch#consistent_n_direction = 1
-    let g:incsearch#do_not_save_error_message_history = 2
-    let g:incsearch#magic = '\V' " very nomagic
-
-    map / <Plug>(incsearch-forward)
-    map ? <Plug>(incsearch-backward)
-    map g/ <Plug>(incsearch-stay)
-    map n  <Plug>(incsearch-nohl-n)
-    map N  <Plug>(incsearch-nohl-N)
-    map *  <Plug>(incsearch-nohl-*)
-    map #  <Plug>(incsearch-nohl-#)
-    map g* <Plug>(incsearch-nohl-g*)
-    map g# <Plug>(incsearch-nohl-g#)
-endif
-
 "---------------------------------
 "ファイル操作
 "--------------------------------
@@ -657,8 +710,8 @@ noremap! <C-D> <Del>
 noremap! <C-[> <ESC>
 
 "加算
-"screenと被るので、<C-Z>へ
-noremap <C-Z> <C-A>
+"screenと被るので、<C-A>へ
+noremap <C-A> <C-Q>
 
 "command line windowを表示
 "swap semicolon and colon
@@ -724,8 +777,8 @@ nnoremap <silent> <C-w>s :<C-u>sp<CR>
 
 
 "<C-d>とあわせて左手だけでスクロール
-nnoremap <C-e> <C-u>
-vnoremap <C-e> <C-u>
+" nnoremap <C-e> <C-u>
+" vnoremap <C-e> <C-u>
 
 set tabline=%!MyTabLine()
 

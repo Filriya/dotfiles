@@ -37,8 +37,8 @@ alias gbS='git show-branch --all'
 # # Commit (c)
 alias gc='git commit --verbose'
 alias gcm='git commit --message'
-alias gcf='git commit --verbose --amend --reuse-message HEAD'
 alias gca='git commit --verbose --amend'
+alias gcA='git commit --verbose --amend --reuse-message HEAD'
 alias gco='git checkout'
 alias gcop='git checkout --patch' # -p
 alias gcp='git cherry-pick --ff'

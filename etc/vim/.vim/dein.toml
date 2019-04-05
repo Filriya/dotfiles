@@ -120,6 +120,14 @@ repo = 'soramugi/auto-ctags.vim'
 [[plugins]]
 repo = 'haya14busa/incsearch.vim'
 [[plugins]]
+repo = 'haya14busa/incsearch-easymotion.vim'
+[[plugins]]
+repo = 'haya14busa/incsearch-migemo.vim'
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+[[plugins]]
+repo = 'tpope/vim-repeat'
+[[plugins]]
 repo = 'tmhedberg/matchit'
 [[plugins]]
 repo = 'deris/vim-rengbang'

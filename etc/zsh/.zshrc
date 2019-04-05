@@ -212,7 +212,6 @@ bindkey '^s' peco-z-search
 # function git(){hub "$@"}
 
 # history
-export HISTFILE=~/.zsh_history #履歴ファイルの設定
 export HISTSIZE=1000000 # メモリに保存される履歴の件数。(保存数だけ履歴を検索できる)
 export SAVEHIST=1000000 # ファイルに何件保存するか
 setopt extended_history # 実行時間とかも保存する
