@@ -25,20 +25,21 @@ set nocompatible
 "-------------------
 ".vimrc編集ショートカット
 "-------------------
+noremap <Leader> <Nop>
+let mapleader = "\<Space>"
+
 nnoremap <silent> <Leader>ev :<C-u>tabnew $MYVIMRC<CR>
 nnoremap <silent> <Leader>es :<C-u>source $MYVIMRC<CR>
 nnoremap <silent> <Leader>et :<C-u>tabnew $HOME/.vim/dein.toml<CR>
 nnoremap <silent> <Leader>ez :<C-u>tabnew $HOME/.zshrc<CR>
 
-set nomore
 
 "--------------
 "space 系ショートカットまとめ
 "--------------
 
 " Unite
-noremap <Leader> <Nop>
-map <space> <Leader>
+
 noremap <Leader>b :Unite buffer<CR>
 nnoremap <Leader>u :Unite -buffer-name=files file_mru bookmark file<CR>
 " nnoremap <Leader>r :Unite file_rec/async:!<CR>
@@ -50,8 +51,8 @@ nnoremap <Leader>o :Unite outline -vertical<CR>
 "ファイルのリロード
 nnoremap <silent> <Leader>R :<C-u>e<CR>
 
-" ペーストモード
-nnoremap <Leader>p :<C-u>a!<CR>
+" ペースト
+nnoremap <silent> <Leader>p :<C-u>a!<CR>
 
 " ヘルプ
 nnoremap <Leader>h :vert help<space>
@@ -59,6 +60,7 @@ nnoremap <Leader>h :vert help<space>
 " 保存
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
+nnoremap <Leader>Q :qa<CR>
 nnoremap <Leader>wq :wq<CR>
 
 "----------------------
@@ -612,6 +614,7 @@ set background=dark
 colorscheme mopkai
 
 "set nonumber
+set nomore
 set number
 set showmode         " モード表示
 set title            " 編集中のファイル名を表示

@@ -1,4 +1,4 @@
-setlocal shiftwidth=4
+setlocal shiftwidth=2
 
 let g:pdv_cfg_Type = "mixed"
 let g:pdv_cfg_Package = ""

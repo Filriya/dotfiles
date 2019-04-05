@@ -15,6 +15,7 @@ brew install gibo
 brew install mercurial
 brew install pcre
 brew install python
+brew install jq
 
 brew install zsh
 # zsh を etc/shells に追加

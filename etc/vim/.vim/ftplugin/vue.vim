@@ -1,2 +1,3 @@
 setlocal shiftwidth=2
-autocmd FileType vue syntax sync fromstart
+syntax sync fromstart
+

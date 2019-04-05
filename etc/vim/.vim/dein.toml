@@ -80,6 +80,8 @@ repo = 'othree/javascript-libraries-syntax.vim'
 repo = 'othree/yajs.vim'
 #[[plugins]]
 #repo = 'mxw/vim-jsx'
+[[plugins]]
+repo = 'cespare/vim-toml.git'
 
 
 
@@ -131,6 +133,8 @@ repo = 'tpope/vim-repeat'
 repo = 'tmhedberg/matchit'
 [[plugins]]
 repo = 'deris/vim-rengbang'
+[[plugins]]
+repo = 'ConradIrwin/vim-bracketed-paste'
 #[[plugins]]
 #repo = 'Shougo/neocomplete.vim'
 
