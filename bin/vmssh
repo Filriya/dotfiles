@@ -19,9 +19,8 @@ echo -e "\033[0;36mvagrant up $machinePath\033[0;m"
 
 if [ $machineStat = "poweroff" ]; then
   vagrant up $machineId
-  vagrant ssh $machineId
 elif [ $machineStat = "saved" ]; then
   vagrant resume $machineId
-  vagrant ssh $machineId
 fi
+vagrant ssh $machineId
 
