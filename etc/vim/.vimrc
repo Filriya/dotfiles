@@ -282,7 +282,7 @@ let g:EasyMotion_startofline = 0
 let g:EasyMotion_use_upper = 1 " Show target key with upper case to improve readability
 let g:EasyMotion_enter_jump_first = 1
 let g:EasyMotion_space_jump_first = 1
-let g:EasyMotion_keys = "; WERTASDFFFGZXCV UIOPHJNM"
+let g:EasyMotion_keys = ";WERTASDFFFGZXCVUIOPHJNM"
 
 " <Leader>f{char} to move to {char}
 map  f <Plug>(easymotion-fl)
@@ -352,7 +352,6 @@ endfunction
 noremap <silent><expr> <Leader>/ incsearch#go(<SID>config_migemo())
 noremap <silent><expr> <Leader>? incsearch#go(<SID>config_migemo({'command': '?'}))
 " noremap <silent><expr> <Leader>g/ incsearch#go(<SID>config_migemo({'is_stay': 1}))
-
 
 "--------------------
 " matchit
