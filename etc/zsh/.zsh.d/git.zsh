@@ -24,7 +24,7 @@ alias gbm='git branch --move'
 alias gbM='git branch --move --force'
 alias gbs='git show-branch'
 alias gbS='git show-branch --all'
-# alias gbc='git checkout -b'
+alias gbc='git checkout -b'
 # alias gbl='git branch --verbose'
 # alias gbL='git branch --all --verbose'
 # alias gbr='git branch --move'
@@ -264,16 +264,17 @@ function git_branch_list()
   local local=$(git branch|perl -pe "s/\* /  /")
   local no_branch=$({
   echo $local;
+  echo $local; # localにあってリモートにない場合に、no_branchに残ってしまうのを防ぐため
   git branch -r | perl -pe "s/origin\///g" | perl -ne "print if ! /->/" ;
   } | sort | uniq -u)
   local remote=$(git branch -r|perl -ne "print if ! /->/")
 
-  local_print=$(echo $local|perl -pe "s/^  /  * /")
+  local_print=$(echo $local|perl -pe "s/^  /  # /")
   no_branch_print=$(echo $no_branch|perl -pe "s/^  /  + /")
-  remote_print=$(echo $remote|perl -pe "s/^  /  = /")
+  remote_print=$(echo $remote|perl -pe "s/^  /  - /")
 
   echo -e "$local_print\n$no_branch_print\n$remote_print"
 }
 
-alias -g B='`git_branch_list| peco | sed -e "s/^\*[ ]*//g"`'
+alias -g B='`git_branch_list| peco | perl -pe "s/^  . //g"`'
 

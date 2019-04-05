@@ -32,6 +32,7 @@ nnoremap <silent> <Leader>ev :<C-u>tabnew $MYVIMRC<CR>
 nnoremap <silent> <Leader>es :<C-u>source $MYVIMRC<CR>
 nnoremap <silent> <Leader>et :<C-u>tabnew $HOME/.vim/dein.toml<CR>
 nnoremap <silent> <Leader>ez :<C-u>tabnew $HOME/.zshrc<CR>
+nnoremap <silent> <Leader>eg :<C-u>tabnew $HOME/.zsh.d/git.zsh<CR>
 
 
 "--------------
@@ -231,11 +232,11 @@ endif
 
 
 
-"--------------------
+" --------------------
 " php documentor
-"--------------------
-" nnoremap <Leader>p :call PhpDocSingle()<CR>
-" vnoremap <Leader>p :call PhpDocRange()<CR>
+" --------------------
+nnoremap <Leader>P :call PhpDocSingle()<CR>
+vnoremap <Leader>P :call PhpDocRange()<CR>
 
 "--------------------
 " Neosnippet
