@@ -169,7 +169,7 @@ function starteditor() {
   zle reset-prompt
 }
 zle -N starteditor
-bindkey '^@' starteditor
+bindkey '^v' starteditor
 
 #peco and z
 if type peco 2>/dev/null 1>/dev/null; then

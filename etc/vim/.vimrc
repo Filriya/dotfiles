@@ -60,9 +60,8 @@ nnoremap <Leader>h :vert help<space>
 
 " 保存
 nnoremap <Leader>w :w<CR>
-nnoremap <Leader>q :q<CR>
-nnoremap <Leader>Q :qa<CR>
-nnoremap <Leader>wq :wq<CR>
+nnoremap <Leader>q :wq<CR>
+nnoremap <Leader>Q :qa!<CR>
 
 "----------------------
 "dein
