@@ -72,6 +72,7 @@ focus
 screen 2
 focus
 screen 0
+
 layout new
-next
-layout prev
+select 1
+layout select 0

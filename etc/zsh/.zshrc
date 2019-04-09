@@ -169,7 +169,7 @@ function starteditor() {
   zle reset-prompt
 }
 zle -N starteditor
-bindkey '^v' starteditor
+bindkey '^]' starteditor
 
 #peco and z
 if type peco 2>/dev/null 1>/dev/null; then
@@ -262,7 +262,7 @@ if [ "$SSH_TTY" == "" ]; then
 }
 
 update_cache_hosts () {
-  find ~/.ssh/conf.d -type -f | xargs grep -ih "host " |cut -d ' ' -f 2|sort >|  $cache_hosts_file
+  find ~/.ssh/conf.d -type f | xargs grep -ih "host " |cut -d ' ' -f 2|sort >|  $cache_hosts_file
 }
 
 update_cache_hosts

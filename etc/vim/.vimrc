@@ -103,8 +103,11 @@ let g:vimfiler_ignore_pattern = '^\%(.git\|.DS_Store\)$'
 nnoremap <silent> <C-e> :VimFiler -split -simple -explorer -winwidth=40 -toggle  -find<CR>
 
 function! s:my_vimfiler_settings()
-  nnoremap <silent><buffer>H <Plug>(vimfiler_switch_to_parent_directory)
-  nnoremap <silent><buffer>L <Plug>(vimfiler_cd_or_edit)
+  nmap <silent><buffer> , <Plug>(vimfiler_toggle_mark_current_line)
+  vmap <silent><buffer> , <Plug>(vimfiler_toggle_mark_selected_lines)
+
+  nnoremap <silent><buffer> H <Plug>(vimfiler_switch_to_parent_directory)
+  nnoremap <silent><buffer> L <Plug>(vimfiler_cd_or_edit)
   nnoremap <silent><buffer><expr> t vimfiler#do_switch_action('tabopen')
   nnoremap <silent><buffer><expr> v vimfiler#do_switch_action('vsplit')
   nnoremap <silent><buffer><expr> s vimfiler#do_switch_action('split')

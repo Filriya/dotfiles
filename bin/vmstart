@@ -2,7 +2,7 @@
 
 usage() {
 cat << EOS
-usage: vmup [-h] [search]
+usage: vagrant-up [-h] [search]
 
   -h: help
 
@@ -21,7 +21,7 @@ do
   esac
 done
 
-shift $((OPTIND - 2))
+shift $((OPTIND - 1))
 
 if [ "$MODE" = "HELP" ]; then
     usage
@@ -29,7 +29,7 @@ if [ "$MODE" = "HELP" ]; then
 fi
 
 # マシンのリスト作成
-machines=`vmlist`
+machines=`vagrant-list`
 
 # マシンを選択
 if [ $# -eq 0 ]; then
