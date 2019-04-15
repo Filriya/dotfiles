@@ -58,9 +58,9 @@ nnoremap <silent> <Leader>P :<C-u>a!<CR>
 nnoremap <Leader>H :vert help<space>
 
 " 保存
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>q :wq<CR>
-nnoremap <Leader>Q :qa!<CR>
+nnoremap <silent> <Leader>w :w<CR>
+nnoremap <silent> <Leader>q :wq<CR>
+nnoremap <silent> <Leader>Q :qa!<CR>
 
 "----------------------
 "dein
@@ -314,19 +314,6 @@ map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 
 
-function! s:incsearch_config(...) abort
-  return incsearch#util#deepextend(deepcopy({
-        \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
-        \   'keymap': {
-        \     "\<C-l>": '<Over>(easymotion)'
-        \   },
-        \   'is_expr': 0
-        \ }), get(a:, 1, {}))
-endfunction
-
-noremap <silent><expr> / incsearch#go(<SID>incsearch_config())
-noremap <silent><expr> ?  incsearch#go(<SID>incsearch_config({'command': '?'}))
-" noremap <silent><expr> g/ incsearch#go(<SID>incsearch_config({'is_stay': 1}))
 
 if dein#tap('incsearch.vim')
   highlight IncSearchCursor ctermfg=0 ctermbg=9 guifg=#000000 guibg=#FF0000
@@ -347,6 +334,21 @@ if dein#tap('incsearch.vim')
   noremap g# <Plug>(incsearch-nohl-g#)
 endif
 
+
+function! s:incsearch_config(...) abort
+  return incsearch#util#deepextend(deepcopy({
+        \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+        \   'keymap': {
+        \     "\<C-l>": '<Over>(easymotion)'
+        \   },
+        \   'is_expr': 0
+        \ }), get(a:, 1, {}))
+endfunction
+
+noremap <silent><expr> /  incsearch#go(<SID>incsearch_config())
+noremap <silent><expr> ?  incsearch#go(<SID>incsearch_config({'command': '?'}))
+noremap <silent><expr> g/ incsearch#go(<SID>incsearch_config({'is_stay': 1}))
+
 "--------------------
 " haya14busa/incsearch-migemo.vim
 "--------------------
@@ -363,7 +365,6 @@ endfunction
 
 noremap <silent><expr> <Leader>/ incsearch#go(<SID>config_migemo())
 noremap <silent><expr> <Leader>? incsearch#go(<SID>config_migemo({'command': '?'}))
-" noremap <silent><expr> <Leader>g/ incsearch#go(<SID>config_migemo({'is_stay': 1}))
 
 "--------------------
 " matchit

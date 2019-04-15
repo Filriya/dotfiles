@@ -2,7 +2,7 @@
 
 usage() {
 cat << EOS
-usage: vagrant-up [-h] [search]
+usage: vmstart [-h] [search]
 
   -h: help
 
@@ -29,7 +29,7 @@ if [ "$MODE" = "HELP" ]; then
 fi
 
 # マシンのリスト作成
-machines=`vagrant-list`
+machines=`vmlist`
 
 # マシンを選択
 if [ $# -eq 0 ]; then

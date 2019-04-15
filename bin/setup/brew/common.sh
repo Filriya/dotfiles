@@ -23,14 +23,15 @@ if ! `grep "$(brew --prefix)/bin/zsh" /etc/shells > /dev/null` ; then
   echo $(brew --prefix)/bin/zsh | sudo tee -a /etc/shells
 fi
 
+brew install fd
 brew install exa
 brew install peco
 brew install z
 brew install ghq hub
 brew install screen
 brew install the_silver_searcher
-
 brew install ripgrep
+brew install tig
 
 # nvim
 brew install vim

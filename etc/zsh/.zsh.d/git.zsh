@@ -173,11 +173,7 @@ alias gl='git log --topo-order --pretty=format:"${_git_log_medium_format}"'
 alias gls='git log --topo-order --stat --patch --full-diff --pretty=format:"${_git_log_medium_format}"'
 alias glg='git log --topo-order --graph --pretty=format:"${_git_log_oneline_format}"'
 alias gla='git log --topo-order --all --graph --pretty=format:"${_git_log_oneline_format}"'
-# alias glb='git log --topo-order --pretty=format:"${_git_log_brief_format}"'
-# alias gls='git log --topo-order --stat --pretty=format:"${_git_log_medium_format}"'
-# alias glo='git log --topo-order --pretty=format:"${_git_log_oneline_format}"'
-# alias glc='git shortlog --summary --numbered'
-# alias glS='git log --show-signature'
+alias glr='git reflog'
 
 # Merge (m)
 alias gm='git merge'
@@ -269,9 +265,9 @@ function git_branch_list()
   } | sort | uniq -u)
   local remote=$(git branch -r|perl -ne "print if ! /->/")
 
-  local_print=$(echo $local|perl -pe "s/^  /  # /")
+  local_print=$(echo $local|perl -pe "s/^  /  * /")
   no_branch_print=$(echo $no_branch|perl -pe "s/^  /  + /")
-  remote_print=$(echo $remote|perl -pe "s/^  /  - /")
+  remote_print=$(echo $remote|perl -pe "s/^  /  = /")
 
   echo -e "$local_print\n$no_branch_print\n$remote_print"
 }

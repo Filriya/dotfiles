@@ -2,9 +2,14 @@
 cd `dirname $0` # scriptの位置に移動
 cd `pwd -P` # symlinkを無視した位置に移動
 cd ../../ # 2つ上がる
-
 projectRoot=`pwd -P`
-linkTo=$HOME
+
+# マシンを選択
+if [ $# -eq 0 ]; then
+  linkTo=$HOME
+else
+  linkTo=$1
+fi
 
 array_contains () { 
   local array="$1[@]"

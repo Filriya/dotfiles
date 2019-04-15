@@ -1,5 +1,5 @@
 #!/bin/bash
-vagrant-list | grep running | cut -f 1 -d " "|xargs --no-run-if-empty vagrant suspend
+vmlist | grep running | cut -f 1 -d " "|xargs --no-run-if-empty vagrant suspend
 
 #vmware用
 vmrun list | grep vmx | xargs --no-run-if-empty  vmrun suspend

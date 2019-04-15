@@ -71,6 +71,7 @@ mas install 458887729 # Translate Tab (2.0.3)
 brew cleanup
 
 # link dropbox dir to home
-ln -sf ${HOME}/Dropbox/.ssh
-ln -sf ${HOME}/Dropbox/projects
-ln -sf ${HOME}/Dropbox/Downloads
+ln -sf ${HOME}/Dropbox/.ssh ${HOME}/
+ln -sf ${HOME}/Dropbox/projects ${HOME}/
+ln -sf ${HOME}/Dropbox/Downloads ${HOME}/
+ln -sf ${HOME}/Dropbox/アプリ/.hammerspoon ${HOME}/
