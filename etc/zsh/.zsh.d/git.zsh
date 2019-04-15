@@ -25,14 +25,7 @@ alias gbM='git branch --move --force'
 alias gbs='git show-branch'
 alias gbS='git show-branch --all'
 alias gbc='git checkout -b'
-# alias gbl='git branch --verbose'
-# alias gbL='git branch --all --verbose'
-# alias gbr='git branch --move'
-# alias gbR='git branch --move --force'
-# alias gbv='git branch --verbose'
-# alias gbV='git branch --verbose --verbose'
-# alias gbx='git branch --delete'
-# alias gbX='git branch --delete --force'
+alias gbr="git branch --remote"
 
 # # Commit (c)
 alias gc='git commit --verbose'
@@ -43,20 +36,12 @@ alias gco='git checkout'
 alias gcop='git checkout --patch' # -p
 alias gcp='git cherry-pick --ff'
 alias gcpn='git cherry-pick --no-commit'
-alias gcr='git reset "HEAD^"'
+alias gcr='git reset "HEAD^"' # commitをリセット
 alias gcR='git revert'
 alias gcs='git show'
 alias gcl='git-commit-lost'
 alias gcy='git cherry -v --abbrev'
 alias gcY='git cherry -v'
-# alias gca='git commit --verbose --all'
-# alias gcam='git commit --all --message'
-# alias gcS='git commit -S --verbose'
-# alias gcSa='git commit -S --verbose --all'
-# alias gcSm='git commit -S --message'
-# alias gcSf='git commit -S --amend --reuse-message HEAD'
-# alias gcSF='git commit -S --verbose --amend'
-# alias gcsS='git show --pretty=short --show-signature'
 
 # Conflict (C)
 alias gCl='git --no-pager diff --name-only --diff-filter=U'
@@ -77,12 +62,13 @@ alias gdk='git ls-files --killed'
 alias gdi='git status --porcelain --short --ignored | sed -n "s/^!! //p"'
 
 # Fetch (f)
-alias gf='git fetch'
-alias gfa='git fetch --all'
+alias gf='git fetch --prune'
+alias gfa='git fetch --all --prune'
 alias gfc='git clone --recurse-submodules'
 alias gfp='git pull'
 alias gfr='git pull --rebase'
-# alias gfc='git clone'
+alias gfR='git_pull_rebase_all'
+
 
 # Flow (F)
 # alias gFi='git flow init'
@@ -198,6 +184,10 @@ alias gra='git rebase --abort'
 alias grc='git rebase --continue'
 alias gri='git rebase --interactive'
 alias grs='git rebase --skip'
+alias gro='git rebase --onto'
+alias grf='git_rebase_root_all'
+alias grb='git_align_branch'
+alias grB='git_align_branch_all'
 
 # Remote (R)
 alias gR='git remote'
@@ -218,7 +208,8 @@ alias gsX='git-stash-clear-interactive'
 alias gsl='git stash list'
 alias gsL='git-stash-dropped'
 alias gsd='git stash show --patch --stat'
-alias gsp='git stash pop'
+alias gsp='git_stash_pop'
+alias gsP='git stash pop'
 alias gsr='git-stash-recover'
 alias gss='git stash save --include-untracked'
 alias gsS='git stash save --patch --no-keep-index'
@@ -243,11 +234,11 @@ alias gts='git tag -s'
 alias gtv='git verify-tag'
 
 # Working Copy (w)
-alias gw='git status --ignore-submodules=${_git_status_ignore_submodules} --short'
+alias gw='git status --ignore-submodules=${_git_status_ignore_submodules} --short && git stash list'
 alias gws='git status --ignore-submodules=${_git_status_ignore_submodules}'
 alias gwd='git diff --no-ext-diff'
 alias gwD='git diff --no-ext-diff --word-diff'
-alias gwr='git reset --soft'
+alias gwr='git reset --soft' # resetはworkingの方を使う
 alias gwR='git reset --hard'
 alias gwc='git clean -n'
 alias gwC='git clean -f'
@@ -273,4 +264,99 @@ function git_branch_list()
 }
 
 alias -g B='`git_branch_list| peco | perl -pe "s/^  . //g"`'
+
+function git_stash_pop()
+{
+  stash=$(git stash list|grep "on $(git name-rev --name-only HEAD):"| head -n 1 | perl -lne 'print $1 if /(stash\@\{[0-9]*\})/')
+  if [[ $stash != '' ]]; then 
+    git stash pop $stash
+  else 
+    echo 'no stash on this branch'
+  fi
+}
+
+# # 現在のwork treeをsave
+# local current=$(git name-rev --name-only HEAD)
+# local stash_message="[$RANDOM]: save work tree on $current "
+#
+# git add --all && git stash save $stash_message >/dev/null
+# # work treeをもとに戻す
+# git checkout $current >/dev/null
+# local stash_num=$(git stash list | grep $stash_message | perl -pe "s/(stash@\{.*\}):.*/\1/")
+# git stash pop $stash_num >/dev/null
+
+function git_pull_rebase_all()
+{
+  # origin を 初期化
+  git fetch --all --prune
+
+  local branches=($(git branch|perl -pe "s/(\* |  )//"))
+  for br in ${branches[@]}; do
+    # 以下、作業
+    git checkout $br
+
+    local remotes=$(git branch -r)
+
+    # originが存在すれば実行
+    if echo $remotes | grep -q $br; then 
+
+      echo -e "\033[0;36mgit chekcout $br && git pull --rebase origin $br\033[0;m"
+      git pull --rebase origin $br
+
+      # conflict したら そこで終了
+      local conflict_count=$(git diff --name-only --diff-filter=U | wc -l)
+      if [ $conflict_count -gt 0 ]; then
+        echo -e "\033[0;31mrebase $br failed! \033[0;m"
+        git rebase --abort
+        return 1
+      fi
+    fi
+  done
+}
+
+function git_align_branch()
+{
+  # 引数処理
+  if [ $# -eq 0 ]; then
+    echo "newbase required"
+    return 1
+  elif [ $# -eq 1 ]; then
+    local newbase=$1
+    local branch=$(git name-rev --name-only HEAD) # current_branch
+  elif [ $# -eq 2 ]; then
+    local newbase=$1
+    local branch=$2
+  fi
+
+  local current=$(git name-rev --name-only HEAD)
+
+  # rebase --onto
+  local branch_point=$(git show-branch --merge-base $newbase $branch) # 分岐点
+  echo -e "\033[0;36mgit rebase --onto $newbase $branch_point [$branch]\033[0;m"
+  git checkout $branch && git rebase --onto $newbase $branch_point 
+
+  # conflict したら そこで終了
+  local conflict_count=$(git diff --name-only --diff-filter=U | wc -l)
+  if [ $conflict_count -gt 0 ]; then
+    echo -e "\033[0;31mrebase $branch failed! \033[0;m"
+    git rebase --abort
+    return 1
+  fi
+  git chekcout $current
+}
+
+function git_align_branch_all()
+{
+  # 引数処理
+  if [ $# -eq 0 ]; then
+    echo "newbase required"
+    return 1
+  elif [ $# -eq 1 ]; then
+    local newbase=$1
+  fi
+  local branches=($(git branch --no-merged |grep -v $newbase))
+  for branch in ${branches[@]}; do
+    git_align_branch "$newbase" "$branch" || return 1
+  done
+}
 
