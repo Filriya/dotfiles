@@ -41,23 +41,24 @@ nnoremap <silent> <Leader>eg :<C-u>tabnew $HOME/.zsh.d/git.zsh<CR>
 
 " Unite
 noremap <Leader>b :Unite buffer<CR>
-nnoremap <Leader>u :Unite -buffer-name=files file_mru bookmark file<CR>
+" nnoremap <Leader>u :Unite -buffer-name=files file_mru bookmark file<CR>
+nnoremap <Leader>u :Unite -buffer-name=files file_mru bookmark file_rec/async:!<CR>
 " nnoremap <Leader>r :Unite file_rec/async:!<CR>
 
-nnoremap <Leader>r :Unite -buffer-name=register register<CR>
+" nnoremap <Leader>r :Unite -buffer-name=register register<CR>
 nnoremap <Leader>y :Unite history/yank<CR>
 nnoremap <Leader>o :Unite outline -vertical<CR>
 
-"ファイルのリロード
+" reload file
 nnoremap <silent> <Leader>R :<C-u>e<CR>
 
-" ペーストモード
-nnoremap <silent> <Leader>P :<C-u>a!<CR>
+" paste mode
+nnoremap <silent> <Leader>p :<C-u>a<CR>
 
-" ヘルプ
+" help
 nnoremap <Leader>H :vert help<space>
 
-" 保存
+" save and quit
 nnoremap <silent> <Leader>w :w<CR>
 nnoremap <silent> <Leader>q :wq<CR>
 nnoremap <silent> <Leader>Q :qa!<CR>
@@ -473,7 +474,7 @@ let g:user_emmet_settings = {
 "--------------------
 "vim-quickrun
 "--------------------
-"nnoremap <C-q>r :QuickRun<CR>
+nnoremap <Leader>r :QuickRun<CR>
 let g:quickrun_config ={}
 let g:quickrun_config.scheme = { 'scheme': { 'command': 'gosh'}}
 
@@ -643,6 +644,20 @@ set splitright        " 垂直分割時は新しいwindowを右に
 set ambiwidth=double  " 絵文字>
 
 
+function! XTermPasteBegin(ret)
+  set pastetoggle=<f29>
+  set paste
+  return a:ret
+endfunction
+
+" paste 
+execute "set <f28>=\<Esc>[200~"
+execute "set <f29>=\<Esc>[201~"
+map <expr> <f28> XTermPasteBegin("i")
+imap <expr> <f28> XTermPasteBegin("")
+vmap <expr> <f28> XTermPasteBegin("c")
+cmap <f28> <nop>
+cmap <f29> <nop><F29>
 function! ToggleRelativenumber() abort
   if &number == 1
     setlocal nonumber
@@ -650,20 +665,21 @@ function! ToggleRelativenumber() abort
     setlocal number
   endif
 endfunction
-nnoremap <silent> <Leader>n :call ToggleRelativenumber()<cr>
 
-
-" paste 
-nnoremap <Leader>p "0p
-vnoremap <Leader>p "0p
-
-nnoremap x "_x
+nnoremap p "0p
+vnoremap p "0p
+nnoremap P p
+vnoremap P p
+"
+" nnoremap x "_x
 
 augroup cch
   autocmd! cch
   autocmd WinLeave * set nocursorline
   autocmd WinEnter,BufRead * set cursorline
 augroup END
+
+nnoremap <silent> <Leader>n :call ToggleRelativenumber()<cr>
 
 "-------------------------------
 " 行文字
@@ -700,10 +716,6 @@ set nobackup                        " バックアップを取らない
 
 " ファイルを開いた際に、前回終了時の行で起動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
-
-" vnoremap <silent> y y`]
-" vnoremap <silent> p p`]
-" nnoremap <silent> p p`]
 
 "backspaceの挙動
 set backspace=start,eol,indent

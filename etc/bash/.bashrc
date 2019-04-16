@@ -2,6 +2,18 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+BREW_PREFIX=$(dirname $(which brew))
+
+# zshが入ってれば起動
+if type $BREW_PREFIX/zsh > /dev/null 2>&1; then 
+  # brew版zsh
+  $BREW_PREFIX/zsh && exit
+elif type zsh > /dev/null 2>&1; then
+  # global版zsh
+  zsh && exit
+fi
+
+
 #------------------------------------------------------------
 #  general - 全般
 #------------------------------------------------------------
@@ -143,8 +155,8 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 # color definition
-if [ -f "$HOME/.bash_colors" ]; then
-  . "$HOME/.bash_colors"
+if [ -f "$HOME/.bash.d/.bash_colors" ]; then
+  . "$HOME/.bash.d/.bash_colors"
 fi
 
 # local color definition
