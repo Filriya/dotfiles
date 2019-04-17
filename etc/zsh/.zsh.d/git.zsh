@@ -245,6 +245,14 @@ alias gwC='git clean -f'
 alias gwx='git rm -r'
 alias gwX='git rm -rf'
 
+alias gwta='git worktree add'
+alias gwtl='git worktree list'
+alias gwtm='git worktree move'
+alias gwtp='git worktree prune'
+alias gwtx='git worktree remove'
+# alias gwtu='git worktree unlock'
+# alias gwtl='git worktree lock'
+
 
 function git_branch_list()
 {
