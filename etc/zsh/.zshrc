@@ -67,7 +67,6 @@ fi
 
 # alias
 alias cl="clear"
-alias lp="ls -al|peco"
 alias gosh='rlwrap gosh'
 alias phptags='ctags --tag-relative --recurse --sort=yes --exclude=*.js'
 alias -g P='| peco'
@@ -126,7 +125,7 @@ _sr() {
 compdef _sr sr
 
 # リポジトリにcd
-function peco-repo-list () {
+function open_project () {
   local ghqroot=`ghq root`
   local repo_name=`ghq list -p|perl -pse 's/$root\///' -- -root=$ghqroot|peco`
 
@@ -138,9 +137,8 @@ function peco-repo-list () {
   fi
   zle clear-screen
 }
-zle -N peco-repo-list
-
-bindkey '^t' peco-repo-list
+zle -N open_project-repo-list
+bindkey '^t' open_project
 
 
 # screen 表示用
@@ -190,24 +188,38 @@ if type peco 2>/dev/null 1>/dev/null; then
   bindkey '^r' peco_select_history
 fi
 
+function peco-repo-search
+{
+  which peco > /dev/null
+  if [ $? -ne 0 ]; then
+    echo "Please install peco"
+    return 1
+  fi
+  local res=$(ghq list -p|peco)
+  if [ -n "$res" ]; then
+    cd $res
+  else
+    return 1
+  fi
+}
+alias p="peco-repo-search"
 
-  function peco-z-search
-  {
-    which peco z > /dev/null
-    if [ $? -ne 0 ]; then
-      echo "Please install peco and z"
-      return 1
-    fi
-    local res=$(z | sort -rn | cut -c 12- | peco)
-    if [ -n "$res" ]; then
-      BUFFER+="cd $res"
-      zle accept-line
-    else
-      return 1
-    fi
-  }
-zle -N peco-z-search
-bindkey '^s' peco-z-search
+function peco-z-search
+{
+  which peco z > /dev/null
+  if [ $? -ne 0 ]; then
+    echo "Please install peco and z"
+    return 1
+  fi
+  local res=$(z | sort -rn | cut -c 12- | peco)
+  if [ -n "$res" ]; then
+    cd $res
+  else
+    return 1
+  fi
+}
+alias zp="peco-z-search"
+
 #hub
 # function git(){hub "$@"}
 
