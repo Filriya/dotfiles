@@ -44,7 +44,7 @@ repo = 'mattn/wwwrenderer-vim'
 [[plugins]]
 repo = 'thinca/vim-openbuf'
 
-#
+
 # markdown
 [[plugins]]
 repo = 'plasticboy/vim-markdown'
@@ -53,7 +53,7 @@ repo = 'kannokanno/previm'
 [[plugins]]
 repo = 'tyru/open-browser.vim'
 
-#
+
 # twitter on vim
 [[plugins]]
 repo = 'basyura/twibill.vim'
@@ -66,26 +66,22 @@ repo = 'basyura/TweetVim'
 [[plugins]]
 repo = 'yomi322/unite-tweetvim'
 
-#
+
 # syntax
-#[[plugins]]
-repo = 'othree/html5.vim'
-[[plugins]]
-repo = 'hail2u/vim-css3-syntax'
+# [[plugins]]
+# repo = 'othree/html5.vim'
 [[plugins]]
 repo = 'cakebaker/scss-syntax.vim'
-#[[plugins]]
-repo = 'othree/javascript-libraries-syntax.vim'
-#[[plugins]]
-repo = 'othree/yajs.vim'
-#[[plugins]]
-#repo = 'mxw/vim-jsx'
 [[plugins]]
 repo = 'cespare/vim-toml.git'
+[[plugins]]
+repo = "posva/vim-vue"
+[[plugins]]
+repo = "digitaltoad/vim-pug"
 
 
 
-#
+
 # development:general
 [[plugins]]
 repo = 'junegunn/vim-easy-align'
@@ -133,10 +129,6 @@ repo = 'tpope/vim-repeat'
 repo = 'tmhedberg/matchit'
 [[plugins]]
 repo = 'deris/vim-rengbang'
-[[plugins]]
-repo = 'ConradIrwin/vim-bracketed-paste'
-#[[plugins]]
-#repo = 'Shougo/neocomplete.vim'
 
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
@@ -151,17 +143,8 @@ repo = 'Shougo/neco-syntax'
 
 #
 # development:frontend
-#[[plugins]]
-#repo = 'mattn/emmet-vim'
 [[plugins]]
 repo = 'jiangmiao/simple-javascript-indenter'
-[[plugins]]
-repo = "posva/vim-vue"
-on_ft = ["vue"]
-[[plugins]]
-repo = "digitaltoad/vim-pug"
-[[plugins]]
-repo = "wokalski/autocomplete-flow"
 
 #
 # development:backend
@@ -187,13 +170,8 @@ repo = 'reedes/vim-colors-pencil'
 
 #
 # others
-#[[plugins]]
-#repo = 'thinca/vim-threes'
 [[plugins]]
 repo = 'thinca/vim-scouter'
-#[[plugins]]
-#repo = Lazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
-
 
 #ja
 [[plugins]]

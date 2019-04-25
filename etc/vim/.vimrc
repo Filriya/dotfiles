@@ -41,8 +41,8 @@ nnoremap <silent> <Leader>eg :<C-u>tabnew $HOME/.zsh.d/git.zsh<CR>
 
 " Unite
 noremap <Leader>b :Unite buffer<CR>
-" nnoremap <Leader>u :Unite -buffer-name=files file_mru bookmark file<CR>
-nnoremap <Leader>u :Unite -buffer-name=files file_mru bookmark file_rec/async:!<CR>
+nnoremap <Leader>u :Unite -buffer-name=files file_mru bookmark file<CR>
+" nnoremap <Leader>u :Unite -buffer-name=files file_mru bookmark file_rec/async:!<CR>
 " nnoremap <Leader>r :Unite file_rec/async:!<CR>
 
 " nnoremap <Leader>r :Unite -buffer-name=register register<CR>
@@ -338,12 +338,12 @@ endif
 
 function! s:incsearch_config(...) abort
   return incsearch#util#deepextend(deepcopy({
-        \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
-        \   'keymap': {
-        \     "\<C-l>": '<Over>(easymotion)'
-        \   },
-        \   'is_expr': 0
-        \ }), get(a:, 1, {}))
+       \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+       \   'keymap': {
+       \     "\<C-l>": '<Over>(easymotion)'
+       \   },
+       \   'is_expr': 0
+       \ }), get(a:, 1, {}))
 endfunction
 
 noremap <silent><expr> /  incsearch#go(<SID>incsearch_config())
@@ -355,13 +355,13 @@ noremap <silent><expr> g/ incsearch#go(<SID>incsearch_config({'is_stay': 1}))
 "--------------------
 function! s:config_migemo(...) abort
   return extend(copy({
-        \   'converters': [
-        \     incsearch#config#migemo#converter(),
-        \   ],
-        \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
-        \   'keymap': {"\<C-l>": '<Over>(easymotion)'},
-        \   'is_expr': 0,
-        \ }), get(a:, 1, {}))
+       \   'converters': [
+       \     incsearch#config#migemo#converter(),
+       \   ],
+       \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+       \   'keymap': {"\<C-l>": '<Over>(easymotion)'},
+       \   'is_expr': 0,
+       \ }), get(a:, 1, {}))
 endfunction
 
 noremap <silent><expr> <Leader>/ incsearch#go(<SID>config_migemo())
@@ -377,26 +377,26 @@ let b:match_ignorecase = 1
 "------------
 
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'enable': {
-      \   'statusline': 1,
-      \   'tabline': 0
-      \ },
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'fugitive', 'filename' ] ],
-      \   'right': [ [ 'lineinfo' ],
-      \            [ 'percent' ],
-      \            [ 'jpmode', 'fileformat', 'fileencoding', 'filetype' ] ]
-      \ },
-      \ 'component_function': {
-      \   'fugitive': 'MyFugitive',
-      \   'readonly': 'MyReadonly',
-      \   'modified': 'MyModified',
-      \   'filename': 'MyFilename',
-      \   'jpmode': 'MyJpMode'
-      \ }
-      \ }
+     \ 'colorscheme': 'wombat',
+     \ 'enable': {
+     \   'statusline': 1,
+     \   'tabline': 0
+     \ },
+     \ 'active': {
+     \   'left': [ [ 'mode', 'paste' ],
+     \             [ 'fugitive', 'filename' ] ],
+     \   'right': [ [ 'lineinfo' ],
+     \            [ 'percent' ],
+     \            [ 'jpmode', 'fileformat', 'fileencoding', 'filetype' ] ]
+     \ },
+     \ 'component_function': {
+     \   'fugitive': 'MyFugitive',
+     \   'readonly': 'MyReadonly',
+     \   'modified': 'MyModified',
+     \   'filename': 'MyFilename',
+     \   'jpmode': 'MyJpMode'
+     \ }
+     \ }
 
 let g:unite_force_overwrite_statusline = 0
 let g:vimfiler_force_overwrite_statusline = 0
@@ -442,8 +442,8 @@ endfunction
 
 function! MyFilename()
   return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-        \ ('' != expand('%t') ? expand('%t') : '[No Name]') .
-        \ ('' != MyModified() ? ' ' . MyModified() : '')
+       \ ('' != expand('%t') ? expand('%t') : '[No Name]') .
+       \ ('' != MyModified() ? ' ' . MyModified() : '')
 endfunction
 
 "--------------------
@@ -453,23 +453,23 @@ endfunction
 "imap <c-c> = <nop>
 let g:user_emmet_eader_key = '<c-c>'
 let g:user_emmet_settings = {
-      \  'indentation': '  ',
-      \  'lang':'ja',
-      \  'custom_expands1': {
-      \    '^\%(lorem\|lipsum\)\(\d*\)$' : function('emmet#lorem#ja#expand'),
-      \  },
-      \  'html' : {
-      \    'filters' : 'html',
-      \    'indentation' : '  '
-      \  },
-      \  'css' : {
-      \    'filters' : 'fc',
-      \  },
-      \  'php' : {
-      \    'extends' : 'html',
-      \    'filters' : 'html,c',
-      \  }
-      \}
+     \  'indentation': '  ',
+     \  'lang':'ja',
+     \  'custom_expands1': {
+     \    '^\%(lorem\|lipsum\)\(\d*\)$' : function('emmet#lorem#ja#expand'),
+     \  },
+     \  'html' : {
+     \    'filters' : 'html',
+     \    'indentation' : '  '
+     \  },
+     \  'css' : {
+     \    'filters' : 'fc',
+     \  },
+     \  'php' : {
+     \    'extends' : 'html',
+     \    'filters' : 'html,c',
+     \  }
+     \}
 
 "--------------------
 "vim-quickrun
@@ -527,10 +527,10 @@ nnoremap <C-g>l :Glog --oneline<CR>
 "let g:syntastic_enable_signs=1
 "let g:syntastic_auto_loc_list=2
 let g:syntastic_mode_map = {
-      \ 'mode': 'active',
-      \ 'active_filetypes': ['php', 'sh', 'vim', 'python'],
-      \ 'passive_filetypes': ['html', 'haskell']
-      \}
+     \ 'mode': 'active',
+     \ 'active_filetypes': ['php', 'sh', 'vim', 'python'],
+     \ 'passive_filetypes': ['html', 'haskell']
+     \}
 
 
 "--------------------
@@ -556,6 +556,7 @@ let g:previm_open_cmd = 'open -a "Google Chrome"'
 " 表示系
 "-----------------------
 syntax on
+
 augroup vimrc-highlight
   autocmd!
   autocmd Syntax * if 100000 < line('$') | syntax off | endif
@@ -577,27 +578,27 @@ function! s:get_syn_attr(synid)
   let guifg = synIDattr(a:synid, "fg", "gui")
   let guibg = synIDattr(a:synid, "bg", "gui")
   return {
-        \ "name": name,
-        \ "ctermfg": ctermfg,
-        \ "ctermbg": ctermbg,
-        \ "guifg": guifg,
-        \ "guibg": guibg}
+       \ "name": name,
+       \ "ctermfg": ctermfg,
+       \ "ctermbg": ctermbg,
+       \ "guifg": guifg,
+       \ "guibg": guibg}
 endfunction
 
 function! s:get_syn_info()
   let baseSyn = s:get_syn_attr(s:get_syn_id(0))
   echo "name: " . baseSyn.name .
-        \ " ctermfg: " . baseSyn.ctermfg .
-        \ " ctermbg: " . baseSyn.ctermbg .
-        \ " guifg: " . baseSyn.guifg .
-        \ " guibg: " . baseSyn.guibg
+       \ " ctermfg: " . baseSyn.ctermfg .
+       \ " ctermbg: " . baseSyn.ctermbg .
+       \ " guifg: " . baseSyn.guifg .
+       \ " guibg: " . baseSyn.guibg
   let linkedSyn = s:get_syn_attr(s:get_syn_id(1))
   echo "link to"
   echo "name: " . linkedSyn.name .
-        \ " ctermfg: " . linkedSyn.ctermfg .
-        \ " ctermbg: " . linkedSyn.ctermbg .
-        \ " guifg: " . linkedSyn.guifg .
-        \ " guibg: " . linkedSyn.guibg
+       \ " ctermfg: " . linkedSyn.ctermfg .
+       \ " ctermbg: " . linkedSyn.ctermbg .
+       \ " guifg: " . linkedSyn.guifg .
+       \ " guibg: " . linkedSyn.guibg
 endfunction
 command! SyntaxInfo call s:get_syn_info()
 
@@ -666,10 +667,8 @@ function! ToggleRelativenumber() abort
   endif
 endfunction
 
-nnoremap p "0p
-vnoremap p "0p
-nnoremap P p
-vnoremap P p
+nnoremap P "0p
+vnoremap P "0p
 "
 " nnoremap x "_x
 
@@ -932,6 +931,23 @@ endfunction
 "  inoremap <silent> <C-j> <C-^><C-r>=IMState('FixMode')<CR>
 "  nnoremap <silent> <expr> <C-j> IMState('FixMode')
 "endif
+
+
+if &term =~ "xterm"
+  let &t_ti .= "\e[?2004h"
+  let &t_te .= "\e[?2004l"
+  let &pastetoggle = "\e[201~"
+
+  function! XTermPasteBegin(ret)
+    set paste
+    return a:ret
+  endfunction
+
+  noremap <special> <expr> <Esc>[200~ XTermPasteBegin("0i")
+  inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
+  cnoremap <special> <Esc>[200~ <nop>
+  cnoremap <special> <Esc>[201~ <nop>
+endif
 
 set helplang=ja,en
 filetype plugin indent on

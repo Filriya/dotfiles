@@ -13,6 +13,10 @@ if [ ! -e $HOME/.zsh.bundle/z ]; then
     git clone https://github.com/rupa/z.git "${HOME}/.zsh.bundle/z"
 fi
 
+if [ ! -e "$HOME/.zsh.bundle/.iterm2_shell_integration.zsh" ]; then
+    curl -L https://iterm2.com/shell_integration/zsh -o ~/.iterm2_shell_integration.zsh
+fi
+
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.local" ]]; then
   source "${ZDOTDIR:-$HOME}/.zshrc.local"
@@ -26,6 +30,10 @@ fi
 
 if [ -e "$HOME/.zsh.bundle/z/z.sh" ]; then
   source "${HOME}/.zsh.bundle/z/z.sh"
+fi
+
+if [ -e "$HOME/.zsh.bundle/.iterm2_shell_integration.zsh" ]; then
+  source "$HOME/.zsh.bundle/.iterm2_shell_integration.zsh" 
 fi
 
 # Source OS-specific settings
