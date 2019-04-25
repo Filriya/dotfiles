@@ -12,10 +12,8 @@
 #   || _git_log_oneline_format='%C(green)%h%C(reset) %s%C(red)%d%C(reset)%n'
 # zstyle -s ':prezto:module:git:log:brief' format '_git_log_brief_format' \
 #   || _git_log_brief_format='%C(green)%h%C(reset) %s%n%C(blue)(%ar by %an)%C(red)%d%C(reset)%n'
-
 # Git
 alias g='git'
-alias zgit='cat ~/.zsh.d/git.zsh | grep --color=never "^alias "|grep -v "alias -g"|perl -pe "s/alias //g"|perl -pe "s/(^[^=]+)=/\1\t/" | column'
 
 # # Branch (b)
 alias gb='git branch --verbose'
@@ -146,7 +144,6 @@ alias ggw='git grep --word-regexp'
 # Index (i)
 alias gia='git add'
 alias giap='git add --patch'
-alias giA='git add .'
 alias giu='git add --update'
 alias gid='git diff --no-ext-diff --cached'
 alias giD='git diff --no-ext-diff --cached --word-diff'
@@ -159,8 +156,7 @@ alias giX='git rm -rf --cached'
 
 # Log (l)
 alias gl='git log --topo-order --pretty=format:"${_git_log_medium_format}"'
-alias gls='git log --topo-order --stat --pretty=format:"${_git_log_medium_format}"'
-alias glp='git log --topo-order --stat --patch --pretty=format:"${_git_log_medium_format}"'
+alias gls='git log --topo-order --stat --patch --full-diff --pretty=format:"${_git_log_medium_format}"'
 alias glg='git log --topo-order --graph --pretty=format:"${_git_log_oneline_format}"'
 alias gla='git log --topo-order --all --graph --pretty=format:"${_git_log_oneline_format}"'
 alias glr='git reflog'
@@ -260,22 +256,22 @@ alias gwtx='git worktree remove'
 
 function git_branch_list()
 {
-  local localbranch=$(git branch|perl -pe "s/\* /  /")
+  local local=$(git branch|perl -pe "s/\* /  /")
   local no_branch=$({
-  echo $localbranch; # localにあってリモートにない場合に、no_branchに残ってしまうのを防ぐため
+  echo $local;
+  echo $local; # localにあってリモートにない場合に、no_branchに残ってしまうのを防ぐため
   git branch -r | perl -pe "s/origin\///g" | perl -ne "print if ! /->/" ;
   } | sort | uniq -u)
   local remote=$(git branch -r|perl -ne "print if ! /->/")
 
-  local_print=$(echo $localbranch|perl -pe "s/^  /  * /")
+  local_print=$(echo $local|perl -pe "s/^  /  * /")
   no_branch_print=$(echo $no_branch|perl -pe "s/^  /  + /")
   remote_print=$(echo $remote|perl -pe "s/^  /  = /")
 
   echo -e "$local_print\n$no_branch_print\n$remote_print"
 }
 
-alias -g B='`git branch|perl -pe "s/\* /  /"| peco`'
-alias -g BA='`git_branch_list| peco | perl -pe "s/^  . //g"`'
+alias -g B='`git_branch_list| peco | perl -pe "s/^  . //g"`'
 
 function git_stash_pop()
 {
@@ -299,8 +295,6 @@ function git_stash_pop()
 
 function git_pull_rebase_all()
 {
-  local current=$(git name-rev --name-only HEAD)
-
   # origin を 初期化
   git fetch --all --prune
 
@@ -314,7 +308,7 @@ function git_pull_rebase_all()
     # originが存在すれば実行
     if echo $remotes | grep -q $br; then 
 
-      echo -e "\033[0;36mgit checkout $br && git pull --rebase origin $br\033[0;m"
+      echo -e "\033[0;36mgit chekcout $br && git pull --rebase origin $br\033[0;m"
       git pull --rebase origin $br
 
       # conflict したら そこで終了
@@ -326,7 +320,6 @@ function git_pull_rebase_all()
       fi
     fi
   done
-  git checkout $current >/dev/null
 }
 
 function git_align_branch()
@@ -357,7 +350,7 @@ function git_align_branch()
     git rebase --abort
     return 1
   fi
-  git checkout $current
+  git chekcout $current
 }
 
 function git_align_branch_all()

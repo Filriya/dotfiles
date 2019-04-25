@@ -13,14 +13,30 @@
 " smap / snoremap |    -     |  -   |       -        |     -      |  @   |    -     |
 " omap / onoremap |    -     |  -   |       -        |     -      |  -   |    @     |
 "-----------------------------------------------------------------------------------"
-"check mappings
-":help index.txt
-":map
-":nmap   " ノーマルモードだけ表示
-":imap   " インサートモードだけ表示
-":vmap   " ビジュアルモードだけ表示
 
 set nocompatible
+filetype off
+filetype plugin indent off
+
+" " NG
+" unmap <C-j>
+" nnoremap <C-k> <C-w>k
+" nnoremap <C-j> <C-w>j
+"
+" "NG
+" inoremap <C-j> <Up>   
+" inoremap <C-k> <Down>
+" inoremap <C-h> <Left>
+" inoremap <C-l> <Right>
+"
+" NG
+" nnoremap <C-j> k
+" nnoremap <C-k> j
+
+
+augroup vimrc
+  autocmd!
+augroup END
 
 "-------------------
 ".vimrc編集ショートカット
@@ -53,7 +69,7 @@ nnoremap <Leader>o :Unite outline -vertical<CR>
 nnoremap <silent> <Leader>R :<C-u>e<CR>
 
 " paste mode
-nnoremap <silent> <Leader>p :<C-u>a<CR>
+nnoremap <silent> <Leader>P :<C-u>a<CR>
 
 " help
 nnoremap <Leader>H :vert help<space>
@@ -66,11 +82,9 @@ nnoremap <silent> <Leader>Q :qa!<CR>
 "----------------------
 "dein
 "----------------------
-filetype off
-filetype plugin indent off
-
 let s:dein_dir = expand('~/.vim.bundle') " プラグインが実際にインストールされるディレクトリ
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim' " dein.vim 本体
+let g:dein#install_process_timeout =  600
 
 " deinが入っていなければinstall
 if !isdirectory(s:dein_repo_dir)
@@ -115,15 +129,15 @@ function! s:my_vimfiler_settings()
 endfunction
 
 function! MyUniteFileCurrentDir()
-    if exists('b:vimfiler.current_dir')
-        let buffer_dir = b:vimfiler.current_dir
-    else
-        let buffer_dir = expand('%:p:h')
-    endif
-    let s  = ':Unite -horizontal -start-insert file_rec/async:'
-    " "let s  = ':Unite file_rec -horizontal -start-insert -path='
-    let s .= buffer_dir
-    execute s
+  if exists('b:vimfiler.current_dir')
+    let buffer_dir = b:vimfiler.current_dir
+  else
+    let buffer_dir = expand('%:p:h')
+  endif
+  let s  = ':Unite -horizontal -start-insert file_rec/async:'
+  " "let s  = ':Unite file_rec -horizontal -start-insert -path='
+  let s .= buffer_dir
+  execute s
 endfunction
 
 set modifiable
@@ -146,30 +160,30 @@ call unite#custom#source('file_rec,file_rec/async', 'max_candidates', 0)
 
 "unite.vimを開いている間のキーマッピング
 if dein#tap('unite.vim')
-    autocmd!
-    autocmd FileType unite call <SID>unite_settings()
-    autocmd FileType vimfiler call s:my_vimfiler_settings()
+  autocmd!
+  autocmd FileType unite call <SID>unite_settings()
+  autocmd FileType vimfiler call s:my_vimfiler_settings()
 endif
 
 function! s:unite_settings()
-    " ウィンドウを分割して開く
-    nnoremap <silent><buffer><expr> <C-S> unite#do_action('below')
-    inoremap <silent><buffer><expr> <C-S> unite#do_action('below')
-    " ウィンドウを縦に分割して開く
-    nnoremap <silent><buffer><expr> <C-V> unite#do_action('right')
-    inoremap <silent><buffer><expr> <C-V> unite#do_action('right')
+  " ウィンドウを分割して開く
+  nnoremap <silent><buffer><expr> <C-S> unite#do_action('below')
+  inoremap <silent><buffer><expr> <C-S> unite#do_action('below')
+  " ウィンドウを縦に分割して開く
+  nnoremap <silent><buffer><expr> <C-V> unite#do_action('right')
+  inoremap <silent><buffer><expr> <C-V> unite#do_action('right')
 
-    " ESCで終了
-    nmap <silent><buffer> <ESC> q
-    nmap <silent><buffer> <C-[> q
+  " ESCで終了
+  nmap <silent><buffer> <ESC> q
+  nmap <silent><buffer> <C-[> q
 
-    "unite_source別設定
-    for source in unite#get_current_unite().sources
-        let source_name = substitute(source.name, '[-/]', '_', 'g')
-        if !empty(source_name) && has_key(s:unite_hooks, source_name)
-            call s:unite_hooks[source_name]()
-        endif
-    endfor
+  "unite_source別設定
+  for source in unite#get_current_unite().sources
+    let source_name = substitute(source.name, '[-/]', '_', 'g')
+    if !empty(source_name) && has_key(s:unite_hooks, source_name)
+      call s:unite_hooks[source_name]()
+    endif
+  endfor
 
 endfunction
 
@@ -186,22 +200,30 @@ if executable('rg')
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
+"--------------------
+" autozimu/LanguageClient-neovim
+" ------------------"
+if dein#tap('LanguageClient-neovim')
+  let g:LanguageClient_serverCommands = {
+      \ 'vue': ['vls'],
+      \ 'html': [],
+      \ 'css': [],
+      \ 'javascript': ['javascript-typescript-stdio']
+      \ }
+  setlocal iskeyword+=$
+  setlocal iskeyword+=-
+  set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
+
+  let g:LanguageClient_diagnosticsEnable = 0 " リンターはALEを使う
+  let g:LanguageClient_selectionUI = 'quickfix'
+  nnoremap <silent> <leader>d :call LanguageClient_textDocument_definition()<CR>
+  nnoremap <silent> <leader>D :call LanguageClient_textDocument_hover()<CR>
+  nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+endif
 
 "--------------------
-" neocomplcache/neocomplete
+" deoplete
 " ------------------"
-" let g:auto_ctags = 1
-let g:auto_ctags_directory_list = ['.git', '.svn']
-let g:auto_ctags_tags_args = "--tag-relative"." "
-      \ "--recurse"." "
-      \ "--sort=yes"." "
-      \ "--exclude=*.js"." "
-      \ "--regex-php=/get([a-z|A-Z|0-9]+)Attribute/\1/"." "
-      \ "--regex-php=/scope([a-z|A-Z|0-9]+)/\1/"
-
-set tags+=.git/tags
-
-
 if dein#tap('deoplete.nvim')
   let g:deoplete#enable_at_startup = 1
   let g:deoplete#enable_camel_case_completion = 1
@@ -215,59 +237,76 @@ if dein#tap('deoplete.nvim')
   let g:deoplete#enable_auto_select = 0
   let g:deoplete#max_list = 500
 
-  let $DOTVIM = $HOME . '/.vim'
+  " <TAB>: completion.
+  inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ deoplete#manual_complete()
 
-  let g:deoplete#sources = {}
-  let g:deoplete#sources.php = ['omni', 'phpactor', 'ultisnips', 'buffer']
+  function! s:check_back_space() abort "{{{
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+  endfunction"}}}
 
+  " " <S-TAB>: completion back.
+  " inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
+  "
+  " " <BS>: close popup and delete backword char.
+  " inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
 
-elseif dein#tap('neocomplete.vim')
-  let g:neocomplete#enable_at_startup = 1
-  let g:neocomplete#enable_camel_case_completion = 1
-  let g:neocomplete#enable_underbar_completion = 1
-  let g:neocomplete#smart_case = 1
-  let g:neocomplete#min_syntax_length = 2
-
-  let g:neocomplete#auto_completion_start_length = 2
-  let g:neocomplete#manual_completion_start_length = 2
-  let g:neocomplete#enable_skip_completion = 1
-  let g:neocomplete#enable_auto_select = 0
-  let g:neocomplete#max_list = 20
-
-  let $DOTVIM = $HOME . '/.vim'
-  let g:neocomplete#sources#dictionary#dictionaries = {
-        \ 'default' : ''
-        \ }
+  " <CR>: close popup and save indent.
+  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+  function! s:my_cr_function() abort
+    return deoplete#cancel_popup() . "\<CR>"
+  endfunction
 endif
-
-
-
-" --------------------
-" php documentor
-" --------------------
-" nnoremap <Leader>P :call PhpDocSingle()<CR>
-" vnoremap <Leader>P :call PhpDocRange()<CR>
 
 "--------------------
 " Neosnippet
 "--------------------
 
-"" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/snippets,~/.vim.bundle/repos/github.com/Shougo/neosnippet-snippets/neosnippets'
+if dein#tap('neosnippet')
+  " neosnippet.vim
+  let g:neosnippet#snippets_directory='~/.vim/snippets,
+      \ ~/.vim.bundle/repos/github.com/Shougo/neosnippet-snippets/neosnippets'
 
-" SuperTab like snippets behavior.
-imap <expr><TAB>
-      \ pumvisible() ? "\<Plug>(neosnippet_expand_or_jump)" :
-      \ neosnippet#expandable_or_jumpable() ?
-      \   "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+  set conceallevel=0
+  let g:vim_json_syntax_conceal = 0
+  let g:neosnippet#enable_completed_snippet = 1
+  let g:neosnippet#enable_snipmate_compatibility = 1
+  let g:neosnippet#expand_word_boundary = 1
 
+  imap <C-k> <Plug>(neosnippet_expand_or_jump)
+  smap <C-k> <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k> <Plug>(neosnippet_expand_target)
+endif 
 
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-      \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+"--------------------
+" ALE
+" ------------------
+if dein#tap('ale')
+  " let g:ale_lint_on_enter = 0
+  let g:ale_echo_msg_format = '[%linter%] %s'
+  let g:ale_sign_column_always = 1
 
-set conceallevel=0
-let g:vim_json_syntax_conceal = 0
+  nmap <silent> <Leader>a <Plug>(ale_toggle)
+  nmap <silent> <C-p> <Plug>(ale_previous_wrap)
+  nmap <silent> <C-n> <Plug>(ale_next_wrap)
 
+  autocmd FileType qf nnoremap <silent> <buffer> q :let g:ale_open_list = 0<CR>:q!<CR>
+  autocmd FileType help,qf,man,ref let b:ale_enabled = 0
+
+  let g:ale_linters = {
+       \   'javascript': ['eslint'],
+       \}
+
+  let g:ale_sh_shellcheck_options = '-e SC1090,SC2059,SC2155,SC2164'
+endif
+" --------------------
+" php documentor
+" --------------------
+" nnoremap <Leader>P :call PhpDocSingle()<CR>
+" vnoremap <Leader>P :call PhpDocRange()<CR>
 
 "--------------------
 " EasyAlign
@@ -304,16 +343,12 @@ map  t <Plug>(easymotion-tl)
 map  T <Plug>(easymotion-Tl)
 
 " s{char}{char} to move to {char}{char}
-nmap s <Plug>(easymotion-overwin-f2)
-vmap s <Plug>(easymotion-bd-f2)
+nmap <Leader>s <Plug>(easymotion-overwin-f2)
+vmap <Leader>s <Plug>(easymotion-bd-f2)
 
 " Move to line
 map <Leader>l <Plug>(easymotion-bd-jk)
 nmap <Leader>l <Plug>(easymotion-overwin-line)
-
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-
 
 
 if dein#tap('incsearch.vim')
@@ -338,12 +373,12 @@ endif
 
 function! s:incsearch_config(...) abort
   return incsearch#util#deepextend(deepcopy({
-       \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
-       \   'keymap': {
-       \     "\<C-l>": '<Over>(easymotion)'
-       \   },
-       \   'is_expr': 0
-       \ }), get(a:, 1, {}))
+      \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+      \   'keymap': {
+      \     "\<C-l>": '<Over>(easymotion)'
+      \   },
+      \   'is_expr': 0
+      \ }), get(a:, 1, {}))
 endfunction
 
 noremap <silent><expr> /  incsearch#go(<SID>incsearch_config())
@@ -355,48 +390,85 @@ noremap <silent><expr> g/ incsearch#go(<SID>incsearch_config({'is_stay': 1}))
 "--------------------
 function! s:config_migemo(...) abort
   return extend(copy({
-       \   'converters': [
-       \     incsearch#config#migemo#converter(),
-       \   ],
-       \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
-       \   'keymap': {"\<C-l>": '<Over>(easymotion)'},
-       \   'is_expr': 0,
-       \ }), get(a:, 1, {}))
+      \   'converters': [
+      \     incsearch#config#migemo#converter(),
+      \   ],
+      \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+      \   'keymap': {"\<C-l>": '<Over>(easymotion)'},
+      \   'is_expr': 0,
+      \ }), get(a:, 1, {}))
 endfunction
 
 noremap <silent><expr> <Leader>/ incsearch#go(<SID>config_migemo())
 noremap <silent><expr> <Leader>? incsearch#go(<SID>config_migemo({'command': '?'}))
 
-"--------------------
+" --------------------
 " matchit
-" ------------------
+" --------------------
 let b:match_ignorecase = 1
+
+" --------------------
+" vim-expand-region
+" --------------------
+
+if dein#tap('vim-expand-region')
+  " vnoremap j <Plug>(expand_region_expand)
+  " vnoremap k <Plug>(expand_region_shrink)
+  let g:expand_region_text_objects = {
+        \ 'iw'  :0,
+        \ 'iW'  :0,
+        \ 'i"'  :0,
+        \ 'i''' :0,
+        \ 'i]'  :1, 
+        \ 'ib'  :1, 
+        \ 'iB'  :1, 
+        \ 'il'  :0, 
+        \ 'ip'  :0,
+        \ 'ie'  :0, 
+        \ }
+endif
+
 
 "------------
 "lightline
 "------------
 
 let g:lightline = {
-     \ 'colorscheme': 'wombat',
-     \ 'enable': {
-     \   'statusline': 1,
-     \   'tabline': 0
-     \ },
-     \ 'active': {
-     \   'left': [ [ 'mode', 'paste' ],
-     \             [ 'fugitive', 'filename' ] ],
-     \   'right': [ [ 'lineinfo' ],
-     \            [ 'percent' ],
-     \            [ 'jpmode', 'fileformat', 'fileencoding', 'filetype' ] ]
-     \ },
-     \ 'component_function': {
-     \   'fugitive': 'MyFugitive',
-     \   'readonly': 'MyReadonly',
-     \   'modified': 'MyModified',
-     \   'filename': 'MyFilename',
-     \   'jpmode': 'MyJpMode'
-     \ }
-     \ }
+    \ 'colorscheme': 'wombat',
+    \ 'enable': {
+    \   'statusline': 1,
+    \   'tabline': 0
+    \ },
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'fugitive', 'filename' ],
+    \             [ 'ale'] ],
+    \   'right': [ [ 'lineinfo' ],
+    \            [ 'percent' ],
+    \            [ 'jpmode', 'fileformat', 'fileencoding', 'filetype' ] ]
+    \ },
+    \ 'component_function': {
+    \   'fugitive': 'MyFugitive',
+    \   'readonly': 'MyReadonly',
+    \   'modified': 'MyModified',
+    \   'filename': 'MyFilename',
+    \   'jpmode': 'MyJpMode',
+    \   'ale': 'LLAle'
+    \ }
+    \ }
+
+if dein#tap('ale')
+  function! LLAle()
+    let l:count = ale#statusline#Count(bufnr(''))
+    let l:errors = l:count.error + l:count.style_error
+    let l:warnings = l:count.warning + l:count.style_warning
+    return l:count.total == 0 ? '◇OK' : '×E:' . l:errors . ' △W:' . l:warnings
+  endfunction
+else
+  function! LLAle()
+    return ''
+  endfunction
+endif
 
 let g:unite_force_overwrite_statusline = 0
 let g:vimfiler_force_overwrite_statusline = 0
@@ -442,34 +514,9 @@ endfunction
 
 function! MyFilename()
   return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-       \ ('' != expand('%t') ? expand('%t') : '[No Name]') .
-       \ ('' != MyModified() ? ' ' . MyModified() : '')
+      \ ('' != expand('%t') ? expand('%t') : '[No Name]') .
+      \ ('' != MyModified() ? ' ' . MyModified() : '')
 endfunction
-
-"--------------------
-"emmet
-"--------------------
-"ショートカットキー変更
-"imap <c-c> = <nop>
-let g:user_emmet_eader_key = '<c-c>'
-let g:user_emmet_settings = {
-     \  'indentation': '  ',
-     \  'lang':'ja',
-     \  'custom_expands1': {
-     \    '^\%(lorem\|lipsum\)\(\d*\)$' : function('emmet#lorem#ja#expand'),
-     \  },
-     \  'html' : {
-     \    'filters' : 'html',
-     \    'indentation' : '  '
-     \  },
-     \  'css' : {
-     \    'filters' : 'fc',
-     \  },
-     \  'php' : {
-     \    'extends' : 'html',
-     \    'filters' : 'html,c',
-     \  }
-     \}
 
 "--------------------
 "vim-quickrun
@@ -521,22 +568,11 @@ nnoremap <C-g>l :Glog --oneline<CR>
 " nnoremap <C-g>d :Gdiff<CR>
 " nnoremap <C-g>v :Gitv<CR>
 
-"--------------------
-" syntastic
-"--------------------
-"let g:syntastic_enable_signs=1
-"let g:syntastic_auto_loc_list=2
-let g:syntastic_mode_map = {
-     \ 'mode': 'active',
-     \ 'active_filetypes': ['php', 'sh', 'vim', 'python'],
-     \ 'passive_filetypes': ['html', 'haskell']
-     \}
-
 
 "--------------------
 " simple javascript indenter
 "--------------------
-"let g:SimpleJsIndenter_BriefMode=1
+let g:SimpleJsIndenter_BriefMode=1
 
 "--------------------
 " Indent guide
@@ -556,7 +592,6 @@ let g:previm_open_cmd = 'open -a "Google Chrome"'
 " 表示系
 "-----------------------
 syntax on
-
 augroup vimrc-highlight
   autocmd!
   autocmd Syntax * if 100000 < line('$') | syntax off | endif
@@ -578,27 +613,27 @@ function! s:get_syn_attr(synid)
   let guifg = synIDattr(a:synid, "fg", "gui")
   let guibg = synIDattr(a:synid, "bg", "gui")
   return {
-       \ "name": name,
-       \ "ctermfg": ctermfg,
-       \ "ctermbg": ctermbg,
-       \ "guifg": guifg,
-       \ "guibg": guibg}
+      \ "name": name,
+      \ "ctermfg": ctermfg,
+      \ "ctermbg": ctermbg,
+      \ "guifg": guifg,
+      \ "guibg": guibg}
 endfunction
 
 function! s:get_syn_info()
   let baseSyn = s:get_syn_attr(s:get_syn_id(0))
   echo "name: " . baseSyn.name .
-       \ " ctermfg: " . baseSyn.ctermfg .
-       \ " ctermbg: " . baseSyn.ctermbg .
-       \ " guifg: " . baseSyn.guifg .
-       \ " guibg: " . baseSyn.guibg
+      \ " ctermfg: " . baseSyn.ctermfg .
+      \ " ctermbg: " . baseSyn.ctermbg .
+      \ " guifg: " . baseSyn.guifg .
+      \ " guibg: " . baseSyn.guibg
   let linkedSyn = s:get_syn_attr(s:get_syn_id(1))
   echo "link to"
   echo "name: " . linkedSyn.name .
-       \ " ctermfg: " . linkedSyn.ctermfg .
-       \ " ctermbg: " . linkedSyn.ctermbg .
-       \ " guifg: " . linkedSyn.guifg .
-       \ " guibg: " . linkedSyn.guibg
+      \ " ctermfg: " . linkedSyn.ctermfg .
+      \ " ctermbg: " . linkedSyn.ctermbg .
+      \ " guifg: " . linkedSyn.guifg .
+      \ " guibg: " . linkedSyn.guibg
 endfunction
 command! SyntaxInfo call s:get_syn_info()
 
@@ -625,10 +660,15 @@ autocmd ColorScheme * hi Comment ctermfg=73
 set t_Co=256
 set background=dark
 colorscheme mopkai
+" colorscheme pencil
+" let g:pencil_higher_contrast_ui = 0  
+" let g:pencil_neutral_headings = 1 
+" let g:pencil_neutral_code_bg = 1
 
 "set nonumber
-set nomore
+set signcolumn=yes
 set number
+set nomore
 set showmode          " モード表示
 set title             " 編集中のファイル名を表示
 set ruler             " ルーラーの表示
@@ -644,31 +684,10 @@ set splitbelow        " 水平分割時は新しいwindowを下に
 set splitright        " 垂直分割時は新しいwindowを右に
 set ambiwidth=double  " 絵文字>
 
-
-function! XTermPasteBegin(ret)
-  set pastetoggle=<f29>
-  set paste
-  return a:ret
-endfunction
-
-" paste 
-execute "set <f28>=\<Esc>[200~"
-execute "set <f29>=\<Esc>[201~"
-map <expr> <f28> XTermPasteBegin("i")
-imap <expr> <f28> XTermPasteBegin("")
-vmap <expr> <f28> XTermPasteBegin("c")
-cmap <f28> <nop>
-cmap <f29> <nop><F29>
-function! ToggleRelativenumber() abort
-  if &number == 1
-    setlocal nonumber
-  else
-    setlocal number
-  endif
-endfunction
-
-nnoremap P "0p
-vnoremap P "0p
+nnoremap p "0p
+vnoremap p "0p
+nnoremap P p
+vnoremap P p
 "
 " nnoremap x "_x
 
@@ -678,7 +697,7 @@ augroup cch
   autocmd WinEnter,BufRead * set cursorline
 augroup END
 
-nnoremap <silent> <Leader>n :call ToggleRelativenumber()<cr>
+nnoremap <silent> <Leader>N :call ToggleRelativenumber()<cr>
 
 "-------------------------------
 " 行文字
@@ -905,49 +924,6 @@ function! s:Jq(...)
   execute "%! jq \"" . l:arg . "\""
 endfunction
 
-
-"if has('mac')
-"  if has('gui_running')
-"    let IM_CtrlMode = 4
-"  else
-"    let IM_CtrlMode = 1
-"
-"    function! IMCtrl(cmd)
-"      let cmd = a:cmd
-"      if cmd == 'On'
-"        let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {104})" > /dev/null 2>&1')
-"      elseif cmd == 'Off'
-"        let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {102})" > /dev/null 2>&1')
-"      elseif cmd == 'Toggle'
-"        let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {55, 49})" > /dev/null 2>&1')
-"      endif
-"      return ''
-"    endfunction
-"  endif
-"
-"  "「日本語入力固定モード」のMacVimKaoriya対策を無効化
-"  let IM_CtrlMacVimKaoriya = 0
-"  " ctrl+jで日本語入力固定モードをOnOff
-"  inoremap <silent> <C-j> <C-^><C-r>=IMState('FixMode')<CR>
-"  nnoremap <silent> <expr> <C-j> IMState('FixMode')
-"endif
-
-
-if &term =~ "xterm"
-  let &t_ti .= "\e[?2004h"
-  let &t_te .= "\e[?2004l"
-  let &pastetoggle = "\e[201~"
-
-  function! XTermPasteBegin(ret)
-    set paste
-    return a:ret
-  endfunction
-
-  noremap <special> <expr> <Esc>[200~ XTermPasteBegin("0i")
-  inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
-  cnoremap <special> <Esc>[200~ <nop>
-  cnoremap <special> <Esc>[201~ <nop>
-endif
 
 set helplang=ja,en
 filetype plugin indent on

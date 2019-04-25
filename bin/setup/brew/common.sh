@@ -32,6 +32,7 @@ brew install screen
 brew install the_silver_searcher
 brew install ripgrep
 brew install tig
+brew install cmigemo
 
 # nvim
 brew install vim
