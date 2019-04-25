@@ -37,8 +37,7 @@ brew install cmigemo
 # nvim
 brew install vim
 brew install nvim
-pip3 install nvim
-
+pip3 install --user pynvim
 
 brew cleanup
 
