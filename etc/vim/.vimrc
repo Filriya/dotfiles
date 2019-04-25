@@ -238,21 +238,21 @@ if dein#tap('deoplete.nvim')
   let g:deoplete#max_list = 500
 
   " <TAB>: completion.
-  inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ deoplete#manual_complete()
-
-  function! s:check_back_space() abort "{{{
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-  endfunction"}}}
-
+  " inoremap <silent><expr> <TAB>
+  "    \ pumvisible() ? "\<C-n>" :
+  "    \ <SID>check_back_space() ? "\<TAB>" :
+  "    \ deoplete#manual_complete()
+  "
+  " function! s:check_back_space() abort "{{{
+  "   let col = col('.') - 1
+  "   return !col || getline('.')[col - 1]  =~ '\s'
+  " endfunction"}}}
+  "
   " " <S-TAB>: completion back.
   " inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
-  "
-  " " <BS>: close popup and delete backword char.
-  " inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
+  
+  " <BS>: close popup and delete backword char.
+  inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
 
   " <CR>: close popup and save indent.
   inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
@@ -308,6 +308,7 @@ if dein#tap('ale')
 
   let g:ale_sh_shellcheck_options = '-e SC1090,SC2059,SC2155,SC2164'
 endif
+
 " --------------------
 " php documentor
 " --------------------

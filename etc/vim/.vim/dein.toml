@@ -135,7 +135,8 @@ repo = "digitaltoad/vim-pug"
 repo = 'cespare/vim-toml.git'
 [[plugins]]
 repo = 'vim-scripts/PDV--phpDocumentor-for-Vim'
-
+[[plugins]]
+repo = 'cakebaker/scss-syntax.vim'
 [[plugins]]
 repo = 'othree/yajs.vim'
 [[plugins]]
