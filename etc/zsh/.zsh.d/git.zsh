@@ -308,7 +308,7 @@ function git_pull_rebase_all()
     # originが存在すれば実行
     if echo $remotes | grep -q $br; then 
 
-      echo -e "\033[0;36mgit chekcout $br && git pull --rebase origin $br\033[0;m"
+      echo -e "\033[0;36mgit checkout $br && git pull --rebase origin $br\033[0;m"
       git pull --rebase origin $br
 
       # conflict したら そこで終了
@@ -350,7 +350,7 @@ function git_align_branch()
     git rebase --abort
     return 1
   fi
-  git chekcout $current
+  git checkout $current
 }
 
 function git_align_branch_all()
@@ -367,4 +367,6 @@ function git_align_branch_all()
     git_align_branch "$newbase" "$branch" || return 1
   done
 }
+
+alias zgit="cat ~/.zsh.d/git.zsh | grep --color=never '^alias' | grep -v 'alias -g'| perl -pe 's/alias ([^=]+)=(.*)/\1\t\2/'| peco"
 
