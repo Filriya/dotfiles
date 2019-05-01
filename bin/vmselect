@@ -1,0 +1,10 @@
+#!/bin/bash
+# マシンを選択
+if [ $# -eq 0 ]; then
+    machines=$(vmlist| peco)
+else
+    machines=$(vmlist| grep $1)
+fi
+
+echo $machines | head -n 1 | perl -pe 's/[ ]+/ /g'
+

@@ -1,19 +1,10 @@
 #!/bin/bash
 
-# マシンのリスト作成
-machines=`vmlist`
-
-# マシンを選択
-if [ $# -eq 0 ]; then
-    machine=$(echo "$machines"| peco)
-else
-    machine=$(echo "$machines"| grep $1)
-fi
+machine=$(vmselect "$@")
 
 machineId=$(echo $machine | cut -d " " -f 1)
 machineStat=$(echo $machine | cut -d " " -f 3)
 machinePath=$(echo $machine | cut -d " " -f 4)
-
 
 echo -e "\033[0;36mvagrant up $machinePath\033[0;m"
 
