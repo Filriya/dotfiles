@@ -201,12 +201,12 @@ endif
 " autozimu/LanguageClient-neovim
 " ------------------"
 if dein#tap('LanguageClient-neovim')
-  let g:LanguageClient_serverCommands = {
-      \ 'vue': ['vls'],
-      \ 'html': [],
-      \ 'css': [],
-      \ 'javascript': ['javascript-typescript-stdio']
-      \ }
+  " let g:LanguageClient_serverCommands = {
+  "    \ 'vue': ['vls'],
+  "    \ 'html': [],
+  "    \ 'css': [],
+  "    \ 'javascript': ['javascript-typescript-stdio']
+  "    \ }
   setlocal iskeyword+=$
   setlocal iskeyword+=-
   set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
@@ -691,11 +691,10 @@ set splitbelow        " 水平分割時は新しいwindowを下に
 set splitright        " 垂直分割時は新しいwindowを右に
 set ambiwidth=double  " 絵文字>
 
-nnoremap p "0p
-vnoremap p "0p
-nnoremap P p
-vnoremap P p
-"
+nnoremap P "0p
+vnoremap P "0p
+
+
 " nnoremap x "_x
 
 augroup cch
@@ -729,6 +728,11 @@ if has('path_extra')
   set tags+=tags;
 endif
 nnoremap <C-O> <C-T>
+
+set tags=tags;$HOME
+
+nnoremap <C-]> g<C-]>
+inoremap <C-]> <ESC>g<C-]>
 
 "---------------------------------
 "ファイル操作
