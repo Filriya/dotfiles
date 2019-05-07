@@ -271,7 +271,7 @@ function git_branch_list()
   echo -e "$local_print\n$no_branch_print\n$remote_print"
 }
 
-alias -g B='`git_branch_list| peco | perl -pe "s/^  . //g"`'
+alias -g B='`git_branch_list| peco --query="* "| perl -pe "s/^  . //g"`'
 
 function git_stash_pop()
 {

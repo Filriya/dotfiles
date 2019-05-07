@@ -68,9 +68,6 @@ nnoremap <Leader>o :Unite outline -vertical<CR>
 " reload file
 nnoremap <silent> <Leader>R :<C-u>e<CR>
 
-" paste mode
-nnoremap <silent> <Leader>P :<C-u>a<CR>
-
 " help
 nnoremap <Leader>H :vert help<space>
 
@@ -304,8 +301,10 @@ if dein#tap('ale')
   autocmd FileType help,qf,man,ref let b:ale_enabled = 0
 
   let g:ale_linters = {
-       \   'javascript': ['eslint'],
-       \}
+        \ 'html': [],
+        \ 'javascript': ['eslint'],
+        \ 'vue': ['eslint']
+        \ }
 
   let g:ale_sh_shellcheck_options = '-e SC1090,SC2059,SC2155,SC2164'
 endif
@@ -866,6 +865,23 @@ function! MyTabLabel(n)
 
   return label
 endfunction
+
+" paste
+if &term =~ "xterm"
+  let &t_ti .= "\e[?2004h"
+  let &t_te .= "\e[?2004l"
+  let &pastetoggle = "\e[201~"
+
+  function XTermPasteBegin(ret)
+    set paste
+    return a:ret
+  endfunction
+
+  noremap <special> <expr> <Esc>[200~ XTermPasteBegin("0i")
+  inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
+  cnoremap <special> <Esc>[200~ <nop>
+  cnoremap <special> <Esc>[201~ <nop>
+endif
 
 "---------------
 "タブキーの処理
