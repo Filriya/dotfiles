@@ -11,14 +11,21 @@ build = 'make'
 
 [[plugins]]
 repo = 'Shougo/vimshell'
+# [[plugins]]
+# repo = 'Shougo/unite.vim'
+# [[plugins]]
+# repo = 'Shougo/vimfiler'
 [[plugins]]
-repo = 'Shougo/unite.vim'
+repo = 'Shougo/denite.nvim'
+[[plugins]]
+repo = 'Shougo/defx.nvim'
+[[plugins]]
+repo = 'nixprime/cpsm'
+build = 'env PY3=ON ./install.sh'
 [[plugins]]
 repo = 'Shougo/neomru.vim'
 [[plugins]]
 repo = 'Shougo/neoyank.vim'
-[[plugins]]
-repo = 'Shougo/vimfiler'
 [[plugins]]
 repo = 't9md/vim-unite-ack'
 [[plugins]]
@@ -99,6 +106,15 @@ repo = 'tmhedberg/matchit'
 repo = 'deris/vim-rengbang'
 [[plugins]]
 repo = 'ConradIrwin/vim-bracketed-paste'
+
+[[plugins]]
+repo = 'kana/vim-textobj-user'
+[[plugins]]
+repo = 'kana/vim-textobj-line'
+[[plugins]]
+repo = 'kana/vim-textobj-entire'
+[[plugins]]
+repo = 'kana/vim-textobj-function'
 
 # language server
 # complete

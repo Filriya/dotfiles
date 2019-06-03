@@ -8,8 +8,6 @@ if [ "$(uname)" == 'Darwin' ]; then
   fi
   ./brew/common.sh
   ./brew/darwin.sh
-  ./install/npm.sh
-  ./install/pip.sh
 elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
   if ! type "brew" > /dev/null 2>&1; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
@@ -21,6 +19,5 @@ elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
     echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
   fi
   ./brew/common.sh
-  ./install/npm.sh
-  ./install/pip.sh
+  ./brew/linux.sh
 fi

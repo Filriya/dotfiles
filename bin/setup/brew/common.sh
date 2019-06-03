@@ -4,9 +4,6 @@ brew update
 brew upgrade
 
 # Packages
-brew install autoconf
-brew install automake
-brew install ansible
 brew install bash-completion
 brew install lua
 brew install luajit
@@ -38,6 +35,13 @@ brew install cmigemo
 brew install vim
 brew install nvim
 pip3 install --user pynvim
+
+npm i -g eslint 
+npm i -g eslint-plugin-vue
+
+npm i -g javascript-typescript-langserver 
+npm i -g javascript-typescript-stdio
+npm i -g vue-language-server
 
 brew cleanup
 

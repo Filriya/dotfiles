@@ -1,6 +1,9 @@
 #!/bin/bash
 brew tap homebrew/cask-versions
 
+brew install autoconf
+brew install automake
+brew install ansible
 brew install binutils
 brew install diffutils
 brew install coreutils
@@ -25,6 +28,7 @@ brew install watch
 # brew install wdiff --with-gettext
 brew install wget
 brew install w3m
+brew install boost
 
 brew cask install xquartz
 brew cask install 1password

@@ -250,9 +250,6 @@ if [ -f '/Users/filriya/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/f
 # rg ripgrep
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
-# npm
-path=($(npm config get prefix)/bin $path)
-
 # SSH/SCP/RSYNC
 # :completion:function:completer:command:argument:tag.
 # ^Xh
