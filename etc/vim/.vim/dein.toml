@@ -11,8 +11,7 @@ build = 'make'
 
 [[plugins]]
 repo = 'Shougo/vimshell'
-# [[plugins]]
-# repo = 'Shougo/unite.vim'
+
 # [[plugins]]
 # repo = 'Shougo/vimfiler'
 [[plugins]]
@@ -27,7 +26,7 @@ repo = 'Shougo/neomru.vim'
 [[plugins]]
 repo = 'Shougo/neoyank.vim'
 [[plugins]]
-repo = 't9md/vim-unite-ack'
+repo = 'Shougo/unite.vim'
 [[plugins]]
 repo = 'Shougo/unite-outline'
 [[plugins]]
@@ -104,8 +103,6 @@ repo = 'tpope/vim-repeat'
 repo = 'tmhedberg/matchit'
 [[plugins]]
 repo = 'deris/vim-rengbang'
-[[plugins]]
-repo = 'ConradIrwin/vim-bracketed-paste'
 
 [[plugins]]
 repo = 'kana/vim-textobj-user'

@@ -18,8 +18,8 @@ alias g='git'
 # # Branch (b)
 alias gb='git branch --verbose'
 alias gba='git branch --all --verbose'
-alias gbd='git branch --delete'
-alias gbD='git branch --delete --force'
+alias gbx='git branch --delete'
+alias gbX='git branch --delete --force'
 alias gbm='git branch --move'
 alias gbM='git branch --move --force'
 alias gbs='git show-branch'
@@ -156,9 +156,10 @@ alias giX='git rm -rf --cached'
 
 # Log (l)
 alias gl='git log --topo-order --pretty=format:"${_git_log_medium_format}"'
-alias gls='git log --topo-order --stat --patch --full-diff --pretty=format:"${_git_log_medium_format}"'
+alias gls='git log --topo-order --stat --pretty=format:"${_git_log_medium_format}"'
+alias glss='git log --topo-order --stat --patch --full-diff --pretty=format:"${_git_log_medium_format}"'
 alias glg='git log --topo-order --graph --pretty=format:"${_git_log_oneline_format}"'
-alias gla='git log --topo-order --all --graph --pretty=format:"${_git_log_oneline_format}"'
+alias gla='git log --topo-order --graph --all --pretty=format:"${_git_log_oneline_format}"'
 alias glr='git reflog'
 
 # Merge (m)
@@ -283,18 +284,10 @@ function git_stash_pop()
   fi
 }
 
-# # 現在のwork treeをsave
-# local current=$(git name-rev --name-only HEAD)
-# local stash_message="[$RANDOM]: save work tree on $current "
-#
-# git add --all && git stash save $stash_message >/dev/null
-# # work treeをもとに戻す
-# git checkout $current >/dev/null
-# local stash_num=$(git stash list | grep $stash_message | perl -pe "s/(stash@\{.*\}):.*/\1/")
-# git stash pop $stash_num >/dev/null
-
 function git_pull_rebase_all()
 {
+  local current=$(git name-rev --name-only HEAD)
+
   # origin を 初期化
   git fetch --all --prune
 
@@ -320,6 +313,8 @@ function git_pull_rebase_all()
       fi
     fi
   done
+
+  git checkout $current >/dev/null
 }
 
 function git_align_branch()

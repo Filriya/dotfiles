@@ -11,3 +11,4 @@ elif [ `uname` = "Linux" ]; then
   . ~/.bashrc
   fi
 fi
+eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)

@@ -14,11 +14,15 @@
 " omap / onoremap |    -     |  -   |       -        |     -      |  -   |    @     |
 "-----------------------------------------------------------------------------------"
 
-set nocompatible
 filetype off
 filetype plugin indent off
 
 nnoremap <C-j> :echo 'hoge'<CR>
+" let g:BASH_Ctrl_j = 'off'
+" nnoremap <C-j> :echo "hoge"<CR>
+" nnoremap <NL> :echo "hoge"<CR>
+"noremap <silent> <C-j> :echo 'hoge'<CR>
+"noremap! <silent> <C-j> :echo 'hoge'<CR>
 
 " " NG
 " unmap <C-j>
@@ -46,7 +50,7 @@ augroup END
 noremap <Leader> <Nop>
 let mapleader = "\<Space>"
 
-nnoremap <silent> <Leader>ev :<C-u>tabnew $MYVIMRC<CR>
+nnoremap <silent> <Leader>ev :<C-u>edit $MYVIMRC<CR>
 nnoremap <silent> <Leader>es :<C-u>source $MYVIMRC<CR>
 nnoremap <silent> <Leader>et :<C-u>tabnew $HOME/.vim/dein.toml<CR>
 nnoremap <silent> <Leader>ez :<C-u>tabnew $HOME/.zshrc<CR>
@@ -67,13 +71,13 @@ nnoremap <silent> <Leader>eg :<C-u>tabnew $HOME/.zsh.d/git.zsh<CR>
 " nnoremap <Leader>y :Unite history/yank<CR>
 " nnoremap <Leader>o :Unite outline -vertical<CR>
 
-" Unite
-nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>i
-nnoremap <silent> <Leader>u :<C-u>Denite file_mru<CR>i
-nnoremap <silent> <Leader>f :<C-u>Denite file/rec<CR>i
-nnoremap <silent> <Leader>g :<C-u>Denite grep<CR>i
-nnoremap <silent> <Leader>y :<C-u>Denite neoyank<CR>i
-nnoremap <silent> <Leader>o :<C-u>Denite outline<CR>i
+" Denite
+nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
+nnoremap <silent> <Leader>u :<C-u>Denite file_mru<CR>
+nnoremap <silent> <Leader>f :<C-u>Denite file/rec<CR>
+nnoremap <silent> <Leader>g :<C-u>Denite grep<CR>
+nnoremap <silent> <Leader>y :<C-u>Denite neoyank<CR>
+nnoremap <silent> <Leader>o :<C-u>Denite -split=vertical unite:outline<CR>
 
 " reload file
 nnoremap <silent> <Leader>R :<C-u>e<CR>
@@ -83,7 +87,7 @@ nnoremap <Leader>H :vert help<space>
 
 " save and quit
 nnoremap <silent> <Leader>w :w<CR>
-nnoremap <silent> <Leader>q :wq<CR>
+nnoremap <silent> <Leader>q :q<CR>
 nnoremap <silent> <Leader>Q :qa!<CR>
 
 "----------------------
@@ -115,7 +119,8 @@ endif
 
 "--------------------
 " vimfiler
-" ------------------
+"--------------------
+
 " let g:vimfiler_as_default_explorer=1
 " let g:vimfiler_safe_mode_by_default = 0
 " let g:vimfiler_enable_auto_cd = 1
@@ -123,7 +128,7 @@ endif
 
 " nnoremap <silent> <C-e> :VimFiler -split -simple -explorer -winwidth=40 -toggle  -find<CR>
 
-function! s:my_vimfiler_settings()
+" function! s:my_vimfiler_settings()
   " nmap <silent><buffer> , <Plug>(vimfiler_toggle_mark_current_line)
   " vmap <silent><buffer> , <Plug>(vimfiler_toggle_mark_selected_lines)
 
@@ -132,24 +137,29 @@ function! s:my_vimfiler_settings()
   " nnoremap <silent><buffer><expr> t vimfiler#do_switch_action('tabopen')
   " nnoremap <silent><buffer><expr> v vimfiler#do_switch_action('vsplit')
   " nnoremap <silent><buffer><expr> s vimfiler#do_switch_action('split')
-endfunction
+" endfunction
+
 "-----------
 " defx
 "----------
 
 if dein#tap('defx.nvim')
-  nnoremap <silent> <C-e> :Defx -split=vertical -winwidth=50 -direction=topleft<CR>
+  nnoremap <silent> <C-e> :Defx -split=vertical -winwidth=40 -direction=topleft<CR>
 
   autocmd FileType defx call s:defx_my_settings()
   function! s:defx_my_settings() abort
     " Define mappings
-    nnoremap <silent><buffer><expr> <CR> defx#do_action('open')
+    nnoremap <silent><buffer><expr> <CR>
+          \ defx#is_directory() ?
+          \ defx#do_action('open_or_close_tree'):
+          \ defx#do_action('open', 'tabnew')
+    nnoremap <silent><buffer><expr> s defx#do_action('open', 'split')
+    nnoremap <silent><buffer><expr> v defx#do_action('open', 'vsplit')
+    nnoremap <silent><buffer><expr> t defx#do_action('open', 'tabnew')
+    nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
     nnoremap <silent><buffer><expr> c defx#do_action('copy')
     nnoremap <silent><buffer><expr> m defx#do_action('move')
     nnoremap <silent><buffer><expr> p defx#do_action('paste')
-    nnoremap <silent><buffer><expr> s defx#do_action('open', 'split')
-    nnoremap <silent><buffer><expr> v defx#do_action('open', 'vsplit')
-    " nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
     nnoremap <silent><buffer><expr> K defx#do_action('new_directory')
     nnoremap <silent><buffer><expr> N defx#do_action('new_file')
     nnoremap <silent><buffer><expr> d defx#do_action('remove')
@@ -157,9 +167,11 @@ if dein#tap('defx.nvim')
     nnoremap <silent><buffer><expr> x defx#do_action('execute_system')
     nnoremap <silent><buffer><expr> yy defx#do_action('yank_path')
     nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
-    nnoremap <silent><buffer><expr> l defx#do_action('open_tree')
-    nnoremap <silent><buffer><expr> h defx#do_action('close_tree')
-    nnoremap <silent><buffer><expr> H defx#do_action('cd', ['..'])
+    nnoremap <silent><buffer><expr> l
+          \ defx#is_directory() ?
+          \ defx#do_action('open') :
+          \ defx#do_action('open', 'tabnew')
+    nnoremap <silent><buffer><expr> h defx#do_action('cd', ['..'])
     nnoremap <silent><buffer><expr> ~ defx#do_action('cd')
     nnoremap <silent><buffer><expr> q defx#do_action('quit')
     nnoremap <silent><buffer><expr> <Space> defx#do_action('toggle_select') . 'j'
@@ -282,16 +294,15 @@ if dein#tap('denite.nvim')
   call denite#custom#var('grep', 'separator', ['--'])
   call denite#custom#var('grep', 'final_opts', [])
 
-  call denite#custom#option('_', 'statusline', v:false)
   call denite#custom#option('_', 'mode', 'insert')
-  call denite#custom#option('default', 'prompt', '>')
 
-  call denite#custom#option('default', {
+  call denite#custom#option('_', {
+        \ 'statusline': v:false,
+        \ 'prompt': '>',
         \ 'highlight_filter_background': 'CursorLine',
         \ 'source_names': 'short',
         \ 'split': 'horizontal',
         \ 'smartcase': v:true,
-        \ 'ignorecase': v:true,
         \ 'direction': "belowright",
         \ 'winwidth': 40,
         \ 'winheight': 10,
@@ -364,7 +375,6 @@ if dein#tap('deoplete.nvim')
   "
   " " <S-TAB>: completion back.
   " inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
-
   " <BS>: close popup and delete backword char.
   inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
 
@@ -393,12 +403,12 @@ if dein#tap('neosnippet')
   " SuperTab like snippets behavior.
   " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
   imap <expr><TAB>
-        \ pumvisible() 
-        \ ? (neosnippet#expandable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<C-y>")
-        \ : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+       \ pumvisible() 
+       \ ? (neosnippet#expandable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<C-y>")
+       \ : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
   smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-        \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+       \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 endif 
 
@@ -418,10 +428,10 @@ if dein#tap('ale')
   autocmd FileType help,qf,man,ref let b:ale_enabled = 0
 
   let g:ale_linters = {
-        \ 'html': [],
-        \ 'javascript': ['eslint'],
-        \ 'vue': ['eslint']
-        \ }
+       \ 'html': [],
+       \ 'javascript': ['eslint'],
+       \ 'vue': ['eslint']
+       \ }
 
   let g:ale_javascript_eslint_use_global = 1
 
@@ -431,8 +441,8 @@ endif
 " --------------------
 " php documentor
 " --------------------
-" nnoremap <Leader>P :call PhpDocSingle()<CR>
-" vnoremap <Leader>P :call PhpDocRange()<CR>
+nnoremap <Leader>P :call PhpDocSingle()<CR>
+vnoremap <Leader>P :call PhpDocRange()<CR>
 
 "--------------------
 " EasyAlign
@@ -448,6 +458,21 @@ nmap ga <Plug>(EasyAlign)
 "" 行の最初の文字の前にコメント文字をトグル
 nmap <Leader>c <Plug>(caw:hatpos:toggle)
 vmap <Leader>c <Plug>(caw:hatpos:toggle)
+
+"----------------------
+" unite-tag
+"----------------------
+" augroup unite_tag
+"   autocmd BufEnter *
+"       \   if empty(&buftype)
+"       \|      nnoremap <buffer> <C-]> :<C-u>UniteWithCursorWord -immediately tag<CR>
+"       \|  endif
+"   autocmd BufEnter *
+"       \   if empty(&buftype)
+"       \|      nnoremap <buffer> <C-o> :<C-u>Unite jump<CR><CR>
+"       \|  endif
+" augroup END
+
 
 "----------------------
 " easymotion
@@ -476,6 +501,12 @@ vmap <Leader>s <Plug>(easymotion-bd-f2)
 map <Leader>l <Plug>(easymotion-bd-jk)
 nmap <Leader>l <Plug>(easymotion-overwin-line)
 
+" Move to line
+map <Leader>l <Plug>(easymotion-bd-jk)
+nmap <Leader>l <Plug>(easymotion-overwin-line)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+
 
 if dein#tap('incsearch.vim')
   highlight IncSearchCursor ctermfg=0 ctermbg=9 guifg=#000000 guibg=#FF0000
@@ -488,12 +519,12 @@ if dein#tap('incsearch.vim')
   " noremap / <Plug>(incsearch-forward)
   " noremap ? <Plug>(incsearch-backward)
   " noremap g/ <Plug>(incsearch-stay)
-  noremap n  <Plug>(incsearch-nohl-n)
-  noremap N  <Plug>(incsearch-nohl-N)
-  noremap *  <Plug>(incsearch-nohl-*)
-  noremap #  <Plug>(incsearch-nohl-#)
-  noremap g* <Plug>(incsearch-nohl-g*)
-  noremap g# <Plug>(incsearch-nohl-g#)
+  nmap n  <Plug>(incsearch-nohl-n)
+  nmap N  <Plug>(incsearch-nohl-N)
+  nmap *  <Plug>(incsearch-nohl-*)
+  nmap #  <Plug>(incsearch-nohl-#)
+  nmap g* <Plug>(incsearch-nohl-g*)
+  nmap g# <Plug>(incsearch-nohl-g#)
 endif
 
 
@@ -525,13 +556,14 @@ function! s:config_migemo(...) abort
         \ }), get(a:, 1, {}))
 endfunction
 
-noremap <silent><expr> <Leader>/ incsearch#go(<SID>config_migemo())
-noremap <silent><expr> <Leader>? incsearch#go(<SID>config_migemo({'command': '?'}))
+noremap <silent><expr> g/ incsearch#go(<SID>config_migemo())
+noremap <silent><expr> g? incsearch#go(<SID>config_migemo({'command': '?'}))
 
 " --------------------
 " matchit
 " --------------------
 let b:match_ignorecase = 1
+nnoremap % %zz
 
 " --------------------
 " vim-expand-region
@@ -541,17 +573,17 @@ if dein#tap('vim-expand-region')
   " vnoremap j <Plug>(expand_region_expand)
   " vnoremap k <Plug>(expand_region_shrink)
   let g:expand_region_text_objects = {
-        \ 'iw'  :0,
-        \ 'iW'  :0,
-        \ 'i"'  :0,
-        \ 'i''' :0,
-        \ 'i]'  :1, 
-        \ 'ib'  :1, 
-        \ 'iB'  :1, 
-        \ 'il'  :1, 
-        \ 'ip'  :1,
-        \ 'ie'  :1, 
-        \ }
+       \ 'iw'  :0,
+       \ 'iW'  :0,
+       \ 'i"'  :0,
+       \ 'i''' :0,
+       \ 'i]'  :1, 
+       \ 'ib'  :1, 
+       \ 'iB'  :1, 
+       \ 'il'  :0, 
+       \ 'ip'  :0,
+       \ 'ie'  :0, 
+       \ }
 endif
 
 
@@ -685,7 +717,7 @@ let g:quickrun_config.scheme = { 'scheme': { 'command': 'gosh'}}
 "--------------------
 "vim-fugitive
 "--------------------
-nnoremap <C-g>l :Glog --oneline<CR>
+" nnoremap <C-g>l :Glog --oneline<CR>
 " nnoremap <C-g>s :Gstatus<CR>
 " nnoremap <C-g>a :Gwrite<CR>
 " nnoremap <C-g>r :Gread<CR>
@@ -786,6 +818,8 @@ autocmd ColorScheme * hi Comment ctermfg=73
 set t_Co=256
 set background=dark
 colorscheme mopkai
+
+nnoremap <silent> <C-l> :<C-u>syntax sync fromstart<CR>
 " colorscheme pencil
 " let g:pencil_higher_contrast_ui = 0  
 " let g:pencil_neutral_headings = 1 
@@ -844,12 +878,12 @@ set tagstack
 if has('path_extra')
   set tags+=tags;
 endif
-nnoremap <C-O> <C-T>
 
 set tags=tags;$HOME
 
-nnoremap <C-]> g<C-]>
-inoremap <C-]> <ESC>g<C-]>
+" nnoremap <C-O> <C-T>
+" nnoremap <C-]> g<C-]>
+" inoremap <C-]> <ESC>g<C-]>
 
 "---------------------------------
 "ファイル操作
@@ -902,10 +936,10 @@ function! s:init_cmdwin()
 endfunction
 
 " 検索時語句を中心にする
-nnoremap * *zz
-nnoremap n nzz
-nnoremap N Nzz
-
+" nnoremap * *zz
+" nnoremap n nzz
+" nnoremap N Nzz
+"
 " ----------------------------------------
 " <t> commands
 " ウィンドウ、タブ、バッファの分割・移動
@@ -940,6 +974,8 @@ nnoremap <silent> <C-t><C-d> :<C-u>tabclose<CR>
 nnoremap <silent> <C-w>v :<C-u>vsp<CR>
 nnoremap <silent> <C-w>s :<C-u>sp<CR>
 
+nnoremap <C-g> `.zz
+nnoremap <C-z> <nop>
 
 "<C-d>とあわせて左手だけでスクロール
 " nnoremap <C-e> <C-u>
