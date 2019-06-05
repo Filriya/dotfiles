@@ -24,6 +24,7 @@ autodetach on
 
 cjkwidth on
 
+bind ^a meta
 bind x remove
 bind ^x remove
 bind o only
