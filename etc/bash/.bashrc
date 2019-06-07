@@ -220,3 +220,5 @@ export PATH="/usr/local/heroku/bin:$PATH"
 if [ -f $BASH_COMPLETION_COMPAT_DIR/wp ]; then
   . $BASH_COMPLETION_COMPAT_DIR/wp
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

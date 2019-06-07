@@ -62,6 +62,9 @@ brew cask install translate-tab
 brew cask install popclip
 brew cask install kindle
 
+brew install selenium-server-standalone
+brew cask install chromedriver
+brew install geckodriver
 
 brew install mas
 

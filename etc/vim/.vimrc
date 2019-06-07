@@ -50,7 +50,7 @@ augroup END
 noremap <Leader> <Nop>
 let mapleader = "\<Space>"
 
-nnoremap <silent> <Leader>ev :<C-u>edit $MYVIMRC<CR>
+nnoremap <silent> <Leader>ev :<C-u>tabnew $MYVIMRC<CR>
 nnoremap <silent> <Leader>es :<C-u>source $MYVIMRC<CR>
 nnoremap <silent> <Leader>et :<C-u>tabnew $HOME/.vim/dein.toml<CR>
 nnoremap <silent> <Leader>ez :<C-u>tabnew $HOME/.zshrc<CR>
@@ -72,12 +72,25 @@ nnoremap <silent> <Leader>eg :<C-u>tabnew $HOME/.zsh.d/git.zsh<CR>
 " nnoremap <Leader>o :Unite outline -vertical<CR>
 
 " Denite
-nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
-nnoremap <silent> <Leader>u :<C-u>Denite file_mru<CR>
-nnoremap <silent> <Leader>f :<C-u>Denite file/rec<CR>
-nnoremap <silent> <Leader>g :<C-u>Denite grep<CR>
-nnoremap <silent> <Leader>y :<C-u>Denite neoyank<CR>
+" nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
+" nnoremap <silent> <Leader>u :<C-u>Denite file_mru<CR>
+" nnoremap <silent> <Leader>f :<C-u>Denite file/rec<CR>
+" nnoremap <silent> <Leader>g :<C-u>Denite grep<CR>
+" nnoremap <silent> <Leader>y :<C-u>Denite neoyank<CR>
 nnoremap <silent> <Leader>o :<C-u>Denite -split=vertical unite:outline<CR>
+
+" fzf.vim
+
+nnoremap <silent> <Leader>f :<C-u>Files<CR>
+nnoremap <silent> <Leader>F :<C-u>GFiles<CR>
+" nnoremap <silent> <Leader>g :<C-u>GFiles?<CR>
+nnoremap <silent> <Leader>b :<C-u>Buffers<CR>
+nnoremap <silent> <Leader>g :<C-u>Ag 
+nnoremap <silent> <Leader>/ :<C-u>Lines<CR>
+nnoremap <silent> <Leader>? :<C-u>BLines<CR>
+nnoremap <silent> <Leader>t :<C-u>Tags<CR>
+nnoremap <silent> <Leader>h :<C-u>History<CR>
+
 
 " reload file
 nnoremap <silent> <Leader>R :<C-u>e<CR>
@@ -144,7 +157,7 @@ endif
 "----------
 
 if dein#tap('defx.nvim')
-  nnoremap <silent> <C-e> :Defx -split=vertical -winwidth=40 -direction=topleft<CR>
+  nnoremap <silent> <C-e> :Defx -split=vertical -winwidth=40 -direction=topleft `expand('%:p:h')` -search=`expand('%:p')`<CR>
 
   autocmd FileType defx call s:defx_my_settings()
   function! s:defx_my_settings() abort
@@ -153,7 +166,8 @@ if dein#tap('defx.nvim')
           \ defx#is_directory() ?
           \ defx#do_action('open_or_close_tree'):
           \ defx#do_action('open', 'tabnew')
-    nnoremap <silent><buffer><expr> s defx#do_action('open', 'split')
+    nnoremap <silent><buffer><expr> s
+          \ defx#do_action('multi', [['drop', 'split'], 'quit'])
     nnoremap <silent><buffer><expr> v defx#do_action('open', 'vsplit')
     nnoremap <silent><buffer><expr> t defx#do_action('open', 'tabnew')
     nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
@@ -326,6 +340,57 @@ if dein#tap('denite.nvim')
 endif
 
 "--------------------
+" fzf.vim
+"--------------------
+
+if dein#tap('fzf.vim')
+  " Advanced customization using autoload functions
+
+  " This is the default extra key bindings
+  let g:fzf_action = {
+        \ 'ctrl-t': 'tab split',
+        \ 'ctrl-s': 'split',
+        \ 'ctrl-v': 'vsplit' }
+
+  " Default fzf layout
+  " - down / up / left / right
+  let g:fzf_layout = { 'down': '~40%' }
+
+  " Customize fzf colors to match your color scheme
+  let g:fzf_colors =
+        \ { 'fg':      ['fg', 'Normal'],
+        \ 'bg':      ['bg', 'Normal'],
+        \ 'hl':      ['fg', 'Comment'],
+        \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+        \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+        \ 'hl+':     ['fg', 'Statement'],
+        \ 'info':    ['fg', 'PreProc'],
+        \ 'border':  ['fg', 'Ignore'],
+        \ 'prompt':  ['fg', 'Conditional'],
+        \ 'pointer': ['fg', 'Exception'],
+        \ 'marker':  ['fg', 'Keyword'],
+        \ 'spinner': ['fg', 'Label'],
+        \ 'header':  ['fg', 'Comment'] }
+
+  " Enable per-command history.
+  " CTRL-N and CTRL-P will be automatically bound to next-history and
+  " previous-history instead of down and up. If you don't like the change,
+  " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+  
+  " [Buffers] Jump to the existing window if possible
+  let g:fzf_buffers_jump = 1
+  
+  " [[B]Commits] Customize the options used by 'git log':
+  let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+  
+  " [Tags] Command to generate tags file
+  let g:fzf_tags_command = 'ctags -R'
+  
+  " [Commands] --expect expression for directly executing the command
+  " let g:fzf_commands_expect = 'alt-enter,ctrl-x'
+endif
+
+"--------------------
 " autozimu/LanguageClient-neovim
 " ------------------"
 if dein#tap('LanguageClient-neovim')
@@ -403,12 +468,12 @@ if dein#tap('neosnippet')
   " SuperTab like snippets behavior.
   " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
   imap <expr><TAB>
-       \ pumvisible() 
-       \ ? (neosnippet#expandable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<C-y>")
-       \ : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+        \ pumvisible() 
+        \ ? (neosnippet#expandable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<C-y>")
+        \ : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
   smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-       \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+        \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 endif 
 
@@ -428,10 +493,10 @@ if dein#tap('ale')
   autocmd FileType help,qf,man,ref let b:ale_enabled = 0
 
   let g:ale_linters = {
-       \ 'html': [],
-       \ 'javascript': ['eslint'],
-       \ 'vue': ['eslint']
-       \ }
+        \ 'html': [],
+        \ 'javascript': ['eslint'],
+        \ 'vue': ['eslint']
+        \ }
 
   let g:ale_javascript_eslint_use_global = 1
 
@@ -573,19 +638,24 @@ if dein#tap('vim-expand-region')
   " vnoremap j <Plug>(expand_region_expand)
   " vnoremap k <Plug>(expand_region_shrink)
   let g:expand_region_text_objects = {
-       \ 'iw'  :0,
-       \ 'iW'  :0,
-       \ 'i"'  :0,
-       \ 'i''' :0,
-       \ 'i]'  :1, 
-       \ 'ib'  :1, 
-       \ 'iB'  :1, 
-       \ 'il'  :0, 
-       \ 'ip'  :0,
-       \ 'ie'  :0, 
-       \ }
+        \ 'iw'  :0,
+        \ 'iW'  :0,
+        \ 'i"'  :0,
+        \ 'i''' :0,
+        \ 'i]'  :1, 
+        \ 'ib'  :1, 
+        \ 'iB'  :1, 
+        \ 'il'  :0, 
+        \ 'ip'  :0,
+        \ 'ie'  :0, 
+        \ }
 endif
 
+"------------
+" sandwich
+"------------
+nmap s <Nop>
+xmap s <Nop>
 
 "------------
 "lightline

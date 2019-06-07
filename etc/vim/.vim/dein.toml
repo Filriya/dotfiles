@@ -15,6 +15,11 @@ repo = 'Shougo/vimshell'
 # [[plugins]]
 # repo = 'Shougo/vimfiler'
 [[plugins]]
+repo = 'junegunn/fzf'
+build = './install'
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+[[plugins]]
 repo = 'Shougo/denite.nvim'
 [[plugins]]
 repo = 'Shougo/defx.nvim'

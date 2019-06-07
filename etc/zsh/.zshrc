@@ -28,6 +28,7 @@ if [ -e "$HOME/.zsh.bundle/z/z.sh" ]; then
   source "${HOME}/.zsh.bundle/z/z.sh"
 fi
 
+
 # Source OS-specific settings
 case $OSTYPE in
   darwin*)
@@ -65,11 +66,17 @@ if [ "$SSH_TTY" = "" ]; then
   source ~/.keychain/$HOST-sh
 fi
 
+# fzf
+if [ -f ~/.zsh.d/fzf.zsh ]; then
+  source ~/.zsh.d/fzf.zsh
+fi
+
 # alias
 alias cl="clear"
 alias gosh='rlwrap gosh'
 alias phptags='ctags --tag-relative --recurse --sort=yes --exclude=*.js'
 alias -g P='| peco'
+alias -g F='| fzf'
 
 # haskell stack
 alias ghc='stack ghc --'
@@ -170,23 +177,23 @@ zle -N starteditor
 bindkey '^]' starteditor
 
 #peco and z
-if type peco 2>/dev/null 1>/dev/null; then
-  if which tac > /dev/null; then
-    local tac="tac"
-  else
-    local tac="tail -r"
-  fi
-
-  function peco_select_history()
-  {
-    BUFFER=`history -n 1 | eval $tac | peco`
-    CURSOR=$#BUFFER
-    zle reset-prompt
-  }
-
-  zle -N peco_select_history
-  bindkey '^r' peco_select_history
-fi
+# if type peco 2>/dev/null 1>/dev/null; then
+#   if which tac > /dev/null; then
+#     local tac="tac"
+#   else
+#     local tac="tail -r"
+#   fi
+#
+#   function peco_select_history()
+#   {
+#     BUFFER=`history -n 1 | eval $tac | peco`
+#     CURSOR=$#BUFFER
+#     zle reset-prompt
+#   }
+#
+#   zle -N peco_select_history
+#   bindkey '^r' peco_select_history
+# fi
 
 function peco-repo-search
 {

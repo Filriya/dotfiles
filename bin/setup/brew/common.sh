@@ -5,6 +5,8 @@ brew upgrade
 
 # Packages
 brew install bash-completion
+brew install boost
+brew install cmake
 brew install lua
 brew install luajit
 brew install git
@@ -23,6 +25,7 @@ fi
 brew install fd
 brew install exa
 brew install peco
+brew install fzf
 brew install z
 brew install ghq hub
 brew install screen
