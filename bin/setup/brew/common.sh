@@ -3,10 +3,13 @@
 brew update
 brew upgrade
 
+brew tap unversal-ctags/universal-ctags
+
 # Packages
 brew install bash-completion
 brew install boost
 brew install cmake
+brew install universal-ctags
 brew install lua
 brew install luajit
 brew install git

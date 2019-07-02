@@ -141,6 +141,19 @@ alias ggL='git grep --files-without-matches'
 alias ggv='git grep --invert-match'
 alias ggw='git grep --word-regexp'
 
+# Hub (h)
+alias ghb='hub browse'         # Open a GitHub page in the default browser
+alias ghc='hub create'         # Create this repository on GitHub and add GitHub as origin
+alias ghd='hub compare'        # Open a compare page on GitHub
+alias ghp='hub pr'             # List or checkout GitHub pull requests
+alias ghP='hub pull-request'   # Open a pull request on GitHub
+alias ghs='hub sync'           # Fetch git objects from upstream and update branches
+# alias ghci='hub ci-status'      # Show the status of GitHub checks for a commit
+# alias ghD='hub delete'         # Delete a repository on GitHub
+# alias ghf='hub fork'           # Make a fork of a remote repository on GitHub and add as remote
+# alias ghi='hub issue'          # List or create GitHub issues
+# alias ghr='hub release'        # List or create GitHub releases
+
 # Index (i)
 alias gia='git add'
 alias giap='git add --patch'
@@ -235,7 +248,7 @@ alias gts='git tag -s'
 alias gtv='git verify-tag'
 
 # Working Copy (w)
-alias gw='git status --ignore-submodules=${_git_status_ignore_submodules} --short && git stash list'
+alias gw='git status --ignore-submodules=${_git_status_ignore_submodules} --short && echo "" && git stash list'
 alias gws='git status --ignore-submodules=${_git_status_ignore_submodules}'
 alias gwd='git diff --no-ext-diff'
 alias gwD='git diff --no-ext-diff --word-diff'
@@ -272,7 +285,7 @@ function git_branch_list()
   echo -e "$local_print\n$no_branch_print\n$remote_print"
 }
 
-alias -g B='`git_branch_list| peco --query="* "| perl -pe "s/^  . //g"`'
+alias -g B='`git_branch_list| fzf --query="* "| perl -pe "s/^  . //g"`'
 
 function git_stash_pop()
 {
@@ -363,5 +376,5 @@ function git_align_branch_all()
   done
 }
 
-alias zgit="cat ~/.zsh.d/git.zsh | grep --color=never '^alias' | grep -v 'alias -g'| perl -pe 's/alias ([^=]+)=(.*)/\1\t\2/'| peco"
+alias zgit="cat ~/.zsh.d/git.zsh | grep --color=never '^alias' | grep -v 'alias -g'| perl -pe 's/alias ([^=]+)=(.*)/\1\t\2/'| fzf"
 

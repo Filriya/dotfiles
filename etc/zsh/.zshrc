@@ -134,12 +134,12 @@ compdef _sr sr
 # リポジトリにcd
 function open_project () {
   local ghqroot=`ghq root`
-  local repo_name=`ghq list -p|perl -pse 's/$root\///' -- -root=$ghqroot|peco`
+  local repo_name=`ghq list -p|perl -pse 's/$root\///' -- -root=$ghqroot|fzf`
 
   if [ -n "$repo_name" ]; then
     local screen_name=$(echo $repo_name|perl -pse 's/\./_/g'|perl -pse 's/\//__/g')
 
-    BUFFER+="cd ${ghqroot}/${repo_name} && screen -d -xRR $screen_name"
+    BUFFER+="cd ${ghqroot}/${repo_name} && sr -s $screen_name"
     zle accept-line
   fi
   zle clear-screen
@@ -176,56 +176,56 @@ function starteditor() {
 zle -N starteditor
 bindkey '^]' starteditor
 
-#peco and z
-# if type peco 2>/dev/null 1>/dev/null; then
+#fzf and z
+# if type fzf 2>/dev/null 1>/dev/null; then
 #   if which tac > /dev/null; then
 #     local tac="tac"
 #   else
 #     local tac="tail -r"
 #   fi
 #
-#   function peco_select_history()
+#   function fzf_select_history()
 #   {
-#     BUFFER=`history -n 1 | eval $tac | peco`
+#     BUFFER=`history -n 1 | eval $tac | fzf`
 #     CURSOR=$#BUFFER
 #     zle reset-prompt
 #   }
 #
-#   zle -N peco_select_history
-#   bindkey '^r' peco_select_history
+#   zle -N fzf_select_history
+#   bindkey '^r' fzf_select_history
 # fi
 
-function peco-repo-search
+function fzf-repo-search
 {
-  which peco > /dev/null
+  which fzf > /dev/null
   if [ $? -ne 0 ]; then
-    echo "Please install peco"
+    echo "Please install fzf"
     return 1
   fi
-  local res=$(ghq list -p|peco)
+  local res=$(ghq list -p|fzf)
   if [ -n "$res" ]; then
     cd $res
   else
     return 1
   fi
 }
-alias p="peco-repo-search"
+alias p="fzf-repo-search"
 
-function peco-z-search
+function fzf-z-search
 {
-  which peco z > /dev/null
+  which fzf z > /dev/null
   if [ $? -ne 0 ]; then
-    echo "Please install peco and z"
+    echo "Please install fzf and z"
     return 1
   fi
-  local res=$(z | sort -rn | cut -c 12- | peco)
+  local res=$(z | sort -rn | cut -c 12- | fzf)
   if [ -n "$res" ]; then
     cd $res
   else
     return 1
   fi
 }
-alias zp="peco-z-search"
+alias zp="fzf-z-search"
 
 #hub
 # function git(){hub "$@"}
@@ -286,3 +286,5 @@ update_cache_hosts () {
 update_cache_hosts
   _cache_hosts=(print_cache_hosts )
 fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
