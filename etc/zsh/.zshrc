@@ -77,6 +77,7 @@ alias gosh='rlwrap gosh'
 alias phptags='ctags --tag-relative --recurse --sort=yes --exclude=*.js'
 alias -g P='| peco'
 alias -g F='| fzf'
+alias -g SJIS='| nkf'
 
 # haskell stack
 alias ghc='stack ghc --'
@@ -112,7 +113,7 @@ bindkey '^q' beginning-of-line
 
 
 case $TERM in
-  screen-bce)
+  xterm-256color)
     preexec() {
       echo -ne "\ek$1\e\\"
     }
@@ -125,11 +126,19 @@ esac
 # screen
 autoload -Uz sr && sr
 alias sl='screen_list'
-_sr() {
+_sr_comp() {
   compadd `screen_list`
 }
+compdef _sr_comp sr
 
-compdef _sr sr
+#tmux
+autoload -Uz tm && tm
+alias tl='tmux_list'
+_tm_comp() {
+  compadd `tmux_list`
+}
+compdef _tm_comp tm
+
 
 # リポジトリにcd
 function open_project () {
@@ -137,9 +146,9 @@ function open_project () {
   local repo_name=`ghq list -p|perl -pse 's/$root\///' -- -root=$ghqroot|fzf`
 
   if [ -n "$repo_name" ]; then
-    local screen_name=$(echo $repo_name|perl -pse 's/\./_/g'|perl -pse 's/\//__/g')
+    local session_name=$(echo $repo_name|perl -pse 's/\./_/g'|perl -pse 's/\//__/g')
 
-    BUFFER+="cd ${ghqroot}/${repo_name} && sr -s $screen_name"
+    BUFFER+="cd ${ghqroot}/${repo_name} && tm $session_name"
     zle accept-line
   fi
   zle clear-screen
@@ -161,7 +170,6 @@ function eliptical_pwd {
   fi
 }
 
-
 setopt nonomatch
 
 
@@ -176,40 +184,8 @@ function starteditor() {
 zle -N starteditor
 bindkey '^]' starteditor
 
-#fzf and z
-# if type fzf 2>/dev/null 1>/dev/null; then
-#   if which tac > /dev/null; then
-#     local tac="tac"
-#   else
-#     local tac="tail -r"
-#   fi
-#
-#   function fzf_select_history()
-#   {
-#     BUFFER=`history -n 1 | eval $tac | fzf`
-#     CURSOR=$#BUFFER
-#     zle reset-prompt
-#   }
-#
-#   zle -N fzf_select_history
-#   bindkey '^r' fzf_select_history
-# fi
-
-function fzf-repo-search
-{
-  which fzf > /dev/null
-  if [ $? -ne 0 ]; then
-    echo "Please install fzf"
-    return 1
-  fi
-  local res=$(ghq list -p|fzf)
-  if [ -n "$res" ]; then
-    cd $res
-  else
-    return 1
-  fi
-}
-alias p="fzf-repo-search"
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --no-ignore'
+export FZF_DEFAULT_OPTS='--height 40%'
 
 function fzf-z-search
 {
@@ -225,7 +201,43 @@ function fzf-z-search
     return 1
   fi
 }
-alias zp="fzf-z-search"
+
+function fzf-fd-search
+{
+  which fzf > /dev/null
+  if [ $? -ne 0 ]; then
+    echo "Please install fzf"
+    return 1
+  fi
+
+  if [ $# = 0 ]; then
+    arg="."
+  else
+    arg=$1
+  fi
+  local res=$(fd . $arg --type d|fzf)
+  if [ -n "$res" ]; then
+    cd $res
+  else
+    return 1
+  fi
+}
+
+function fzf-ripgrep
+{
+  which fzf rg > /dev/null
+  if [ $? -ne 0 ]; then
+    echo "Please install fzf and rg"
+    return 1
+  fi
+  local res=$(rg $@ 2>/dev/null | fzf)
+  return 1
+}
+
+alias ff="fzf"
+alias rgf="fzf-ripgrep"
+alias fz="fzf-z-search"
+alias fzz="fzf-fd-search"
 
 #hub
 # function git(){hub "$@"}
@@ -256,6 +268,9 @@ if [ -f '/Users/filriya/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/f
 
 # rg ripgrep
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
+# composer
+path=(${ZDOTDIR:-$HOME}/.composer/vendor/bin $path)
 
 # SSH/SCP/RSYNC
 # :completion:function:completer:command:argument:tag.

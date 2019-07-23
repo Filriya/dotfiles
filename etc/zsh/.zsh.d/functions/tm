@@ -1,0 +1,26 @@
+#!/bin/zsh
+
+# tmux
+function tm()
+{
+  # 名前が完全一致したものをattachする
+  # $1 session name
+
+  if [ $# -eq 0 ]; then
+    local sessionname=$(basename $PWD)
+  else
+    local sessionname=$1
+  fi
+
+  if tmux_list | grep -E "^$sessionname$" >/dev/null; then
+    tmux a -d -t $sessionname
+  else
+    tmux new -s $sessionname \; source-file ~/.tmux/new-session
+  fi
+  return
+}
+
+function tmux_list()
+{
+  tmux ls |perl -pe "s/^([^:]*):.*/\1/g"
+}

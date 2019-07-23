@@ -1,67 +1,43 @@
-[[plugins]]
-repo = 'Shougo/dein.vim'
-
+# [[plugins]]
+# repo = 'Shougo/dein.vim'
+#
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
+
 
 # unite
 [[plugins]]
 repo = 'Shougo/vimproc'
+merged = 0
 build = 'make'
-
-[[plugins]]
-repo = 'Shougo/vimshell'
-
-# [[plugins]]
-# repo = 'Shougo/vimfiler'
-[[plugins]]
-repo = 'junegunn/fzf'
-build = './install'
-[[plugins]]
-repo = 'junegunn/fzf.vim'
 [[plugins]]
 repo = 'Shougo/denite.nvim'
 [[plugins]]
 repo = 'Shougo/defx.nvim'
+depends = ['nvim-yarp', 'vim-hug-neovim-rpc']
 [[plugins]]
-repo = 'nixprime/cpsm'
-build = 'env PY3=ON ./install.sh'
+repo = 'roxma/nvim-yarp'
+on_if = '!has("nvim")'
 [[plugins]]
-repo = 'Shougo/neomru.vim'
-[[plugins]]
-repo = 'Shougo/neoyank.vim'
+repo = 'roxma/vim-hug-neovim-rpc'
+on_if = '!has("nvim")'
 [[plugins]]
 repo = 'Shougo/unite.vim'
 [[plugins]]
 repo = 'Shougo/unite-outline'
 [[plugins]]
 repo = 'ujihisa/unite-colorscheme'
-[[plugins]]
-repo = 'tsukkee/unite-tag'
-[[plugins]]
-repo = 'osyo-manga/unite-quickfix'
+# [[plugins]]
+# repo = 'osyo-manga/unite-quickfix'
 
-# web on vim
-[[plugins]]
-repo = 'choplin/unite-vim_hacks'
-[[plugins]]
-repo = 'mattn/webapi-vim'
-[[plugins]]
-repo = 'mattn/wwwrenderer-vim'
-[[plugins]]
-repo = 'thinca/vim-openbuf'
-
-#
-# markdown
-[[plugins]]
-repo = 'plasticboy/vim-markdown'
-[[plugins]]
-repo = 'kannokanno/previm'
-[[plugins]]
-repo = 'tyru/open-browser.vim'
-
-#
+# 
 # development:general
+# [[plugins]]
+# repo = 'junegunn/fzf'
+# build = './install'
+# merged = 0
+[[plugins]]
+repo = 'junegunn/fzf.vim'
 [[plugins]]
 repo = 'junegunn/vim-easy-align'
 [[plugins]]
@@ -81,19 +57,17 @@ repo = 'osyo-manga/unite-quickrun_config'
 [[plugins]]
 repo = 'machakann/vim-sandwich'
 [[plugins]]
-repo = 'terryma/vim-expand-region'
-[[plugins]]
-repo = 'machakann/vim-textobj-delimited'
-[[plugins]]
 repo = 'deton/jasegment.vim'
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 [[plugins]]
-repo = 'kmnk/vim-unite-giti.git'
-[[plugins]]
 repo = 'fuenor/im_control.vim'
 [[plugins]]
 repo = 'soramugi/auto-ctags.vim'
+[[plugins]]
+repo = 'craigemery/vim-autotag'
+[[plugins]]
+repo = 'haya14busa/vim-migemo'
 [[plugins]]
 repo = 'haya14busa/incsearch.vim'
 [[plugins]]
@@ -108,7 +82,14 @@ repo = 'tpope/vim-repeat'
 repo = 'tmhedberg/matchit'
 [[plugins]]
 repo = 'deris/vim-rengbang'
+[[plugins]]
+repo = 'Yggdroot/indentLine'
+# [[plugins]]
+# repo = 'nathanaelkane/vim-indent-guides'
 
+
+#
+# textobj
 [[plugins]]
 repo = 'kana/vim-textobj-user'
 [[plugins]]
@@ -117,48 +98,78 @@ repo = 'kana/vim-textobj-line'
 repo = 'kana/vim-textobj-entire'
 [[plugins]]
 repo = 'kana/vim-textobj-function'
+[[plugins]]
+repo = 'kana/vim-textobj-indent'
+[[plugins]]
+repo = 'kana/vim-textobj-jabraces'
+[[plugins]]
+repo = 'lucapette/vim-textobj-underscore'
+[[plugins]]
+repo = 'sgur/vim-textobj-parameter'
+[[plugins]]
+repo = 'machakann/vim-textobj-delimited'
 
-# language server
-# complete
 [[plugins]]
-repo = 'autozimu/LanguageClient-neovim'
-rev = 'next'
-build = 'bash install.sh'
-[[plugins]]
-repo = 'w0rp/ale'
-[[plugins]]
-repo = 'Shougo/deoplete.nvim'
-[[plugins]]
-repo = 'roxma/nvim-yarp'
-on_if = '!has("nvim")'
-[[plugins]]
-repo = 'roxma/vim-hug-neovim-rpc'
-on_if = '!has("nvim")'
-[[plugins]]
-repo = 'Shougo/neosnippet'
-[[plugins]]
-repo = 'Shougo/neosnippet-snippets'
+repo = 'terryma/vim-expand-region'
 
 #
-# development
-[[plugins]]
-repo = 'jiangmiao/simple-javascript-indenter'
-[[plugins]]
-repo = "posva/vim-vue"
-on_ft = ["vue"]
-[[plugins]]
-repo = "digitaltoad/vim-pug"
+# language server
+# [[plugins]]
+# repo = 'neoclide/coc.nvim'
+# merged = 0
+# rev = 'release'
+# [[plugins]]
+# repo = 'autozimu/LanguageClient-neovim'
+# rev = 'next'
+# build = 'bash install.sh'
+# [[plugins]]
+# repo = 'w0rp/ale'
+# [[plugins]]
+# repo = 'Shougo/deoplete.nvim'
+# depends = ['nvim-yarp', 'vim-hug-neovim-rpc']
+# [[plugins]]
+# repo = 'Shougo/neosnippet'
+# [[plugins]]
+# repo = 'Shougo/neosnippet-snippets'
 
+#
+# filetype
 [[plugins]]
 repo = 'cespare/vim-toml.git'
 [[plugins]]
 repo = 'vim-scripts/PDV--phpDocumentor-for-Vim'
+[[plugins]]
+repo = 'arnaud-lb/vim-php-namespace'
 [[plugins]]
 repo = 'cakebaker/scss-syntax.vim'
 [[plugins]]
 repo = 'othree/yajs.vim'
 [[plugins]]
 repo = 'othree/es.next.syntax.vim'
+[[plugins]]
+repo = 'pangloss/vim-javascript'
+[[plugins]]
+repo = "posva/vim-vue"
+on_ft = ["vue"]
+[[plugins]]
+repo = "digitaltoad/vim-pug"
+on_ft = ["vue", "pug"]
+[[plugins]]
+repo = 'udalov/kotlin-vim''
+on_ft = ["kotlin"]
+[[plugins]]
+repo = 'tbastos/vim-lua'
+on_ft = ["lua"]
+
+
+#
+# markdown
+[[plugins]]
+repo = 'plasticboy/vim-markdown'
+[[plugins]]
+repo = 'kannokanno/previm'
+[[plugins]]
+repo = 'tyru/open-browser.vim'
 
 
 # colorscheme
@@ -168,6 +179,13 @@ repo = 'itchyny/lightline.vim'
 repo = 'mopp/mopkai.vim'
 [[plugins]]
 repo = 'reedes/vim-colors-pencil'
+[[plugins]]
+repo = 'ayu-theme/ayu-vim'
+[[plugins]]
+repo = 'yarisgutierrez/ayu-lightline'
+# [[plugins]]
+# repo = 'lifepillar/vim-solarized8'
+
 
 [[plugins]]
 repo = 'thinca/vim-scouter'

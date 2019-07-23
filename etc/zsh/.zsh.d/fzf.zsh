@@ -10,7 +10,7 @@ fi
 if [ -f "${HOMEBREW_PREFIX}/opt/fzf/shell/key-bindings.zsh" ]; then
   source "${HOMEBREW_PREFIX}/opt/fzf/shell/key-bindings.zsh"
   bindkey -r '^T'
-  bindkey '^S' fzf-file-widget
   bindkey -r '\ec' 
-  bindkey '^Z' fzf-cd-widget
+  bindkey '^S' 'fzf-cd-widget'
+  # bindkey '^Z' 'fzf-file-widget'
 fi

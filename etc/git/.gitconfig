@@ -25,12 +25,14 @@
   encoding = utf-8
 [interactive]
   singlekey = true
+  diffFilter = nkf -w
 [core]
   editor = /usr/local/bin/vim
   quotepath = false
   autocrlf = false
   safecrlf = true
-  pager = less=-R less
+  # pager = less=-R less
+  pager=LC_ALL=ja_JP.UTF-8 less -Sx4
   excludesfile = ~/.gitignore_global
 [i18n]
   commitencoding = UTF-8
@@ -45,3 +47,7 @@
   required = true
 [ghq]
   root = ~/projects
+[diff "cp932"]
+  textconv=iconv -f cp932 -t utf-8
+[diff "sjis"]
+  textconv=iconv -f sjis -t utf-8
