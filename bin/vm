@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+
+list() {
+  cat ~/.vagrant.d/data/machine-index/index \
+    | jq -r '.machines | to_entries | map([.key, .value.name, .value.state, .value.vagrantfile_path])[] | join (" ")' \
+    | perl -pe "s/([\S]{7})[\S]*(.*)/\1\2/" \
+    | column -t
+}
+
+_select() {
+  if [ $# -eq 0 ]; then
+    machines=$(list | fzf)
+  else
+    machines=$(list | grep $1)
+  fi
+  echo $machines | head -n 1 | perl -pe 's/[ ]+/ /g'
+}
+
+up() {
+  machine=$(_select "$@")
+  machineId=$(echo $machine | cut -d " " -f 1)
+  machineStat=$(echo $machine | cut -d " " -f 3)
+  machinePath=$(echo $machine | cut -d " " -f 4)
+
+  echo -e "\033[0;36mvagrant up $machinePath\033[0;m"
+
+  if [ $machineStat = "poweroff" ]; then
+    vagrant up $machineId
+  elif [[ $machineStat = "saved" ]]; then
+    echo "resume"
+    vagrant resume $machineId
+  elif [ $machineStat = "aborted" ]; then
+    echo "reload"
+    vagrant reload $machineId
+  fi
+}
+
+suspend() {
+  list | grep running | cut -f 1 -d " "|xargs --no-run-if-empty vagrant suspend
+
+  #vmware用
+  #vmrun list | grep vmx | xargs --no-run-if-empty  vmrun suspend
+}
+
+halt() {
+  list | grep saved | cut -f 1 -d " "|xargs --no-run-if-empty vagrant halt
+  list | grep running | cut -f 1 -d " "|xargs --no-run-if-empty vagrant halt
+
+  # vmware用
+  # vmrun list | grep vmx | xargs --no-run-if-empty  vmrun stop
+}
+
+ssh() {
+  machine=$(_select "$@")
+
+  machineId=$(echo $machine | cut -d " " -f 1)
+  machineStat=$(echo $machine | cut -d " " -f 3)
+  machinePath=$(echo $machine | cut -d " " -f 4)
+
+  up $machineId
+  vagrant ssh $machineId
+}
+
+# http://qiita.com/kitsuyui/items/4b204963e0ebec53fe3c
+--help() {
+  echo 'Usage:'
+  compgen -A function \
+    | grep -v -E '^_' \
+    | xargs -I % echo ' ' "$(basename "$0")" %
+  echo ""
+  echo "require: fzf"
+}
+
+main() {
+  unset -f -- "${FUNCNAME[0]}"
+  ! declare -F -- "$1" >/dev/null && --help && exit 1
+  "$@"
+}
+
+main "$@"

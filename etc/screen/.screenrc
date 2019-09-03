@@ -16,6 +16,8 @@ truecolor on
 
 term               xterm-256color
 termcapinfo xterm-256color 'is=^[r^[mJ^[H^[?7h^[?1;4;6l'
+termcapinfo xterm* "ks=\E[?1l\E:ku=\E[A:kd=\E[B:kl=\E[D:kr=\E[C"
+
 
 
 escape ^Aa
@@ -58,6 +60,13 @@ bind X eval 'layout remove' 'next' 'layout show'
 # switch to other layout
 bind N eval 'layout next' 'layout show'
 bind P eval 'layout prev' 'layout show'
+
+# bindkey "^[[5C" next
+# bindkey "^[[5D" prev
+# Alt + left 
+bindkey "^[[1;3D" prev
+# Alt + right
+bindkey "^[[1;3C" next
 
 
 # k 黒

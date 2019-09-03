@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 rootDir=~/projects/til
 
@@ -24,8 +24,11 @@ if [ ! -f ${file} ]; then
     touch $file
 fi
 
-cd $langDir
-# screen -x -RR -U -S $ext
-vim $file
-exec $SHELL
+if tmux ls | grep -E "^$ext" >/dev/null; then
+  tmux a -d -t $ext
+else
+  tmux new -s $ext -c $langDir \; \
+    source-file ~/.tmux/new-session \; \
+    send-keys "vim sandbox.$ext" Enter\;
+fi
 

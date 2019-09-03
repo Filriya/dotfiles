@@ -5,6 +5,16 @@ function tm()
 {
   # 名前が完全一致したものをattachする
   # $1 session name
+  # -c dirpath
+  
+  local -A opthash
+  zparseopts -D -A opthash -- c:
+
+  if [[ -n "${opthash[(i)-c]}" ]]; then
+    local currentdir=${opthash[-c]}
+  else
+    local currentdir=$PWD
+  fi
 
   if [ $# -eq 0 ]; then
     local sessionname=$(basename $PWD)
@@ -12,10 +22,18 @@ function tm()
     local sessionname=$1
   fi
 
-  if tmux_list | grep -E "^$sessionname$" >/dev/null; then
-    tmux a -d -t $sessionname
-  else
-    tmux new -s $sessionname \; source-file ~/.tmux/new-session
+  if [[ ! -n $TMUX ]]; then # tmuxの中にいないとき
+    if tmux_list | grep -E "^$sessionname$" >/dev/null; then
+      tmux a -d -t $sessionname
+    else
+      tmux new -s $sessionname -c $currentdir \; source-file ~/.tmux/new-session
+    fi
+  else #tmuxの中にいるとき
+    if tmux_list | grep -E "^$sessionname$" >/dev/null; then
+      tmux command-prompt "a -d -t $sessionname"
+    else
+      tmux command-prompt "new -s $sessionname -c $currentdir"
+    fi
   fi
   return
 }

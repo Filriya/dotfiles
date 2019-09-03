@@ -80,9 +80,12 @@ alias -g F='| fzf'
 alias -g SJIS='| nkf'
 
 # haskell stack
+path=(${ZDOTDIR:-$HOME}/.composer/vendor/bin $path)
+path=($(stack path --local-bin) $path)
+path=($(stack path --compiler-bin) $path)
+alias ghci='rlwrap stack ghci'
 alias ghc='stack ghc --'
-alias ghci='stack ghci --'
-alias runhaskell='stack runhaskell --'
+alias runghc='stack runghc --'
 
 # exa - alternative ls
 if which exa > /dev/null; then
@@ -148,7 +151,7 @@ function open_project () {
   if [ -n "$repo_name" ]; then
     local session_name=$(echo $repo_name|perl -pse 's/\./_/g'|perl -pse 's/\//__/g')
 
-    BUFFER+="cd ${ghqroot}/${repo_name} && tm $session_name"
+    BUFFER+="tm -c ${ghqroot}/${repo_name} $session_name"
     zle accept-line
   fi
   zle clear-screen
@@ -185,7 +188,7 @@ zle -N starteditor
 bindkey '^]' starteditor
 
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --no-ignore'
-export FZF_DEFAULT_OPTS='--height 40%'
+export FZF_DEFAULT_OPTS='-m --height 40% --bind ctrl-q:beginning-of-line,ctrl-o:toggle-up,ctrl-i:toggle-down,ctrl-r:toggle-all'
 
 function fzf-z-search
 {

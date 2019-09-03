@@ -12,3 +12,4 @@ elif [ `uname` = "Linux" ]; then
   fi
 fi
 eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+if [ -e /Users/filriya/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/filriya/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

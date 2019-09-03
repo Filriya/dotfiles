@@ -12,9 +12,10 @@ merged = 0
 build = 'make'
 [[plugins]]
 repo = 'Shougo/denite.nvim'
+depends = ['nvim-yarp', 'vim-hug-neovim-rpc']
 [[plugins]]
 repo = 'Shougo/defx.nvim'
-depends = ['nvim-yarp', 'vim-hug-neovim-rpc']
+depends = ['denite.nvim']
 [[plugins]]
 repo = 'roxma/nvim-yarp'
 on_if = '!has("nvim")'
@@ -25,17 +26,9 @@ on_if = '!has("nvim")'
 repo = 'Shougo/unite.vim'
 [[plugins]]
 repo = 'Shougo/unite-outline'
-[[plugins]]
-repo = 'ujihisa/unite-colorscheme'
-# [[plugins]]
-# repo = 'osyo-manga/unite-quickfix'
 
-# 
+#
 # development:general
-# [[plugins]]
-# repo = 'junegunn/fzf'
-# build = './install'
-# merged = 0
 [[plugins]]
 repo = 'junegunn/fzf.vim'
 [[plugins]]
@@ -61,17 +54,19 @@ repo = 'deton/jasegment.vim'
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 [[plugins]]
+repo = 'cohama/agit.vim'
+[[plugins]]
+repo = 'rhysd/committia.vim'
+[[plugins]]
+repo = 'idanarye/vim-merginal'
+[[plugins]]
 repo = 'fuenor/im_control.vim'
 [[plugins]]
 repo = 'soramugi/auto-ctags.vim'
 [[plugins]]
 repo = 'craigemery/vim-autotag'
 [[plugins]]
-repo = 'haya14busa/vim-migemo'
-[[plugins]]
 repo = 'haya14busa/incsearch.vim'
-[[plugins]]
-repo = 'haya14busa/incsearch-easymotion.vim'
 [[plugins]]
 repo = 'haya14busa/incsearch-migemo.vim'
 [[plugins]]
@@ -84,53 +79,47 @@ repo = 'tmhedberg/matchit'
 repo = 'deris/vim-rengbang'
 [[plugins]]
 repo = 'Yggdroot/indentLine'
-# [[plugins]]
-# repo = 'nathanaelkane/vim-indent-guides'
+[[plugins]]
+repo = 'ntpeters/vim-better-whitespace'
+[[plugins]]
+repo = 'kana/vim-smartinput'
+[[plugins]]
+repo = 'honza/vim-snippets'
 
 
 #
 # textobj
+# https://github.com/kana/vim-textobj-user/wiki
 [[plugins]]
 repo = 'kana/vim-textobj-user'
 [[plugins]]
-repo = 'kana/vim-textobj-line'
+repo = 'kana/vim-textobj-line' # al
 [[plugins]]
-repo = 'kana/vim-textobj-entire'
+repo = 'kana/vim-textobj-entire' # ae
 [[plugins]]
-repo = 'kana/vim-textobj-function'
+repo = 'kana/vim-textobj-function' #af / aF
 [[plugins]]
-repo = 'kana/vim-textobj-indent'
+repo = 'kana/vim-textobj-indent' # ai / aI
 [[plugins]]
-repo = 'kana/vim-textobj-jabraces'
+repo = 'kana/vim-textobj-jabraces' # aj{X}
 [[plugins]]
-repo = 'lucapette/vim-textobj-underscore'
+repo = 'lucapette/vim-textobj-underscore' #a_
 [[plugins]]
-repo = 'sgur/vim-textobj-parameter'
+repo = 'sgur/vim-textobj-parameter' #a,
 [[plugins]]
-repo = 'machakann/vim-textobj-delimited'
+repo = 'machakann/vim-textobj-delimited'  #ad aD
 
 [[plugins]]
 repo = 'terryma/vim-expand-region'
 
 #
 # language server
-# [[plugins]]
-# repo = 'neoclide/coc.nvim'
-# merged = 0
-# rev = 'release'
-# [[plugins]]
-# repo = 'autozimu/LanguageClient-neovim'
-# rev = 'next'
-# build = 'bash install.sh'
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+merged = 0
+rev = 'release'
 # [[plugins]]
 # repo = 'w0rp/ale'
-# [[plugins]]
-# repo = 'Shougo/deoplete.nvim'
-# depends = ['nvim-yarp', 'vim-hug-neovim-rpc']
-# [[plugins]]
-# repo = 'Shougo/neosnippet'
-# [[plugins]]
-# repo = 'Shougo/neosnippet-snippets'
 
 #
 # filetype
@@ -139,7 +128,8 @@ repo = 'cespare/vim-toml.git'
 [[plugins]]
 repo = 'vim-scripts/PDV--phpDocumentor-for-Vim'
 [[plugins]]
-repo = 'arnaud-lb/vim-php-namespace'
+repo = 'vim-vdebug/vdebug'
+on_ft = ["php"]
 [[plugins]]
 repo = 'cakebaker/scss-syntax.vim'
 [[plugins]]
@@ -147,7 +137,7 @@ repo = 'othree/yajs.vim'
 [[plugins]]
 repo = 'othree/es.next.syntax.vim'
 [[plugins]]
-repo = 'pangloss/vim-javascript'
+repo = 'othree/javascript-libraries-syntax.vim'
 [[plugins]]
 repo = "posva/vim-vue"
 on_ft = ["vue"]
@@ -160,6 +150,9 @@ on_ft = ["kotlin"]
 [[plugins]]
 repo = 'tbastos/vim-lua'
 on_ft = ["lua"]
+[[plugins]]
+repo = 'kmyk/brainfuck-highlight.vim'
+on_ft = ["bf"]
 
 
 #
@@ -183,8 +176,6 @@ repo = 'reedes/vim-colors-pencil'
 repo = 'ayu-theme/ayu-vim'
 [[plugins]]
 repo = 'yarisgutierrez/ayu-lightline'
-# [[plugins]]
-# repo = 'lifepillar/vim-solarized8'
 
 
 [[plugins]]
