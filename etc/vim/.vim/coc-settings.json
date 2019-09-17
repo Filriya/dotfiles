@@ -1,6 +1,10 @@
 {
   "suggest.noselect":false,
   "suggest.preferCompleteThanJumpPlaceholder":true,
+  "suggest.minTriggerInputLength": 2,
+  "suggest.acceptSuggestionOnCommitCharacter": true,
+  "suggest.snippetIndicator": "►",
+  "vetur.experimental.templateInterpolationService": true,
   "languageserver": {
     "haskell": {
       "command": "hie-wrapper",

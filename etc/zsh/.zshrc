@@ -146,8 +146,8 @@ compdef _tm_comp tm
 # リポジトリにcd
 function open_project () {
   local ghqroot=`ghq root`
-  local repo_name=`ghq list -p|perl -pse 's/$root\///' -- -root=$ghqroot|fzf`
 
+  local repo_name=$({find $(ghq root) -type d -name ".git" -maxdepth 2; find $(ghq root)/github.com -maxdepth 3 -name ".git"} | perl -pse 's/$root\/(.*)\/.git/\1/' -- -root=$(ghq root)|fzf);
   if [ -n "$repo_name" ]; then
     local session_name=$(echo $repo_name|perl -pse 's/\./_/g'|perl -pse 's/\//__/g')
 
@@ -187,60 +187,6 @@ function starteditor() {
 zle -N starteditor
 bindkey '^]' starteditor
 
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --no-ignore'
-export FZF_DEFAULT_OPTS='-m --height 40% --bind ctrl-q:beginning-of-line,ctrl-o:toggle-up,ctrl-i:toggle-down,ctrl-r:toggle-all'
-
-function fzf-z-search
-{
-  which fzf z > /dev/null
-  if [ $? -ne 0 ]; then
-    echo "Please install fzf and z"
-    return 1
-  fi
-  local res=$(z | sort -rn | cut -c 12- | fzf)
-  if [ -n "$res" ]; then
-    cd $res
-  else
-    return 1
-  fi
-}
-
-function fzf-fd-search
-{
-  which fzf > /dev/null
-  if [ $? -ne 0 ]; then
-    echo "Please install fzf"
-    return 1
-  fi
-
-  if [ $# = 0 ]; then
-    arg="."
-  else
-    arg=$1
-  fi
-  local res=$(fd . $arg --type d|fzf)
-  if [ -n "$res" ]; then
-    cd $res
-  else
-    return 1
-  fi
-}
-
-function fzf-ripgrep
-{
-  which fzf rg > /dev/null
-  if [ $? -ne 0 ]; then
-    echo "Please install fzf and rg"
-    return 1
-  fi
-  local res=$(rg $@ 2>/dev/null | fzf)
-  return 1
-}
-
-alias ff="fzf"
-alias rgf="fzf-ripgrep"
-alias fz="fzf-z-search"
-alias fzz="fzf-fd-search"
 
 #hub
 # function git(){hub "$@"}
@@ -260,8 +206,8 @@ setopt hist_expand # 補完時にヒストリを自動的に展開する
 setopt inc_append_history # 履歴をインクリメンタルに追加
 
 # clang
-alias clang-omp='/usr/local/opt/llvm/bin/clang -fopenmp -L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib'
-alias clang-omp++='/usr/local/opt/llvm/bin/clang++ -fopenmp -L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib'
+alias clang-omp="$HOMEBREW_PREFIX/opt/llvm/bin/clang -fopenmp -L$HOMEBREW_PREFIX/opt/llvm/lib -Wl,-rpath,$HOMEBREW_PREFIX/opt/llvm/lib"
+alias clang-omp++="$HOMEBREW_PREFIX/opt/llvm/bin/clang++ -fopenmp -L$HOMEBREW_PREFIX/opt/llvm/lib -Wl,-rpath,$HOMEBREW_PREFIX/opt/llvm/lib"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/filriya/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/filriya/google-cloud-sdk/path.zsh.inc'; fi
@@ -274,6 +220,13 @@ export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
 # composer
 path=(${ZDOTDIR:-$HOME}/.composer/vendor/bin $path)
+
+# qt
+export PATH="$HOMEBREW_PREFIX/opt/qt/bin:$PATH"
+
+export LDFLAGS="-L$HOMEBREW_PREFIX/opt/qt/lib"
+export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/qt/include"
+export PKG_CONFIG_PATH="$HOMEBREW_PREFIX/opt/qt/lib/pkgconfig"
 
 # SSH/SCP/RSYNC
 # :completion:function:completer:command:argument:tag.
@@ -305,4 +258,6 @@ update_cache_hosts
   _cache_hosts=(print_cache_hosts )
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# if (which zprof > /dev/null) ;then
+#   zprof | less
+# fi

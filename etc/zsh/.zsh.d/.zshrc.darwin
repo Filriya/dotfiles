@@ -1,4 +1,4 @@
-alias ctags="`brew --prefix`/bin/ctags"
+alias ctags="$(dirname $(which brew))/ctags"
 
 export PATH=/usr/local/opt/coreutils/libexec/gnubin:${PATH}
 

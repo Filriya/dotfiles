@@ -158,7 +158,8 @@ if dein#tap('fzf.vim')
   nnoremap <silent> <Leader>E :<C-u>SrcFiles<CR>
   " nnoremap <silent> <Leader>g :<C-u>GFiles?<CR>
   nnoremap <silent> <Leader>b :<C-u>Buffers<CR>
-  nnoremap          <Leader>a :<C-u>Ag 
+  " nnoremap          <Leader>a :<C-u>Ag<Space>
+  nnoremap          <Leader>a :<C-u>Rg<Space>
   nnoremap <silent> <Leader>/ :<C-u>Lines<CR>
   nnoremap <silent> <Leader>? :<C-u>BLines<CR>
   nnoremap <silent> <Leader>t :<C-u>Tags<CR>
@@ -167,70 +168,78 @@ if dein#tap('fzf.vim')
 endif
 
 if dein#tap('coc.nvim')
+
+  " ポップアップメニュー 
+  " 補完モードのコマンド(|popupmenu-keys| を参照)
+  " <CR>で補完せず下の行
+  " <Tab>で補完 スニペットのジャンプ
   inoremap <silent><expr> <TAB>
-       \ pumvisible() ? "\<C-n>" :
-       \ <SID>check_back_space() ? "\<TAB>" :
-       \ coc#refresh()
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 
-  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  " inoremap <expr> <CR> pumvisible() ? "\<C-e>" : "\<C-g>u\<CR>"
 
-" deoplete
-"   " <CR>: close popup and save indent.
-"   inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-"   function! s:my_cr_function() abort
-"     return deoplete#cancel_popup() . "\<CR>"
-"   endfunction
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
 
-" neosnippet supertab
-"   " SuperTab like snippets behavior.
-"   imap <expr><TAB>
-"        \ pumvisible()
-"        \ ? (neosnippet#expandable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<C-y>")
-"        \ : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-"
-"   smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-"        \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-"
-
-  " Use <c-space> to trigger completion.
-  inoremap <silent><expr> gl coc#refresh()
+  " inoremap <silent><expr> <c-l> coc#refresh()
 
 
-  " Use `[c` and `]c` to navigate diagnostics
+  " Use `g[` and `g]` to navigate diagnostics
+  " エラーのある位置までジャンプ
   nmap <silent> g[ <Plug>(coc-diagnostic-prev)
   nmap <silent> g] <Plug>(coc-diagnostic-next)
 
   " Remap keys for gotos
+  " 定義ジャンプ
   nmap <silent> gd <Plug>(coc-definition)
-  nmap <silent> gy <Plug>(coc-type-definition)
-  nmap <silent> gi <Plug>(coc-implementation)
   nmap <silent> gr <Plug>(coc-references)
-  nnoremap <silent> gD :call <SID>show_documentation()<CR>
+  " nmap <silent> gy <Plug>(coc-type-definition)
+  " nmap <silent> gi <Plug>(coc-implementation)
+  " nnoremap <silent> gD :call <SID>show_documentation()<CR>
+  " function! s:show_documentation()
+  "   if (index(['vim','help'], &filetype) >= 0)
+  "     execute 'h '.expand('<cword>')
+  "   else
+  "     call CocAction('doHover')
+  "   endif
+  " endfunction
+
 
   " Remap for rename current word
+  " リネーム
   nmap gR <Plug>(coc-rename)
 
   " Remap for format selected region
+  " 整形
   xmap gf <Plug>(coc-format-selected)
   nmap gf <Plug>(coc-format-selected)
 
   " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+  " 選択ファイルを関数化したり、別ファイルに書き出したり
   xmap ga <Plug>(coc-codeaction-selected)
   nmap ga <Plug>(coc-codeaction-selected)
 
   " Remap for do codeAction of current line
+  " actionのカレント行バージョン
   nmap gac  <Plug>(coc-codeaction)
+
   " Fix autofix problem of current line
+  " エラーの自動修正
   nmap gqf  <Plug>(coc-fix-current)
 
   " Use <tab> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+  " 謎
   " nmap <silent> <TAB> <Plug>(coc-range-select)
   " xmap <silent> <TAB> <Plug>(coc-range-select)
   " xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
 
-  "よくわかんない
   " Using CocList
+  " fzf.vim unite ctrlPあたりと競合
   " Show all diagnostics
   " nnoremap <silent> gla  :<C-u>CocList diagnostics<cr>
   " " Manage extensions
@@ -248,27 +257,6 @@ if dein#tap('coc.nvim')
   " " Resume latest coc list
   " nnoremap <silent> gp  :<C-u>CocListResume<CR>
 
-  " coc snip
-  " imap <C-l> <Plug>(coc-snippets-expand)
-  " vmap <C-j> <Plug>(coc-snippets-select)
-  " " Use <C-j> for jump to next placeholder, it's default of coc.nvim
-  " let g:coc_snippet_next = '<c-j>'
-  " " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-  " let g:coc_snippet_prev = '<c-k>'
-  " " Use <C-j> for both expand and jump (make expand higher priority.)
-  " imap <C-j> <Plug>(coc-snippets-expand-jump)
-  " inoremap <silent><expr> <TAB>
-  "      \ pumvisible() ? coc#_select_confirm() :
-  "      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-  "      \ <SID>check_back_space() ? "\<TAB>" :
-  "      \ coc#refresh()
-
-  "  " coc#expandable() coc#jumpable() and coc#expandableOrJumpable().
-  " function! s:check_back_space() abort
-  "   let col = col('.') - 1
-  "   return !col || getline('.')[col - 1]  =~# '\s'
-  " endfunction
-  " let g:coc_snippet_next = '<tab>'
 endif
 
 " --------------------
@@ -291,7 +279,7 @@ if dein#tap('vim-easy-align')
   " Start interactive EasyAlign for a motion/text object (e.g. gaip)
   nmap <Leader>A <Plug>(EasyAlign)
 endif
-
+ 
 "----------------------
 " caw.vim
 "----------------------
@@ -643,6 +631,12 @@ if dein#tap('fzf.vim')
 
   command! SrcFiles call s:fzf_src_file()
   command! -bang -nargs=+ -complete=dir Ag call fzf#vim#ag_raw(<q-args>, <bang>0)
+  command! -bang -nargs=* -complete=dir Rg
+  \ call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1)
+
+" Likewise, Files command with preview window
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 endif
 
 " --------------------
@@ -656,19 +650,6 @@ if dein#tap('coc.nvim')
   set updatetime=300
   set shortmess+=c
   set signcolumn=yes
-
-  function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-  endfunction
-
-  function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-      execute 'h '.expand('<cword>')
-    else
-      call CocAction('doHover')
-    endif
-  endfunction
 
   " Highlight symbol under cursor on CursorHold
   autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -714,6 +695,15 @@ if dein#tap('vim-autotag')
     set tags+=./**2/tags;$HOME
   endif
 endif
+
+" ~/.vimrc
+" function! _updateCtags()
+"   let tagsFile = getcwd() . '/tags'
+"   exec ":silent ! ctags -R --extras=+fq && sed -i -e 's/^\\([a-zA-Z0-9]*\\)\\.vue/\\1/' " . tagsFile
+"   " *.vueファイルの.vueの部分をsedで取り除く
+" endfunction
+" command! UpdateCtags call _updateCtags()
+" autocmd BufWritePost * :UpdateCtags
 
 "----------------------
 " easymotion
@@ -882,7 +872,7 @@ if dein#tap("indentLine")
   let g:indentLine_color_gui = '#708090'
   let g:indentLine_setConceal = 0
   let g:indentLine_fileTypeExclude = ['help', 'dein', 'denite', 'vaffle', 'defx']
-endif 
+endif
 
 "--------------------
 " javascript-libraries-syntax.vim
@@ -907,6 +897,12 @@ if dein#tap('vim-smartinput')
         \   'at'    : '( \%# )',
         \   'char'  : '<BS>',
         \   'input' : '<Del><BS>',
+        \   })
+
+  call smartinput#define_rule({
+        \   'at': '\s\+\%#',
+        \   'char': '<CR>',
+        \   'input': "<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', ''))<CR><CR>",
         \   })
 endif
 
@@ -994,37 +990,37 @@ endif
 "--------------------
 " im_control.vim
 "--------------------
-if dein#tap('im_control.vim')
-  if has('mac')
-    if has('gui_running')
-      let IM_CtrlMode = 4
-    else
-      let IM_CtrlMode = 1
-
-      function! IMCtrl(cmd)
-        let cmd = a:cmd
-        if cmd == 'On'
-          let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {104})" > /dev/null 2>&1')
-        elseif cmd == 'Off'
-          let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {102})" > /dev/null 2>&1')
-        elseif cmd == 'Toggle'
-          let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {55, 49})" > /dev/null 2>&1')
-        endif
-        return ''
-      endfunction
-    endif
-
-    " 「日本語入力固定モード」のMacVimKaoriya対策を無効化
-    let IM_CtrlMacVimKaoriya = 0
-    " ctrl+jで日本語入力固定モードをOnOff
-    inoremap <silent> <C-j> <C-^><C-r>=IMState('FixMode')<CR>
-    nnoremap <C-j> :<C-u>call IMState('FixMode')<CR>
-  endif
-else
-  function! IMStatus(...)
-    return ''
-  endfunction
-endif
+" if dein#tap('im_control.vim')
+"   if has('mac')
+"     if has('gui_running')
+"       let IM_CtrlMode = 4
+"     else
+"       let IM_CtrlMode = 1
+"
+"       function! IMCtrl(cmd)
+"         let cmd = a:cmd
+"         if cmd == 'On'
+"           let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {104})" > /dev/null 2>&1')
+"         elseif cmd == 'Off'
+"           let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {102})" > /dev/null 2>&1')
+"         elseif cmd == 'Toggle'
+"           let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {55, 49})" > /dev/null 2>&1')
+"         endif
+"         return ''
+"       endfunction
+"     endif
+"
+"     " 「日本語入力固定モード」のMacVimKaoriya対策を無効化
+"     let IM_CtrlMacVimKaoriya = 0
+"     " ctrl+jで日本語入力固定モードをOnOff
+"     inoremap <silent> <C-j> <C-^><C-r>=IMState('FixMode')<CR>
+"     nnoremap <C-j> :<C-u>call IMState('FixMode')<CR>
+"   endif
+" else
+"   function! IMStatus(...)
+"     return ''
+"   endfunction
+" endif
 
 "--------------------
 " plugin ここまで
@@ -1218,6 +1214,28 @@ set noswapfile                      " スワップファイルを作らない
 set nobackup                        " バックアップを取らない
 " autocmd BufWritePre * :%s/\s\+$//ge " 保存時に行末の空白を除去する
 
+" 保存時にディレクトリがなければ作成
+function! s:auto_mkdir(dir, force) abort " {{{
+  if !isdirectory(a:dir) && (a:force || input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
+    call mkdir(iconv(a:dir, &enc, &tenc), 'p')
+  endif
+endfunction " }}}
+autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
+
+" shebang持ちのファイルの保存時に実行権限を付与
+if executable('chmod')
+  function! s:add_permission_x() abort " {{{
+    autocmd! Permission BufWritePost <buffer>
+    if !stridx(getline(1), '#!')
+      silent system('chmod u+x ' . shellescape(expand('%')))
+    endif
+  endfunction " }}}
+  augroup Permission " {{{
+    autocmd!
+    autocmd BufNewFile * autocmd Permission BufWritePost <buffer>  call s:add_permission_x()
+  augroup END " }}}
+endif
+
 " ファイルを開いた際に、前回終了時の行で起動
 augroup open_last_row
   autocmd!
@@ -1230,17 +1248,18 @@ set backspace=start,eol,indent
 set scrolloff=0
 set history=1000
 
-" augroup CmdWin
-"   autocmd!
-"   autocmd CmdwinEnter * call s:init_cmdwin()
-" augroup END
-"
-" function! s:init_cmdwin()
-"   nnoremap <buffer> <silent> <Esc><Esc> :<C-u>quit<CR>
-"   inoremap <buffer> <silent> <Esc><Esc> <Esc>:<C-u>quit<CR>
-"   startinsert!
-"   resize 3
-" endfunction
+command! -nargs=? -complete=dir -bang CD  call s:ChangeCurrentDir('<args>', '<bang>')
+function! s:ChangeCurrentDir(directory, bang)
+    if a:directory == ''
+        lcd %:p:h
+    else
+        execute 'lcd ' . a:directory
+    endif
+
+    if a:bang == ''
+        pwd
+    endif
+endfunction
 
 
 set tabline=%!MyTabLine()
