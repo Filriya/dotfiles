@@ -5,6 +5,14 @@
   "suggest.acceptSuggestionOnCommitCharacter": true,
   "suggest.snippetIndicator": "►",
   "vetur.experimental.templateInterpolationService": true,
+  "intelephense.files.maxSize": 5000000,
+  "snippets.triggerCharacters": ['s'],
+  "list.insertMappings": {
+    "<C-j>": "normal:j",
+    "<C-k>": "normal:k",
+    "<C-f>": "prompt:left",
+    "<C-b>": "prompt:right"
+  },
   "languageserver": {
     "haskell": {
       "command": "hie-wrapper",
@@ -18,7 +26,11 @@
           "completionSnippetsOn": true
         }
       }
-
+    },
+    "efm": {
+      "command": "efm-langserver",
+      "args": [],
+      "filetypes": ["vim", "eruby", "markdown", "yaml"]
     },
     "kotlin": {
       "command": "kotlin-language-server",

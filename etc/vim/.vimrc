@@ -67,9 +67,14 @@ noremap! <C-B> <Left>
 noremap! <C-D> <Del>
 noremap! <C-[> <ESC>
 
+" jump時カーソルを中心にする
+nnoremap <C-O> <C-O>zz
+nnoremap <C-I> <C-I>zz
+
 "加算
-"screenと被るので、<C-Q>へ
-noremap <C-Q> <C-A>
+"screenと被るので、<C-A>を<C-Q>へ
+nnoremap <C-Q> <C-A>
+
 
 "command line windowを表示
 "swap semicolon and colon
@@ -239,15 +244,14 @@ if dein#tap('coc.nvim')
   " xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
 
   " Using CocList
-  " fzf.vim unite ctrlPあたりと競合
   " Show all diagnostics
-  " nnoremap <silent> gla  :<C-u>CocList diagnostics<cr>
+  nnoremap <silent> gld  :<C-u>CocList diagnostics<cr>
   " " Manage extensions
-  " nnoremap <silent> gle  :<C-u>CocList extensions<cr>
+  nnoremap <silent> gle  :<C-u>CocList extensions<cr>
   " " Show commands
-  " nnoremap <silent> glc  :<C-u>CocList commands<cr>
+  nnoremap <silent> glc  :<C-u>CocList commands<cr>
   " " Find symbol of current document
-  " nnoremap <silent> glo  :<C-u>CocList outline<cr>
+  nnoremap <silent> glo  :<C-u>CocList outline<cr>
   " " Search workspace symbols
   " nnoremap <silent> gls  :<C-u>CocList -I symbols<cr>
   " " Do default action for next item.
@@ -368,7 +372,6 @@ if dein#tap('im_control.vim')
   inoremap <silent> <C-j> <C-^><C-r>=IMState('FixMode')<CR>
   nnoremap <silent> <C-j> :<C-u>call IMState('FixMode')<CR>
 endif
-
 
 " --------------------
 " Keymap ここまで
@@ -1023,6 +1026,33 @@ endif
 " endif
 
 "--------------------
+" vim-markdown
+"--------------------
+if dein#tap('vim-markdown')
+  let g:vim_markdown_folding_disabled = 1
+  let g:vim_markdown_no_default_key_mappings = 1
+  let g:vim_markdown_json_frontmatter = 1
+  let g:vim_markdown_new_list_item_indent = 2
+  let g:vim_markdown_no_extensions_in_markdown = 1
+endif
+
+"--------------------
+" reireias/vim-cheatsheet
+"--------------------
+if dein#tap('vim-cheatsheet')
+  augroup cheatsheet
+    autocmd!
+  augroup END
+
+  function! s:set_cheatsheet_path()
+    let cheatsheet_dir = $HOME.'/.vim/cheatsheet/'
+    echo cheatsheet_dir
+  endfunction
+endif
+
+
+
+"--------------------
 " plugin ここまで
 "--------------------
 
@@ -1089,8 +1119,8 @@ if (has("termguicolors"))
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   " let ayucolor="light"  " for light version of theme
-  " let ayucolor="mirage" " for mirage version of theme
-  let ayucolor="dark"   " for dark version of theme
+  let ayucolor="mirage" " for mirage version of theme
+  " let ayucolor="dark"   " for dark version of theme
 
   augroup ayucolorscheme
     autocmd!

@@ -24,10 +24,12 @@ up() {
 
   echo -e "\033[0;36mvagrant up $machinePath\033[0;m"
 
-  if [ $machineStat = "poweroff" ]; then
+  if [ $machineStat = "running" ]; then
+    # pcスリープ時など、statusがrunningからsavedに変わらない場合がある
+    vagrant resume $machineId 2> /dev/null
+  elif [ $machineStat = "poweroff" ]; then
     vagrant up $machineId
   elif [[ $machineStat = "saved" ]]; then
-    echo "resume"
     vagrant resume $machineId
   elif [ $machineStat = "aborted" ]; then
     echo "reload"

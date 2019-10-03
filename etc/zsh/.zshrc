@@ -60,6 +60,10 @@ fi
 
 unset GREP_OPTIONS
 
+setopt no_flow_control
+stty stop undef
+stty start undef
+
 # linux keychain
 if [ "$SSH_TTY" = "" ]; then
   keychain --nogui --quiet ~/.ssh/id_rsa
@@ -192,18 +196,23 @@ bindkey '^]' starteditor
 # function git(){hub "$@"}
 
 # history
+# HISTFILE=~/.zsh_history
+
 export HISTSIZE=1000000 # メモリに保存される履歴の件数。(保存数だけ履歴を検索できる)
 export SAVEHIST=1000000 # ファイルに何件保存するか
-setopt extended_history # 実行時間とかも保存する
-setopt share_history # 別のターミナルでも履歴を参照できるようにする
-setopt hist_ignore_all_dups # 過去に同じ履歴が存在する場合、古い履歴を削除し重複しない
-setopt hist_ignore_space # コマンド先頭スペースの場合保存しない
-setopt hist_verify # ヒストリを呼び出してから実行する間に一旦編集できる状態になる
-setopt hist_reduce_blanks #余分なスペースを削除してヒストリに記録する
-setopt hist_save_no_dups # historyコマンドは残さない
-setopt hist_expire_dups_first # 古い履歴を削除する必要がある場合、まず重複しているものから削除
-setopt hist_expand # 補完時にヒストリを自動的に展開する
-setopt inc_append_history # 履歴をインクリメンタルに追加
+setopt EXTENDED_HISTORY # 実行時間とかも保存する
+setopt SHARE_HISTORY # 別のターミナルでも履歴を参照できるようにする
+setopt HIST_VERIFY # ヒストリを呼び出してから実行する間に一旦編集できる状態になる
+setopt HIST_SAVE_NO_DUPS # historyコマンドは残さない
+setopt HIST_EXPIRE_DUPS_FIRST # 古い履歴を削除する必要がある場合、まず重複しているものから削除
+setopt HIST_EXPAND # 補完時にヒストリを自動的に展開する
+setopt INC_APPEND_HISTORy # 履歴をインクリメンタルに追加
+setopt HIST_IGNORE_DUPS # 前と重複する行は記録しない
+setopt HIST_IGNORE_ALL_DUPS # 履歴中の重複行をファイル記録前に無くす
+setopt HIST_IGNORE_SPACE # 行頭がスペースのコマンドは記録しない
+setopt HIST_FIND_NO_DUPS # 履歴検索中、(連続してなくとも)重複を飛ばす
+setopt HIST_REDUCE_BLANKS # 余分な空白は詰めて記録
+setopt HIST_NO_STORE # histroyコマンドは記録しない
 
 # clang
 alias clang-omp="$HOMEBREW_PREFIX/opt/llvm/bin/clang -fopenmp -L$HOMEBREW_PREFIX/opt/llvm/lib -Wl,-rpath,$HOMEBREW_PREFIX/opt/llvm/lib"
@@ -223,7 +232,6 @@ path=(${ZDOTDIR:-$HOME}/.composer/vendor/bin $path)
 
 # qt
 export PATH="$HOMEBREW_PREFIX/opt/qt/bin:$PATH"
-
 export LDFLAGS="-L$HOMEBREW_PREFIX/opt/qt/lib"
 export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/qt/include"
 export PKG_CONFIG_PATH="$HOMEBREW_PREFIX/opt/qt/lib/pkgconfig"
@@ -257,6 +265,9 @@ update_cache_hosts () {
 update_cache_hosts
   _cache_hosts=(print_cache_hosts )
 fi
+
+export GOPATH=$HOME/go
+path=(${GOPATH}/bin $path)
 
 # if (which zprof > /dev/null) ;then
 #   zprof | less

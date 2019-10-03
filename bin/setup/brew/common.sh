@@ -42,12 +42,5 @@ brew install vim
 brew install nvim
 pip3 install --user pynvim
 
-npm i -g eslint 
-npm i -g eslint-plugin-vue
-
-npm i -g javascript-typescript-langserver 
-npm i -g javascript-typescript-stdio
-npm i -g vue-language-server
-
 brew cleanup
 
