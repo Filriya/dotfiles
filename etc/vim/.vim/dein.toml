@@ -166,6 +166,10 @@ repo = 'kmyk/brainfuck-highlight.vim'
 on_ft = ["bf"]
 [[plugins]]
 repo = 'chr4/nginx.vim'
+on_ft = ["nginx"]
+[[plugins]]
+repo = 'chr4/sslsecure.vim'
+on_ft = ["nginx"]
 
 
 # markdown

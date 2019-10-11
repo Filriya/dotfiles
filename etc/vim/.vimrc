@@ -144,6 +144,7 @@ nnoremap          <Leader>H :tab help<space>
 
 " save and quit
 nnoremap <silent> <Leader>w :w<CR>
+nnoremap <silent> <Leader>W :w sudo:%<CR>
 nnoremap <silent> <Leader>q :q<CR>
 nnoremap <silent> <Leader>Q :qa!<CR>
 

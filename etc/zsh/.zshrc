@@ -86,22 +86,31 @@ alias -g SJIS='| nkf'
 
 
 # haskell stack
-path=(${ZDOTDIR:-$HOME}/.composer/vendor/bin $path)
-# path=($(stack path --local-bin) $path) # 重い
-# path=($(stack path --compiler-bin) $path) # 重い
-path=(${ZDOTDIR:-$HOME}/.local/bin $path)
-alias ghci='rlwrap stack ghci'
-alias ghc='stack ghc --'
-alias runghc='stack runghc --'
+if type "stack" > /dev/null 2>&1; then
+  path=(${ZDOTDIR:-$HOME}/.composer/vendor/bin $path)
+  # path=($(stack path --local-bin) $path) # 重い
+  # path=($(stack path --compiler-bin) $path) # 重い
+  path=(${ZDOTDIR:-$HOME}/.local/bin $path)
+  alias ghci='rlwrap stack ghci'
+  alias ghc='stack ghc --'
+  alias runghc='stack runghc --'
+fi
 
 
 # exa - alternative ls
-if which exa > /dev/null; then
-  alias l="exa --git --group-directories-first"
-  alias ll="exa -l --git --time-style=iso --group-directories-first"
-  alias la="exa -la --git --time-style=iso --group-directories-first"
-  alias lt="exa -lT --git --time-style=iso --group-directories-first -L"
-  alias lT="exa -lT --git --time-style=iso --group-directories-first"
+if type exa > /dev/null; then
+  # "--git" + "-l" + broken symlink + NFS の組み合わせで落ちる
+  # alias l="exa --git --group-directories-first"
+  # alias ll="exa -l --git --time-style=iso --group-directories-first"
+  # alias la="exa -la --git --time-style=iso --group-directories-first"
+  # alias lt="exa -lT --git --time-style=iso --group-directories-first -L"
+  # alias lT="exa -lT --git --time-style=iso --group-directories-first"
+
+  alias l="exa --group-directories-first"
+  alias ll="exa -l --time-style=iso --group-directories-first"
+  alias la="exa -la --time-style=iso --group-directories-first"
+  alias lt="exa -lT --time-style=iso --group-directories-first -L"
+  alias lT="exa -lT --time-style=iso --group-directories-first"
 fi
 
 
@@ -128,9 +137,9 @@ case $TERM in
     preexec() {
       echo -ne "\ek$1\e\\"
     }
-    precmd() {
-      echo -ne "\ek$(eliptical_pwd)\e\\"
-    }
+  precmd() {
+    echo -ne "\ek$(eliptical_pwd)\e\\"
+  }
 ;;
 esac
 
@@ -252,16 +261,16 @@ if [ "$SSH_TTY" == "" ]; then
   print_cache_hosts () {
     if [ ! -f $cache_hosts_file ]; then
       update_cache_hosts
-  fi
-  print $cache_hosts_file
-}
+    fi
+    print $cache_hosts_file
+  }
 
 update_cache_hosts () {
   find ~/.ssh/conf.d -type f | xargs grep -ih "host " |cut -d ' ' -f 2|sort >|  $cache_hosts_file
 }
 
 update_cache_hosts
-  _cache_hosts=(print_cache_hosts )
+_cache_hosts=(print_cache_hosts )
 fi
 
 export GOPATH=$HOME/go
