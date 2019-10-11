@@ -27,6 +27,6 @@ if [ -f "${HOMEBREW_PREFIX}/opt/fzf/shell/key-bindings.zsh" ]; then
 fi
 
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --no-ignore'
-export FZF_DEFAULT_OPTS='-m --height 40% --bind ctrl-q:beginning-of-line,ctrl-o:toggle-up,ctrl-i:toggle-down,ctrl-r:toggle-all'
+export FZF_DEFAULT_OPTS='-m --height 40% --no-sort --bind ctrl-q:beginning-of-line,ctrl-o:toggle-up,ctrl-i:toggle-down,ctrl-r:toggle-all'
 
 

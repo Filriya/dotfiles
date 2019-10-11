@@ -377,5 +377,15 @@ function git_align_branch_all()
   done
 }
 
-alias zgit="cat ~/.zsh.d/git.zsh | grep --color=never '^alias' | grep -v 'alias -g'| perl -pe 's/alias ([^=]+)=(.*)/\1\t\2/'| fzf"
 
+function zgit()
+{
+  echo $(cat ~/.zsh.d/git.zsh \
+    | grep --color=never '^alias' \
+    | grep -v 'alias -g'\
+    | perl -pe 's/alias ([^=]+)=(.*)/\1\t\2/' \
+    | fzf \
+    | perl -pe "s/.*['\"]([a-zA-Z \-]+)['\"].*/\1/g"
+  )
+}
+# alias -g Z=zgit

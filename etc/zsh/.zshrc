@@ -24,6 +24,13 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zsh.bundle/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zsh.bundle/.zprezto/init.zsh"
 fi
 
+# linux keychain
+if [ "$SSH_TTY" = "" ]; then
+  keychain ~/.ssh/id_rsa >/dev/null 2>/dev/null
+  source ~/.keychain/${HOST}-sh
+fi
+
+
 if [ -e "$HOME/.zsh.bundle/z/z.sh" ]; then
   source "${HOME}/.zsh.bundle/z/z.sh"
 fi
@@ -64,12 +71,6 @@ setopt no_flow_control
 stty stop undef
 stty start undef
 
-# linux keychain
-if [ "$SSH_TTY" = "" ]; then
-  keychain --nogui --quiet ~/.ssh/id_rsa
-  source ~/.keychain/$HOST-sh
-fi
-
 # fzf
 if [ -f ~/.zsh.d/fzf.zsh ]; then
   source ~/.zsh.d/fzf.zsh
@@ -83,13 +84,16 @@ alias -g P='| peco'
 alias -g F='| fzf'
 alias -g SJIS='| nkf'
 
+
 # haskell stack
 path=(${ZDOTDIR:-$HOME}/.composer/vendor/bin $path)
-path=($(stack path --local-bin) $path)
-path=($(stack path --compiler-bin) $path)
+# path=($(stack path --local-bin) $path) # 重い
+# path=($(stack path --compiler-bin) $path) # 重い
+path=(${ZDOTDIR:-$HOME}/.local/bin $path)
 alias ghci='rlwrap stack ghci'
 alias ghc='stack ghc --'
 alias runghc='stack runghc --'
+
 
 # exa - alternative ls
 if which exa > /dev/null; then
@@ -192,12 +196,6 @@ zle -N starteditor
 bindkey '^]' starteditor
 
 
-#hub
-# function git(){hub "$@"}
-
-# history
-# HISTFILE=~/.zsh_history
-
 export HISTSIZE=1000000 # メモリに保存される履歴の件数。(保存数だけ履歴を検索できる)
 export SAVEHIST=1000000 # ファイルに何件保存するか
 setopt EXTENDED_HISTORY # 実行時間とかも保存する
@@ -269,6 +267,13 @@ fi
 export GOPATH=$HOME/go
 path=(${GOPATH}/bin $path)
 
-# if (which zprof > /dev/null) ;then
-#   zprof | less
-# fi
+# artisan
+alias ar='php `git rev-parse --show-toplevel`/artisan'
+alias sf='php `git rev-parse --show-toplevel`/symfony'
+
+
+# last
+if (which zprof > /dev/null) ;then
+  zprof | less
+fi
+

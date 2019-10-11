@@ -16,6 +16,7 @@
 
 scriptencoding utf-8
 
+set shortmess+=I
 
 filetype off
 filetype plugin indent off
@@ -56,6 +57,7 @@ endif
 "-------------------
 noremap <Leader> <Nop>
 let mapleader = "\<Space>"
+nmap <Leader><Leader> <Space>
 
 "esc2回でハイライトを消す
 nnoremap <silent> <ESC><ESC> :noh<cr>
@@ -80,6 +82,7 @@ nnoremap <C-Q> <C-A>
 "swap semicolon and colon
 noremap : ;
 noremap ; :
+set cedit=\<C-w>
 
 " 検索時語句を中心にする
 nnoremap * *zz
@@ -167,7 +170,7 @@ if dein#tap('fzf.vim')
   nnoremap          <Leader>a :<C-u>Rg<Space>
   nnoremap <silent> <Leader>/ :<C-u>Lines<CR>
   nnoremap <silent> <Leader>? :<C-u>BLines<CR>
-  nnoremap <silent> <Leader>t :<C-u>Tags<CR>
+  " nnoremap <silent> <Leader>t :<C-u>Tags<CR>
   nnoremap <silent> <Leader>h :<C-u>History<CR>
   nnoremap <silent> <C-]> :call fzf#vim#tags(expand('<cword>'))<CR>
 endif
@@ -373,6 +376,39 @@ if dein#tap('im_control.vim')
   nnoremap <silent> <C-j> :<C-u>call IMState('FixMode')<CR>
 endif
 
+"--------------------
+" vim-table-mode
+"--------------------
+if dein#tap('vim-table-mode')
+  let g:table_mode_disable_mappings = 0
+
+  let g:table_mode_map_prefix = ""
+  let g:table_mode_toggle_map = '<Leader>T'
+  let g:table_mode_tableize_map = '<Leader>tt'
+  let g:table_mode_tableize_d_map = '<Leader>tT'
+  let g:table_mode_motion_up_map = '<Leader>tk'
+  let g:table_mode_motion_down_map = '<Leader>tj'
+  let g:table_mode_motion_left_map = '<Leader>tl'
+  let g:table_mode_motion_right_map = '<Leader>th'
+endif
+
+
+"--------------------
+" memolist.vim
+"--------------------
+if dein#tap('memolist.vim')
+  nnoremap <Leader>mn  :MemoNew<CR>
+  nnoremap <Leader>ml  :MemoList<CR>
+  nnoremap <Leader>mg  :MemoGrep<CR>
+endif
+
+"--------------------
+" markdown-preview.nvim
+"--------------------
+if dein#tap('markdown-preview.nvim')
+  autocmd FileType markdown nmap <silent><buffer> <Leader>r <Plug>MarkdownPreviewToggle
+endif
+
 " --------------------
 " Keymap ここまで
 " --------------------
@@ -401,19 +437,19 @@ if dein#tap('defx.nvim')
       endif
     endfunction
     nnoremap <silent><buffer><expr> &
-         \ defx#do_action('call', 'Defx_git_root_dir')
+          \ defx#do_action('call', 'Defx_git_root_dir')
 
     " Define mappings
     nnoremap <silent><buffer><expr> <CR>
-         \ defx#is_directory() ?
-         \ defx#do_action('open_or_close_tree'):
-         \ defx#do_action('drop')
+          \ defx#is_directory() ?
+          \ defx#do_action('open_or_close_tree'):
+          \ defx#do_action('drop')
     nnoremap <silent><buffer><expr> s
-         \ defx#do_action('multi', [['drop', 'split'], 'quit'])
+          \ defx#do_action('multi', [['drop', 'split'], 'quit'])
     nnoremap <silent><buffer><expr> v
-         \ defx#do_action('multi', [['drop', 'vsplit'], 'quit'])
+          \ defx#do_action('multi', [['drop', 'vsplit'], 'quit'])
     nnoremap <silent><buffer><expr> t
-         \ defx#do_action('multi', ['quit', ['drop', 'tabnew']])
+          \ defx#do_action('multi', ['quit', ['drop', 'tabnew']])
     nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
     nnoremap <silent><buffer><expr> c defx#do_action('copy')
     nnoremap <silent><buffer><expr> m defx#do_action('move')
@@ -426,9 +462,9 @@ if dein#tap('defx.nvim')
     nnoremap <silent><buffer><expr> yy defx#do_action('yank_path')
     nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
     nnoremap <silent><buffer><expr> l
-         \ defx#is_directory() ?
-         \ defx#do_action('open'):
-         \ defx#do_action('drop')
+          \ defx#is_directory() ?
+          \ defx#do_action('open'):
+          \ defx#do_action('drop')
     nnoremap <silent><buffer><expr> h defx#do_action('cd', ['..'])
     nnoremap <silent><buffer><expr> ~ defx#do_action('cd')
     nnoremap <silent><buffer><expr> q defx#do_action('quit')
@@ -593,19 +629,34 @@ if dein#tap('fzf.vim')
     " let dirname = system("cd ".fnamemodify(resolve($MYVIMRC), ":h")."&& git rev-parse --show-toplevel")
     let l:dirname = system("dirname $(dirname $(readlink ".$MYVIMRC."))")
     call fzf#run({
-        \ 'source': 'fd --type f --hidden --follow --no-ignore . '.l:dirname,
-        \ 'sink': 'tab split',
-        \ 'down': '40%'
-        \ })
+          \ 'source': 'fd --type f --hidden --follow --no-ignore . '.l:dirname,
+          \ 'sink': 'tab split',
+          \ 'down': '40%'
+          \ })
+  endfunction
+
+  function! s:fzf_emoji() abort
+    call fzf#run({
+          \ 'source': 'cat ~/.vim/cheatsheet/emoji.txt',
+          \ 'sink': function('s:insert_emoji'),
+          \ 'down': '40%'
+          \ })
+  endfunction
+
+  function! s:insert_emoji(line) abort
+    let code = split(a:line)[1]
+    let pos = getpos(".")
+    execute ":normal i" . code
+    call setpos('.', pos)
   endfunction
 
   " This is the default extra key bindings
   let g:fzf_action = {
-       \ 'enter': function('s:build_quickfix_list'),
-       \ 'ctrl-m': 'open',
-       \ 'ctrl-t': 'tab split',
-       \ 'ctrl-s': 'split',
-       \ 'ctrl-v': 'vsplit'}
+        \ 'enter': function('s:build_quickfix_list'),
+        \ 'ctrl-m': 'open',
+        \ 'ctrl-t': 'tab split',
+        \ 'ctrl-s': 'split',
+        \ 'ctrl-v': 'vsplit'}
 
   " Default fzf layout
   " - down / up / left / right
@@ -633,13 +684,14 @@ if dein#tap('fzf.vim')
   let g:fzf_tags_command = 'ctags --exclude=node_modules --exclude=vendor'
 
   command! SrcFiles call s:fzf_src_file()
+  command! Emoji call s:fzf_emoji()
   command! -bang -nargs=+ -complete=dir Ag call fzf#vim#ag_raw(<q-args>, <bang>0)
   command! -bang -nargs=* -complete=dir Rg
-  \ call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1)
+        \ call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1)
 
-" Likewise, Files command with preview window
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+  " Likewise, Files command with preview window
+  command! -bang -nargs=? -complete=dir Files
+        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 endif
 
 " --------------------
@@ -766,14 +818,15 @@ if dein#tap('lightline.vim')
         \   'tabline': 0
         \ },
         \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ],
+        \   'left': [ [ 'mode', 'paste', 'table', 'jpmode'],
         \             [ 'fugitive', 'file' ],
         \             [ 'coccurrent' ] ],
         \   'right': [ [ 'lineinfo' ],
         \            [ 'percent' ],
-        \            [ 'jpmode', 'fileformat', 'fileencoding', 'filetype' ] ]
+        \            [ 'fileformat', 'fileencoding', 'filetype' ] ]
         \ },
         \ 'component_function': {
+        \   'table': 'CurrentTableMode',
         \   'fugitive': 'MyFugitive',
         \   'readonly': 'MyReadonly',
         \   'modified': 'MyModified',
@@ -805,6 +858,21 @@ if dein#tap('lightline.vim')
     endfunction
   endif
 
+  if dein#tap('vim-table-mode')
+    function! CurrentTableMode()
+      if tablemode#IsActive()
+        return "TABLE"
+      else
+        return ""
+      endif
+    endfunction
+  else 
+    function! CurrentTableMode()
+      return ""
+    endfunction
+  endif 
+
+
 
   function! MyModified()
     if &filetype == "help"
@@ -829,7 +897,7 @@ if dein#tap('lightline.vim')
   endfunction
 
   function! MyJpMode()
-    return IMStatus("[jpmode]")
+    return IMStatus("JPMODE")
   endfunction
 
   function! MyFugitive()
@@ -907,6 +975,13 @@ if dein#tap('vim-smartinput')
         \   'char': '<CR>',
         \   'input': "<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', ''))<CR><CR>",
         \   })
+
+  call smartinput#map_to_trigger('i', '<bar>', '<bar>', '<bar>')
+  call smartinput#define_rule({
+        \  'at': '^|\%#$',
+        \  'char': '<bar>',
+        \  'input': '<c-o>:TableModeEnable<cr><bar><left>',
+        \  })
 endif
 
 "--------------------
@@ -1042,14 +1117,42 @@ endif
 if dein#tap('vim-cheatsheet')
   augroup cheatsheet
     autocmd!
+    autocmd BufEnter,BufRead * call s:set_cheatsheet_path()
   augroup END
 
   function! s:set_cheatsheet_path()
-    let cheatsheet_dir = $HOME.'/.vim/cheatsheet/'
-    echo cheatsheet_dir
+    let filetype = &filetype
+    let g:cheatsheet#cheat_file = $HOME.'/.vim/cheatsheet/'.filetype.'.md'
   endfunction
 endif
 
+"--------------------
+" memolist
+"--------------------
+if dein#tap('memolist.vim')
+  let g:memolist_memo_suffix = "md"
+  let g:memolist_path = $HOME."/posts/"
+
+  " let g:memolist_memo_date = "%Y-%m-%dT%H:%M:%S%z"
+  let g:memolist_template_dir_path = $HOME."/.vim/template"
+
+  let g:memolist_prompt_tags = 1
+  let g:memolist_prompt_categories = 1
+  let g:memolist_fzf = 1
+endif
+
+"--------------------
+" markdown-preview.nvim
+"--------------------
+if dein#tap('markdown-preview.nvim')
+  let g:mkdp_auto_close = 1
+
+  let g:mkdp_refresh_slow = 1
+
+  " preview page title
+  " ${name} will be replace with the file name
+  let g:mkdp_page_title = '「${name}」'
+endif
 
 
 "--------------------
@@ -1092,17 +1195,17 @@ endfunction
 function! s:get_syn_info()
   let baseSyn = s:get_syn_attr(s:get_syn_id(0))
   echo "name: " . baseSyn.name .
-       \ " ctermfg: " . baseSyn.ctermfg .
-       \ " ctermbg: " . baseSyn.ctermbg .
-       \ " guifg: " . baseSyn.guifg .
-       \ " guibg: " . baseSyn.guibg
+        \ " ctermfg: " . baseSyn.ctermfg .
+        \ " ctermbg: " . baseSyn.ctermbg .
+        \ " guifg: " . baseSyn.guifg .
+        \ " guibg: " . baseSyn.guibg
   let linkedSyn = s:get_syn_attr(s:get_syn_id(1))
   echo "link to"
   echo "name: " . linkedSyn.name .
-       \ " ctermfg: " . linkedSyn.ctermfg .
-       \ " ctermbg: " . linkedSyn.ctermbg .
-       \ " guifg: " . linkedSyn.guifg .
-       \ " guibg: " . linkedSyn.guibg
+        \ " ctermfg: " . linkedSyn.ctermfg .
+        \ " ctermbg: " . linkedSyn.ctermbg .
+        \ " guifg: " . linkedSyn.guifg .
+        \ " guibg: " . linkedSyn.guibg
 endfunction
 command! SyntaxInfo call s:get_syn_info()
 
@@ -1119,8 +1222,8 @@ if (has("termguicolors"))
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   " let ayucolor="light"  " for light version of theme
-  let ayucolor="mirage" " for mirage version of theme
-  " let ayucolor="dark"   " for dark version of theme
+  " let ayucolor="mirage" " for mirage version of theme
+  let ayucolor="dark"   " for dark version of theme
 
   augroup ayucolorscheme
     autocmd!
@@ -1188,8 +1291,11 @@ if dein#tap('vim-better-whitespace')
   " let g:strip_whitespace_on_save = 1
   " let g:strip_max_file_size = 1000
 
-  let g:better_whitespace_filetypes_blacklist=['diff', 'gitcommit', 'unite', 'qf', 'help', 'dein', 'denite', 'vaffle', 'defx']
+  let g:better_whitespace_filetypes_blacklist=['markdown', 'diff', 'gitcommit', 'unite', 'qf', 'help', 'dein', 'denite', 'vaffle', 'defx']
 endif
+
+set conceallevel=1
+set concealcursor=nvic
 
 let g:is_bash = 1
 " colorscheme pencil
@@ -1280,15 +1386,15 @@ set history=1000
 
 command! -nargs=? -complete=dir -bang CD  call s:ChangeCurrentDir('<args>', '<bang>')
 function! s:ChangeCurrentDir(directory, bang)
-    if a:directory == ''
-        lcd %:p:h
-    else
-        execute 'lcd ' . a:directory
-    endif
+  if a:directory == ''
+    lcd %:p:h
+  else
+    execute 'lcd ' . a:directory
+  endif
 
-    if a:bang == ''
-        pwd
-    endif
+  if a:bang == ''
+    pwd
+  endif
 endfunction
 
 
@@ -1323,6 +1429,8 @@ function! MyTabLine()
 
   return s
 endfunction
+
+set cmdwinheight=5
 
 function! MyTabLabel(n, issel)
   let buflist = tabpagebuflist(a:n)

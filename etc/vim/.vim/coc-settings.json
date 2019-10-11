@@ -6,7 +6,9 @@
   "suggest.snippetIndicator": "►",
   "vetur.experimental.templateInterpolationService": true,
   "intelephense.files.maxSize": 5000000,
-  "snippets.triggerCharacters": ['s'],
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/schemas/v3.0/schema.json": "/openapi/*"
+  },
   "list.insertMappings": {
     "<C-j>": "normal:j",
     "<C-k>": "normal:k",
