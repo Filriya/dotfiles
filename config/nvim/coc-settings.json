@@ -1,0 +1,53 @@
+{
+  "coc.preferences.hoverTarget": "echo",
+  "diagnostic.messageTarget": "echo",
+  "signature.target": "echo",
+  "suggest.floatEnable": true,
+
+  "suggest.echodocSupport": false,
+  "suggest.noselect":false,
+  "suggest.minTriggerInputLength": 2,
+  "suggest.preferCompleteThanJumpPlaceholder":true,
+  "suggest.acceptSuggestionOnCommitCharacter": true,
+  "suggest.snippetIndicator": "►",
+  "vetur.experimental.templateInterpolationService": true,
+  "intelephense.files.maxSize": 5000000,
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/schemas/v3.0/schema.json": "/openapi/*"
+  },
+  "list.insertMappings": {
+    "<C-j>": "normal:j",
+    "<C-k>": "normal:k",
+    "<C-f>": "prompt:left",
+    "<C-b>": "prompt:right"
+  },
+  "languageserver": {
+    "haskell": {
+      "command": "hie-wrapper",
+      "rootPatterns": [".stack.yaml", "cabal.config", "package.yaml"],
+      "filetypes": ["hs", "lhs", "haskell"],
+      "initializationOptions": {},
+      "settings": {
+        "languageServerHaskell": {
+          "hlintOn": false,
+          "maxNumberOfProblems": 10,
+          "completionSnippetsOn": true
+        }
+      }
+    },
+    "efm": {
+      "command": "efm-langserver",
+      "args": [],
+      "filetypes": ["vim", "eruby", "markdown", "yaml"]
+    },
+    "kotlin": {
+      "command": "kotlin-language-server",
+      "filetypes": ["kt", "kotlin"]
+    },
+    "dockerfile": {
+      "command": "docker-langserver",
+      "filetypes": ["dockerfile"],
+      "args": ["--stdio"]
+    }
+  }
+}

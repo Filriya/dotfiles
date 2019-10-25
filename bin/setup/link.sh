@@ -2,77 +2,71 @@
 cd `dirname $0` # scriptの位置に移動
 cd `pwd -P` # symlinkを無視した位置に移動
 cd ../../ # 2つ上がる
-projectRoot=`pwd -P`
+
+root_dir=`pwd -P`
+bin_dir="$root_dir/bin"
+etc_dir="$root_dir/etc"
+config_dir="$root_dir/config"
 
 # マシンを選択
 if [ $# -eq 0 ]; then
-  linkTo=$HOME
+  link_to=$HOME
 else
-  linkTo=$1
+  link_to=$1
 fi
 
-array_contains () { 
-  local array="$1[@]"
-  local seeking=$2
-  local in=1
-  for element in "${!array}"; do
-    if [[ $element == $seeking ]]; then
-      in=0
-      break
-    fi
-  done
-  return $in
-}
 
-linkfiles () {
-  dir=$1
+# | grep -vE '\.template$' | xargs -I{} ln -nfs $etc_dir/{} $link_to
+link_etc_files () {
+  source_dir=$1
+  dest_dir=$2
 
-  cd $dir
-
-  files=`find -maxdepth 1 | perl -pe "s/.*\.\/(.*)$/\1/g"`
+  files=$(ls -a $source_dir| grep -vE "^\.{1,2}$")
   for file in $files
   do
-    if [ $file == '.' ] ; then
-      continue
-
-    elif [[ $file =~ .template ]] ; then
-
-      filename=$(echo $file|perl -pe "s/\.template//g")
-
-      if [ -e $linkTo/$filename ]; then
-        continue
-      fi
-      fulltext=`cat $file`
-      replaces=`cat $file | grep -Eo __.*__`
-
-      # echo "Create $filename"
-
-      for replace in $replaces; do
-        echo -n " $replace > "
-        read value
-        value=${value/@/\\@}
-        fulltext=`echo "$fulltext"|perl -pe "s/$replace/$value/g"`
-      done
-      echo "$fulltext" > $linkTo/${file/.template/}
+    if [[ $file =~ \.template ]] ; then
+      place_template_file "$source_dir/$file" $dest_dir
     else
-      linkFrom=`pwd -P`/"$file" 
-      ln -nfs $linkFrom $linkTo/
+      ln -nfs "$source_dir/$file" $dest_dir
     fi
   done
-  cd $currentDir
 }
 
+place_template_file () {
+  template_file=$1
+  dest_dir=$2
+
+  template_file_name=$(basename $template_file)
+  file_name=$(echo $template_file_name|perl -pe "s/\.template//g")
+
+  if [ -e $dest_dir/$file_name ]; then
+    continue
+  fi
+
+  fulltext=`cat $file`
+  replaces=`cat $file | grep -Eo __.*__`
+
+  echo "Create $filename"
+
+  for replace in $replaces; do
+    echo -n " $replace > "
+    read value
+    value=${value/@/\\@}
+    fulltext=`echo "$fulltext"|perl -pe "s/$replace/$value/g"`
+  done
+  echo "$fulltext" > $dest_dir/$file_name
+}
 
 # bin
-ln -nfs $projectRoot/bin $linkTo
+ln -nfs $bin_dir $link_to
 
 # etc
-etcDir="$projectRoot/etc"
+link_etc_files $etc_dir $link_to
 
-dirs=`find $etcDir -mindepth 1 -maxdepth 1 -type d`
+# config
+mkdir -p "$link_to/.config"
+ls $config_dir | xargs -I{} ln -sf "$config_dir/{}" $link_to/.config
 
-for dir in $dirs
-do
-  linkfiles $dir
-done
-
+# vim
+ln -fs "$config_dir/nvim" "$link_to/.vim"
+ln -fs "$config_dir/nvim/init.vim" "$link_to/.vimrc"

@@ -52,6 +52,11 @@ halt() {
   # vmrun list | grep vmx | xargs --no-run-if-empty  vmrun stop
 }
 
+reload() {
+  halt "$@"
+  up "$@"
+}
+
 ssh() {
   machine=$(_select "$@")
 

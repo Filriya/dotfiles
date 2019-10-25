@@ -42,5 +42,5 @@ brew install vim
 brew install nvim
 pip3 install --user pynvim
 
-brew cleanup
+brew cleanup -s
 
