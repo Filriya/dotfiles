@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+basepath="$HOME/posts"
+assetsdir="$HOME/images"
+extension='md'
+template="$HOME/.vim/template/md.txt"
+dateformat="%Y/%m/%d %H:%M:%S"
+
+showcmd="cat"
+selectcmd="fzf"
+editcmd="nvim"
+grepcmd="ag {PATTERN} {DIR}"
+
+# config, c  configure
+# publish, p publish
+# help, h    Shows a list of commands or help for one command
+
+new() {
+  date=$(date "+%Y-%m-%d")
+
+  read -p "title > " title 
+
+  if [ -z $title ]; then
+    echo 'cancel'
+    exit 0
+  fi
+
+  filename=$(echo "$date-$title.$extension" | perl -pe 's/[\\\/:*?<>|" ]/_/g')
+  cp -n $template $basepath/$filename
+
+  datetime=$(date +"$dateformat"|perl -pe "s/\//\\\\\//g")
+  perl -pi -e "s/{{_title_}}/$title/gi" $basepath/$filename
+  perl -pi -e "s/{{_date_}}/$datetime/gi" $basepath/$filename
+  perl -pi -e "s/{{_tags_}}//gi" $basepath/$filename
+  perl -pi -e "s/{{_categories_}}//gi" $basepath/$filename
+
+  $editcmd $basepath/$filename
+}
+
+show() {
+  ls $basepath | $selectcmd |xargs -I{} $showcmd $basepath/{}
+}
+
+edit() {
+  ls $basepath | $selectcmd |xargs -I{} $editcmd $basepath/{}
+}
+
+delete() {
+  ls $basepath | $selectcmd |xargs -I{} rm $basepath/{}
+}
+
+list() {
+  ls $basepath | $selectcmd
+}
+
+grep() {
+  if [ $# -eq 0 ]; then
+    echo "pattern required"
+    exit 1
+  fi
+  basepath=$(echo $basepath|perl -pe "s/\//\\\\\//g")
+  grepcmd=$(echo $grepcmd | perl -pe "s/{PATTERN}/$1/g" | perl -pe "s/{DIR}/$basepath/g")
+  $grepcmd
+}
+
+n() {
+  new "$@"
+}
+
+s() {
+  show "$@"
+}
+
+e() {
+  edit "$@"
+}
+
+d() {
+  delete "$@"
+}
+
+l() {
+  list "$@"
+}
+
+g() {
+  grep "$@"
+}
+
+
+
+# http://qiita.com/kitsuyui/items/4b204963e0ebec53fe3c
+--help() {
+  echo 'Usage:'
+  compgen -A function \
+    | grep -v -E '^_' \
+    | xargs -I % echo ' ' "$(basename "$0")" %
+  echo ""
+  echo "require: fzf"
+}
+
+main() {
+  unset -f -- "${FUNCNAME[0]}"
+  ! declare -F -- "$1" >/dev/null && --help && exit 1
+  "$@"
+}
+
+main "$@"

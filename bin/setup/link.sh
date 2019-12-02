@@ -43,8 +43,8 @@ place_template_file () {
     continue
   fi
 
-  fulltext=`cat $file`
-  replaces=`cat $file | grep -Eo __.*__`
+  fulltext=`cat $template_file`
+  replaces=`cat $template_file | grep -Eo __.*__`
 
   echo "Create $filename"
 

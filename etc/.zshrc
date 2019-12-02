@@ -194,7 +194,7 @@ setopt nonomatch
 
 
 # default editor
-EDITOR=`which vim`
+EDITOR=`which nvim`
 
 function starteditor() {
   exec < /dev/tty
@@ -303,3 +303,7 @@ export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
 
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+# rust
+if [[ -s "$HOME/.cargo/env" ]]; then
+  source "$HOME/.cargo/env"
+fi

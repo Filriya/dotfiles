@@ -49,6 +49,7 @@ if dein#check_install()
   call dein#install()
 endif
 
+" :call dein#recache_runtimepath()
 
 "-------------------
 " keymap
@@ -162,16 +163,16 @@ if dein#tap('fzf.vim')
   nnoremap <silent> <Leader>f :<C-u>GFiles<CR>
   nnoremap <silent> <Leader>F :<C-u>Files<CR>
   nnoremap <silent> <Leader>E :<C-u>SrcFiles<CR>
-  " nnoremap <silent> <Leader>g :<C-u>GFiles?<CR>
-  " bが押しにくいのでu
-  nnoremap <silent> <Leader>u :<C-u>Buffers<CR>
+  nnoremap <silent> <Leader>g :<C-u>GFiles?<CR>
+  nnoremap <silent> <Leader>b :<C-u>Buffers<CR>
+  " nnoremap <silent> <Leader>b :<C-u>LoadedBuffers<CR>
   " nnoremap          <Leader>a :<C-u>Ag<Space>
   nnoremap          <Leader>a :<C-u>Rg<Space>
   nnoremap <silent> <Leader>/ :<C-u>Lines<CR>
   nnoremap <silent> <Leader>? :<C-u>BLines<CR>
-  " nnoremap <silent> <Leader>t :<C-u>Tags<CR>
   nnoremap <silent> <Leader>h :<C-u>History<CR>
-  nnoremap <silent> <C-]> :call fzf#vim#tags(expand('<cword>'))<CR>
+  nnoremap <silent> <Leader>u :call fzf#vim#tags(expand('<cword>'))<CR>
+  nnoremap <silent> <Leader>U :<C-u>Tags<CR>
 endif
 
 if dein#tap('coc.nvim')
@@ -221,6 +222,7 @@ if dein#tap('coc.nvim')
   " Remap for rename current word
   " リネーム
   nmap gR <Plug>(coc-rename)
+  " nmap gR <Plug>(coc-refactor)
 
   " Remap for format selected region
   " 整形
@@ -318,11 +320,7 @@ if dein#tap('vim-easymotion')
 
   " s{char}{char} to move to {char}{char}
   nmap <Leader>s <Plug>(easymotion-overwin-f2)
-  vmap <Leader>s <Plug>(easymotion-bd-f2)
-
-  " Move to line
-  map <Leader>l <Plug>(easymotion-bd-jk)
-  nmap <Leader>l <Plug>(easymotion-overwin-line)
+  vmap <Leader>s Plug>(easymotion-bd-f2)
 
   " Move to line
   map <Leader>l <Plug>(easymotion-bd-jk)
@@ -346,7 +344,7 @@ vnoremap S :s/\v
 "--------------------
 "vim-fugitive
 "--------------------
-map <Leader>g [git]
+map <c-g> [git]
 if dein#tap("vim-fugitive")
   nnoremap [git]s :Gstatus<CR>
   nnoremap [git]r :Gread<CR>
@@ -372,6 +370,7 @@ endif
 " im_control.vim
 "--------------------
 if dein#tap('im_control.vim')
+  " なんか重い
   " inoremap <silent> <C-j> <C-^><C-r>=IMState('FixMode')<CR>
   " nnoremap <silent> <C-j> :<C-u>call IMState('FixMode')<CR>
 endif
@@ -380,8 +379,9 @@ endif
 " vim-table-mode
 "--------------------
 if dein#tap('vim-table-mode')
-  let g:table_mode_disable_mappings = 0
+  let g:table_mode_disable_mappings = 1
 
+  let g:table_mode_corner = "|"
   let g:table_mode_map_prefix = ""
   let g:table_mode_toggle_map = '<Leader>T'
   let g:table_mode_tableize_map = '<Leader>tt'
@@ -631,6 +631,7 @@ if dein#tap('fzf.vim')
   set rtp+=/usr/local/opt/fzf,/home/linuxbrew/.linuxbrew/opt/fzf
   " let g:fzf_command_prefix = 'Fzf'
 
+  " TODO: 多分遅い
   function! s:build_quickfix_list(lines)
     if len(a:lines) == 1
       execute 'edit '.a:lines[0]
@@ -642,13 +643,13 @@ if dein#tap('fzf.vim')
   endfunction
 
   function! s:fzf_src_file() abort
-    let l:dirname = system("dirname $(dirname $(dirname ".$MYVIMRC."))").'/etc'
+    let l:dirname = system("cd $(dirname ".$MYVIMRC."); git rev-parse --show-toplevel")
     let l:dirname = substitute(l:dirname, "[\n\r]", "", "g")
     call fzf#run({
-        \ 'source': 'fd --type f --hidden --follow --no-ignore . '.l:dirname,
-        \ 'sink': 'tab split',
-        \ 'down': '40%'
-        \ })
+       \ 'source': 'fd --type f --hidden --follow --exclude ".git/*" . '.l:dirname,
+       \ 'sink': 'tab split',
+       \ 'down': '40%'
+       \ })
   endfunction
 
   function! s:fzf_emoji(...) abort
@@ -712,8 +713,15 @@ if dein#tap('fzf.vim')
   command! SrcFiles call s:fzf_src_file()
   command! -nargs=? Emoji call s:fzf_emoji(<f-args>)
   command! -bang -nargs=+ -complete=dir Ag call fzf#vim#ag_raw(<q-args>, <bang>0)
-  command! -bang -nargs=* -complete=dir Rg
-        \ call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1)
+  " command! -bang -nargs=* -complete=dir Rg
+  "      \ call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1)
+
+  command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden'),
+  \   <bang>0)
 
   " Likewise, Files command with preview window
   command! -bang -nargs=? -complete=dir Files
@@ -763,6 +771,7 @@ if dein#tap('coc.nvim')
 
   " Add status line support, for integration with other plugin, checkout `:h coc-status`
   set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
 endif
 
 "--------------------
@@ -854,7 +863,7 @@ if dein#tap('lightline.vim')
         \ },
         \ 'active': {
         \   'left': [ [ 'mode', 'paste', 'table', 'jpmode'],
-        \             [ 'fugitive', 'file' ],
+        \             [ 'file' ],
         \             [ 'coccurrent' ] ],
         \   'right': [ [ 'lineinfo' ],
         \            [ 'percent' ],
@@ -862,11 +871,9 @@ if dein#tap('lightline.vim')
         \ },
         \ 'component_function': {
         \   'table': 'CurrentTableMode',
-        \   'fugitive': 'MyFugitive',
         \   'readonly': 'MyReadonly',
         \   'modified': 'MyModified',
         \   'file': 'MyFile',
-        \   'jpmode': 'MyJpMode',
         \   'coccurrent': 'CocCurrentFunction'
         \ }
         \ }
@@ -931,13 +938,9 @@ if dein#tap('lightline.vim')
     endif
   endfunction
 
-  function! MyJpMode()
-    return IMStatus("JPMODE")
-  endfunction
-
-  function! MyFugitive()
-    return exists('*fugitive#head') && strlen(fugitive#head()) ? ''.fugitive#head() : ''
-  endfunction
+  " function! MyJpMode()
+  "   return IMStatus("JPMODE")
+  " endfunction
 
   function! MyFile()
     return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
@@ -947,7 +950,7 @@ if dein#tap('lightline.vim')
 
   function! ShortenPath()
     let path = substitute(expand('%:h'), $HOME, '~', "g")
-    return substitute(path, '\v/([^/])[^/]+', '/\1', "g").'/'.expand('%:t')
+    return substitute(path, '\v/([^/]{1,3})[^/]+', '/\1', "g").'/'.expand('%:t')
   endfunction
 
 endif
@@ -985,7 +988,7 @@ endif
 "--------------------
 
 if dein#tap('javascript-libraries-syntax.vim')
-  let g:used_javascript_libs = 'jquery, react, flux, vue'
+  let g:used_javascript_libs = 'jquery, vue'
 endif
 
 "--------------------
@@ -1103,38 +1106,39 @@ endif
 " --------------------
 " im_control.vim
 " --------------------
-if dein#tap('im_control.vim')
-  if has('mac')
-    if has('gui_running')
-      let IM_CtrlMode = 4
-    else
-      let IM_CtrlMode = 1
-
-      function! IMCtrl(cmd)
-        let cmd = a:cmd
-        if cmd == 'On'
-          let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {104})" > /dev/null 2>&1')
-        elseif cmd == 'Off'
-          let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {102})" > /dev/null 2>&1')
-        elseif cmd == 'Toggle'
-          let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {55, 49})" > /dev/null 2>&1')
-        endif
-        return ''
-      endfunction
-    endif
-
-    " 「日本語入力固定モード」のMacVimKaoriya対策を無効化
-    let IM_CtrlMacVimKaoriya = 0
-    " ctrl+jで日本語入力固定モードをOnOff
-    " inoremap <silent> <C-j> <C-^><C-r>=IMState('FixMode')<CR>
-    " nnoremap <C-j> :<C-u>call IMState('FixMode')<CR>
-    command! Jp call IMState('FixMode')
-  endif
-else
-  function! IMStatus(...)
-    return ''
-  endfunction
-endif
+"  なんか重い
+" if dein#tap('im_control.vim')
+"   if has('mac')
+"     if has('gui_running')
+"       let IM_CtrlMode = 4
+"     else
+"       let IM_CtrlMode = 1
+"
+"       function! IMCtrl(cmd)
+"         let cmd = a:cmd
+"         if cmd == 'On'
+"           let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {104})" > /dev/null 2>&1')
+"         elseif cmd == 'Off'
+"           let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {102})" > /dev/null 2>&1')
+"         elseif cmd == 'Toggle'
+"           let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {55, 49})" > /dev/null 2>&1')
+"         endif
+"         return ''
+"       endfunction
+"     endif
+"
+"     " 「日本語入力固定モード」のMacVimKaoriya対策を無効化
+"     let IM_CtrlMacVimKaoriya = 0
+"     " ctrl+jで日本語入力固定モードをOnOff
+"     " inoremap <silent> <C-j> <C-^><C-r>=IMState('FixMode')<CR>
+"     " nnoremap <C-j> :<C-u>call IMState('FixMode')<CR>
+"     command! Jp call IMState('FixMode')
+"   endif
+" else
+"   function! IMStatus(...)
+"     return ''
+"   endfunction
+" endif
 
 "--------------------
 " vim-markdown
@@ -1145,11 +1149,13 @@ if dein#tap('vim-markdown')
   let g:vim_markdown_toc_autofit = 0
   let g:vim_markdown_fenced_languages = ['c++=cpp', 'viml=vim', 'bash=sh', 'ini=dosini', 'csharp=cs']
   let g:vim_markdown_new_list_item_indent = 0
-  let g:vim_markdown_math = 1
+  let g:vim_markdown_math = 0
   let g:vim_markdown_frontmatter = 1
-  let g:vim_markdown_toml_frontmatter = 1
-  let g:vim_markdown_json_frontmatter = 1
+  let g:vim_markdown_toml_frontmatter = 0
+  let g:vim_markdown_json_frontmatter = 0
   let g:vim_markdown_conceal_code_blocks = 0
+
+set nofoldenable
 
   " gabrielelana/vim-markdown
   " let g:markdown_include_jekyll_support = 1 "disable support for Jekyll files (enabled by default with: 1)
@@ -1229,7 +1235,8 @@ endif
 "-----------------------
 " 表示系
 "-----------------------
-syntax on
+let g:loaded_matchparen = 1
+
 augroup vimrc-highlight
   autocmd!
   autocmd Syntax * if 100000 < line('$') | syntax off | endif
@@ -1251,11 +1258,11 @@ function! s:get_syn_attr(synid)
   let guifg = synIDattr(a:synid, "fg", "gui")
   let guibg = synIDattr(a:synid, "bg", "gui")
   return {
-        \ "name": name,
-        \ "ctermfg": ctermfg,
-        \ "ctermbg": ctermbg,
-        \ "guifg": guifg,
-        \ "guibg": guibg}
+       \ "name": name,
+       \ "ctermfg": ctermfg,
+       \ "ctermbg": ctermbg,
+       \ "guifg": guifg,
+       \ "guibg": guibg}
 endfunction
 
 function! s:get_syn_id(transparent)
@@ -1381,6 +1388,8 @@ let g:is_bash = 1
 " let g:pencil_neutral_headings = 1
 " let g:pencil_neutral_code_bg = 1
 
+" let g:python3_host_prog = 1
+
 "set nonumber
 set signcolumn=yes
 set number
@@ -1400,6 +1409,7 @@ set splitbelow        " 水平分割時は新しいwindowを下に
 set splitright        " 垂直分割時は新しいwindowを右に
 set ambiwidth=double  " 絵文字>
 set spelllang+=cjk
+
 
 "-------------------------------
 " 行文字
@@ -1423,6 +1433,11 @@ augroup END
 "---------------------------------
 "ファイル操作
 "--------------------------------
+set autowrite
+
+" autocmd CursorHold * wall
+" autocmd CursorHoldI * wall
+
 set autoread                        " 更新時自動再読込み
 set hidden                          " 編集中でも他のファイルを開けるようにする
 set noswapfile                      " スワップファイルを作らない
@@ -1524,9 +1539,37 @@ function! MyTabLabel(n, issel)
   endif
 
   "タブ番号を付加
-  let label = a:n . ':' . filename . "." . extension
+  if extension != ""
+    let label = a:n . ':' . filename . "." . extension
+  else
+    let label = a:n . ':' . filename
+  endif
 
   return label
+endfunction
+
+" https://qiita.com/tmsanrinsha/items/6a2e844768568cd937e1
+function! ProfileCursorMove() abort
+  let profile_file = expand('~/log/vim-profile.log')
+  if filereadable(profile_file)
+    call delete(profile_file)
+  endif
+
+  normal! gg
+  normal! zR
+
+  execute 'profile start ' . profile_file
+  profile func *
+  profile file *
+
+  augroup ProfileCursorMove
+    autocmd!
+    autocmd CursorHold <buffer> profile pause | q
+  augroup END
+
+  for i in range(100)
+    call feedkeys('j')
+  endfor
 endfunction
 
 " paste
@@ -1602,5 +1645,6 @@ function! s:Jq(...)
 endfunction
 
 
-set helplang=en
+" set helplang=en
+set helplang=ja,en
 filetype plugin indent on

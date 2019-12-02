@@ -1,1 +1,1 @@
-autocmd BufNewFile,BufReadPost *.vue set filetype=vue
+au! BufNewFile,BufReadPost *.vue set filetype=vue

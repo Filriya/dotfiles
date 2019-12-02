@@ -82,3 +82,5 @@ ln -sf ${HOME}/Dropbox/.ssh ${HOME}/
 ln -sf ${HOME}/Dropbox/projects ${HOME}/
 ln -sf ${HOME}/Dropbox/Downloads ${HOME}/
 ln -sf ${HOME}/Dropbox/アプリ/.hammerspoon ${HOME}/
+ln -sf ${HOME}/Dropbox/VSCode/extensions ${HOME}/.vscode/
+ln -sf ${HOME}/Dropbox/VSCode/User ${HOME}/Library/Application\ Support/Code/

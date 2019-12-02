@@ -79,6 +79,8 @@ repo = 'tpope/vim-repeat'
 [[plugins]]
 repo = 'tmhedberg/matchit'
 [[plugins]]
+repo = 'itchyny/vim-parenmatch'
+[[plugins]]
 repo = 'deris/vim-rengbang'
 [[plugins]]
 repo = 'Yggdroot/indentLine'
@@ -117,6 +119,8 @@ repo = 'sgur/vim-textobj-parameter' #a,
 repo = 'machakann/vim-textobj-delimited'  #ad aD
 [[plugins]]
 repo = 'pocke/vim-textobj-markdown' #c
+[[plugins]]
+repo = 'osyo-manga/vim-textobj-multiblock' #sb
 
 [[plugins]]
 repo = 'terryma/vim-expand-region'
@@ -127,8 +131,6 @@ repo = 'terryma/vim-expand-region'
 repo = 'neoclide/coc.nvim'
 merged = 0
 rev = 'release'
-# [[plugins]]
-# repo = 'w0rp/ale'
 
 #
 # filetype
@@ -136,8 +138,8 @@ rev = 'release'
 repo = 'stephpy/vim-yaml'
 [[plugins]]
 repo = 'cespare/vim-toml'
-[[plugins]]
-repo = 'elzr/vim-json'
+# [[plugins]]
+# repo = 'elzr/vim-json'
 [[plugins]]
 repo = 'vim-scripts/PDV--phpDocumentor-for-Vim'
 [[plugins]]
@@ -177,9 +179,8 @@ on_ft = ["nginx"]
 [[plugins]]
 repo = 'vim-scripts/applescript.vim'
 on_ft = ["applescript"]
-# [[plugins]]
-# repo = 'tpope/vim-liquid'
-# on_ft = ["liquid"]
+[[plugins]]
+repo = 'robertbasic/vim-hugo-helper'
 
 
 # markdown
@@ -197,6 +198,8 @@ on_ft = ['markdown', 'pandoc.markdown', 'rmd']
 repo = 'iamcco/markdown-preview.nvim'
 on_ft = ['markdown', 'pandoc.markdown', 'rmd']
 build = 'cd app & yarn install'
+[[plugins]]
+repo = 'vim-scripts/VOoM'
 # [[plugins]]
 # repo = 'mattn/webapi-vim'
 # [[plugins]]

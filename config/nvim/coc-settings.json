@@ -1,20 +1,17 @@
 {
-  "coc.preferences.hoverTarget": "echo",
-  "diagnostic.messageTarget": "echo",
+  "coc.preferences.hoverTarget": "float",
+  "diagnostic.messageTarget": "float",
   "signature.target": "echo",
   "suggest.floatEnable": true,
 
   "suggest.echodocSupport": false,
   "suggest.noselect":false,
-  "suggest.minTriggerInputLength": 2,
+  "suggest.minTriggerInputLength": 3,
   "suggest.preferCompleteThanJumpPlaceholder":true,
   "suggest.acceptSuggestionOnCommitCharacter": true,
   "suggest.snippetIndicator": "►",
-  "vetur.experimental.templateInterpolationService": true,
-  "intelephense.files.maxSize": 5000000,
-  "yaml.schemas": {
-    "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/schemas/v3.0/schema.json": "/openapi/*"
-  },
+  "snippets.snipmate.enable": false,
+  "vetur.experimental.templateInterpolationService": false,
   "list.insertMappings": {
     "<C-j>": "normal:j",
     "<C-k>": "normal:k",
@@ -48,6 +45,14 @@
       "command": "docker-langserver",
       "filetypes": ["dockerfile"],
       "args": ["--stdio"]
+    },
+    "php": {
+      "command": "intelephense",
+      "args": ["--stdio"],
+      "settings": {
+         "files.maxSize": 2000000
+      },
+      "filetypes": ["php"]
     }
   }
 }

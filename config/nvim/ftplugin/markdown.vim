@@ -6,7 +6,7 @@ setlocal conceallevel=1
 setlocal concealcursor=""
 
 
-function! s:markdown_toggle_checkbox(type, ...)
+function! MarkdownToggleCheckbox(type, ...)
   if a:0
     let [lnum1, lnum2] = [a:type, a:1]
   else
@@ -28,13 +28,15 @@ function! s:markdown_toggle_checkbox(type, ...)
   endwhile
 endfunction
 
-augroup markdown
-  autocmd!
-  autocmd FileType markdown syntax match mkdLineBreak /\s\s$/ conceal cchar=↵
-  autocmd FileType markdown xnoremap <silent> <buffer> \
-        \ :<c-u>call markdown#ex#toggle_checkbox(line("'<"), line("'>"))<cr>
-  autocmd FileType markdown nnoremap <silent> <buffer> \
-        \ :<c-u>set opfunc=markdown#ex#toggle_checkbox<cr>g@
-  autocmd FileType markdown nnoremap <silent> <buffer> \\
-        \ :<c-u>set opfunc=markdown#ex#toggle_checkbox<bar>exe 'norm! 'v:count1.'g@_'<cr>
-augroup END
+echo 'hoge'
+
+syntax match mkdLineBreak /\s\s$/ conceal cchar=↵
+
+xnoremap <silent> <buffer> <Bslash> 
+        \ :<c-u>call MarkdownToggleCheckbox(line("'<"), line("'>"))<cr>
+" nnoremap <silent> <buffer> <Bslash>
+"        \ :<c-u>set opfunc=MarkdownToggleCheckbox<cr>g@
+nnoremap <silent> <buffer> <Bslash>
+        \ :<c-u>set opfunc=MarkdownToggleCheckbox<bar>exe 'norm! 'v:count1.'g@_'<cr>
+
+nnoremap <silent><buffer> <Leader>o :<C-u>Voom markdown<CR>
