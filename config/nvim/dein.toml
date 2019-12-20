@@ -22,10 +22,10 @@ on_if = '!has("nvim")'
 [[plugins]]
 repo = 'roxma/vim-hug-neovim-rpc'
 on_if = '!has("nvim")'
-[[plugins]]
-repo = 'Shougo/unite.vim'
-[[plugins]]
-repo = 'Shougo/unite-outline'
+# [[plugins]]
+# repo = 'Shougo/unite.vim'
+# [[plugins]]
+# repo = 'Shougo/unite-outline'
 
 #
 # development:general
@@ -94,6 +94,8 @@ repo = 'honza/vim-snippets'
 repo = 'reireias/vim-cheatsheet'
 [[plugins]]
 repo = 'glidenote/memolist.vim'
+[[plugins]]
+repo = 'majutsushi/tagbar'
 
 
 #
@@ -144,6 +146,9 @@ repo = 'cespare/vim-toml'
 repo = 'vim-scripts/PDV--phpDocumentor-for-Vim'
 [[plugins]]
 repo = 'vim-vdebug/vdebug'
+on_ft = ["php"]
+[[plugins]]
+repo = 'stephpy/vim-php-cs-fixer'
 on_ft = ["php"]
 [[plugins]]
 repo = 'cakebaker/scss-syntax.vim'

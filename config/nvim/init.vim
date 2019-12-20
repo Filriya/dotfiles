@@ -90,6 +90,9 @@ nnoremap N Nzz
 " exモードを無効に
 nnoremap Q <Nop>
 
+" macの辞書を開く
+nnoremap g? :!open dict://<cword><CR>
+
 
 " ----------------------------------------
 " <t> commands
@@ -129,6 +132,19 @@ if dein#tap('defx.nvim')
   nnoremap <silent> <C-e> :Defx -split=vertical -winwidth=40 -direction=topleft `expand('%:p:h')` -search=`expand('%:p')`<CR>
 endif
 
+" Moving back and forth between lines of same or lower indentation.
+nnoremap <silent> [l :call NextIndent(0, 0, 0, 1)<CR>
+nnoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<CR>
+nnoremap <silent> [L :call NextIndent(0, 0, 1, 1)<CR>
+nnoremap <silent> ]L :call NextIndent(0, 1, 1, 1)<CR>
+vnoremap <silent> [l <Esc>:call NextIndent(0, 0, 0, 1)<CR>m'gv''
+vnoremap <silent> ]l <Esc>:call NextIndent(0, 1, 0, 1)<CR>m'gv''
+vnoremap <silent> [L <Esc>:call NextIndent(0, 0, 1, 1)<CR>m'gv''
+vnoremap <silent> ]L <Esc>:call NextIndent(0, 1, 1, 1)<CR>m'gv''
+onoremap <silent> [l :call NextIndent(0, 0, 0, 1)<CR>
+onoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<CR>
+onoremap <silent> [L :call NextIndent(1, 0, 1, 1)<CR>
+onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<CR>
 
 ".edit config
 nnoremap <silent> <Leader>es :<C-u>source $MYVIMRC<CR>
@@ -146,9 +162,13 @@ nnoremap <silent> <Leader>W :w sudo:%<CR>
 nnoremap <silent> <Leader>q :q<CR>
 nnoremap <silent> <Leader>Q :qa!<CR>
 
-if dein#tap('unite.vim')
-  nnoremap <Leader>o :Unite outline -vertical<CR>
-endif
+" jump same indent
+noremap <silent> <C-k> k:call search ("^". matchstr (getline (line (".")+ 1), '\(\s*\)') ."\\S", 'b')<CR>^
+noremap <silent> <C-j> :call search ("^". matchstr (getline (line (".")), '\(\s*\)') ."\\S")<CR>^
+
+" if dein#tap('unite.vim')
+"   nnoremap <Leader>o :Unite outline -vertical<CR>
+" endif
 
 " if dein#tap('denite.nvim')
 "   nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
@@ -194,14 +214,13 @@ if dein#tap('coc.nvim')
     return !col || getline('.')[col - 1]  =~# '\s'
   endfunction
 
-  inoremap <silent><expr> <c-l> coc#refresh()
-  nnoremap <silent> <c-l> <c-l>:call coc#refresh()<CR>
+  nnoremap <silent> <C-L> :<C-u>CocRestart<CR>
 
 
   " Use `g[` and `g]` to navigate diagnostics
   " エラーのある位置までジャンプ
-  nmap <silent> g[ <Plug>(coc-diagnostic-prev)
-  nmap <silent> g] <Plug>(coc-diagnostic-next)
+  nmap <silent> [g <Plug>(coc-diagnostic-prev)
+  nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
   " Remap keys for gotos
   " 定義ジャンプ
@@ -221,26 +240,27 @@ if dein#tap('coc.nvim')
 
   " Remap for rename current word
   " リネーム
-  nmap gR <Plug>(coc-rename)
+  nmap <silent> gR <Plug>(coc-rename)
   " nmap gR <Plug>(coc-refactor)
 
   " Remap for format selected region
   " 整形
-  xmap gf <Plug>(coc-format-selected)
-  nmap gf <Plug>(coc-format-selected)
+  xmap <silent> gf <Plug>(coc-format-selected)
+  nmap <silent> gf <Plug>(coc-format-selected)
+  nnoremap <silent> gF :<C-u>Format<CR>
 
   " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
   " 選択ファイルを関数化したり、別ファイルに書き出したり
-  xmap ga <Plug>(coc-codeaction-selected)
-  nmap ga <Plug>(coc-codeaction-selected)
+  xmap <silent> ga <Plug>(coc-codeaction-selected)
+  nmap <silent> ga <Plug>(coc-codeaction-selected)
 
   " Remap for do codeAction of current line
   " actionのカレント行バージョン
-  nmap gac  <Plug>(coc-codeaction)
+  nmap <silent> gac  <Plug>(coc-codeaction)
 
   " Fix autofix problem of current line
   " エラーの自動修正
-  nmap gqf  <Plug>(coc-fix-current)
+  nmap <silent> gqf  <Plug>(coc-fix-current)
 
   " Use <tab> for select selections ranges, needs server support, like: coc-tsserver, coc-python
   " 謎
@@ -268,9 +288,6 @@ if dein#tap('coc.nvim')
 
 endif
 
-" --------------------
-" php documentor
-" --------------------
 if dein#tap('PDV--phpDocumentor-for-Vim')
   augroup php-dev
     autocmd!
@@ -279,9 +296,6 @@ if dein#tap('PDV--phpDocumentor-for-Vim')
   augroup End
 endif
 
-"--------------------
-" EasyAlign
-" ------------------
 if dein#tap('vim-easy-align')
   " Start interactive EasyAlign in visual mode (e.g. vipga)
   xmap <Leader>A <Plug>(EasyAlign)
@@ -289,9 +303,6 @@ if dein#tap('vim-easy-align')
   nmap <Leader>A <Plug>(EasyAlign)
 endif
  
-"----------------------
-" caw.vim
-"----------------------
 if dein#tap('caw.vim')
   "" 行の最初の文字の前にコメント文字をトグル
   nmap <Leader>c <Plug>(caw:hatpos:toggle)
@@ -300,17 +311,11 @@ if dein#tap('caw.vim')
   vmap <Leader>C <Plug>(caw:wrap:toggle)
 endif
 
-"----------------------
-" incsearch-migemo.vim
-"----------------------
 if dein#tap('incsearch-migemo.vim')
-  nmap g/ <Plug>(incsearch-migemo-/)
-  nmap g? <Plug>(incsearch-migemo-?)
+  nmap <silent> g/ <Plug>(incsearch-migemo-/)
+  " nmap g? <Plug>(incsearch-migemo-?)
 endif
 
-"----------------------
-" vim-easymotion
-"----------------------
 if dein#tap('vim-easymotion')
   " <Leader>f{char} to move to {char}
   map  f <Plug>(easymotion-fl)
@@ -320,7 +325,7 @@ if dein#tap('vim-easymotion')
 
   " s{char}{char} to move to {char}{char}
   nmap <Leader>s <Plug>(easymotion-overwin-f2)
-  vmap <Leader>s Plug>(easymotion-bd-f2)
+  vmap <Leader>s <Plug>(easymotion-bd-f2)
 
   " Move to line
   map <Leader>l <Plug>(easymotion-bd-jk)
@@ -329,9 +334,6 @@ if dein#tap('vim-easymotion')
   map <Leader>k <Plug>(easymotion-k)
 endif
 
-" --------------------
-" sandwich
-" --------------------
 if dein#tap('vim-sandwich')
   runtime macros/sandwich/keymap/surround.vim
   xmap S <Nop>
@@ -341,9 +343,6 @@ endif
 nnoremap S :%s/\v
 vnoremap S :s/\v
 
-"--------------------
-"vim-fugitive
-"--------------------
 map <c-g> [git]
 if dein#tap("vim-fugitive")
   nnoremap [git]s :Gstatus<CR>
@@ -366,45 +365,38 @@ if dein#tap("vim-merginal")
   nnoremap [git]B :Merginal<CR>
 endif
 
-"--------------------
-" im_control.vim
-"--------------------
-if dein#tap('im_control.vim')
-  " なんか重い
+" なんか重い
+" if dein#tap('im_control.vim')
   " inoremap <silent> <C-j> <C-^><C-r>=IMState('FixMode')<CR>
   " nnoremap <silent> <C-j> :<C-u>call IMState('FixMode')<CR>
-endif
-
-"--------------------
-" vim-table-mode
-"--------------------
+" endif
+"
 if dein#tap('vim-table-mode')
-  let g:table_mode_disable_mappings = 1
+  " let g:table_mode_disable_mappings = 1
 
   let g:table_mode_corner = "|"
-  let g:table_mode_map_prefix = ""
-  let g:table_mode_toggle_map = '<Leader>T'
-  let g:table_mode_tableize_map = '<Leader>tt'
-  let g:table_mode_tableize_d_map = '<Leader>tT'
-  let g:table_mode_motion_up_map = '<Leader>tk'
-  let g:table_mode_motion_down_map = '<Leader>tj'
-  let g:table_mode_motion_left_map = '<Leader>tl'
-  let g:table_mode_motion_right_map = '<Leader>th'
+  let g:table_mode_toggle_map = 'm'
+  let g:table_mode_tableize_map = '<Leader>T'
+  let g:table_mode_tableize_d_map = '<Leader>tt'
+  let g:table_mode_motion_up_map = '<C-k>'
+  let g:table_mode_motion_down_map = '<C-j>'
+  let g:table_mode_motion_left_map = '<C-h>'
+  let g:table_mode_motion_right_map = '<C-l>'
+  let g:table_mode_realign_map = '<Leader>tr'
+  let g:table_mode_delete_row_map = '<Leader>tdd'
+  let g:table_mode_delete_column_map = '<Leader>tdc'
+  let g:table_mode_add_formula_map = '<Leader>tfa'
+  let g:table_mode_eval_formula_map = '<Leader>tfe'
+  let g:table_mode_echo_cell_map = '<Leader>t?'
+  let g:table_mode_sort_map = '<Leader>ts'
 endif
 
-
-"--------------------
-" memolist.vim
-"--------------------
 if dein#tap('memolist.vim')
   nnoremap <Leader>mn  :MemoNew<CR>
-  nnoremap <Leader>ml  :MemoList<CR>
+  nnoremap <Leader>ml  :FzfMemoList<CR>
   nnoremap <Leader>mg  :MemoGrep<CR>
 endif
 
-"--------------------
-" vim-markdown
-"--------------------
 if dein#tap('vim-markdown')
   " plasticboy/vim-markdown
   autocmd FileType markdown nnoremap <silent><buffer> + :<C-u>.HeaderIncrease<CR>
@@ -417,12 +409,14 @@ if dein#tap('vim-markdown')
 
 endif
 
-"--------------------
-" markdown-preview.nvimmbi
-"--------------------
 if dein#tap('markdown-preview.nvim')
   autocmd FileType markdown nmap <silent><buffer> <Leader>r <Plug>MarkdownPreviewToggle
 endif
+
+if dein#tap('tagbar')
+  nnoremap <Leader>o :TagbarToggle<CR>
+endif
+
 
 " --------------------
 " Keymap ここまで
@@ -451,7 +445,7 @@ if dein#tap('defx.nvim')
       else
       endif
     endfunction
-    nnoremap <silent><buffer><expr> &
+    nnoremap <silent><buffer><expr> @
           \ defx#do_action('call', 'Defx_git_root_dir')
 
     " Define mappings
@@ -482,9 +476,10 @@ if dein#tap('defx.nvim')
           \ defx#do_action('drop')
     nnoremap <silent><buffer><expr> h defx#do_action('cd', ['..'])
     nnoremap <silent><buffer><expr> ~ defx#do_action('cd')
+    nnoremap <silent><buffer><expr> \ defx#do_action('cd', ['/'])
     nnoremap <silent><buffer><expr> q defx#do_action('quit')
-    nnoremap <silent><buffer><expr> \ defx#do_action('toggle_select') . 'j'
-    vnoremap <silent><buffer><expr> \ defx#do_action('toggle_select_visual') . 'j'
+    nnoremap <silent><buffer><expr> ` defx#do_action('toggle_select') . 'j'
+    vnoremap <silent><buffer><expr> ` defx#do_action('toggle_select_visual') . 'j'
     nnoremap <silent><buffer><expr> * defx#do_action('toggle_select_all')
     nnoremap <silent><buffer><expr> j line('.') == line('$') ? 'gg' : 'j'
     nnoremap <silent><buffer><expr> k line('.') == 1 ? 'G' : 'k'
@@ -496,46 +491,45 @@ endif
 "-----------
 "unite
 "----------
-if dein#tap('unite.vim')
-  let g:unite_enable_start_insert=1
-  let g:unite_enable_ignore_case=1
-  let g:unite_enable_smart_case=1
-  let g:unite_update_time = 100
-  let g:unite_enable_split_vertically=1
-  let g:unite_winwidth = 60
-  let g:unite_winheight = 10
-  let g:unite_split_rule = 'topleft'
-  let g:unite_source_history_yank_enable = 1
-  let g:unite_source_rec_max_cache_files = 0
-  call unite#custom#source('file_rec,file_rec/async', 'max_candidates', 0)
-
-  autocmd FileType unite call <SID>unite_settings()
-  autocmd FileType vimfiler call s:my_vimfiler_settings()
-
-  function! s:unite_settings()
-    " ウィンドウを分割して開く
-    nnoremap <silent><buffer><expr> <C-S> unite#do_action('below')
-    inoremap <silent><buffer><expr> <C-S> unite#do_action('below')
-    " ウィンドウを縦に分割して開く
-    nnoremap <silent><buffer><expr> <C-V> unite#do_action('right')
-    inoremap <silent><buffer><expr> <C-V> unite#do_action('right')
-
-    " ESCで終了
-    nmap <silent><buffer> <ESC> q
-    nmap <silent><buffer> <C-[> q
-
-    "unite_source別設定
-    for source in unite#get_current_unite().sources
-      let source_name = substitute(source.name, '[-/]', '_', 'g')
-      if !empty(source_name) && has_key(s:unite_hooks, source_name)
-        call s:unite_hooks[source_name]()
-      endif
-    endfor
-
-  endfunction
-endif
-
-let s:unite_hooks = {}
+" if dein#tap('unite.vim')
+"   let g:unite_enable_start_insert=1
+"   let g:unite_enable_ignore_case=1
+"   let g:unite_enable_smart_case=1
+"   let g:unite_update_time = 100
+"   let g:unite_enable_split_vertically=1
+"   let g:unite_winwidth = 60
+"   let g:unite_winheight = 10
+"   let g:unite_split_rule = 'topleft'
+"   let g:unite_source_history_yank_enable = 1
+"   let g:unite_source_rec_max_cache_files = 0
+"   call unite#custom#source('file_rec,file_rec/async', 'max_candidates', 0)
+"
+"   autocmd FileType unite call <SID>unite_settings()
+"   autocmd FileType vimfiler call s:my_vimfiler_settings()
+"
+"   function! s:unite_settings()
+"     " ウィンドウを分割して開く
+"     nnoremap <silent><buffer><expr> <C-S> unite#do_action('below')
+"     inoremap <silent><buffer><expr> <C-S> unite#do_action('below')
+"     " ウィンドウを縦に分割して開く
+"     nnoremap <silent><buffer><expr> <C-V> unite#do_action('right')
+"     inoremap <silent><buffer><expr> <C-V> unite#do_action('right')
+"
+"     " ESCで終了
+"     nmap <silent><buffer> <ESC> q
+"     nmap <silent><buffer> <C-[> q
+"
+"     "unite_source別設定
+"     for source in unite#get_current_unite().sources
+"       let source_name = substitute(source.name, '[-/]', '_', 'g')
+"       if !empty(source_name) && has_key(s:unite_hooks, source_name)
+"         call s:unite_hooks[source_name]()
+"       endif
+"     endfor
+"
+"   endfunction
+" endif
+" let s:unite_hooks = {}
 
 " ----------
 " denite.vim
@@ -651,6 +645,20 @@ if dein#tap('fzf.vim')
        \ 'down': '40%'
        \ })
   endfunction
+  " let g:memolist_path = $HOME."/posts/"
+
+  if dein#tap('memolist.vim')
+    function! s:fzf_memolist() abort
+      echo g:memolist_path
+      call fzf#run({
+            \ 'source': 'fd --type f . '.g:memolist_path,
+            \ 'sink': 'tab split',
+            \ 'down': '40%',
+            \ 'options': '--tac'
+            \ })
+    endfunction
+    command! FzfMemoList call s:fzf_memolist()
+  endif
 
   function! s:fzf_emoji(...) abort
     if a:0 >= 1
@@ -727,6 +735,9 @@ if dein#tap('fzf.vim')
   command! -bang -nargs=? -complete=dir Files
         \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
+  command! -bang -nargs=? -complete=dir Files
+        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
   function! s:fzf_statusline()
     " Override statusline as you like
     highlight fzf1 ctermfg=161 ctermbg=251
@@ -795,14 +806,28 @@ if dein#tap('vim-autotag')
   endif
 endif
 
-" ~/.vimrc
-" function! _updateCtags()
-"   let tagsFile = getcwd() . '/tags'
-"   exec ":silent ! ctags -R --extras=+fq && sed -i -e 's/^\\([a-zA-Z0-9]*\\)\\.vue/\\1/' " . tagsFile
-"   " *.vueファイルの.vueの部分をsedで取り除く
-" endfunction
-" command! UpdateCtags call _updateCtags()
-" autocmd BufWritePost * :UpdateCtags
+"--------------------
+" majutsushi/tagbar
+"--------------------
+if dein#tap('tagbar')
+  " let g:tagbar_autofocus = 1
+  let g:tagbar_show_linenumbers = 1
+  let g:tagbar_iconchars = ['▸', '▾']
+  let g:tagbar_autofocus = 1
+  let g:tagbar_sort = 0
+  let g:tagbar_width = 60
+
+  augroup tagbarhighlight
+    autocmd!
+    autocmd ColorScheme * hi link TagbarVisibilityPublic Type
+    autocmd ColorScheme * hi link TagbarVisibilityProtected String
+    " autocmd ColorScheme * hi link TagbarVisibilityPrivate Special
+    autocmd ColorScheme * hi link TagbarVisibilityPrivate Todo
+    " autocmd ColorScheme * hi link TagbarHighlight Visual
+    " autocmd ColorScheme * hi TagbarHighlight term=underline cterm=underline gui=underline
+    autocmd ColorScheme * hi TagbarHighlight term=underline cterm=underline gui=underline
+  augroup END
+endif
 
 "----------------------
 " easymotion
@@ -902,11 +927,13 @@ if dein#tap('lightline.vim')
 
   if dein#tap('vim-table-mode')
     function! CurrentTableMode()
-      if tablemode#IsActive()
-        return "TABLE"
-      else
-        return ""
-      endif
+      " 重い?
+      " if tablemode#IsActive()
+      "   return "TABLE"
+      " else
+      "   return ""
+      " endif
+      return ""
     endfunction
   else
     function! CurrentTableMode()
@@ -1067,7 +1094,7 @@ if dein#tap("vdebug")
         \    "eval_visual" : "<Leader>e"
         \}
 
-  augroup vdbug
+  augroup vdebug
     autocmd!
     " autocmd ColorScheme * hi DbgBreakptLine term=reverse ctermfg=White ctermbg=Green guifg=#ffffff guibg=#00ff00
     " autocmd ColorScheme * hi DbgBreakptSign term=reverse ctermfg=White ctermbg=Green guifg=#ffffff guibg=#0
@@ -1228,6 +1255,27 @@ if dein#tap('vim-json')
 endif
 
 "--------------------
+" vim-php-cs-fixer
+"--------------------
+if dein#tap('vim-php-cs-fixer')
+  " If you use php-cs-fixer version 2.x
+  " options: --rules (default:@PSR2)
+  " let g:php_cs_fixer_rules = '{ '
+  "     \ . '"@PSR1": true, '
+  "     \ . '"@PSR2": true,'
+  "     \ . '"@Symfony": true,' 
+  "     \ . '"braces": { "position_after_control_structures":  "next", "position_after_anonymous_constructs": "next" }'
+  "     \ . ' }'
+  let g:php_cs_fixer_cache = ".php_cs.cache" " options: --cache-file
+  let g:php_cs_fixer_config_file = '.php_cs' " options: --config
+
+  let g:php_cs_fixer_php_path = "php"               " Path to PHP
+  let g:php_cs_fixer_enable_default_mapping = 0     " Enable the mapping by default (<leader>pcd)
+  let g:php_cs_fixer_dry_run = 0                    " Call command with dry-run option
+  let g:php_cs_fixer_verbose = 0                    " Return the output of command if 1, else an inline information.
+endif
+
+"--------------------
 " plugin ここまで
 "--------------------
 
@@ -1237,7 +1285,7 @@ endif
 "-----------------------
 let g:loaded_matchparen = 1
 
-augroup vimrc-highlight
+augroup vimrchighlight
   autocmd!
   autocmd Syntax * if 100000 < line('$') | syntax off | endif
 augroup END
@@ -1409,15 +1457,53 @@ set splitbelow        " 水平分割時は新しいwindowを下に
 set splitright        " 垂直分割時は新しいwindowを右に
 set ambiwidth=double  " 絵文字>
 set spelllang+=cjk
+set pumblend=15
 
 
-"-------------------------------
+"------------------------------
+" 移動系
+"------------------------------
+" Jump to the next or previous line that has the same level or a lower
+" level of indentation than the current line.
+"
+" exclusive (bool): true: Motion is exclusive
+" false: Motion is inclusive
+" fwd (bool): true: Go to next line
+" false: Go to previous line
+" lowerlevel (bool): true: Go to line with lower indentation level
+" false: Go to line with the same indentation level
+" skipblanks (bool): true: Skip blank lines
+" false: Don't skip blank lines
+function! NextIndent(exclusive, fwd, lowerlevel, skipblanks)
+  let line = line('.')
+  let column = col('.')
+  let lastline = line('$')
+  let indent = indent(line)
+  let stepvalue = a:fwd ? 1 : -1
+  while (line > 0 && line <= lastline)
+    let line = line + stepvalue
+    if ( ! a:lowerlevel && indent(line) == indent ||
+          \ a:lowerlevel && indent(line) < indent)
+      if (! a:skipblanks || strlen(getline(line)) > 0)
+        if (a:exclusive)
+          let line = line - stepvalue
+        endif
+        exe line
+        exe "normal " column . "|"
+        return
+      endif
+    endif
+  endwhile
+endfunction
+
+
+"------------------------------
 " 行文字
 "------------------------------
 :command! Nonum :set nonumber
 :command! Num :set number
 
-"-------------------------------
+"------------------------------
 "検索系
 "------------------------------
 set wrapscan        " 最後まで検索したら先頭へ戻る
@@ -1425,12 +1511,12 @@ set ignorecase      " 大文字小文字無視
 set smartcase       " 大文字ではじめたら大文字小文字無視しない
 set incsearch       " インクリメンタルサーチ
 
-augroup vimrc-incsearch-highlight
+augroup vimrcincsearchhighlight
   autocmd!
   autocmd CmdlineEnter [/\?] :set hlsearch
 augroup END
 
-"---------------------------------
+"--------------------------------
 "ファイル操作
 "--------------------------------
 set autowrite
@@ -1606,7 +1692,7 @@ set softtabstop=-1
 set shiftwidth=2
 
 
-augroup vimrc-checktime
+augroup vimrcchecktime
   autocmd!
   autocmd WinEnter * checktime
 augroup END

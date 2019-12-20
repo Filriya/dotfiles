@@ -1,16 +1,25 @@
 {
   "coc.preferences.hoverTarget": "float",
   "diagnostic.messageTarget": "float",
-  "signature.target": "echo",
+  "signature.target": "float",
   "suggest.floatEnable": true,
 
+  "coc.preferences.formatOnSaveFiletypes": ["rust"],
+  "coc.source.word.priority": 10,
+  "coc.source.word.filetypes": ["markdown"],
+
+  "snippets.priority": 100,
+  "snippets.snipmate.enable": false,
   "suggest.echodocSupport": false,
   "suggest.noselect":false,
   "suggest.minTriggerInputLength": 3,
   "suggest.preferCompleteThanJumpPlaceholder":true,
   "suggest.acceptSuggestionOnCommitCharacter": true,
   "suggest.snippetIndicator": "►",
-  "snippets.snipmate.enable": false,
+  "rust.rustfmt_path": "~/.cargo/bin/rustfmt",
+  "rust.full_docs": true,
+  "rust.clippy_preference": "on",
+  "python.jediEnabled": false,
   "vetur.experimental.templateInterpolationService": false,
   "list.insertMappings": {
     "<C-j>": "normal:j",

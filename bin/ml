@@ -6,7 +6,7 @@ template="$HOME/.vim/template/md.txt"
 dateformat="%Y/%m/%d %H:%M:%S"
 
 showcmd="cat"
-selectcmd="fzf"
+selectcmd="fzf --reverse --tac"
 editcmd="nvim"
 grepcmd="ag {PATTERN} {DIR}"
 

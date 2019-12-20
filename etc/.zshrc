@@ -80,7 +80,7 @@ fi
 alias cl="clear"
 alias gosh='rlwrap gosh'
 alias phptags='ctags --tag-relative --recurse --sort=yes --exclude=*.js'
-alias -g P='| peco'
+alias -g P='| pbcopy'
 alias -g F='| fzf'
 alias -g SJIS='| nkf'
 
@@ -164,7 +164,7 @@ compdef _tm_comp tm
 function open_project () {
   local ghqroot=`ghq root`
 
-  local repo_name=$({find $(ghq root) -type d -name ".git" -maxdepth 2; find $(ghq root)/github.com -maxdepth 3 -name ".git"} | perl -pse 's/$root\/(.*)\/.git/\1/' -- -root=$(ghq root)|fzf);
+  local repo_name=$({find $(ghq root) -type d -name ".git" -maxdepth 3; find $(ghq root)/github.com -maxdepth 3 -name ".git"} | perl -pse 's/$root\/(.*)\/.git/\1/' -- -root=$(ghq root)|fzf);
   if [ -n "$repo_name" ]; then
     local session_name=$(echo $repo_name|perl -pse 's/\./_/g'|perl -pse 's/\//__/g')
 
@@ -192,6 +192,10 @@ function eliptical_pwd {
 
 setopt nonomatch
 
+# hub member
+function hub-member {
+  hub api /orgs/$1/members | perl -pe "s/\,/,\n/g"| grep login | perl -pe 's/.*"login":"(.*)".*/\1/g'
+}
 
 # default editor
 EDITOR=`which nvim`
