@@ -9,8 +9,12 @@
 bg="#1F2430"
 fg="#CBCCC6"
 status_bg="#1F2430"
-border_fg="#70748C"
-border_active_fg="#FECB6E"
+border_fg="#505050"
+# border_active_fg="#FECB6E"
+# border_active_fg="#F28779"
+border_active_fg="#73D0FF"
+# border_active_fg="#BAE67E"
+# border_active_fg="#f0f0f0"
 
 set -g status-style "bg=$status_bg,fg=$fg"
 

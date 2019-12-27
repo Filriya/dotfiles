@@ -15,7 +15,14 @@ if which ruby >/dev/null && which gem >/dev/null; then
 fi
 
 # tmux
-export PATH="/usr/local/opt/tmux@2.9a/bin:$PATH"
+if [ -f "${HOMEBREW_PREFIX}/opt/tmux@2.9a/bin" ]; then
+  export PATH="${HOMEBREW_PREFIX}/opt/tmux@2.9a/bin:$PATH"
+fi
+
+# awscli
+if [ -f "/usr/local/bin/aws_zsh_completer.sh" ]; then
+  source /usr/local/bin/aws_zsh_completer.sh
+fi
 
 # iterm2
 # source "$(dirname $0)/.iterm2_shell_integration.zsh"

@@ -40,3 +40,20 @@ nnoremap <silent> <buffer> <Bslash>
         \ :<c-u>set opfunc=MarkdownToggleCheckbox<bar>exe 'norm! 'v:count1.'g@_'<cr>
 
 nnoremap <silent><buffer> <Leader>o :<C-u>Voom markdown<CR>
+
+if dein#tap('vim-markdown')
+  " plasticboy/vim-markdown
+  autocmd FileType markdown nnoremap <silent><buffer> + :<C-u>.HeaderIncrease<CR>
+  autocmd FileType markdown nnoremap <silent><buffer> - :<C-u>.HeaderDecrease<CR>
+  autocmd FileType markdown vnoremap <silent><buffer> + :<C-u>'<,'>HeaderIncrease<CR>
+  autocmd FileType markdown vnoremap <silent><buffer> - :<C-u>'<,'>HeaderDecrease<CR>
+
+  " gabrielelana/vim-markdown
+  " autocmd FileType markdown nnoremap <silent><buffer> \ :call markdown#SwitchStatus()<CR>
+
+endif
+
+if dein#tap('markdown-preview.nvim')
+  autocmd FileType markdown nmap <silent><buffer> <Leader>r <Plug>MarkdownPreviewToggle
+endif
+

@@ -9,32 +9,28 @@ if [ ! -e $HOME/.zsh.bundle/.zprezto ]; then
     git clone --recursive https://github.com/sorin-ionescu/prezto.git "${HOME}/.zsh.bundle/.zprezto"
 fi
 
-if [ ! -e $HOME/.zsh.bundle/z ]; then
-    git clone https://github.com/rupa/z.git "${HOME}/.zsh.bundle/z"
-fi
-
-# Source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.local" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zshrc.local"
-else
-  zstyle ':prezto:module:prompt' theme 'mysorin' 9
-fi
-
 if [[ -s "${ZDOTDIR:-$HOME}/.zsh.bundle/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zsh.bundle/.zprezto/init.zsh"
 fi
 
+
+if [ ! -e $HOME/.zplugin/bin/zplugin.zsh ]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
+fi
+
+if [[ -s "${ZDOTDIR:-$HOME}/.zplugin/bin/zplugin.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zplugin/bin/zplugin.zsh"
+fi
+
+zplugin ice pick"async.zsh" src"pure.zsh"
+zplugin light sindresorhus/pure
+zplugin load agkozak/zsh-z
+
 # linux keychain
-if [ "$SSH_TTY" = "" ]; then
-  keychain ~/.ssh/id_rsa >/dev/null 2>/dev/null
-  source ~/.keychain/${HOST}-sh
-fi
-
-
-if [ -e "$HOME/.zsh.bundle/z/z.sh" ]; then
-  source "${HOME}/.zsh.bundle/z/z.sh"
-fi
-
+# if [ "$SSH_TTY" = "" ]; then
+#   keychain ~/.ssh/id_rsa >/dev/null 2>/dev/null
+#   source ~/.keychain/${HOST}-sh
+# fi
 
 # Source OS-specific settings
 case $OSTYPE in
@@ -311,3 +307,9 @@ export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
 if [[ -s "$HOME/.cargo/env" ]]; then
   source "$HOME/.cargo/env"
 fi
+
+### Added by Zplugin's installer
+source "$HOME/.zplugin/bin/zplugin.zsh"
+autoload -Uz _zplugin
+(( ${+_comps} )) && _comps[zplugin]=_zplugin
+### End of Zplugin installer's chunk

@@ -104,8 +104,12 @@ nnoremap g? :!open dict://<cword><CR>
 
 nnoremap <silent> <C-t>l :<C-u>tabnext<CR>
 nnoremap <silent> <C-t><C-l> :<C-u>tabnext<CR>
+nnoremap <silent> <C-t>n :<C-u>tabnext<CR>
+nnoremap <silent> <C-t><C-n> :<C-u>tabnext<CR>
 nnoremap <silent> <C-t>h :<C-u>tabprevious<CR>
 nnoremap <silent> <C-t><C-h> :<C-u>tabprevious<CR>
+nnoremap <silent> <C-t>p :<C-u>tabprevious<CR>
+nnoremap <silent> <C-t><C-p> :<C-u>tabprevious<CR>
 
 nnoremap <silent> <C-t>1 :<C-u>tabn 1<CR>
 nnoremap <silent> <C-t>2 :<C-u>tabn 2<CR>
@@ -127,10 +131,6 @@ nnoremap <silent> <C-w>v :<C-u>vsp<CR>
 nnoremap <silent> <C-w>s :<C-u>sp<CR>
 
 nnoremap <C-z> `.zz
-
-if dein#tap('defx.nvim')
-  nnoremap <silent> <C-e> :Defx -split=vertical -winwidth=40 -direction=topleft `expand('%:p:h')` -search=`expand('%:p')`<CR>
-endif
 
 " Moving back and forth between lines of same or lower indentation.
 nnoremap <silent> [l :call NextIndent(0, 0, 0, 1)<CR>
@@ -154,7 +154,7 @@ nnoremap <silent> <Leader>ev :<C-u>tabnew $MYVIMRC<CR>
 nnoremap <silent> <Leader>R :<C-u>e<CR>
 
 " help
-nnoremap          <Leader>H :tab help<space>
+nnoremap          <Leader>H :vert help<space>
 
 " save and quit
 nnoremap <silent> <Leader>w :w<CR>
@@ -166,23 +166,23 @@ nnoremap <silent> <Leader>Q :qa!<CR>
 noremap <silent> <C-k> k:call search ("^". matchstr (getline (line (".")+ 1), '\(\s*\)') ."\\S", 'b')<CR>^
 noremap <silent> <C-j> :call search ("^". matchstr (getline (line (".")), '\(\s*\)') ."\\S")<CR>^
 
-" if dein#tap('unite.vim')
-"   nnoremap <Leader>o :Unite outline -vertical<CR>
+if dein#tap('defx.nvim')
+  nnoremap <silent> <C-e> :Defx -split=vertical -winwidth=40 -direction=topleft `expand('%:p:h')` -search=`expand('%:p')`<CR>
+endif
+
+" if dein#tap('vaffle.vim')
+"   nnoremap <silent> <Leader>E :Vaffle<CR>
 " endif
 
-" if dein#tap('denite.nvim')
-"   nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
-"   nnoremap <silent> <Leader>u :<C-u>Denite file_mru<CR>
-"   nnoremap <silent> <Leader>f :<C-u>Denite file/rec<CR>
-"   nnoremap <silent> <Leader>g :<C-u>Denite grep<CR>
-"   nnoremap <silent> <Leader>y :<C-u>Denite neoyank<CR>
-"   nnoremap <silent> <Leader>o :<C-u>Denite -split=vertical unite:outline<CR>
+" if dein#tap('vim-dirvish')
+"   nnoremap <silent> <C-e> :<C-u>Dirvish<CR>
 " endif
+
 
 if dein#tap('fzf.vim')
   nnoremap <silent> <Leader>f :<C-u>GFiles<CR>
   nnoremap <silent> <Leader>F :<C-u>Files<CR>
-  nnoremap <silent> <Leader>E :<C-u>SrcFiles<CR>
+  nnoremap <silent> <Leader>ee :<C-u>SrcFiles<CR>
   nnoremap <silent> <Leader>g :<C-u>GFiles?<CR>
   nnoremap <silent> <Leader>b :<C-u>Buffers<CR>
   " nnoremap <silent> <Leader>b :<C-u>LoadedBuffers<CR>
@@ -397,22 +397,6 @@ if dein#tap('memolist.vim')
   nnoremap <Leader>mg  :MemoGrep<CR>
 endif
 
-if dein#tap('vim-markdown')
-  " plasticboy/vim-markdown
-  autocmd FileType markdown nnoremap <silent><buffer> + :<C-u>.HeaderIncrease<CR>
-  autocmd FileType markdown nnoremap <silent><buffer> - :<C-u>.HeaderDecrease<CR>
-  autocmd FileType markdown vnoremap <silent><buffer> + :<C-u>'<,'>HeaderIncrease<CR>
-  autocmd FileType markdown vnoremap <silent><buffer> - :<C-u>'<,'>HeaderDecrease<CR>
-
-  " gabrielelana/vim-markdown
-  " autocmd FileType markdown nnoremap <silent><buffer> \ :call markdown#SwitchStatus()<CR>
-
-endif
-
-if dein#tap('markdown-preview.nvim')
-  autocmd FileType markdown nmap <silent><buffer> <Leader>r <Plug>MarkdownPreviewToggle
-endif
-
 if dein#tap('tagbar')
   nnoremap <Leader>o :TagbarToggle<CR>
 endif
@@ -428,6 +412,90 @@ endif
 
 
 
+"-----------
+" vaffle
+"----------
+" if dein#tap('vaffle.vim')
+"   let g:vaffle_auto_cd = 0
+"   let g:vaffle_force_delete = 0
+"   let g:vaffle_show_hidden_files = 0
+"   let g:vaffle_open_selected_split_position = 'rightbottom'
+"   let g:vaffle_open_selected_vsplit_position = 'rightbottom'
+"   let g:vaffle_use_default_mappings = 1
+"
+"   " n     ~         |<Plug>(vaffle-open-home)|
+"   " n     h         |<Plug>(vaffle-open-parent)|
+"   " n     l         |<Plug>(vaffle-open-current)|
+"   " n     t         |<Plug>(vaffle-open-current-tab)|
+"   "
+"   " n     *         |<Plug>(vaffle-toggle-all)|
+"   " n     .         |<Plug>(vaffle-toggle-hidden)|
+"   " nv    <Space>   |<Plug>(vaffle-toggle-current)|
+"   "
+"   " n     <CR>      |<Plug>(vaffle-open-selected)|
+"   " n     m         |<Plug>(vaffle-move-selected)|
+"   " n     d         |<Plug>(vaffle-delete-selected)|
+"   " n     r         |<Plug>(vaffle-rename-selected)|
+"   "
+"   " n     q         |<Plug>(vaffle-quit)|
+"   " n     o         |<Plug>(vaffle-mkdir)|
+"   " n     R         |<Plug>(vaffle-refresh)|
+"   " n     i         |<Plug>(vaffle-new-file)|
+"   " n     x         |<Plug>(vaffle-fill-cmdline)|
+"   " autocmd FileType defx call s:defx_my_settings()
+"   "
+"   " function! s:defx_my_settings() abort
+"   "
+"   "   function! Defx_git_root_dir(context) abort
+"   "     if (system('git rev-parse --is-inside-work-tree') == "true\n")
+"   "       let l:path = system('git rev-parse --show-toplevel')[0]
+"   "       call defx#call_action('cd', [path])
+"   "       echomsg string(path)
+"   "     else
+"   "     endif
+"   "   endfunction
+"   "   nnoremap <silent><buffer><expr> @
+"   "        \ defx#do_action('call', 'Defx_git_root_dir')
+"   "
+"   "   " Define mappings
+"   "   nnoremap <silent><buffer><expr> <CR>
+"   "        \ defx#is_directory() ?
+"   "        \ defx#do_action('open_or_close_tree'):
+"   "        \ defx#do_action('drop')
+"   "   nnoremap <silent><buffer><expr> s
+"   "        \ defx#do_action('multi', [['drop', 'split'], 'quit'])
+"   "   nnoremap <silent><buffer><expr> v
+"   "        \ defx#do_action('multi', [['drop', 'vsplit'], 'quit'])
+"   "   nnoremap <silent><buffer><expr> t
+"   "        \ defx#do_action('multi', ['quit', ['drop', 'tabnew']])
+"   "   nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
+"   "   nnoremap <silent><buffer><expr> c defx#do_action('copy')
+"   "   nnoremap <silent><buffer><expr> m defx#do_action('move')
+"   "   nnoremap <silent><buffer><expr> p defx#do_action('paste')
+"   "   nnoremap <silent><buffer><expr> K defx#do_action('new_directory')
+"   "   nnoremap <silent><buffer><expr> N defx#do_action('new_file')
+"   "   nnoremap <silent><buffer><expr> d defx#do_action('remove')
+"   "   nnoremap <silent><buffer><expr> r defx#do_action('rename')
+"   "   nnoremap <silent><buffer><expr> x defx#do_action('execute_system')
+"   "   nnoremap <silent><buffer><expr> yy defx#do_action('yank_path')
+"   "   nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
+"   "   nnoremap <silent><buffer><expr> l
+"   "        \ defx#is_directory() ?
+"   "        \ defx#do_action('open'):
+"   "        \ defx#do_action('drop')
+"   "   nnoremap <silent><buffer><expr> h defx#do_action('cd', ['..'])
+"   "   nnoremap <silent><buffer><expr> ~ defx#do_action('cd')
+"   "   nnoremap <silent><buffer><expr> \ defx#do_action('cd', ['/'])
+"   "   nnoremap <silent><buffer><expr> q defx#do_action('quit')
+"   "   nnoremap <silent><buffer><expr> ` defx#do_action('toggle_select') . 'j'
+"   "   vnoremap <silent><buffer><expr> ` defx#do_action('toggle_select_visual') . 'j'
+"   "   nnoremap <silent><buffer><expr> * defx#do_action('toggle_select_all')
+"   "   nnoremap <silent><buffer><expr> j line('.') == line('$') ? 'gg' : 'j'
+"   "   nnoremap <silent><buffer><expr> k line('.') == 1 ? 'G' : 'k'
+"   "   nnoremap <silent><buffer><expr> <C-l> defx#do_action('redraw')
+"   "   nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
+"   " endfunction
+" endif
 
 "-----------
 " defx
@@ -486,135 +554,6 @@ if dein#tap('defx.nvim')
     nnoremap <silent><buffer><expr> <C-l> defx#do_action('redraw')
     nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
   endfunction
-endif
-
-"-----------
-"unite
-"----------
-" if dein#tap('unite.vim')
-"   let g:unite_enable_start_insert=1
-"   let g:unite_enable_ignore_case=1
-"   let g:unite_enable_smart_case=1
-"   let g:unite_update_time = 100
-"   let g:unite_enable_split_vertically=1
-"   let g:unite_winwidth = 60
-"   let g:unite_winheight = 10
-"   let g:unite_split_rule = 'topleft'
-"   let g:unite_source_history_yank_enable = 1
-"   let g:unite_source_rec_max_cache_files = 0
-"   call unite#custom#source('file_rec,file_rec/async', 'max_candidates', 0)
-"
-"   autocmd FileType unite call <SID>unite_settings()
-"   autocmd FileType vimfiler call s:my_vimfiler_settings()
-"
-"   function! s:unite_settings()
-"     " ウィンドウを分割して開く
-"     nnoremap <silent><buffer><expr> <C-S> unite#do_action('below')
-"     inoremap <silent><buffer><expr> <C-S> unite#do_action('below')
-"     " ウィンドウを縦に分割して開く
-"     nnoremap <silent><buffer><expr> <C-V> unite#do_action('right')
-"     inoremap <silent><buffer><expr> <C-V> unite#do_action('right')
-"
-"     " ESCで終了
-"     nmap <silent><buffer> <ESC> q
-"     nmap <silent><buffer> <C-[> q
-"
-"     "unite_source別設定
-"     for source in unite#get_current_unite().sources
-"       let source_name = substitute(source.name, '[-/]', '_', 'g')
-"       if !empty(source_name) && has_key(s:unite_hooks, source_name)
-"         call s:unite_hooks[source_name]()
-"       endif
-"     endfor
-"
-"   endfunction
-" endif
-" let s:unite_hooks = {}
-
-" ----------
-" denite.vim
-" ----------
-if dein#tap('denite.nvim')
-  " Define mappings
-  autocmd FileType denite call s:denite_my_settings()
-  function! s:denite_my_settings() abort
-    nnoremap <silent><buffer><expr> <CR> denite#do_map('do_action')
-    nnoremap <silent><buffer><expr> d denite#do_map('do_action', 'delete')
-    nnoremap <silent><buffer><expr> p denite#do_map('do_action', 'preview')
-    nnoremap <silent><buffer><expr> q denite#do_map('quit')
-    nnoremap <silent><buffer><expr> <ESC> denite#do_map('quit')
-    nnoremap <silent><buffer><expr> <C-[> denite#do_map('quit')
-    nnoremap <silent><buffer><expr> i denite#do_map('open_filter_buffer')
-    nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
-    nnoremap <silent><buffer> <C-N> j
-    nnoremap <silent><buffer> <C-P> k
-  endfunction
-
-  " Change file/rec command.
-  call denite#custom#var('file/rec', 'command',
-        \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-
-  " Add custom menus
-  let s:menus = {}
-
-  let s:menus.zsh = {
-        \ 'description': 'Edit your import zsh configuration'
-        \ }
-  let s:menus.zsh.file_candidates = [
-        \ ['zshrc', '~/.config/zsh/.zshrc'],
-        \ ['zshenv', '~/.zshenv'],
-        \ ]
-
-  let s:menus.my_commands = {
-        \ 'description': 'Example commands'
-        \ }
-  let s:menus.my_commands.command_candidates = [
-        \ ['Split the window', 'vnew'],
-        \ ['Open zsh menu', 'Denite menu:zsh'],
-        \ ['Format code', 'FormatCode', 'go,python'],
-        \ ]
-
-  call denite#custom#var('menu', 'menus', s:menus)
-
-
-  " Ag command on grep source
-  call denite#custom#var('grep', 'command', ['ag'])
-  call denite#custom#var('grep', 'default_opts',
-        \ ['-i', '--vimgrep'])
-  call denite#custom#var('grep', 'recursive_opts', [])
-  call denite#custom#var('grep', 'pattern_opt', [])
-  call denite#custom#var('grep', 'separator', ['--'])
-  call denite#custom#var('grep', 'final_opts', [])
-
-  call denite#custom#option('_', 'mode', 'insert')
-
-  call denite#custom#option('_', {
-        \ 'statusline': v:false,
-        \ 'prompt': '>',
-        \ 'highlight_filter_background': 'CursorLine',
-        \ 'source_names': 'short',
-        \ 'split': 'horizontal',
-        \ 'smartcase': v:true,
-        \ 'direction': "belowright",
-        \ 'winwidth': 60,
-        \ 'winheight': 10,
-        \ })
-
-  call denite#custom#source('file/rec', 'matchers', ['matcher/cpsm'])
-
-  " Define alias
-  call denite#custom#alias('source', 'file/rec/git', 'file/rec')
-  call denite#custom#var('file/rec/git', 'command',
-        \ ['git', 'ls-files', '-co', '--exclude-standard'])
-
-  call denite#custom#alias('source', 'file/rec/py', 'file/rec')
-  call denite#custom#var('file/rec/py', 'command',['scantree.py'])
-
-  " Change ignore_globs
-  call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
-        \ [ '.git/', '.ropeproject/', '__pycache__/',
-        \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
-
 endif
 
 "--------------------
@@ -697,23 +636,6 @@ if dein#tap('fzf.vim')
   " - down / up / left / right
   let g:fzf_layout = { 'down': '40%' }
 
-  " Customize fzf colors to match your color scheme
-  let g:fzf_colors =
-        \ { 'fg':      ['fg', 'Normal'],
-        \ 'bg':      ['bg', 'Normal'],
-        \ 'hl':      ['fg', 'Comment'],
-        \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-        \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-        \ 'hl+':     ['fg', 'Statement'],
-        \ 'info':    ['fg', 'PreProc'],
-        \ 'border':  ['fg', 'Ignore'],
-        \ 'prompt':  ['fg', 'Conditional'],
-        \ 'pointer': ['fg', 'Exception'],
-        \ 'marker':  ['fg', 'Keyword'],
-        \ 'spinner': ['fg', 'Label'],
-        \ 'header':  ['fg', 'Comment'] }
-
-
   let g:fzf_buffers_jump = 1
   " let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
   let g:fzf_tags_command = 'ctags --exclude=node_modules --exclude=vendor'
@@ -782,6 +704,23 @@ if dein#tap('coc.nvim')
 
   " Add status line support, for integration with other plugin, checkout `:h coc-status`
   set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+  let g:coc_global_extensions = [
+      \  'coc-lists',
+      \  'coc-marketplace',
+      \  'coc-sql',
+      \  'coc-snippets',
+      \  'coc-json',
+      \  'coc-highlight',
+      \  'coc-vetur',
+      \  'coc-tsserver',
+      \  'coc-rls',
+      \  'coc-python',
+      \  'coc-html',
+      \  'coc-css',
+      \  'coc-phpls'
+      \ ]
+
 
 endif
 
@@ -1348,9 +1287,9 @@ if (has("termguicolors"))
   augroup mycolorscheme
     autocmd!
     "" タブラインの色
-    autocmd ColorScheme * hi TabLineSel term=bold cterm=bold gui=bold
-    autocmd ColorScheme * hi TabLine term=none cterm=none gui=none guifg=#5C6773 guibg=NONE
-    autocmd ColorScheme * hi TabLineFill term=none cterm=none gui=none guifg=#5C6773 guibg=NONE
+    autocmd ColorScheme * hi TabLineSel  term=bold cterm=bold gui=bold            guibg=none
+    autocmd ColorScheme * hi TabLine     term=none cterm=none gui=none guifg=gray guibg=none
+    autocmd ColorScheme * hi TabLineFill term=none cterm=none gui=none guifg=gray guibg=none
 
     autocmd ColorScheme * hi ZenkakuSpace cterm=underline
   augroup END
@@ -1390,11 +1329,6 @@ if (has("termguicolors"))
 else
   augroup mycolorscheme
     autocmd!
-    " タブラインの色
-    autocmd ColorScheme * hi TabLineSel  term=bold cterm=underline,bold ctermfg=White ctermbg=Black gui=bold,underline guifg=LightGray guibg=DarkBlue
-    autocmd ColorScheme * hi TabLine     term=reverse cterm=underline ctermfg=Gray ctermbg=black guifg=Black guibg=black
-    autocmd ColorScheme * hi TabLineFill term=bold cterm=underline,bold ctermfg=Gray ctermbg=black gui=reverse,bold guifg=black guibg=black
-
     "補完メニューの色
     autocmd ColorScheme * hi Pmenu ctermfg=73 ctermbg=16 guifg=#66D9EF guibg=#000000
     autocmd ColorScheme * hi PmenuSel ctermfg=252 ctermbg=23 guibg=#808080
@@ -1427,7 +1361,7 @@ if dein#tap('vim-better-whitespace')
   " let g:strip_whitespace_on_save = 1
   " let g:strip_max_file_size = 1000
 
-  let g:better_whitespace_filetypes_blacklist=['markdown', 'diff', 'gitcommit', 'unite', 'qf', 'help', 'dein', 'denite', 'vaffle', 'defx']
+  let g:better_whitespace_filetypes_blacklist=['markdown', 'diff', 'gitcommit', 'qf', 'help', 'dein', 'denite', 'vaffle', 'defx']
 endif
 
 let g:is_bash = 1

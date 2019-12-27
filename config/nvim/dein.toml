@@ -5,32 +5,12 @@
 repo = 'vim-jp/vimdoc-ja'
 
 
-# unite
-[[plugins]]
-repo = 'Shougo/vimproc'
-merged = 0
-build = 'make'
-[[plugins]]
-repo = 'Shougo/denite.nvim'
-depends = ['nvim-yarp', 'vim-hug-neovim-rpc']
-[[plugins]]
-repo = 'Shougo/defx.nvim'
-depends = ['denite.nvim']
-[[plugins]]
-repo = 'roxma/nvim-yarp'
-on_if = '!has("nvim")'
-[[plugins]]
-repo = 'roxma/vim-hug-neovim-rpc'
-on_if = '!has("nvim")'
-# [[plugins]]
-# repo = 'Shougo/unite.vim'
-# [[plugins]]
-# repo = 'Shougo/unite-outline'
-
 #
 # development:general
 [[plugins]]
 repo = 'junegunn/fzf.vim'
+[[plugins]]
+repo = 'Shougo/defx.nvim'
 [[plugins]]
 repo = 'junegunn/vim-easy-align'
 [[plugins]]
@@ -46,24 +26,11 @@ repo = 'thinca/vim-qfreplace'
 [[plugins]]
 repo = 'thinca/vim-quickrun'
 [[plugins]]
-repo = 'osyo-manga/unite-quickrun_config'
-[[plugins]]
 repo = 'machakann/vim-sandwich'
 [[plugins]]
 repo = 'deton/jasegment.vim'
-[[plugins]]
-repo = 'tpope/vim-fugitive'
-[[plugins]]
-repo = 'cohama/agit.vim'
-# coc.nvimと干渉する
-[[plugins]]
-repo = 'airblade/vim-gitgutter'
-[[plugins]]
-repo = 'rhysd/committia.vim'
-[[plugins]]
-repo = 'idanarye/vim-merginal'
-[[plugins]]
-repo = 'fuenor/im_control.vim'
+# [[plugins]]
+# repo = 'fuenor/im_control.vim'
 [[plugins]]
 repo = 'soramugi/auto-ctags.vim'
 [[plugins]]
@@ -97,6 +64,28 @@ repo = 'glidenote/memolist.vim'
 [[plugins]]
 repo = 'majutsushi/tagbar'
 
+
+# git
+# https://qiita.com/sgur/items/63d09ad3185cc3f92819
+# https://github.com/lambdalisue/gina.vim
+# https://github.com/rhysd/git-messenger.vim
+
+# [[plugins]]
+# repo = 'tpope/vim-fugitive'
+# [[plugins]]
+# repo = 'cohama/agit.vim'
+# coc.nvimと干渉する
+# [[plugins]]
+# repo = 'airblade/vim-gitgutter'
+# [[plugins]]
+# repo = 'rhysd/committia.vim'
+# [[plugins]]
+# repo = 'idanarye/vim-merginal'
+
+
+# yank
+# https://github.com/svermeulen/vim-easyclip
+# https://github.com/n04ln/yankee.vim
 
 #
 # textobj
@@ -189,9 +178,6 @@ repo = 'robertbasic/vim-hugo-helper'
 
 
 # markdown
-# vim-table-modeで代替
-# [[plugins]]
-# repo = 'godlygeek/tabular'
 [[plugins]]
 repo = 'plasticboy/vim-markdown'
 [[plugins]]
@@ -205,12 +191,6 @@ on_ft = ['markdown', 'pandoc.markdown', 'rmd']
 build = 'cd app & yarn install'
 [[plugins]]
 repo = 'vim-scripts/VOoM'
-# [[plugins]]
-# repo = 'mattn/webapi-vim'
-# [[plugins]]
-# repo = 'tyru/open-browser.vim'
-# [[plugins]]
-# repo = 'superbrothers/vim-quickrun-markdown-gfm'
 
 # colorscheme
 [[plugins]]

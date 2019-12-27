@@ -1,15 +1,13 @@
 {
-  "coc.preferences.hoverTarget": "float",
-  "diagnostic.messageTarget": "float",
-  "signature.target": "float",
-  "suggest.floatEnable": true,
 
   "coc.preferences.formatOnSaveFiletypes": ["rust"],
-  "coc.source.word.priority": 10,
-  "coc.source.word.filetypes": ["markdown"],
+  "coc.preferences.hoverTarget": "float",
 
+  "diagnostic.messageTarget": "float",
+  "signature.target": "float",
   "snippets.priority": 100,
   "snippets.snipmate.enable": false,
+  "suggest.floatEnable": true,
   "suggest.echodocSupport": false,
   "suggest.noselect":false,
   "suggest.minTriggerInputLength": 3,
@@ -27,6 +25,7 @@
     "<C-f>": "prompt:left",
     "<C-b>": "prompt:right"
   },
+
   "languageserver": {
     "haskell": {
       "command": "hie-wrapper",
