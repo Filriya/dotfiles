@@ -66,26 +66,33 @@ repo = 'majutsushi/tagbar'
 
 
 # git
-# https://qiita.com/sgur/items/63d09ad3185cc3f92819
-# https://github.com/lambdalisue/gina.vim
-# https://github.com/rhysd/git-messenger.vim
+[[plugins]]
+repo = 'tpope/vim-fugitive'
 
-# [[plugins]]
-# repo = 'tpope/vim-fugitive'
-# [[plugins]]
-# repo = 'cohama/agit.vim'
-# coc.nvimと干渉する
-# [[plugins]]
-# repo = 'airblade/vim-gitgutter'
-# [[plugins]]
-# repo = 'rhysd/committia.vim'
-# [[plugins]]
-# repo = 'idanarye/vim-merginal'
+# git log
+[[plugins]]
+repo = 'cohama/agit.vim'
+
+# git branch管理
+[[plugins]]
+repo = 'idanarye/vim-merginal'
+
+# git commit
+[[plugins]]
+repo = 'rhysd/committia.vim'
+
+# git 差分表示
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
 
 
-# yank
-# https://github.com/svermeulen/vim-easyclip
-# https://github.com/n04ln/yankee.vim
+# vim-easyclip
+[[plugins]]
+repo = "svermeulen/vim-cutlass"
+[[plugins]]
+repo = "svermeulen/vim-yoink"
+[[plugins]]
+repo = "svermeulen/vim-subversive"
 
 #
 # textobj
@@ -199,8 +206,6 @@ repo = 'itchyny/lightline.vim'
 repo = 'mopp/mopkai.vim'
 [[plugins]]
 repo = 'ayu-theme/ayu-vim'
-[[plugins]]
-repo = 'yarisgutierrez/ayu-lightline'
 [[plugins]]
 repo = 'NLKNguyen/papercolor-theme'
 [[plugins]]

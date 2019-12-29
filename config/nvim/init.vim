@@ -102,12 +102,12 @@ nnoremap g? :!open dict://<cword><CR>
 
 " タブの操作
 
-nnoremap <silent> <C-t>l :<C-u>tabnext<CR>
-nnoremap <silent> <C-t><C-l> :<C-u>tabnext<CR>
+" nnoremap <silent> <C-t>l :<C-u>tabnext<CR>
+" nnoremap <silent> <C-t><C-l> :<C-u>tabnext<CR>
 nnoremap <silent> <C-t>n :<C-u>tabnext<CR>
 nnoremap <silent> <C-t><C-n> :<C-u>tabnext<CR>
-nnoremap <silent> <C-t>h :<C-u>tabprevious<CR>
-nnoremap <silent> <C-t><C-h> :<C-u>tabprevious<CR>
+" nnoremap <silent> <C-t>h :<C-u>tabprevious<CR>
+" nnoremap <silent> <C-t><C-h> :<C-u>tabprevious<CR>
 nnoremap <silent> <C-t>p :<C-u>tabprevious<CR>
 nnoremap <silent> <C-t><C-p> :<C-u>tabprevious<CR>
 
@@ -163,27 +163,18 @@ nnoremap <silent> <Leader>q :q<CR>
 nnoremap <silent> <Leader>Q :qa!<CR>
 
 " jump same indent
-noremap <silent> <C-k> k:call search ("^". matchstr (getline (line (".")+ 1), '\(\s*\)') ."\\S", 'b')<CR>^
-noremap <silent> <C-j> :call search ("^". matchstr (getline (line (".")), '\(\s*\)') ."\\S")<CR>^
+nnoremap <silent> <C-k> k:call search ("^". matchstr (getline (line (".")+ 1), '\(\s*\)') ."\\S", 'b')<CR>^
+nnoremap <silent> <C-j> :call search ("^". matchstr (getline (line (".")), '\(\s*\)') ."\\S")<CR>^
 
 if dein#tap('defx.nvim')
   nnoremap <silent> <C-e> :Defx -split=vertical -winwidth=40 -direction=topleft `expand('%:p:h')` -search=`expand('%:p')`<CR>
 endif
 
-" if dein#tap('vaffle.vim')
-"   nnoremap <silent> <Leader>E :Vaffle<CR>
-" endif
-
-" if dein#tap('vim-dirvish')
-"   nnoremap <silent> <C-e> :<C-u>Dirvish<CR>
-" endif
-
-
 if dein#tap('fzf.vim')
   nnoremap <silent> <Leader>f :<C-u>GFiles<CR>
   nnoremap <silent> <Leader>F :<C-u>Files<CR>
   nnoremap <silent> <Leader>ee :<C-u>SrcFiles<CR>
-  nnoremap <silent> <Leader>g :<C-u>GFiles?<CR>
+  nnoremap <silent> <Leader>G :<C-u>GFiles?<CR>
   nnoremap <silent> <Leader>b :<C-u>Buffers<CR>
   " nnoremap <silent> <Leader>b :<C-u>LoadedBuffers<CR>
   " nnoremap          <Leader>a :<C-u>Ag<Space>
@@ -324,8 +315,8 @@ if dein#tap('vim-easymotion')
   map  T <Plug>(easymotion-Tl)
 
   " s{char}{char} to move to {char}{char}
-  nmap <Leader>s <Plug>(easymotion-overwin-f2)
-  vmap <Leader>s <Plug>(easymotion-bd-f2)
+  nmap <Leader>[ <Plug>(easymotion-overwin-f2)
+  vmap <Leader>[ <Plug>(easymotion-bd-f2)
 
   " Move to line
   map <Leader>l <Plug>(easymotion-bd-jk)
@@ -340,20 +331,20 @@ if dein#tap('vim-sandwich')
   xmap s <Plug>(operator-sandwich-add)
 endif
 
-nnoremap S :%s/\v
-vnoremap S :s/\v
+" nnoremap S :%s/\v
+" vnoremap S :s/\v
 
-map <c-g> [git]
+map <Leader>g [git]
 if dein#tap("vim-fugitive")
-  nnoremap [git]s :Gstatus<CR>
-  nnoremap [git]r :Gread<CR>
-  nnoremap [git]w :Gwrite<CR>
-  nnoremap [git]c :Gcommit<CR>
-  nnoremap [git]b :Gblame<CR>
-  nnoremap [git]d :Gdiff<CR>
+  nnoremap [git]w :Gstatus<CR>
+  " nnoremap [git]r :Gread<CR>
+  " nnoremap [git]w :Gwrite<CR>
+  " nnoremap [git]c :Gcommit<CR>
+  " nnoremap [git]B :Gblame<CR>
+  " nnoremap [git]d :Gdiff<CR>
   " nnoremap [git]m :Gmove
   " nnoremap [git]R :Gremove<CR>
-  vnoremap [git]b :Gbrowse<CR>
+  vnoremap [git]B :Gbrowse<CR>
   " nnoremap [git]l :Glog --oneline<CR>
 endif
 
@@ -362,15 +353,14 @@ if dein#tap("agit.vim")
 endif
 
 if dein#tap("vim-merginal")
-  nnoremap [git]B :Merginal<CR>
+  nnoremap [git]b :Merginal<CR>
 endif
 
-" なんか重い
-" if dein#tap('im_control.vim')
-  " inoremap <silent> <C-j> <C-^><C-r>=IMState('FixMode')<CR>
-  " nnoremap <silent> <C-j> :<C-u>call IMState('FixMode')<CR>
-" endif
-"
+if dein#tap('vim-gitgutter')
+  nmap ]<c-g> <Plug>(GitGutterNextHunk)
+  nmap [<c-g> <Plug>(GitGutterPrevHunk)
+endif
+
 if dein#tap('vim-table-mode')
   " let g:table_mode_disable_mappings = 1
 
@@ -401,6 +391,43 @@ if dein#tap('tagbar')
   nnoremap <Leader>o :TagbarToggle<CR>
 endif
 
+if dein#tap('vim-cutlass')
+  nnoremap m d
+  xnoremap m d
+  nnoremap mm dd
+  nnoremap M D
+
+  " nnoremap x d
+  " xnoremap x d
+  " nnoremap xx dd
+  " nnoremap X D
+endif
+
+if dein#tap('vim-yoink')
+  nmap <C-n> <plug>(YoinkPostPasteSwapBack)
+  nmap <C-p> <plug>(YoinkPostPasteSwapForward)
+
+  nmap p <plug>(YoinkPaste_p)
+  nmap P <plug>(YoinkPaste_P)
+
+  nmap [y <plug>(YoinkRotateBack)
+  nmap ]y <plug>(YoinkRotateForward)
+  nmap <C-=> <plug>(YoinkPostPasteToggleFormat)
+endif
+
+if dein#tap('vim-subversive')
+  nmap s <plug>(SubversiveSubstitute)
+  nmap ss <plug>(SubversiveSubstituteLine)
+  nmap S <plug>(SubversiveSubstituteToEndOfLine)
+
+  nmap <Leader>s <plug>(SubversiveSubstituteRange)
+  xmap <Leader>s <plug>(SubversiveSubstituteRange)
+  nmap <Leader>ss <plug>(SubversiveSubstituteWordRange)
+
+  nmap <Leader>r <plug>(SubversiveSubstituteRangeConfirm)
+  xmap <Leader>r <plug>(SubversiveSubstituteRangeConfirm)
+  nmap <Leader>rr <plug>(SubversiveSubstituteWordRangeConfirm)
+endif
 
 " --------------------
 " Keymap ここまで
@@ -412,90 +439,6 @@ endif
 
 
 
-"-----------
-" vaffle
-"----------
-" if dein#tap('vaffle.vim')
-"   let g:vaffle_auto_cd = 0
-"   let g:vaffle_force_delete = 0
-"   let g:vaffle_show_hidden_files = 0
-"   let g:vaffle_open_selected_split_position = 'rightbottom'
-"   let g:vaffle_open_selected_vsplit_position = 'rightbottom'
-"   let g:vaffle_use_default_mappings = 1
-"
-"   " n     ~         |<Plug>(vaffle-open-home)|
-"   " n     h         |<Plug>(vaffle-open-parent)|
-"   " n     l         |<Plug>(vaffle-open-current)|
-"   " n     t         |<Plug>(vaffle-open-current-tab)|
-"   "
-"   " n     *         |<Plug>(vaffle-toggle-all)|
-"   " n     .         |<Plug>(vaffle-toggle-hidden)|
-"   " nv    <Space>   |<Plug>(vaffle-toggle-current)|
-"   "
-"   " n     <CR>      |<Plug>(vaffle-open-selected)|
-"   " n     m         |<Plug>(vaffle-move-selected)|
-"   " n     d         |<Plug>(vaffle-delete-selected)|
-"   " n     r         |<Plug>(vaffle-rename-selected)|
-"   "
-"   " n     q         |<Plug>(vaffle-quit)|
-"   " n     o         |<Plug>(vaffle-mkdir)|
-"   " n     R         |<Plug>(vaffle-refresh)|
-"   " n     i         |<Plug>(vaffle-new-file)|
-"   " n     x         |<Plug>(vaffle-fill-cmdline)|
-"   " autocmd FileType defx call s:defx_my_settings()
-"   "
-"   " function! s:defx_my_settings() abort
-"   "
-"   "   function! Defx_git_root_dir(context) abort
-"   "     if (system('git rev-parse --is-inside-work-tree') == "true\n")
-"   "       let l:path = system('git rev-parse --show-toplevel')[0]
-"   "       call defx#call_action('cd', [path])
-"   "       echomsg string(path)
-"   "     else
-"   "     endif
-"   "   endfunction
-"   "   nnoremap <silent><buffer><expr> @
-"   "        \ defx#do_action('call', 'Defx_git_root_dir')
-"   "
-"   "   " Define mappings
-"   "   nnoremap <silent><buffer><expr> <CR>
-"   "        \ defx#is_directory() ?
-"   "        \ defx#do_action('open_or_close_tree'):
-"   "        \ defx#do_action('drop')
-"   "   nnoremap <silent><buffer><expr> s
-"   "        \ defx#do_action('multi', [['drop', 'split'], 'quit'])
-"   "   nnoremap <silent><buffer><expr> v
-"   "        \ defx#do_action('multi', [['drop', 'vsplit'], 'quit'])
-"   "   nnoremap <silent><buffer><expr> t
-"   "        \ defx#do_action('multi', ['quit', ['drop', 'tabnew']])
-"   "   nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
-"   "   nnoremap <silent><buffer><expr> c defx#do_action('copy')
-"   "   nnoremap <silent><buffer><expr> m defx#do_action('move')
-"   "   nnoremap <silent><buffer><expr> p defx#do_action('paste')
-"   "   nnoremap <silent><buffer><expr> K defx#do_action('new_directory')
-"   "   nnoremap <silent><buffer><expr> N defx#do_action('new_file')
-"   "   nnoremap <silent><buffer><expr> d defx#do_action('remove')
-"   "   nnoremap <silent><buffer><expr> r defx#do_action('rename')
-"   "   nnoremap <silent><buffer><expr> x defx#do_action('execute_system')
-"   "   nnoremap <silent><buffer><expr> yy defx#do_action('yank_path')
-"   "   nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
-"   "   nnoremap <silent><buffer><expr> l
-"   "        \ defx#is_directory() ?
-"   "        \ defx#do_action('open'):
-"   "        \ defx#do_action('drop')
-"   "   nnoremap <silent><buffer><expr> h defx#do_action('cd', ['..'])
-"   "   nnoremap <silent><buffer><expr> ~ defx#do_action('cd')
-"   "   nnoremap <silent><buffer><expr> \ defx#do_action('cd', ['/'])
-"   "   nnoremap <silent><buffer><expr> q defx#do_action('quit')
-"   "   nnoremap <silent><buffer><expr> ` defx#do_action('toggle_select') . 'j'
-"   "   vnoremap <silent><buffer><expr> ` defx#do_action('toggle_select_visual') . 'j'
-"   "   nnoremap <silent><buffer><expr> * defx#do_action('toggle_select_all')
-"   "   nnoremap <silent><buffer><expr> j line('.') == line('$') ? 'gg' : 'j'
-"   "   nnoremap <silent><buffer><expr> k line('.') == 1 ? 'G' : 'k'
-"   "   nnoremap <silent><buffer><expr> <C-l> defx#do_action('redraw')
-"   "   nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
-"   " endfunction
-" endif
 
 "-----------
 " defx
@@ -517,10 +460,36 @@ if dein#tap('defx.nvim')
           \ defx#do_action('call', 'Defx_git_root_dir')
 
     " Define mappings
+    " move cursor
+    nnoremap <silent><buffer><expr> j line('.') == line('$') ? 'gg' : 'j'
+    nnoremap <silent><buffer><expr> k line('.') == 1 ? 'G': 'k'
+
+    " change directory
     nnoremap <silent><buffer><expr> <CR>
           \ defx#is_directory() ?
-          \ defx#do_action('open_or_close_tree'):
+          \ defx#do_action('open'):
           \ defx#do_action('drop')
+    nnoremap <silent><buffer><expr> l
+          \ defx#is_directory() ?
+          \ defx#do_action('open_tree'):
+          \ defx#do_action('drop')
+    nnoremap <silent><buffer><expr> L
+          \ defx#do_action('open_tree_recursive', [5]):
+    nnoremap <silent><buffer><expr> h
+          \ defx#do_action('close_tree')
+    nnoremap <silent><buffer><expr> H defx#do_action('cd', ['..'])
+    " nnoremap <silent><buffer><expr> <CR>
+    "      \ defx#is_directory() ?
+    "      \ defx#do_action('open_or_close_tree'):
+    "      \ defx#do_action('drop')
+    " nnoremap <silent><buffer><expr> l
+    "      \ defx#is_directory() ?
+    "      \ defx#do_action('open'):
+    "      \ defx#do_action('drop')
+    nnoremap <silent><buffer><expr> ~ defx#do_action('cd')
+    nnoremap <silent><buffer><expr> \ defx#do_action('cd', ['/'])
+
+    " open file
     nnoremap <silent><buffer><expr> s
           \ defx#do_action('multi', [['drop', 'split'], 'quit'])
     nnoremap <silent><buffer><expr> v
@@ -528,31 +497,31 @@ if dein#tap('defx.nvim')
     nnoremap <silent><buffer><expr> t
           \ defx#do_action('multi', ['quit', ['drop', 'tabnew']])
     nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
-    nnoremap <silent><buffer><expr> c defx#do_action('copy')
-    nnoremap <silent><buffer><expr> m defx#do_action('move')
-    nnoremap <silent><buffer><expr> p defx#do_action('paste')
-    nnoremap <silent><buffer><expr> K defx#do_action('new_directory')
-    nnoremap <silent><buffer><expr> N defx#do_action('new_file')
-    nnoremap <silent><buffer><expr> d defx#do_action('remove')
-    nnoremap <silent><buffer><expr> r defx#do_action('rename')
-    nnoremap <silent><buffer><expr> x defx#do_action('execute_system')
-    nnoremap <silent><buffer><expr> yy defx#do_action('yank_path')
-    nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
-    nnoremap <silent><buffer><expr> l
-          \ defx#is_directory() ?
-          \ defx#do_action('open'):
-          \ defx#do_action('drop')
-    nnoremap <silent><buffer><expr> h defx#do_action('cd', ['..'])
-    nnoremap <silent><buffer><expr> ~ defx#do_action('cd')
-    nnoremap <silent><buffer><expr> \ defx#do_action('cd', ['/'])
-    nnoremap <silent><buffer><expr> q defx#do_action('quit')
-    nnoremap <silent><buffer><expr> ` defx#do_action('toggle_select') . 'j'
-    vnoremap <silent><buffer><expr> ` defx#do_action('toggle_select_visual') . 'j'
-    nnoremap <silent><buffer><expr> * defx#do_action('toggle_select_all')
-    nnoremap <silent><buffer><expr> j line('.') == line('$') ? 'gg' : 'j'
-    nnoremap <silent><buffer><expr> k line('.') == 1 ? 'G' : 'k'
+
+    " move file
+    nnoremap <silent><buffer><expr> c     defx#do_action('copy')
+    nnoremap <silent><buffer><expr> m     defx#do_action('move')
+    nnoremap <silent><buffer><expr> p     defx#do_action('paste')
+
+    " edit file
+    nnoremap <silent><buffer><expr> K     defx#do_action('new_directory')
+    nnoremap <silent><buffer><expr> N     defx#do_action('new_file')
+    nnoremap <silent><buffer><expr> d     defx#do_action('remove')
+    nnoremap <silent><buffer><expr> r     defx#do_action('rename')
+
+    " select file
+    nnoremap <silent><buffer><expr> `     defx#do_action('toggle_select').'j'
+    vnoremap <silent><buffer><expr> `     defx#do_action('toggle_select_visual').'j'
+    nnoremap <silent><buffer><expr> *     defx#do_action('toggle_select_all')
+
+    " other
+    nnoremap <silent><buffer><expr> x     defx#do_action('execute_system')
+    nnoremap <silent><buffer><expr> yy    defx#do_action('yank_path')
+    nnoremap <silent><buffer><expr> .     defx#do_action('toggle_ignored_files')
     nnoremap <silent><buffer><expr> <C-l> defx#do_action('redraw')
-    nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
+    nnoremap <silent><buffer><expr> w     defx#do_action('change_vim_cwd')
+    nnoremap <silent><buffer><expr> q     defx#do_action('quit')
+
   endfunction
 endif
 
@@ -579,10 +548,10 @@ if dein#tap('fzf.vim')
     let l:dirname = system("cd $(dirname ".$MYVIMRC."); git rev-parse --show-toplevel")
     let l:dirname = substitute(l:dirname, "[\n\r]", "", "g")
     call fzf#run({
-       \ 'source': 'fd --type f --hidden --follow --exclude ".git/*" . '.l:dirname,
-       \ 'sink': 'tab split',
-       \ 'down': '40%'
-       \ })
+          \ 'source': 'fd --type f --hidden --follow --exclude ".git/*" . '.l:dirname,
+          \ 'sink': 'tab split',
+          \ 'down': '40%'
+          \ })
   endfunction
   " let g:memolist_path = $HOME."/posts/"
 
@@ -606,10 +575,10 @@ if dein#tap('fzf.vim')
       let l:file = "*"
     end
     call fzf#run({
-         \ 'source': 'cat ~/.config/nvim/cheatsheet/emoji/'.l:file,
-         \ 'sink': function('s:insert_emoji'),
-         \ 'down': '40%'
-         \ })
+          \ 'source': 'cat ~/.config/nvim/cheatsheet/emoji/'.l:file,
+          \ 'sink': function('s:insert_emoji'),
+          \ 'down': '40%'
+          \ })
   endfunction
 
   function! s:insert_emoji(line) abort
@@ -647,11 +616,11 @@ if dein#tap('fzf.vim')
   "      \ call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1)
 
   command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden'),
-  \   <bang>0)
+        \ call fzf#vim#grep(
+        \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+        \   <bang>0 ? fzf#vim#with_preview('up:60%')
+        \           : fzf#vim#with_preview('right:50%:hidden'),
+        \   <bang>0)
 
   " Likewise, Files command with preview window
   command! -bang -nargs=? -complete=dir Files
@@ -682,9 +651,6 @@ if dein#tap('coc.nvim')
   set shortmess+=cI
   set signcolumn=yes
 
-  " Highlight symbol under cursor on CursorHold
-  autocmd CursorHold * silent call CocActionAsync('highlight')
-
   augroup cocmygroup
     autocmd!
     " Setup formatexpr specified filetype(s).
@@ -706,20 +672,19 @@ if dein#tap('coc.nvim')
   set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
   let g:coc_global_extensions = [
-      \  'coc-lists',
-      \  'coc-marketplace',
-      \  'coc-sql',
-      \  'coc-snippets',
-      \  'coc-json',
-      \  'coc-highlight',
-      \  'coc-vetur',
-      \  'coc-tsserver',
-      \  'coc-rls',
-      \  'coc-python',
-      \  'coc-html',
-      \  'coc-css',
-      \  'coc-phpls'
-      \ ]
+        \  'coc-lists',
+        \  'coc-marketplace',
+        \  'coc-sql',
+        \  'coc-snippets',
+        \  'coc-json',
+        \  'coc-vetur',
+        \  'coc-tsserver',
+        \  'coc-rls',
+        \  'coc-python',
+        \  'coc-html',
+        \  'coc-css',
+        \  'coc-phpls'
+        \ ]
 
 
 endif
@@ -780,9 +745,12 @@ if dein#tap('vim-easymotion')
   let g:EasyMotion_use_upper = 1 " Show target key with upper case to improve readability
   let g:EasyMotion_enter_jump_first = 1
   let g:EasyMotion_space_jump_first = 1
-  let g:EasyMotion_keys = ";asdfghkl"
+  let g:EasyMotion_do_shade = 0
+  let g:EasyMotion_keys = "asdfjiopqwertyuklzxcvbnmgh;"
+  "asdf jiop qwert yukl zxcvbnm gh;"
 endif
 
+" a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
 
 " --------------------
 " matchit
@@ -820,7 +788,7 @@ endif
 if dein#tap('lightline.vim')
       "\ 'colorscheme': 'wombat',
   let g:lightline = {
-        \ 'colorscheme': 'ayu',
+        \ 'colorscheme': 'materia',
         \ 'enable': {
         \   'statusline': 1,
         \   'tabline': 0
@@ -925,7 +893,7 @@ endif
 "vim-quickrun
 "--------------------
 if dein#tap("vim-quickrun")
-  nnoremap <Leader>r :w<CR>:QuickRun<CR>
+  nnoremap <Leader>\ :w<CR>:QuickRun<CR>
   let g:quickrun_config ={}
   let g:quickrun_config.scheme = { 'scheme': { 'command': 'gosh'}}
 endif
@@ -1121,7 +1089,7 @@ if dein#tap('vim-markdown')
   let g:vim_markdown_json_frontmatter = 0
   let g:vim_markdown_conceal_code_blocks = 0
 
-set nofoldenable
+  set nofoldenable
 
   " gabrielelana/vim-markdown
   " let g:markdown_include_jekyll_support = 1 "disable support for Jekyll files (enabled by default with: 1)
@@ -1181,7 +1149,7 @@ endif
 " vim-gitgutter
 "--------------------
 if dein#tap('vim-gitgutter')
-  let g:gitgutter_enabled = 0
+  let g:gitgutter_enabled = 1
   let g:gitgutter_map_keys = 0
   let g:gitgutter_max_signs = 2000
 endif
@@ -1215,6 +1183,23 @@ if dein#tap('vim-php-cs-fixer')
 endif
 
 "--------------------
+" yoink
+"--------------------
+if dein#tap('vim-yoink')
+  let g:yoinkMaxItems = 30
+  let g:yoinkSyncNumberedRegisters = 0
+  let g:yoinkIncludeDeleteOperations = 1
+  " let g:yoinkSavePersistently = 1
+  let g:yoinkAutoFormatPaste = 1
+  let g:yoinkMoveCursorToEndOfPaste = 0
+  let g:yoinkSwapClampAtEnds = 1
+  let g:yoinkIncludeNamedRegisters = 1
+
+  set shada=!,'100,<50,s10,h
+endif
+
+
+"--------------------
 " plugin ここまで
 "--------------------
 
@@ -1222,7 +1207,7 @@ endif
 "-----------------------
 " 表示系
 "-----------------------
-let g:loaded_matchparen = 1
+" let g:loaded_matchparen = 1
 
 augroup vimrchighlight
   autocmd!
@@ -1245,23 +1230,23 @@ function! s:get_syn_attr(synid)
   let guifg = synIDattr(a:synid, "fg", "gui")
   let guibg = synIDattr(a:synid, "bg", "gui")
   return {
-       \ "name": name,
-       \ "ctermfg": ctermfg,
-       \ "ctermbg": ctermbg,
-       \ "guifg": guifg,
-       \ "guibg": guibg}
+        \ "name": name,
+        \ "ctermfg": ctermfg,
+        \ "ctermbg": ctermbg,
+        \ "guifg": guifg,
+        \ "guibg": guibg}
 endfunction
 
 function! s:get_syn_id(transparent)
-    let synid = synID(line('.'), col('.'), 1)
-    return a:transparent ? synIDtrans(synid) : synid
+  let synid = synID(line('.'), col('.'), 1)
+  return a:transparent ? synIDtrans(synid) : synid
 endfunction
 function! s:get_syn_name(synid)
-    return synIDattr(a:synid, 'name')
+  return synIDattr(a:synid, 'name')
 endfunction
 function! s:get_highlight_info()
-    execute "highlight " . s:get_syn_name(s:get_syn_id(0))
-    execute "highlight " . s:get_syn_name(s:get_syn_id(1))
+  execute "highlight " . s:get_syn_name(s:get_syn_id(0))
+  execute "highlight " . s:get_syn_name(s:get_syn_id(1))
 endfunction
 command! HighlightInfo call s:get_highlight_info()
 
@@ -1304,6 +1289,17 @@ if (has("termguicolors"))
       autocmd ColorScheme * hi link qfFileName Normal "通常のファイル
 
       autocmd ColorScheme * hi SpecialKey ctermfg=14 guifg=#5C6773
+      autocmd ColorScheme * hi NonText ctermfg=NONE guifg=NONE
+
+      autocmd ColorScheme * hi Normal ctermbg=NONE guibg=NONE
+      autocmd ColorScheme * hi NonText ctermbg=NONE guibg=NONE
+      autocmd ColorScheme * hi SpecialKey ctermbg=NONE guibg=NONE
+      autocmd ColorScheme * hi EndOfBuffer ctermbg=NONE guibg=NONE
+      autocmd ColorScheme * hi CursorLine ctermbg=NONE guibg=NONE
+      autocmd ColorScheme * hi CursorLineNr ctermbg=NONE guibg=NONE
+      autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
+
+
 
     augroup END
     colorscheme ayu
@@ -1392,6 +1388,7 @@ set splitright        " 垂直分割時は新しいwindowを右に
 set ambiwidth=double  " 絵文字>
 set spelllang+=cjk
 set pumblend=15
+set fillchars=eob:\ 
 
 
 "------------------------------
