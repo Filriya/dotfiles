@@ -1,6 +1,7 @@
 # LANG="C.UTF-8"
 LC_CTYPE="en_US.UTF-8"
 LC_ALL="en_US.UTF-8"
+LANG=ja_JP.UTF-8
 
 fpath=(${ZDOTDIR:-$HOME}/.zsh.d/functions $fpath)
 path=(${ZDOTDIR:-$HOME}/bin $path)
@@ -11,6 +12,15 @@ fi
 
 if [[ -s "${ZDOTDIR:-$HOME}/.zsh.bundle/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zsh.bundle/.zprezto/init.zsh"
+fi
+
+if [ ! -e $HOME/.zsh.bundle/completion ]; then
+  mkdir $HOME/.zsh.bundle/completion
+fi
+
+if [ ! -e $HOME/.zsh.bundle/completion/_docker ]; then
+  curl -L https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker > $HOME/.zsh.bundle/completion/_docker
+  curl -L https://raw.githubusercontent.com/docker/compose/master/contrib/completion/zsh/_docker-compose  > $HOME/.zsh.bundle/completion/_docker-compose
 fi
 
 
@@ -24,7 +34,10 @@ fi
 
 zplugin ice pick"async.zsh" src"pure.zsh"
 zplugin light sindresorhus/pure
+zplugin light mnowotnik/extra-fzf-completions
 zplugin load agkozak/zsh-z
+
+EXTRA_FZF_COMPLETIONS_FZF_PREFIX=,
 
 # linux keychain
 # if [ "$SSH_TTY" = "" ]; then
@@ -128,17 +141,6 @@ bindkey '^\^' cdup
 bindkey '^q' beginning-of-line
 
 
-case $TERM in
-  xterm-256color)
-    preexec() {
-      echo -ne "\ek$1\e\\"
-    }
-  precmd() {
-    echo -ne "\ek$(eliptical_pwd)\e\\"
-  }
-;;
-esac
-
 # screen
 autoload -Uz sr && sr
 alias sl='screen_list'
@@ -155,6 +157,8 @@ _tm_comp() {
 }
 compdef _tm_comp tm
 
+#tmux
+autoload -Uz til
 
 # リポジトリにcd
 function open_project () {
@@ -174,17 +178,7 @@ bindkey '^t' open_project
 
 
 # screen 表示用
-export TERM=xterm-256color
-function eliptical_pwd {
-  local pwd="${PWD/#$HOME/~}"
-
-  if [[ "$pwd" == (#m)[/~] ]]; then
-    echo "$MATCH"
-    unset MATCH
-  else
-    echo "${${${${(@j:/:M)${(@s:/:)pwd}##.#?}:h}%/}//\%/%%}/${${pwd:t}//\%/%%}"
-  fi
-}
+TERM=xterm-256color
 
 setopt nonomatch
 
@@ -279,8 +273,8 @@ export XDG_CONFIG_HOME="$HOME/.config"
 # docker
 alias fig='docker-compose'
 
-if [ -e ~/.zsh.d/completions ]; then
-  fpath=(~/.zsh.d/completions $fpath)
+if [ -e ~/.zsh.bundle/completion ]; then
+  fpath=(~/.zsh.bundle/completion $fpath)
 fi
 
 autoload -U compinit
@@ -313,3 +307,8 @@ source "$HOME/.zplugin/bin/zplugin.zsh"
 autoload -Uz _zplugin
 (( ${+_comps} )) && _comps[zplugin]=_zplugin
 ### End of Zplugin installer's chunk
+
+if [[ ! -n $TMUX ]]; then
+  tm
+fi
+

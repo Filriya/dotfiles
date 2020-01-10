@@ -26,7 +26,7 @@ function tm()
     if tmux_list | grep -E "^$sessionname$" >/dev/null; then
       tmux a -d -t $sessionname
     else
-      tmux new -s $sessionname -c $currentdir \; source-file ~/.tmux/new-session
+      tmux new -s $sessionname -c $currentdir 
     fi
   else #tmuxの中にいるとき
     if tmux_list | grep -E "^$sessionname$" >/dev/null; then

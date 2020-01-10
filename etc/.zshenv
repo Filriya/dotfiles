@@ -26,5 +26,6 @@ export INFOPATH="$HOMEBREW_PREFIX/share/info:$INFOPATH";
 # npm
 # .zshrcでpathを解決すると、vimがうまく読み取ってくれない
 # https://qiita.com/ktrysmt/items/4d8194b0f82bfa91bcdc
-path=($(npm config get prefix)/bin $path)
 
+export PATH="$HOMEBREW_PREFIX/opt/node@10/bin:$PATH"
+path=($(npm config get prefix)/bin $path)

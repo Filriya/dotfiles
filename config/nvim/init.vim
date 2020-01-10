@@ -167,14 +167,14 @@ nnoremap <silent> <C-k> k:call search ("^". matchstr (getline (line (".")+ 1), '
 nnoremap <silent> <C-j> :call search ("^". matchstr (getline (line (".")), '\(\s*\)') ."\\S")<CR>^
 
 if dein#tap('defx.nvim')
-  nnoremap <silent> <C-e> :Defx -split=vertical -winwidth=40 -direction=topleft `expand('%:p:h')` -search=`expand('%:p')`<CR>
+  nnoremap <silent> <C-e> :Defx -split=vertical -winwidth=40 -direction=topleft<CR>
 endif
 
 if dein#tap('fzf.vim')
   nnoremap <silent> <Leader>f :<C-u>GFiles<CR>
   nnoremap <silent> <Leader>F :<C-u>Files<CR>
   nnoremap <silent> <Leader>ee :<C-u>SrcFiles<CR>
-  nnoremap <silent> <Leader>G :<C-u>GFiles?<CR>
+  nnoremap <silent> <Leader>gf :<C-u>GFiles?<CR>
   nnoremap <silent> <Leader>b :<C-u>Buffers<CR>
   " nnoremap <silent> <Leader>b :<C-u>LoadedBuffers<CR>
   " nnoremap          <Leader>a :<C-u>Ag<Space>
@@ -289,9 +289,9 @@ endif
 
 if dein#tap('vim-easy-align')
   " Start interactive EasyAlign in visual mode (e.g. vipga)
-  xmap <Leader>A <Plug>(EasyAlign)
+  xmap <Leader>ea <Plug>(EasyAlign)
   " Start interactive EasyAlign for a motion/text object (e.g. gaip)
-  nmap <Leader>A <Plug>(EasyAlign)
+  nmap <Leader>ea <Plug>(EasyAlign)
 endif
  
 if dein#tap('caw.vim')
@@ -331,21 +331,13 @@ if dein#tap('vim-sandwich')
   xmap s <Plug>(operator-sandwich-add)
 endif
 
-" nnoremap S :%s/\v
-" vnoremap S :s/\v
 
 map <Leader>g [git]
 if dein#tap("vim-fugitive")
   nnoremap [git]w :Gstatus<CR>
-  " nnoremap [git]r :Gread<CR>
-  " nnoremap [git]w :Gwrite<CR>
-  " nnoremap [git]c :Gcommit<CR>
-  " nnoremap [git]B :Gblame<CR>
-  " nnoremap [git]d :Gdiff<CR>
-  " nnoremap [git]m :Gmove
-  " nnoremap [git]R :Gremove<CR>
+  nnoremap [git]d :Gdiff<CR>
+  nnoremap [git]B :Gblame<CR>
   vnoremap [git]B :Gbrowse<CR>
-  " nnoremap [git]l :Glog --oneline<CR>
 endif
 
 if dein#tap("agit.vim")
@@ -357,8 +349,12 @@ if dein#tap("vim-merginal")
 endif
 
 if dein#tap('vim-gitgutter')
-  nmap ]<c-g> <Plug>(GitGutterNextHunk)
-  nmap [<c-g> <Plug>(GitGutterPrevHunk)
+  nmap ]h <Plug>(GitGutterNextHunk)
+  nmap [h <Plug>(GitGutterPrevHunk)
+
+  nmap [git]p <Plug>(GitGutterPreviewHunk)
+  nmap [git]a <Plug>(GitGutterStageHunk)
+  nmap [git]r <Plug>(GitGutterUndoHunk)
 endif
 
 if dein#tap('vim-table-mode')
@@ -403,6 +399,7 @@ if dein#tap('vim-cutlass')
   " nnoremap X D
 endif
 
+
 if dein#tap('vim-yoink')
   nmap <C-n> <plug>(YoinkPostPasteSwapBack)
   nmap <C-p> <plug>(YoinkPostPasteSwapForward)
@@ -418,8 +415,9 @@ endif
 if dein#tap('vim-subversive')
   nmap s <plug>(SubversiveSubstitute)
   nmap ss <plug>(SubversiveSubstituteLine)
-  nmap S <plug>(SubversiveSubstituteToEndOfLine)
+  " nmap S <plug>(SubversiveSubstituteToEndOfLine)
 
+  "置換したい文字列を範囲指定 -> 変更する範囲を指定
   nmap <Leader>s <plug>(SubversiveSubstituteRange)
   xmap <Leader>s <plug>(SubversiveSubstituteRange)
   nmap <Leader>ss <plug>(SubversiveSubstituteWordRange)
@@ -428,6 +426,9 @@ if dein#tap('vim-subversive')
   xmap <Leader>r <plug>(SubversiveSubstituteRangeConfirm)
   nmap <Leader>rr <plug>(SubversiveSubstituteWordRangeConfirm)
 endif
+
+nnoremap S :%s/\v
+vnoremap S :s/\v
 
 " --------------------
 " Keymap ここまで
@@ -612,15 +613,19 @@ if dein#tap('fzf.vim')
   command! SrcFiles call s:fzf_src_file()
   command! -nargs=? Emoji call s:fzf_emoji(<f-args>)
   command! -bang -nargs=+ -complete=dir Ag call fzf#vim#ag_raw(<q-args>, <bang>0)
-  " command! -bang -nargs=* -complete=dir Rg
-  "      \ call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1)
 
   command! -bang -nargs=* Rg
-        \ call fzf#vim#grep(
-        \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-        \   <bang>0 ? fzf#vim#with_preview('up:60%')
-        \           : fzf#vim#with_preview('right:50%:hidden'),
-        \   <bang>0)
+        \  call fzf#vim#grep(
+        \    'rg --column --line-number --no-heading --color=always --smart-case '.(<q-args>), 1,
+        \    <bang>0 ? fzf#vim#with_preview('up:60%')
+        \            : fzf#vim#with_preview('right:50%:hidden'),
+        \    <bang>0)
+  " command! -bang -nargs=* Rg
+  "      \ call fzf#vim#grep(
+  "      \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  "      \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  "      \           : fzf#vim#with_preview('right:50%:hidden'),
+  "      \   <bang>0)
 
   " Likewise, Files command with preview window
   command! -bang -nargs=? -complete=dir Files
@@ -1190,7 +1195,7 @@ if dein#tap('vim-yoink')
   let g:yoinkSyncNumberedRegisters = 0
   let g:yoinkIncludeDeleteOperations = 1
   " let g:yoinkSavePersistently = 1
-  let g:yoinkAutoFormatPaste = 1
+  let g:yoinkAutoFormatPaste = 0
   let g:yoinkMoveCursorToEndOfPaste = 0
   let g:yoinkSwapClampAtEnds = 1
   let g:yoinkIncludeNamedRegisters = 1

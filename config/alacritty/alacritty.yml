@@ -64,7 +64,7 @@ font:
 
   offset:
     x: 0
-    y: 3
+    y: 2
 
   # glyph_offset:
   #   x: 0
@@ -78,8 +78,8 @@ schemes:
   ayu: &mirage
 
     primary:
-      background: '0x243742'
-      #   background: '0x181b24'
+      # background: '0x243742'
+      background: '0x1f2430'
       foreground: '0xabb2bf'
 
     cursor:

@@ -2,7 +2,6 @@
 
   "coc.preferences.formatOnSaveFiletypes": ["rust"],
   "coc.preferences.hoverTarget": "float",
-
   "diagnostic.messageTarget": "float",
   "signature.target": "float",
   "snippets.priority": 100,
@@ -10,7 +9,7 @@
   "suggest.floatEnable": true,
   "suggest.echodocSupport": false,
   "suggest.noselect":false,
-  "suggest.minTriggerInputLength": 3,
+  "suggest.minTriggerInputLength": 2,
   "suggest.preferCompleteThanJumpPlaceholder":true,
   "suggest.acceptSuggestionOnCommitCharacter": true,
   "suggest.snippetIndicator": "►",
@@ -20,8 +19,8 @@
   "python.jediEnabled": false,
   "vetur.experimental.templateInterpolationService": false,
   "list.insertMappings": {
-    "<C-j>": "normal:j",
-    "<C-k>": "normal:k",
+    "<C-n>": "normal:j",
+    "<C-p>": "normal:k",
     "<C-f>": "prompt:left",
     "<C-b>": "prompt:right"
   },

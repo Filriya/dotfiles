@@ -6,10 +6,14 @@
 # border_active_fg="#FECB6E"
 
 # ayu mirage
-bg="#1F2430"
+# bg="#243742"
+bg="#1f2430"
 fg="#CBCCC6"
 status_bg="#1F2430"
 border_fg="#505050"
+# boarder_active_bg="#243742"
+boarder_active_bg="#1f2430"
+
 # border_active_fg="#FECB6E"
 # border_active_fg="#F28779"
 border_active_fg="#73D0FF"
