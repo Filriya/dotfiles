@@ -28,4 +28,5 @@ Temporary Items
 .apdisk
 
 config/coc/*
+config/nvim/sessions/*
 !config/coc/ultisnips/

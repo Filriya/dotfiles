@@ -35,6 +35,5 @@ export FZF_DEFAULT_OPTS='
 '
 
 export FZF_COMPLETION_TRIGGER=','
-source "$(ghq root)/github.com/kwhrtsk/docker-fzf-completion/docker-fzf.zsh"
 
 

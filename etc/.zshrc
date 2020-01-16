@@ -295,7 +295,9 @@ if (which zprof > /dev/null) ;then
 fi
 
 # java
-export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+if [ -e /usr/libexec/java_home ];then
+  export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+fi
 
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
