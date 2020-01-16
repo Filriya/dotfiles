@@ -24,6 +24,7 @@ if [ ! -e $HOME/.zsh.bundle/completion/_docker ]; then
 fi
 
 
+# zplugin
 if [ ! -e $HOME/.zplugin/bin/zplugin.zsh ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
 fi
@@ -35,7 +36,8 @@ fi
 zplugin ice pick"async.zsh" src"pure.zsh"
 zplugin light sindresorhus/pure
 zplugin light mnowotnik/extra-fzf-completions
-zplugin load agkozak/zsh-z
+zplugin light agkozak/zsh-z
+zplugin light zsh-users/zsh-autosuggestions
 
 EXTRA_FZF_COMPLETIONS_FZF_PREFIX=,
 

@@ -24,27 +24,22 @@ zstyle ':prezto:load' zfunction 'zargs' 'zmv'
 # Set the Prezto modules to load (browse modules).
 # The order matters.
 zstyle ':prezto:load' pmodule \
-  'environment' \
-  'terminal' \
   'editor' \
+  'git' \
+  'syntax-highlighting' \
+  'terminal' \
   'history' \
   'directory' \
   'spectrum' \
   'utility' \
   'completion' \
-  'git' \
   'osx' \
   'homebrew' \
-  'syntax-highlighting' \
   'history-substring-search' \
-  'autosuggestions' \
   'command-not-found' \
   'docker'
-#
-# Autosuggestions
-#
-
-zstyle ':prezto:module:autosuggestions' color 'yes'
+  # 廃止？
+  # 'environment' \
 
 #
 # Editor
