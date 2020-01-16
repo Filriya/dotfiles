@@ -58,13 +58,25 @@ reload() {
 }
 
 ssh() {
+  # getoptsでの引数判定
+  while getopts ":u:" OPT
+  do
+    case $OPT in
+      u) OPT_FLAG_UP=1;;
+    esac
+  done
+
+  # getopts分の引数値移動
+  shift $(($OPTIND - 1))
+
   machine=$(_select "$@")
 
   machineId=$(echo $machine | cut -d " " -f 1)
-  machineStat=$(echo $machine | cut -d " " -f 3)
-  machinePath=$(echo $machine | cut -d " " -f 4)
 
-  up $machineId
+  if [ "$OPT_FLAG_UP" = "1" ]; then
+    echo 'up'
+    up $machineId
+  fi
   vagrant ssh $machineId
 }
 
