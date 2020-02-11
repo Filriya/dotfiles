@@ -2,6 +2,7 @@
 LC_CTYPE="en_US.UTF-8"
 LC_ALL="en_US.UTF-8"
 LANG=ja_JP.UTF-8
+TERM=screen-256color
 
 fpath=(${ZDOTDIR:-$HOME}/.zsh.d/functions $fpath)
 path=(${ZDOTDIR:-$HOME}/bin $path)
@@ -94,13 +95,11 @@ alias phptags='ctags --tag-relative --recurse --sort=yes --exclude=*.js'
 alias -g P='| pbcopy'
 alias -g F='| fzf'
 alias -g SJIS='| nkf'
+alias -g N='&& notify completed || notify error'
 
 
 # haskell stack
 if type "stack" > /dev/null 2>&1; then
-  path=(${ZDOTDIR:-$HOME}/.composer/vendor/bin $path)
-  # path=($(stack path --local-bin) $path) # 重い
-  # path=($(stack path --compiler-bin) $path) # 重い
   path=(${ZDOTDIR:-$HOME}/.local/bin $path)
   alias ghci='rlwrap stack ghci'
   alias ghc='stack ghc --'
@@ -159,8 +158,8 @@ _tm_comp() {
 }
 compdef _tm_comp tm
 
-#tmux
 autoload -Uz til
+autoload -Uz bk
 
 # リポジトリにcd
 function open_project () {
@@ -177,10 +176,6 @@ function open_project () {
 }
 zle -N open_project
 bindkey '^t' open_project
-
-
-# screen 表示用
-TERM=xterm-256color
 
 setopt nonomatch
 
@@ -232,6 +227,9 @@ export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
 # composer
 path=(${ZDOTDIR:-$HOME}/.composer/vendor/bin $path)
+
+# ruby
+path=(/usr/local/lib/ruby/gems/2.6.0 $path)
 
 # qt
 export PATH="$HOMEBREW_PREFIX/opt/qt/bin:$PATH"
@@ -313,6 +311,10 @@ autoload -Uz _zplugin
 ### End of Zplugin installer's chunk
 
 if [[ ! -n $TMUX && -z $SSH_TTY ]]; then
-  tm
+  tm $(tmux list-sessions | grep attached | perl -pe "s/^([^:]*):.*/\1/g")
 fi
 
+
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true

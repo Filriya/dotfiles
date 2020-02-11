@@ -63,6 +63,8 @@ repo = 'reireias/vim-cheatsheet'
 repo = 'glidenote/memolist.vim'
 [[plugins]]
 repo = 'majutsushi/tagbar'
+[[plugins]]
+repo = 'critiqjo/lldb.nvim'
 
 
 # git

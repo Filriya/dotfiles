@@ -5,4 +5,4 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-echo 'display notification "'$3'" with title "'$1'" subtitle "'$2'"'|osascript
+echo 'display notification "'$3'" with title "'$1'" subtitle "'$2'" sound name "Glass"'|osascript

@@ -24,6 +24,30 @@
     "<C-f>": "prompt:left",
     "<C-b>": "prompt:right"
   },
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/awslabs/goformation/master/schema/cloudformation.schema.json": "/cloudformation/*.yml"
+  },
+  "yaml.customTags": [
+    "!Ref",
+    "!Sub scalar",
+    "!Sub sequence",
+    "!Join sequence",
+    "!FindInMap sequence",
+    "!GetAtt scalar",
+    "!GetAtt sequence",
+    "!Base64 mapping",
+    "!GetAZs",
+    "!Select scalar",
+    "!Select sequence",
+    "!Split sequence",
+    "!ImportValue",
+    "!Condition",
+    "!Equals sequence",
+    "!And",
+    "!If",
+    "!Not",
+    "!Or"
+  ],
 
   "languageserver": {
     "haskell": {

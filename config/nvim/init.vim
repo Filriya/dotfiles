@@ -99,36 +99,37 @@ nnoremap g? :!open dict://<cword><CR>
 " ウィンドウ、タブ、バッファの分割・移動
 " Window Tab Buffer
 " ----------------------------------------
+nnoremap <silent> <C-t>n :echo noaction
+nnoremap <silent> <C-t><C-n> :echo noaction
+nnoremap <silent> <C-t>p :echo noaction
+nnoremap <silent> <C-t><C-p> :echo noaction
 
 " タブの操作
+nnoremap <silent> <C-w>n :<C-u>tabnext<CR>
+nnoremap <silent> <C-w><C-n> :<C-u>tabnext<CR>
+nnoremap <silent> <C-w>p :<C-u>tabprevious<CR>
+nnoremap <silent> <C-w><C-p> :<C-u>tabprevious<CR>
 
-" nnoremap <silent> <C-t>l :<C-u>tabnext<CR>
-" nnoremap <silent> <C-t><C-l> :<C-u>tabnext<CR>
-nnoremap <silent> <C-t>n :<C-u>tabnext<CR>
-nnoremap <silent> <C-t><C-n> :<C-u>tabnext<CR>
-" nnoremap <silent> <C-t>h :<C-u>tabprevious<CR>
-" nnoremap <silent> <C-t><C-h> :<C-u>tabprevious<CR>
-nnoremap <silent> <C-t>p :<C-u>tabprevious<CR>
-nnoremap <silent> <C-t><C-p> :<C-u>tabprevious<CR>
+nnoremap <silent> <C-w>1 :<C-u>tabn 1<CR>
+nnoremap <silent> <C-w>2 :<C-u>tabn 2<CR>
+nnoremap <silent> <C-w>3 :<C-u>tabn 3<CR>
+nnoremap <silent> <C-w>4 :<C-u>tabn 4<CR>
+nnoremap <silent> <C-w>5 :<C-u>tabn 5<CR>
+nnoremap <silent> <C-w>6 :<C-u>tabn 6<CR>
+nnoremap <silent> <C-w>7 :<C-u>tabn 7<CR>
+nnoremap <silent> <C-w>8 :<C-u>tabn 8<CR>
+nnoremap <silent> <C-w>9 :<C-u>tabn 9<CR>
+nnoremap <silent> <C-w>0 :<C-u>tabn 10<CR>
 
-nnoremap <silent> <C-t>1 :<C-u>tabn 1<CR>
-nnoremap <silent> <C-t>2 :<C-u>tabn 2<CR>
-nnoremap <silent> <C-t>3 :<C-u>tabn 3<CR>
-nnoremap <silent> <C-t>4 :<C-u>tabn 4<CR>
-nnoremap <silent> <C-t>5 :<C-u>tabn 5<CR>
-nnoremap <silent> <C-t>6 :<C-u>tabn 6<CR>
-nnoremap <silent> <C-t>7 :<C-u>tabn 7<CR>
-nnoremap <silent> <C-t>8 :<C-u>tabn 8<CR>
-nnoremap <silent> <C-t>9 :<C-u>tabn 9<CR>
-nnoremap <silent> <C-t>0 :<C-u>tabn 10<CR>
-
-nnoremap <silent> <C-t>t :<C-u>tabnew<CR>:tabmove<CR>
-nnoremap <silent> <C-t><C-t> :<C-u>tabnew<CR>:tabmove<CR>
-nnoremap <silent> <C-t>d :<C-u>tabclose<CR>
-nnoremap <silent> <C-t><C-d> :<C-u>tabclose<CR>
+nnoremap <silent> <C-w>w :<C-u>tabnew<CR>:tabmove<CR>
+nnoremap <silent> <C-w><C-w> :<C-u>tabnew<CR>:tabmove<CR>
+nnoremap <silent> <C-w>d :<C-u>tabclose<CR>
+nnoremap <silent> <C-w><C-d> :<C-u>tabclose<CR>
 
 nnoremap <silent> <C-w>v :<C-u>vsp<CR>
+nnoremap <silent> <C-w><bar> :<C-u>vsp<CR>
 nnoremap <silent> <C-w>s :<C-u>sp<CR>
+nnoremap <silent> <C-w>- :<C-u>sp<CR>
 
 nnoremap <C-z> `.zz
 
@@ -167,7 +168,8 @@ nnoremap <silent> <C-k> k:call search ("^". matchstr (getline (line (".")+ 1), '
 nnoremap <silent> <C-j> :call search ("^". matchstr (getline (line (".")), '\(\s*\)') ."\\S")<CR>^
 
 if dein#tap('defx.nvim')
-  nnoremap <silent> <C-e> :Defx -split=vertical -winwidth=40 -direction=topleft<CR>
+  " nnoremap <silent> <C-e> :Defx -split=vertical -winwidth=40 -direction=topleft<CR>
+  nnoremap <silent> <C-e> :Defx -split=vertical -winwidth=40 -direction=topleft `expand('%:p:h')` -search=`expand('%:p')` <CR>
 endif
 
 if dein#tap('fzf.vim')
@@ -369,7 +371,7 @@ if dein#tap('vim-table-mode')
   let g:table_mode_motion_left_map = '<C-h>'
   let g:table_mode_motion_right_map = '<C-l>'
   let g:table_mode_realign_map = '<Leader>tr'
-  let g:table_mode_delete_row_map = '<Leader>tdd'
+  let g:table_mode_delete_row_map = '<Leader>tdr'
   let g:table_mode_delete_column_map = '<Leader>tdc'
   let g:table_mode_add_formula_map = '<Leader>tfa'
   let g:table_mode_eval_formula_map = '<Leader>tfe'
@@ -417,11 +419,12 @@ if dein#tap('vim-subversive')
   nmap ss <plug>(SubversiveSubstituteLine)
   " nmap S <plug>(SubversiveSubstituteToEndOfLine)
 
-  "置換したい文字列を範囲指定 -> 変更する範囲を指定
+  " 置換したい文字列を範囲指定 -> 変更する範囲を指定
   nmap <Leader>s <plug>(SubversiveSubstituteRange)
   xmap <Leader>s <plug>(SubversiveSubstituteRange)
   nmap <Leader>ss <plug>(SubversiveSubstituteWordRange)
 
+  " <Leader>sの確認ありバージョン
   nmap <Leader>r <plug>(SubversiveSubstituteRangeConfirm)
   xmap <Leader>r <plug>(SubversiveSubstituteRangeConfirm)
   nmap <Leader>rr <plug>(SubversiveSubstituteWordRangeConfirm)
@@ -478,7 +481,7 @@ if dein#tap('defx.nvim')
           \ defx#do_action('open_tree_recursive', [5]):
     nnoremap <silent><buffer><expr> h
           \ defx#do_action('close_tree')
-    nnoremap <silent><buffer><expr> H defx#do_action('cd', ['..'])
+    nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
     " nnoremap <silent><buffer><expr> <CR>
     "      \ defx#is_directory() ?
     "      \ defx#do_action('open_or_close_tree'):
@@ -492,11 +495,11 @@ if dein#tap('defx.nvim')
 
     " open file
     nnoremap <silent><buffer><expr> s
-          \ defx#do_action('multi', [['drop', 'split'], 'quit'])
+          \ defx#do_action('multi', [['open', 'split'], 'quit'])
     nnoremap <silent><buffer><expr> v
-          \ defx#do_action('multi', [['drop', 'vsplit'], 'quit'])
+          \ defx#do_action('multi', [['open', 'vsplit'], 'quit'])
     nnoremap <silent><buffer><expr> t
-          \ defx#do_action('multi', ['quit', ['drop', 'tabnew']])
+          \ defx#do_action('multi', ['quit', ['open', 'tabnew']])
     nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
 
     " move file
@@ -614,18 +617,12 @@ if dein#tap('fzf.vim')
   command! -nargs=? Emoji call s:fzf_emoji(<f-args>)
   command! -bang -nargs=+ -complete=dir Ag call fzf#vim#ag_raw(<q-args>, <bang>0)
 
-  command! -bang -nargs=* Rg
+  command! -bang -nargs=* -complete=dir Rg
         \  call fzf#vim#grep(
         \    'rg --column --line-number --no-heading --color=always --smart-case '.(<q-args>), 1,
         \    <bang>0 ? fzf#vim#with_preview('up:60%')
         \            : fzf#vim#with_preview('right:50%:hidden'),
         \    <bang>0)
-  " command! -bang -nargs=* Rg
-  "      \ call fzf#vim#grep(
-  "      \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-  "      \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  "      \           : fzf#vim#with_preview('right:50%:hidden'),
-  "      \   <bang>0)
 
   " Likewise, Files command with preview window
   command! -bang -nargs=? -complete=dir Files
@@ -880,11 +877,16 @@ if dein#tap('lightline.vim')
   " function! MyJpMode()
   "   return IMStatus("JPMODE")
   " endfunction
-
+  "
+  " function! MyFile()
+  "   return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+  "        \ ('' != expand('%') ? ShortenPath() : '[No Name]') .
+  "        \ ('' != MyModified() ? ' ' . MyModified() : '')
+  " endfunction
   function! MyFile()
     return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-          \ ('' != expand('%') ? ShortenPath() : '[No Name]') .
-          \ ('' != MyModified() ? ' ' . MyModified() : '')
+         \ ('' != expand('%') ? fnamemodify(expand("%"), ":~:.") : '[No Name]') .
+         \ ('' != MyModified() ? ' ' . MyModified() : '')
   endfunction
 
   function! ShortenPath()
@@ -950,14 +952,14 @@ if dein#tap('vim-smartinput')
   call smartinput#define_rule({
         \   'at': '\s\+\%#',
         \   'char': '<CR>',
-        \   'input': "<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', ''))<CR><CR>",
+        \   'input': "<C-o>:call setline(line('.'), substitute(getline(line('.')), '\\s\\+$', '', ''))<CR><CR>",
         \   })
 
   call smartinput#map_to_trigger('i', '<bar>', '<bar>', '<bar>')
   call smartinput#define_rule({
-        \  'at': '^|\%#$',
+        \  'at': '^\%#',
         \  'char': '<bar>',
-        \  'input': '<c-o>:TableModeEnable<cr><bar><left>',
+        \  'input': '<c-o>:TableModeEnable<cr><bar><space>',
         \  })
 endif
 
@@ -1154,7 +1156,7 @@ endif
 " vim-gitgutter
 "--------------------
 if dein#tap('vim-gitgutter')
-  let g:gitgutter_enabled = 1
+  let g:gitgutter_enabled = 0
   let g:gitgutter_map_keys = 0
   let g:gitgutter_max_signs = 2000
 endif
@@ -1208,6 +1210,7 @@ endif
 " plugin ここまで
 "--------------------
 
+let g:python3_host_prog = substitute(system('which python3'),"\n","","")
 
 "-----------------------
 " 表示系
@@ -1315,15 +1318,7 @@ if (has("termguicolors"))
     let ayucolor="light"  " for light version of theme
 
     augroup mycolorscheme
-
-      "quickfixの色
-      " autocmd ColorScheme * hi link QuickFixLine Normal "現在選択中のファイル
-      " autocmd ColorScheme * hi link qfFileName Normal "通常のファイル
-
-      " autocmd ColorScheme * hi SpecialKey ctermfg=14 guifg=#5C6773
-
     augroup END
-    " colorscheme ayu
     colorscheme one
     " colorscheme PaperColor
   endif
@@ -1456,6 +1451,7 @@ augroup END
 "ファイル操作
 "--------------------------------
 set autowrite
+set nofixeol
 
 " autocmd CursorHold * wall
 " autocmd CursorHoldI * wall
@@ -1476,16 +1472,13 @@ autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
 
 " shebang持ちのファイルの保存時に実行権限を付与
 if executable('chmod')
-  function! s:add_permission_x() abort " {{{
-    autocmd! Permission BufWritePost <buffer>
-    if !stridx(getline(1), '#!')
-      silent system('chmod u+x ' . shellescape(expand('%')))
+  autocmd BufWritePost * :call AddExecmod()
+  function AddExecmod()
+    let line = getline(1)
+    if strpart(line, 0, 2) == "#!"
+      call system("chmod +x ". expand("%"))
     endif
-  endfunction " }}}
-  augroup Permission " {{{
-    autocmd!
-    autocmd BufNewFile * autocmd Permission BufWritePost <buffer>  call s:add_permission_x()
-  augroup END " }}}
+  endfunction
 endif
 
 " ファイルを開いた際に、前回終了時の行で起動
@@ -1499,6 +1492,8 @@ set backspace=start,eol,indent
 
 set scrolloff=0
 set history=1000
+
+command! -nargs=? -bang PWD echo expand('%') 
 
 command! -nargs=? -complete=dir -bang CD  call s:ChangeCurrentDir('<args>', '<bang>')
 function! s:ChangeCurrentDir(directory, bang)
@@ -1626,6 +1621,9 @@ set expandtab
 set tabstop=2
 set softtabstop=-1
 set shiftwidth=2
+set autoindent
+set smartindent
+set smarttab
 
 
 augroup vimrcchecktime
