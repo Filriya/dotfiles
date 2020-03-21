@@ -30,6 +30,8 @@ if [ ! -e $HOME/.zplugin/bin/zplugin.zsh ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
 fi
 
+source ~/.zinit/bin/zinit.zsh
+
 if [[ -s "${ZDOTDIR:-$HOME}/.zplugin/bin/zplugin.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zplugin/bin/zplugin.zsh"
 fi
@@ -79,7 +81,7 @@ fi
 
 unset GREP_OPTIONS
 
-setopt no_flow_control
+unsetopt FLOW_CONTROL
 stty stop undef
 stty start undef
 
@@ -97,7 +99,11 @@ alias -g F='| fzf'
 alias -g SJIS='| nkf'
 alias -g N='&& notify completed || notify error'
 
-
+# 反cd
+# alias cd='nocd'
+symbols() {
+  echo "%^&*()-=_+[]{};:'\".,/\\¥<>?"
+}
 # haskell stack
 if type "stack" > /dev/null 2>&1; then
   path=(${ZDOTDIR:-$HOME}/.local/bin $path)
@@ -137,8 +143,9 @@ function cdup() {
   zle accept-line
 }
 zle -N cdup
-bindkey '^\^' cdup
+bindkey '^^' cdup
 
+bindkey -r '^q'
 bindkey '^q' beginning-of-line
 
 
@@ -151,33 +158,25 @@ _sr_comp() {
 compdef _sr_comp sr
 
 #tmux
-autoload -Uz tm && tm
-alias tl='tmux_list'
-_tm_comp() {
-  compadd `tmux_list`
-}
-compdef _tm_comp tm
-
 autoload -Uz til
 autoload -Uz bk
 
 # リポジトリにcd
+
 function open_project () {
-  local ghqroot=`ghq root`
-
-  local repo_name=$({find $(ghq root) -type d -name ".git" -maxdepth 3; find $(ghq root)/github.com -maxdepth 3 -name ".git"} | perl -pse 's/$root\/(.*)\/.git/\1/' -- -root=$(ghq root)|fzf);
-  if [ -n "$repo_name" ]; then
-    local session_name=$(echo $repo_name|perl -pse 's/\./_/g'|perl -pse 's/\//__/g')
-
-    BUFFER+="tm -c ${ghqroot}/${repo_name} $session_name"
+  local command=$(echo-open-project-command)
+  if [ -n "$command" ]; then
+    BUFFER+=$command
     zle accept-line
   fi
   zle clear-screen
 }
+
 zle -N open_project
-bindkey '^t' open_project
+bindkey '^s' open_project
 
 setopt nonomatch
+setopt dotglob
 
 # hub member
 function hub-member {
@@ -211,6 +210,7 @@ setopt HIST_IGNORE_SPACE # 行頭がスペースのコマンドは記録しな�
 setopt HIST_FIND_NO_DUPS # 履歴検索中、(連続してなくとも)重複を飛ばす
 setopt HIST_REDUCE_BLANKS # 余分な空白は詰めて記録
 setopt HIST_NO_STORE # histroyコマンドは記録しない
+
 
 # clang
 alias clang-omp="$HOMEBREW_PREFIX/opt/llvm/bin/clang -fopenmp -L$HOMEBREW_PREFIX/opt/llvm/lib -Wl,-rpath,$HOMEBREW_PREFIX/opt/llvm/lib"
@@ -256,12 +256,12 @@ if [ "$SSH_TTY" == "" ]; then
     print $cache_hosts_file
   }
 
-  update_cache_hosts () {
-    find ~/.ssh/conf.d -type f | xargs grep -ih "host " |cut -d ' ' -f 2|sort >|  $cache_hosts_file
-  }
+update_cache_hosts () {
+  find ~/.ssh/conf.d -type f | xargs grep -ih "host " |cut -d ' ' -f 2|sort >|  $cache_hosts_file
+}
 
-  update_cache_hosts
-  _cache_hosts=(print_cache_hosts )
+update_cache_hosts
+_cache_hosts=(print_cache_hosts )
 fi
 
 
@@ -287,6 +287,8 @@ alias sf='php `git rev-parse --show-toplevel`/symfony'
 # vim
 alias vim='nvim'
 
+alias vg='vagrant'
+
 # last
 if (which zprof > /dev/null) ;then
   zprof | less
@@ -303,6 +305,8 @@ fi
 if [[ -s "$HOME/.cargo/env" ]]; then
   source "$HOME/.cargo/env"
 fi
+export RUST_BACKTRACE=1
+
 
 ### Added by Zplugin's installer
 source "$HOME/.zplugin/bin/zplugin.zsh"
@@ -310,11 +314,12 @@ autoload -Uz _zplugin
 (( ${+_comps} )) && _comps[zplugin]=_zplugin
 ### End of Zplugin installer's chunk
 
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
+
 if [[ ! -n $TMUX && -z $SSH_TTY ]]; then
   tm $(tmux list-sessions | grep attached | perl -pe "s/^([^:]*):.*/\1/g")
 fi
 
 
-# tabtab source for packages
-# uninstall by removing these lines
-[[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true

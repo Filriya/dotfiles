@@ -1,0 +1,6 @@
+#!/bin/bash
+repo_name=$(select-project)
+if [ -n "$repo_name" ]; then
+  session_name=$(echo $repo_name|perl -pse 's/\./_/g'|perl -pse 's/\//__/g')
+  echo "tm -c $(ghq root)/${repo_name} $session_name"
+fi

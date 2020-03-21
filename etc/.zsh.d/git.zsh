@@ -18,6 +18,7 @@ alias g='git'
 # # Branch (b)
 alias gb='git branch --verbose'
 alias gba='git branch --all --verbose'
+alias gbv='git branch -r --track --sort="authordate" --sort="authorname" --format="%(refname:lstrip=2)  %(authordate) %(authorname)" | column -t'
 alias gbx='git branch --delete'
 alias gbX='git branch --delete --force'
 alias gbm='git branch --move'

@@ -46,7 +46,7 @@
   process = git-lfs filter-process
   required = true
 [ghq]
-  root = ~/projects
+	root = ~/Dropbox/projects
 [diff "cp932"]
   textconv=iconv -f cp932 -t utf-8
 [diff "sjis"]

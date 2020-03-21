@@ -1,0 +1,49 @@
+# A valid snippet should starts with:
+#
+#    snippet trigger_word [ "description" [ options ] ]
+#
+# and end with:
+#
+#    endsnippet
+#
+# Snippet options:
+#
+#    b - Beginning of line.
+#    i - In-word expansion.
+#    w - Word boundary.
+#    r - Regular expression
+#    e - Custom context snippet
+#    A - Snippet will be triggered automatically, when condition matches.
+#
+# Basic example:
+#
+#    snippet emitter "emitter properties" b
+#    private readonly ${1} = new Emitter<$2>()
+#    public readonly ${1/^_(.*)/$1/}: Event<$2> = this.$1.event
+#    endsnippet
+#
+# Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
+
+snippet read "read io" b
+fn read<T: std::str::FromStr>() -> T {
+    let mut s = String::new();
+    std::io::stdin().read_line(&mut s).ok();
+    s.trim().parse().ok().unwrap()
+}
+
+fn read_vec<T: std::str::FromStr>() -> Vec<T> {
+    read::<String>()
+        .split_whitespace()
+        .map(|e| e.parse().ok().unwrap())
+        .collect()
+}
+
+fn read_vec2<T: std::str::FromStr>(n: u32) -> Vec<Vec<T>> {
+    (0..n).map(|_| read_vec()).collect()
+}
+
+fn write_vec<T: ToString>(vec: Vec<T>) {
+    let str_vec: Vec<String> = vec.iter().map(|x| x.to_string()).collect();
+    println!("{}", str_vec.join(" "));
+}
+endsnippet

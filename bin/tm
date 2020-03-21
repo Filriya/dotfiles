@@ -1,0 +1,27 @@
+#!/bin/zsh
+
+# 名前が完全一致したものをattachする
+# $1 session name
+# -c dirpath
+
+local -A opthash
+zparseopts -D -A opthash -- c:
+
+if [[ -n "${opthash[(i)-c]}" ]]; then
+  local currentdir=${opthash[-c]}
+else
+  local currentdir=$PWD
+fi
+
+if [ $# -eq 0 ]; then
+  local sessionname=$(basename $PWD)
+else
+  local sessionname=$1
+fi
+
+if [[ ! -n $TMUX ]]; then # tmuxの中にいないとき
+  tmux new -A -s $sessionname -c $currentdir
+else #tmuxの中にいるとき
+  tmux command-prompt "new -A -s $sessionname -c $currentdir"
+fi
+

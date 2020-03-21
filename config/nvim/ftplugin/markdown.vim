@@ -28,8 +28,6 @@ function! MarkdownToggleCheckbox(type, ...)
   endwhile
 endfunction
 
-echo 'hoge'
-
 syntax match mkdLineBreak /\s\s$/ conceal cchar=↵
 
 xnoremap <silent> <buffer> <Bslash> 
@@ -47,9 +45,6 @@ if dein#tap('vim-markdown')
   autocmd FileType markdown nnoremap <silent><buffer> - :<C-u>.HeaderDecrease<CR>
   autocmd FileType markdown vnoremap <silent><buffer> + :<C-u>'<,'>HeaderIncrease<CR>
   autocmd FileType markdown vnoremap <silent><buffer> - :<C-u>'<,'>HeaderDecrease<CR>
-
-  " gabrielelana/vim-markdown
-  " autocmd FileType markdown nnoremap <silent><buffer> \ :call markdown#SwitchStatus()<CR>
 
 endif
 

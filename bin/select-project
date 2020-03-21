@@ -1,0 +1,7 @@
+#/bin/bash
+ghqroot=$(ghq root)
+
+(find $ghqroot -maxdepth 3 -type d -name ".git"; find $ghqroot/github.com -maxdepth 3 -type d -name ".git") \
+    | perl -pse 's/$root\/(.*)\/.git/\1/' -- -root=$ghqroot \
+    | sort \
+    | fzf

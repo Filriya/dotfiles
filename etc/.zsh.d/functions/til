@@ -2,7 +2,7 @@
 
 function til()
 {
-  rootDir=~/projects/til
+  rootDir=~/Dropbox/projects/til
 
   if [ $# = 0 ] ; then
     echo "第一引数に言語を指定してください"

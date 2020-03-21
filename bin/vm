@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-
 list() {
   cat ~/.vagrant.d/data/machine-index/index \
-    | jq -r '.machines | to_entries | map([.key, .value.name, .value.state, .value.vagrantfile_path])[] | join (" ")' \
-    | perl -pe "s/([\S]{7})[\S]*(.*)/\1\2/" \
+    | jq -r '.machines | to_entries | map([.key, .value.name, .value.provider, .value.state, .value.vagrantfile_path])[] | join (" ")' \
+    | perl -pe "s/([\S]{8})[\S]*(.*)/\1\2/" \
     | column -t
 }
 
@@ -13,38 +12,110 @@ _select() {
   else
     machines=$(list | grep $1)
   fi
-  echo $machines | head -n 1 | perl -pe 's/[ ]+/ /g'
+  echo $machines | head -n 1
 }
 
-up() {
+_key() {
+  if [ -p /dev/stdin ]; then
+    str=`cat -`
+  else
+    str=$@
+  fi
+
+  echo $(echo $str | cut -d " " -f 1)
+}
+
+_name() {
+  if [ -p /dev/stdin ]; then
+    str=`cat -`
+  else
+    str=$@
+  fi
+
+  echo $(echo $str | cut -d " " -f 2)
+}
+
+_privider() {
+  if [ -p /dev/stdin ]; then
+    str=`cat -`
+  else
+    str=$@
+  fi
+
+  echo $(echo $str | cut -d " " -f 3)
+}
+
+_state() {
+  if [ -p /dev/stdin ]; then
+    str=`cat -`
+  else
+    str=$@
+  fi
+
+  echo $(echo $str | cut -d " " -f 4)
+}
+
+_path() {
+  if [ -p /dev/stdin ]; then
+    str=`cat -`
+  else
+    str=$@
+  fi
+
+  echo $(echo $str | cut -d " " -f 5)
+}
+
+on() {
   machine=$(_select "$@")
-  machineId=$(echo $machine | cut -d " " -f 1)
-  machineStat=$(echo $machine | cut -d " " -f 3)
-  machinePath=$(echo $machine | cut -d " " -f 4)
+  state=$(_state $machine)
+  path=$(_path $machine)
 
   echo -e "\033[0;36mvagrant up $machinePath\033[0;m"
 
-  if [ $machineStat = "running" ]; then
+  \cd $path
+
+  echo $state
+
+  if [[ $state = "running" ]]; then
     # pcスリープ時など、statusがrunningからsavedに変わらない場合がある
-    vagrant resume $machineId 2> /dev/null
-  elif [ $machineStat = "poweroff" ]; then
-    vagrant up $machineId
-  elif [[ $machineStat = "saved" ]]; then
-    vagrant resume $machineId
-  elif [ $machineStat = "aborted" ]; then
-    echo "reload"
-    vagrant reload $machineId
+    vagrant resume 2> /dev/null
+  elif [[ $state = "poweroff" ]]; then
+    vagrant up
+  elif [[ $state = "saved" ]]; then
+    vagrant resume
+  elif [[ $state = "aborted" ]]; then
+    vagrant reload
   fi
 }
 
-suspend() {
+pause() {
+  machine=$(_select "$@")
+  state=$(_state $machine)
+  
+  if [ $state = "running" ]; then
+    echo -e "\033[0;36mvagrant stop $machinePath\033[0;m"
+    vagrant resume 2> /dev/null
+  fi
+}
+
+pause-all() {
   list | grep running | cut -f 1 -d " "|xargs --no-run-if-empty vagrant suspend
 
   #vmware用
   #vmrun list | grep vmx | xargs --no-run-if-empty  vmrun suspend
 }
 
-halt() {
+off() {
+  machine=$(_select "$@")
+  state=$(_state $machine)
+
+  if [ $state = "running" ]; then
+    echo -e "\033[0;36mvagrant stop $machinePath\033[0;m"
+    vagrant halt 2> /dev/null
+  fi
+}
+
+off-all() {
   list | grep saved | cut -f 1 -d " "|xargs --no-run-if-empty vagrant halt
   list | grep running | cut -f 1 -d " "|xargs --no-run-if-empty vagrant halt
 
@@ -52,48 +123,61 @@ halt() {
   # vmrun list | grep vmx | xargs --no-run-if-empty  vmrun stop
 }
 
-reload() {
+restart() {
   halt "$@"
   up "$@"
 }
 
 ssh() {
-  # getoptsでの引数判定
-  while getopts ":u:" OPT
-  do
-    case $OPT in
-      u) OPT_FLAG_UP=1;;
-    esac
-  done
-
-  # getopts分の引数値移動
-  shift $(($OPTIND - 1))
-
   machine=$(_select "$@")
-
-  machineId=$(echo $machine | cut -d " " -f 1)
-
-  if [ "$OPT_FLAG_UP" = "1" ]; then
-    echo 'up'
-    up $machineId
-  fi
+  machineId=$(_key $machine)
   vagrant ssh $machineId
+}
+
+_functions() {
+  compgen -A function \
+    | sort \
+    | grep -v -E '^_' \
+    | grep -v -E 'main'
 }
 
 # http://qiita.com/kitsuyui/items/4b204963e0ebec53fe3c
 --help() {
   echo 'Usage:'
-  compgen -A function \
-    | grep -v -E '^_' \
-    | xargs -I % echo ' ' "$(basename "$0")" %
+  _functions | perl -pe "s/(.*)/  vm \1/"
   echo ""
   echo "require: fzf"
 }
 
 main() {
-  unset -f -- "${FUNCNAME[0]}"
-  ! declare -F -- "$1" >/dev/null && --help && exit 1
-  "$@"
+  local params=()
+  flag_all=0
+  for OPT in "$@"
+  do
+    case $OPT in
+        -h | --help)
+            --help
+            exit 1
+            ;;
+        -a )
+            flag_all=1
+            shift 1
+            ;;
+         * )
+           params+=( "$1" )
+           shift 1
+           ;;
+    esac
+  done
+  if [[ $flag_all = 1 ]]; then
+    params[0]="${params[0]}-all"
+  fi
+
+  ! declare -F -- "${params[0]}" >/dev/null && --help && exit 1
+
+  command="$(IFS=' '; echo "${params[*]}")"
+
+  $command
 }
 
 main "$@"

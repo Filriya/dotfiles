@@ -18,6 +18,7 @@
   "rust.clippy_preference": "on",
   "python.jediEnabled": false,
   "vetur.experimental.templateInterpolationService": false,
+  "vetur.validation.template": false,
   "list.insertMappings": {
     "<C-n>": "normal:j",
     "<C-p>": "normal:k",

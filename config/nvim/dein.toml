@@ -89,12 +89,12 @@ repo = 'airblade/vim-gitgutter'
 
 
 # vim-easyclip
-[[plugins]]
-repo = "svermeulen/vim-cutlass"
-[[plugins]]
-repo = "svermeulen/vim-yoink"
-[[plugins]]
-repo = "svermeulen/vim-subversive"
+# [[plugins]]
+# repo = "svermeulen/vim-cutlass"
+# [[plugins]]
+# repo = "svermeulen/vim-yoink"
+# [[plugins]]
+# repo = "svermeulen/vim-subversive"
 
 #
 # textobj
@@ -126,11 +126,14 @@ repo = 'osyo-manga/vim-textobj-multiblock' #sb
 repo = 'terryma/vim-expand-region'
 
 #
-# language server
+# language server client
 [[plugins]]
 repo = 'neoclide/coc.nvim'
 merged = 0
 rev = 'release'
+
+#
+# debug adaptor client
 
 #
 # filetype

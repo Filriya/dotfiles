@@ -1,0 +1,13 @@
+#/bin/bash
+
+xattr -w com.dropbox.ignored 1 ~/Dropbox/projects/secondpress/web/dist
+xattr -w com.dropbox.ignored 1 ~/Dropbox/projects/secondpress-frontend/dist
+xattr -w com.dropbox.ignored 1 ~/Dropbox/projects/secondpress-frontend/.nuxt
+xattr -w com.dropbox.ignored 1 ~/Dropbox/vagrant/secondpress/.vagrant
+xattr -w com.dropbox.ignored 1 ~/Dropbox/vagrant/matome/.vagrant
+xattr -w com.dropbox.ignored 1 ~/Dropbox/vagrant/docker/.vagrant
+xattr -w com.dropbox.ignored 1 ~/Dropbox/projects/dotfiles/config/coc
+xattr -w com.dropbox.ignored 1 ~/Dropbox/projects/dotfiles/nvim/sessions
+
+find ~/Dropbox/projects -maxdepth 3 -type d -name "node_modules" | xargs xattr -w com.dropbox.ignored 1 
+

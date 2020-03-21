@@ -79,7 +79,6 @@ brew cleanup
 
 # link dropbox dir to home
 ln -sf ${HOME}/Dropbox/.ssh ${HOME}/
-ln -sf ${HOME}/Dropbox/projects ${HOME}/
 ln -sf ${HOME}/Dropbox/Downloads ${HOME}/
 ln -sf ${HOME}/Dropbox/アプリ/.hammerspoon ${HOME}/
 ln -sf ${HOME}/Dropbox/VSCode/extensions ${HOME}/.vscode/

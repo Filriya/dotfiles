@@ -99,10 +99,10 @@ nnoremap g? :!open dict://<cword><CR>
 " ウィンドウ、タブ、バッファの分割・移動
 " Window Tab Buffer
 " ----------------------------------------
-nnoremap <silent> <C-t>n :echo noaction
-nnoremap <silent> <C-t><C-n> :echo noaction
-nnoremap <silent> <C-t>p :echo noaction
-nnoremap <silent> <C-t><C-p> :echo noaction
+nnoremap <silent> <C-t>n :echo noaction<CR>
+nnoremap <silent> <C-t><C-n> :echo noaction<CR>
+nnoremap <silent> <C-t>p :echo noaction<CR>
+nnoremap <silent> <C-t><C-p> :echo noaction<CR>
 
 " タブの操作
 nnoremap <silent> <C-w>n :<C-u>tabnext<CR>
@@ -121,15 +121,11 @@ nnoremap <silent> <C-w>8 :<C-u>tabn 8<CR>
 nnoremap <silent> <C-w>9 :<C-u>tabn 9<CR>
 nnoremap <silent> <C-w>0 :<C-u>tabn 10<CR>
 
-nnoremap <silent> <C-w>w :<C-u>tabnew<CR>:tabmove<CR>
-nnoremap <silent> <C-w><C-w> :<C-u>tabnew<CR>:tabmove<CR>
-nnoremap <silent> <C-w>d :<C-u>tabclose<CR>
-nnoremap <silent> <C-w><C-d> :<C-u>tabclose<CR>
+nnoremap <silent> <C-w>c :<C-u>tabnew<CR>:tabmove<CR>
+nnoremap <silent> <C-w><C-c> :<C-u>tabnew<CR>:tabmove<CR>
 
 nnoremap <silent> <C-w>v :<C-u>vsp<CR>
-nnoremap <silent> <C-w><bar> :<C-u>vsp<CR>
 nnoremap <silent> <C-w>s :<C-u>sp<CR>
-nnoremap <silent> <C-w>- :<C-u>sp<CR>
 
 nnoremap <C-z> `.zz
 
@@ -334,9 +330,10 @@ if dein#tap('vim-sandwich')
 endif
 
 
-map <Leader>g [git]
+map <C-g> [git]
 if dein#tap("vim-fugitive")
   nnoremap [git]w :Gstatus<CR>
+  nnoremap [git]c :Gcommit<CR>
   nnoremap [git]d :Gdiff<CR>
   nnoremap [git]B :Gblame<CR>
   vnoremap [git]B :Gbrowse<CR>
@@ -389,46 +386,46 @@ if dein#tap('tagbar')
   nnoremap <Leader>o :TagbarToggle<CR>
 endif
 
-if dein#tap('vim-cutlass')
-  nnoremap m d
-  xnoremap m d
-  nnoremap mm dd
-  nnoremap M D
+" if dein#tap('vim-cutlass')
+"   nnoremap m d
+"   xnoremap m d
+"   nnoremap mm dd
+"   nnoremap M D
+"
+"   " nnoremap x d
+"   " xnoremap x d
+"   " nnoremap xx dd
+"   " nnoremap X D
+" endif
+"
 
-  " nnoremap x d
-  " xnoremap x d
-  " nnoremap xx dd
-  " nnoremap X D
-endif
+" if dein#tap('vim-yoink')
+"   nmap <C-n> <plug>(YoinkPostPasteSwapBack)
+"   nmap <C-p> <plug>(YoinkPostPasteSwapForward)
+"
+"   nmap p <plug>(YoinkPaste_p)
+"   nmap P <plug>(YoinkPaste_P)
+"
+"   nmap [y <plug>(YoinkRotateBack)
+"   nmap ]y <plug>(YoinkRotateForward)
+"   nmap <C-=> <plug>(YoinkPostPasteToggleFormat)
+" endif
 
-
-if dein#tap('vim-yoink')
-  nmap <C-n> <plug>(YoinkPostPasteSwapBack)
-  nmap <C-p> <plug>(YoinkPostPasteSwapForward)
-
-  nmap p <plug>(YoinkPaste_p)
-  nmap P <plug>(YoinkPaste_P)
-
-  nmap [y <plug>(YoinkRotateBack)
-  nmap ]y <plug>(YoinkRotateForward)
-  nmap <C-=> <plug>(YoinkPostPasteToggleFormat)
-endif
-
-if dein#tap('vim-subversive')
-  nmap s <plug>(SubversiveSubstitute)
-  nmap ss <plug>(SubversiveSubstituteLine)
-  " nmap S <plug>(SubversiveSubstituteToEndOfLine)
-
-  " 置換したい文字列を範囲指定 -> 変更する範囲を指定
-  nmap <Leader>s <plug>(SubversiveSubstituteRange)
-  xmap <Leader>s <plug>(SubversiveSubstituteRange)
-  nmap <Leader>ss <plug>(SubversiveSubstituteWordRange)
-
-  " <Leader>sの確認ありバージョン
-  nmap <Leader>r <plug>(SubversiveSubstituteRangeConfirm)
-  xmap <Leader>r <plug>(SubversiveSubstituteRangeConfirm)
-  nmap <Leader>rr <plug>(SubversiveSubstituteWordRangeConfirm)
-endif
+" if dein#tap('vim-subversive')
+"   nmap s <plug>(SubversiveSubstitute)
+"   nmap ss <plug>(SubversiveSubstituteLine)
+"   " nmap S <plug>(SubversiveSubstituteToEndOfLine)
+"
+"   " 置換したい文字列を範囲指定 -> 変更する範囲を指定
+"   nmap <Leader>s <plug>(SubversiveSubstituteRange)
+"   xmap <Leader>s <plug>(SubversiveSubstituteRange)
+"   nmap <Leader>ss <plug>(SubversiveSubstituteWordRange)
+"
+"   " <Leader>sの確認ありバージョン
+"   nmap <Leader>r <plug>(SubversiveSubstituteRangeConfirm)
+"   xmap <Leader>r <plug>(SubversiveSubstituteRangeConfirm)
+"   nmap <Leader>rr <plug>(SubversiveSubstituteWordRangeConfirm)
+" endif
 
 nnoremap S :%s/\v
 vnoremap S :s/\v
@@ -443,6 +440,9 @@ vnoremap S :s/\v
 
 
 
+" --------------------
+" setting ここから
+" --------------------
 
 "-----------
 " defx
@@ -481,7 +481,7 @@ if dein#tap('defx.nvim')
           \ defx#do_action('open_tree_recursive', [5]):
     nnoremap <silent><buffer><expr> h
           \ defx#do_action('close_tree')
-    nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
+    nnoremap <silent><buffer><expr> ^ defx#do_action('cd', ['..'])
     " nnoremap <silent><buffer><expr> <CR>
     "      \ defx#is_directory() ?
     "      \ defx#do_action('open_or_close_tree'):
@@ -900,8 +900,8 @@ endif
 "vim-quickrun
 "--------------------
 if dein#tap("vim-quickrun")
-  nnoremap <Leader>\ :w<CR>:QuickRun<CR>
-  let g:quickrun_config ={}
+  " nnoremap <Leader>\ :w<CR>:QuickRun<CR>
+  let g:quickrun_config = {}
   let g:quickrun_config.scheme = { 'scheme': { 'command': 'gosh'}}
 endif
 
@@ -961,6 +961,38 @@ if dein#tap('vim-smartinput')
         \  'char': '<bar>',
         \  'input': '<c-o>:TableModeEnable<cr><bar><space>',
         \  })
+
+  call smartinput#map_to_trigger('i', '<Bar>', '<Bar>', '<Bar>')
+  call smartinput#define_rule({
+        \    'at': '\%#',
+        \    'char': '<Bar>',
+        \    'input': '<Bar><Bar><Left>',
+        \    'filetype': ['rust'],
+        \ })
+  call smartinput#define_rule({
+        \    'at': '\%#|',
+        \    'char': '<Bar>',
+        \    'input': '<Right>',
+        \    'filetype': ['rust'],
+        \ })
+  call smartinput#define_rule({
+        \    'at': '|\%#|',
+        \    'char': '<BS>',
+        \    'input': '<BS><Del>',
+        \    'filetype': ['rust'],
+        \ })
+  call smartinput#define_rule({
+        \    'at': '||\%#',
+        \    'char': '<BS>',
+        \    'input': '<BS><BS>',
+        \    'filetype': ['rust'],
+        \ })
+  call smartinput#define_rule({
+        \    'at': '\\\%#',
+        \    'char': '<Bar>',
+        \    'input': '<Bar>',
+        \    'filetype': ['rust'],
+        \ })
 endif
 
 "--------------------
@@ -982,7 +1014,7 @@ if dein#tap("vdebug")
   let g:vdebug_options['debug_window_level'] = 0
   let g:vdebug_options['debug_file_level'] = 0
   let g:vdebug_options['debug_file'] = ''
-  let g:vdebug_options['path_maps'] = {'/home/vagrant/projects': $HOME.'/Dropbox/projects'}
+  let g:vdebug_options['path_maps'] = {'/home/vagrant/projects': $HOME.'/projects'}
   let g:vdebug_options['watch_window_style'] = 'expanded'
   let g:vdebug_options['marker_default'] = '⬦'
   let g:vdebug_options['marker_closed_tree'] = '▸'
@@ -1189,25 +1221,32 @@ if dein#tap('vim-php-cs-fixer')
   let g:php_cs_fixer_verbose = 0                    " Return the output of command if 1, else an inline information.
 endif
 
-"--------------------
-" yoink
-"--------------------
-if dein#tap('vim-yoink')
-  let g:yoinkMaxItems = 30
-  let g:yoinkSyncNumberedRegisters = 0
-  let g:yoinkIncludeDeleteOperations = 1
-  " let g:yoinkSavePersistently = 1
-  let g:yoinkAutoFormatPaste = 0
-  let g:yoinkMoveCursorToEndOfPaste = 0
-  let g:yoinkSwapClampAtEnds = 1
-  let g:yoinkIncludeNamedRegisters = 1
+" "--------------------
+" " yoink
+" "--------------------
+" if dein#tap('vim-yoink')
+"   let g:yoinkMaxItems = 30
+"   let g:yoinkSyncNumberedRegisters = 0
+"   let g:yoinkIncludeDeleteOperations = 1
+"   " let g:yoinkSavePersistently = 1
+"   let g:yoinkAutoFormatPaste = 0
+"   let g:yoinkMoveCursorToEndOfPaste = 0
+"   let g:yoinkSwapClampAtEnds = 1
+"   let g:yoinkIncludeNamedRegisters = 1
+"
+"   set shada=!,'100,<50,s10,h
+" endif
 
-  set shada=!,'100,<50,s10,h
+"--------------------
+" vim-chrome-devtools
+"--------------------
+if dein#tap('vim-chrome-devtools')
+  let g:ChromeDevTools_host = 'localhost'
+  let g:ChromeDevTools_port = 9222
 endif
 
-
 "--------------------
-" plugin ここまで
+" setting ここまで
 "--------------------
 
 let g:python3_host_prog = substitute(system('which python3'),"\n","","")
@@ -1303,11 +1342,9 @@ if (has("termguicolors"))
       autocmd ColorScheme * hi NonText ctermbg=NONE guibg=NONE
       autocmd ColorScheme * hi SpecialKey ctermbg=NONE guibg=NONE
       autocmd ColorScheme * hi EndOfBuffer ctermbg=NONE guibg=NONE
-      autocmd ColorScheme * hi CursorLine ctermbg=NONE guibg=NONE
-      autocmd ColorScheme * hi CursorLineNr ctermbg=NONE guibg=NONE
+      " autocmd ColorScheme * hi CursorLine ctermbg=NONE guibg=NONE
+      " autocmd ColorScheme * hi CursorLineNr ctermbg=NONE guibg=NONE
       autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
-
-
 
     augroup END
     colorscheme ayu
@@ -1339,9 +1376,9 @@ else
     autocmd ColorScheme * hi CursorLineNr ctermfg=250
 
     " その他
-    autocmd ColorScheme * hi clear CursorLine
+    " autocmd ColorScheme * hi clear CursorLine
+    " autocmd ColorScheme * hi CursorLine ctermbg=236
 
-    autocmd ColorScheme * hi CursorLine ctermbg=236
     autocmd ColorScheme * hi Delimiter ctermfg=247
     autocmd ColorScheme * hi Comment ctermfg=73
   augroup END
