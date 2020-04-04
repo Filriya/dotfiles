@@ -93,6 +93,16 @@ nnoremap Q <Nop>
 " macの辞書を開く
 nnoremap g? :!open dict://<cword><CR>
 
+" clipboardにコピーする
+vnoremap Y "*y
+vnoremap D "*d
+
+"fold
+nnoremap zl zo
+nnoremap zL zO
+nnoremap zh zc
+nnoremap zH zC
+
 
 " ----------------------------------------
 " <t> commands
@@ -127,7 +137,7 @@ nnoremap <silent> <C-w><C-c> :<C-u>tabnew<CR>:tabmove<CR>
 nnoremap <silent> <C-w>v :<C-u>vsp<CR>
 nnoremap <silent> <C-w>s :<C-u>sp<CR>
 
-nnoremap <C-z> `.zz
+" nnoremap <C-z> `.zz
 
 " Moving back and forth between lines of same or lower indentation.
 nnoremap <silent> [l :call NextIndent(0, 0, 0, 1)<CR>
@@ -234,9 +244,12 @@ if dein#tap('coc.nvim')
 
   " Remap for format selected region
   " 整形
-  xmap <silent> gf <Plug>(coc-format-selected)
-  nmap <silent> gf <Plug>(coc-format-selected)
+  xmap <silent> gF <Plug>(coc-format-selected)
+  nmap <silent> gF <Plug>(coc-format-selected)
   nnoremap <silent> gF :<C-u>Format<CR>
+
+  " 折りたたみ
+  nnoremap <silent> gf :<C-u>Fold<CR>
 
   " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
   " 選択ファイルを関数化したり、別ファイルに書き出したり
@@ -249,7 +262,7 @@ if dein#tap('coc.nvim')
 
   " Fix autofix problem of current line
   " エラーの自動修正
-  nmap <silent> gqf  <Plug>(coc-fix-current)
+  nmap <silent> gq  <Plug>(coc-fix-current)
 
   " Use <tab> for select selections ranges, needs server support, like: coc-tsserver, coc-python
   " 謎
@@ -357,23 +370,24 @@ if dein#tap('vim-gitgutter')
 endif
 
 if dein#tap('vim-table-mode')
-  " let g:table_mode_disable_mappings = 1
+  let g:table_mode_disable_mappings = 0
 
+  let g:table_mode_map_prefix = "<C-t>"
   let g:table_mode_corner = "|"
   let g:table_mode_toggle_map = 'm'
-  let g:table_mode_tableize_map = '<Leader>T'
-  let g:table_mode_tableize_d_map = '<Leader>tt'
+  let g:table_mode_tableize_map = '<C-t>T'
+  let g:table_mode_tableize_d_map = '<C-t>t'
   let g:table_mode_motion_up_map = '<C-k>'
   let g:table_mode_motion_down_map = '<C-j>'
   let g:table_mode_motion_left_map = '<C-h>'
   let g:table_mode_motion_right_map = '<C-l>'
-  let g:table_mode_realign_map = '<Leader>tr'
-  let g:table_mode_delete_row_map = '<Leader>tdr'
-  let g:table_mode_delete_column_map = '<Leader>tdc'
-  let g:table_mode_add_formula_map = '<Leader>tfa'
-  let g:table_mode_eval_formula_map = '<Leader>tfe'
-  let g:table_mode_echo_cell_map = '<Leader>t?'
-  let g:table_mode_sort_map = '<Leader>ts'
+  let g:table_mode_realign_map = '<C-t>r'
+  let g:table_mode_delete_row_map = '<C-t>dr'
+  let g:table_mode_delete_column_map = '<C-t>dc'
+  let g:table_mode_add_formula_map = '<C-t>fa'
+  let g:table_mode_eval_formula_map = '<C-t>fe'
+  let g:table_mode_echo_cell_map = '<C-t>?'
+  let g:table_mode_sort_map = '<C-t>s'
 endif
 
 if dein#tap('memolist.vim')
@@ -453,15 +467,10 @@ if dein#tap('defx.nvim')
   function! s:defx_my_settings() abort
 
     function! Defx_git_root_dir(context) abort
-      if (system('git rev-parse --is-inside-work-tree') == "true\n")
-        let l:path = system('git rev-parse --show-toplevel')[0]
-        call defx#call_action('cd', [path])
-        echomsg string(path)
-      else
-      endif
+      let l:path = system('git rev-parse --show-toplevel')
+      let l:path = substitute(l:path, "[\n\r]", "", "g")
+      call defx#call_action('cd', l:path)
     endfunction
-    nnoremap <silent><buffer><expr> @
-          \ defx#do_action('call', 'Defx_git_root_dir')
 
     " Define mappings
     " move cursor
@@ -481,7 +490,7 @@ if dein#tap('defx.nvim')
           \ defx#do_action('open_tree_recursive', [5]):
     nnoremap <silent><buffer><expr> h
           \ defx#do_action('close_tree')
-    nnoremap <silent><buffer><expr> ^ defx#do_action('cd', ['..'])
+    nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
     " nnoremap <silent><buffer><expr> <CR>
     "      \ defx#is_directory() ?
     "      \ defx#do_action('open_or_close_tree'):
@@ -490,6 +499,7 @@ if dein#tap('defx.nvim')
     "      \ defx#is_directory() ?
     "      \ defx#do_action('open'):
     "      \ defx#do_action('drop')
+    nnoremap <silent><buffer><expr> ` defx#do_action('call', 'Defx_git_root_dir')
     nnoremap <silent><buffer><expr> ~ defx#do_action('cd')
     nnoremap <silent><buffer><expr> \ defx#do_action('cd', ['/'])
 
@@ -514,17 +524,17 @@ if dein#tap('defx.nvim')
     nnoremap <silent><buffer><expr> r     defx#do_action('rename')
 
     " select file
-    nnoremap <silent><buffer><expr> `     defx#do_action('toggle_select').'j'
-    vnoremap <silent><buffer><expr> `     defx#do_action('toggle_select_visual').'j'
-    nnoremap <silent><buffer><expr> *     defx#do_action('toggle_select_all')
+    nnoremap <silent><buffer><expr> J     defx#do_action('toggle_select').'j'
+    vnoremap <silent><buffer><expr> J     defx#do_action('toggle_select_visual').'j'
+    nnoremap <silent><buffer><expr> *        defx#do_action('toggle_select_all')
 
     " other
     nnoremap <silent><buffer><expr> x     defx#do_action('execute_system')
     nnoremap <silent><buffer><expr> yy    defx#do_action('yank_path')
     nnoremap <silent><buffer><expr> .     defx#do_action('toggle_ignored_files')
     nnoremap <silent><buffer><expr> <C-l> defx#do_action('redraw')
-    nnoremap <silent><buffer><expr> w     defx#do_action('change_vim_cwd')
     nnoremap <silent><buffer><expr> q     defx#do_action('quit')
+    nnoremap <silent><buffer><expr> cd    defx#do_action('change_vim_cwd')
 
   endfunction
 endif
@@ -653,6 +663,7 @@ if dein#tap('coc.nvim')
   set shortmess+=cI
   set signcolumn=yes
 
+  let g:coc_config_home='~/.config/nvim/coc/'
   augroup cocmygroup
     autocmd!
     " Setup formatexpr specified filetype(s).
@@ -666,6 +677,18 @@ if dein#tap('coc.nvim')
 
   " Use `:Fold` to fold current buffer
   command! -nargs=? Fold :call CocAction('fold', <f-args>)
+
+  " fold
+  " manual 手動で折畳を定義する
+  " indent インデントの数を折畳のレベル(深さ)とする
+  " expr 折畳を定義する式を指定する
+  " syntax 構文強調により折畳を定義する
+  " diff 変更されていないテキストを折畳対象とする
+  " marker テキスト中の印で折畳を定義する
+  " set foldmethod=indent
+  " set foldmethod=syntax
+  set foldmethod=manual
+  set foldlevel=100
 
   " use `:OR` for organize import of current buffer
   command! -nargs=0 OR  :call CocAction('runCommand', 'editor.action.organizeImport')
@@ -685,7 +708,8 @@ if dein#tap('coc.nvim')
         \  'coc-python',
         \  'coc-html',
         \  'coc-css',
-        \  'coc-phpls'
+        \  'coc-phpls',
+        \  'coc-yaml'
         \ ]
 
 
@@ -748,7 +772,7 @@ if dein#tap('vim-easymotion')
   let g:EasyMotion_enter_jump_first = 1
   let g:EasyMotion_space_jump_first = 1
   let g:EasyMotion_do_shade = 0
-  let g:EasyMotion_keys = "asdfjiopqwertyuklzxcvbnmgh;"
+  let g:EasyMotion_keys = "awefjioptyusdklzxcvbnmgh;"
   "asdf jiop qwert yukl zxcvbnm gh;"
 endif
 
@@ -1128,7 +1152,7 @@ if dein#tap('vim-markdown')
   let g:vim_markdown_json_frontmatter = 0
   let g:vim_markdown_conceal_code_blocks = 0
 
-  set nofoldenable
+  " set nofoldenable
 
   " gabrielelana/vim-markdown
   " let g:markdown_include_jekyll_support = 1 "disable support for Jekyll files (enabled by default with: 1)
@@ -1244,10 +1268,21 @@ if dein#tap('vim-chrome-devtools')
   let g:ChromeDevTools_host = 'localhost'
   let g:ChromeDevTools_port = 9222
 endif
+"--------------------
+" vim-sandwich
+"--------------------
+if dein#tap('vim-sandwich')
+  let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
+  let g:sandwich#recipes += [
+        \    {'buns': ['<', '>']}
+        \  ]
+endif
+
 
 "--------------------
 " setting ここまで
 "--------------------
+
 
 let g:python3_host_prog = substitute(system('which python3'),"\n","","")
 
@@ -1345,6 +1380,8 @@ if (has("termguicolors"))
       " autocmd ColorScheme * hi CursorLine ctermbg=NONE guibg=NONE
       " autocmd ColorScheme * hi CursorLineNr ctermbg=NONE guibg=NONE
       autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
+
+      autocmd ColorScheme * hi link Folded Comment
 
     augroup END
     colorscheme ayu
