@@ -16,7 +16,8 @@ window:
 
   decorations: buttonless
 
-  startup_mode: Maximized
+  # startup_mode: Maximized
+  startup_mode: Windowed
 
 scrolling:
   history: 10000
@@ -24,50 +25,55 @@ scrolling:
 
 # tabspaces: 8
 
-font:
-  normal:
-    family: "S2G Uni font"
-    style: Regular
-  bold:
-    family: "S2G Uni font"
-    style: Bold
-  italic:
-    family: "S2G Uni font"
-    style: Italic
+fonts:
+  uni: &uni
+    normal: {family: "S2G Uni font", style: Regular}
+    bold: { family: "S2G Uni font", style: Bold }
+    italic: { family: "S2G Uni font", style: Italic }
+    size: 24.0
+    use_thin_strokes: true
+    offset: {x: -1, y: 12}
 
-  # normal:
-  #   family: "更紗等幅ゴシック TJ"
-  #   style: Regular
-  # bold:
-  #   family: "更紗等幅ゴシック TJ"
-  #   style: Bold
-  # italic:
-  #   family: "更紗等幅ゴシック TJ"
-  #   style: Italic
-  #
-  # normal:
-  #   family: "ゆたぽん（コーディング）"
-  #   style: Regular
-  # bold:
-  #   family: "ゆたぽん（コーディング）Bold"
-  #   style: Bold
-  # italic:
-  #   family: "ゆたぽん（コーディング）Bold"
-  #   style: Bold
+  jetbrains: &jetbrains
+    normal: { family: "JetBrains Mono", style: "Regular" }
+    bold: { family: "JetBrains Mono", style: "Bold" }
+    italic: { family: "JetBrains Mono", style: "Italic" }
+    # size: 18.0
+    size: 19.0
+    use_thin_strokes: true
+    offset: {x: 0, y: 7}
 
-  size: 20.0
+  sarasa: &sarasa
+    normal: { family: "更紗等幅ゴシック J", style: Regular }
+    bold: { family: "更紗等幅ゴシック J", style: Bold }
+    italic: { family: "更紗等幅ゴシック J", style: Italic }
+    size: 19.0
+    use_thin_strokes: true
+    offset: {x: 1, y: 2}
 
-  offset:
-    x: 0
-    y: 0
+  sourcehan: &sourcehan
+    normal: { family: "源ノ角ゴシック Code JP", style: N }
+    bold: { family: "源ノ角ゴシック Code JP", style: B }
+    italic: { family: "源ノ角ゴシック Code JP", style: N It }
+    size: 16.0
+    use_thin_strokes: true
+    offset: {x: -1, y: 5}
 
-  glyph_offset:
-    x: 0
-    y: 0
+  yutapon: &yutapon
+    normal: { family: "ゆたぽん（コーディング）", style: Regular }
+    bold: { family: "ゆたぽん（コーディング）Bold", style: Bold }
+    italic: { family: "ゆたぽん（コーディング）Bold", style: Bold }
+    size: 20.0
+    use_thin_strokes: true
+    offset: {x: 0, y: 2}
 
-  # Thin stroke font rendering (macOS only)
-  # `defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO`
-  use_thin_strokes: true
+    # `defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO`
+
+font: *uni
+# font: *jetbrains
+# font: *sarasa
+# font: *sourcehan
+# font: *yutapon
 
 schemes:
   ayu: &mirage
@@ -268,25 +274,27 @@ key_bindings:
   #- { key: Minus,    mods: Control,       action: DecreaseFontSize }
   #- { key: Return,   mods: Alt,           action: ToggleFullscreen }
 
-  - { key: Q,      mods: Control, chars: "\x11" }
+  - { key: Q,      mods: Control,         chars: "\x11" }
 
   # (macOS only)
-  - { key: Key0,   mods: Command,         action: ResetFontSize    }
-  - { key: Equals, mods: Command,         action: IncreaseFontSize }
-  - { key: Add,    mods: Command,         action: IncreaseFontSize }
-  - { key: Minus,  mods: Command,         action: DecreaseFontSize }
-  - { key: K,      mods: Command,         action: ClearHistory     }
-  - { key: V,      mods: Command,         action: Paste            }
-  - { key: C,      mods: Command,         action: Copy             }
-  - { key: Q,      mods: Command,         action: Quit             }
-  - { key: W,      mods: Command,         action: Quit             }
-  # - { key: F,      mods: Command|Control, action: ToggleFullscreen }
+  - { key: Key0,   mods: Command,         action: ResetFontSize          }
+  - { key: Equals, mods: Command,         action: IncreaseFontSize       }
+  - { key: Add,    mods: Command,         action: IncreaseFontSize       }
+  - { key: Minus,  mods: Command,         action: DecreaseFontSize       }
+  - { key: K,      mods: Command,         action: ClearHistory           }
+  - { key: V,      mods: Command,         action: Paste                  }
+  - { key: C,      mods: Command,         action: Copy                   }
+  - { key: Q,      mods: Command,         action: Quit                   }
+  - { key: W,      mods: Command,         action: Quit                   }
+  - { key: F,      mods: Command,         action: ToggleSimpleFullscreen }
+  - { key: N,      mods: Command,         action: SpawnNewInstance       }
+  - { key: H,      mods: Command,         command:
+      { program: "osascript", args: [ "/Users/filriya/bin/alacritty_hide.scpt" ] }
+    }
 
-  #- { key: Paste,                    action: Paste                            }
-  #- { key: Copy,                     action: Copy                             }
-  #- { key: L,         mods: Control, action: ClearLogNotice                   }
-  #- { key: L,         mods: Control, chars: "\x0c"                            }
-  #- { key: PageUp,    mods: Shift,   action: ScrollPageUp,   mode: ~Alt       }
-  #- { key: PageDown,  mods: Shift,   action: ScrollPageDown, mode: ~Alt       }
-  #- { key: Home,      mods: Shift,   action: ScrollToTop,    mode: ~Alt       }
-  #- { key: End,       mods: Shift,   action: ScrollToBottom, mode: ~Alt       }
+  - { key: Paste,                    action: Paste                            }
+  - { key: Copy,                     action: Copy                             }
+  - { key: PageUp,    mods: Shift,   action: ScrollPageUp,   mode: ~Alt       }
+  - { key: PageDown,  mods: Shift,   action: ScrollPageDown, mode: ~Alt       }
+  - { key: Home,      mods: Shift,   action: ScrollToTop,    mode: ~Alt       }
+  - { key: End,       mods: Shift,   action: ScrollToBottom, mode: ~Alt       }

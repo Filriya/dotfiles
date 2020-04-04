@@ -3,10 +3,10 @@ cd `dirname $0` # scriptの位置に移動
 cd `pwd -P` # symlinkを無視した位置に移動
 cd ../../ # 2つ上がる
 
-root_dir=`pwd -P`
-bin_dir="$root_dir/bin"
-etc_dir="$root_dir/etc"
-config_dir="$root_dir/config"
+src_dir=`pwd -P`
+bin_dir="$src_dir/bin"
+etc_dir="$src_dir/etc"
+config_dir="$src_dir/config"
 
 # マシンを選択
 if [ $# -eq 0 ]; then
@@ -65,7 +65,9 @@ link_etc_files $etc_dir $link_to
 
 # config
 mkdir -p "$link_to/.config"
-ls $config_dir | xargs -I{} ln -sf "$config_dir/{}" $link_to/.config
+mkdir -p "$link_to/.config/coc"
+ls $config_dir | grep -v 'coc' | xargs -I{} ln -sf "$config_dir/{}" $link_to/.config
+ln -sf $config_dir/coc/ultisnips $link_to/.config/coc/ultisnips
 
 # vim
 ln -fs "$config_dir/nvim" "$link_to/.vim"

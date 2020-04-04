@@ -51,7 +51,7 @@
             "key_code": "spacebar",
             "modifiers": {
               "mandatory": [
-                "left_control"
+                "command"
               ],
               "optional": [
                 "any"
@@ -60,13 +60,34 @@
           },
           "to": [
             {
-              "key_code": "spacebar",
-              "modifiers": [
-                "left_control"
-              ]
+              "key_code": "japanese_eisuu"
             },
             {
-              "key_code": "japanese_eisuu"
+              "key_code": "spacebar",
+              "modifiers": [
+                "command"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Toggle Alacritty",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "spacebar",
+            "modifiers": { "mandatory": [ "left_control" ] }
+          },
+          "to": [
+            { "shell_command": "osascript ~/bin/alacritty_hide.scpt" }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [ "^io\\.alacritty$" ]
             }
           ]
         },
@@ -74,24 +95,16 @@
           "type": "basic",
           "from": {
             "key_code": "spacebar",
-            "modifiers": {
-              "mandatory": [
-                "command"
-              ],
-              "optional": [
-                "any"
-              ]
-            }
+            "modifiers": { "mandatory": [ "left_control" ] }
           },
           "to": [
+            { "shell_command": "open /Applications/Alacritty.app" },
+            { "key_code": "japanese_eisuu" }
+          ],
+          "conditions": [
             {
-              "key_code": "japanese_eisuu"
-            },
-            {
-              "key_code": "spacebar",
-              "modifiers": [
-                "command"
-              ]
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [ "^io\\.alacritty$" ]
             }
           ]
         }

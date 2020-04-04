@@ -33,7 +33,7 @@ if [ -f "${HOMEBREW_PREFIX}/opt/fzf/shell/key-bindings.zsh" ]; then
   source "${HOMEBREW_PREFIX}/opt/fzf/shell/key-bindings.zsh"
   bindkey -r '\ec' 
   bindkey -r '^t'
-  bindkey '^t' fzf-z-widget
+  bindkey '^s' fzf-z-widget
   bindkey '^g' fzf-open-widget
   # bindkey '^Z' 'fzf-file-widget'
 fi

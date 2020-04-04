@@ -27,7 +27,7 @@
   singlekey = true
   diffFilter = nkf -w
 [core]
-  editor = /usr/local/bin/nvim
+  editor = $(which nvim)
   quotepath = false
   autocrlf = false
   safecrlf = true
@@ -46,7 +46,7 @@
   process = git-lfs filter-process
   required = true
 [ghq]
-	root = ~/Dropbox/projects
+  root = ~/projects
 [diff "cp932"]
   textconv=iconv -f cp932 -t utf-8
 [diff "sjis"]

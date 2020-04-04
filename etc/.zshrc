@@ -10,10 +10,7 @@ path=(${ZDOTDIR:-$HOME}/bin $path)
 if [ ! -e $HOME/.zsh.bundle/.zprezto ]; then
     git clone --recursive https://github.com/sorin-ionescu/prezto.git "${HOME}/.zsh.bundle/.zprezto"
 fi
-
-if [[ -s "${ZDOTDIR:-$HOME}/.zsh.bundle/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zsh.bundle/.zprezto/init.zsh"
-fi
+source "${ZDOTDIR:-$HOME}/.zsh.bundle/.zprezto/init.zsh"
 
 if [ ! -e $HOME/.zsh.bundle/completion ]; then
   mkdir $HOME/.zsh.bundle/completion
@@ -24,23 +21,21 @@ if [ ! -e $HOME/.zsh.bundle/completion/_docker ]; then
   curl -L https://raw.githubusercontent.com/docker/compose/master/contrib/completion/zsh/_docker-compose  > $HOME/.zsh.bundle/completion/_docker-compose
 fi
 
-
-# zplugin
-if [ ! -e $HOME/.zplugin/bin/zplugin.zsh ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
+if [ ! -e $HOME/.tmux.bundle/tpm ]; then
+    git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux.bundle/tpm"
 fi
 
-source ~/.zinit/bin/zinit.zsh
-
-if [[ -s "${ZDOTDIR:-$HOME}/.zplugin/bin/zplugin.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zplugin/bin/zplugin.zsh"
+# zinit
+if [ ! -e $HOME/.zinit/bin/zinit.zsh ]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 fi
+source "${ZDOTDIR:-$HOME}/.zinit/bin/zinit.zsh"
 
-zplugin ice pick"async.zsh" src"pure.zsh"
-zplugin light sindresorhus/pure
-zplugin light mnowotnik/extra-fzf-completions
-zplugin light agkozak/zsh-z
-zplugin light zsh-users/zsh-autosuggestions
+zinit ice pick"async.zsh" src"pure.zsh"
+zinit light sindresorhus/pure
+zinit light mnowotnik/extra-fzf-completions
+zinit light agkozak/zsh-z
+zinit light zsh-users/zsh-autosuggestions
 
 EXTRA_FZF_COMPLETIONS_FZF_PREFIX=,
 
@@ -94,10 +89,10 @@ fi
 alias cl="clear"
 alias gosh='rlwrap gosh'
 alias phptags='ctags --tag-relative --recurse --sort=yes --exclude=*.js'
-alias -g P='| pbcopy'
 alias -g F='| fzf'
-alias -g SJIS='| nkf'
 alias -g N='&& notify completed || notify error'
+alias -g P='| pbcopy'
+alias -g SJIS='| nkf'
 
 # 反cd
 # alias cd='nocd'
@@ -173,7 +168,7 @@ function open_project () {
 }
 
 zle -N open_project
-bindkey '^s' open_project
+bindkey '^t' open_project
 
 setopt nonomatch
 setopt dotglob
@@ -185,6 +180,7 @@ function hub-member {
 
 # default editor
 EDITOR=`which nvim`
+export VIMCONFIG="$HOME/.config/nvim"
 
 function starteditor() {
   exec < /dev/tty
@@ -308,11 +304,11 @@ fi
 export RUST_BACKTRACE=1
 
 
-### Added by Zplugin's installer
-source "$HOME/.zplugin/bin/zplugin.zsh"
-autoload -Uz _zplugin
-(( ${+_comps} )) && _comps[zplugin]=_zplugin
-### End of Zplugin installer's chunk
+### Added by zinit's installer
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+### End of zinit installer's chunk
 
 # tabtab source for packages
 # uninstall by removing these lines
@@ -322,4 +318,8 @@ if [[ ! -n $TMUX && -z $SSH_TTY ]]; then
   tm $(tmux list-sessions | grep attached | perl -pe "s/^([^:]*):.*/\1/g")
 fi
 
+if [ -e "${ZDOTDIR:-$HOME}/.zshrc.local" ]; then
+  source "${ZDOTDIR:-$HOME}/.zshrc.local"
+fi
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -65,7 +65,7 @@ _path() {
   echo $(echo $str | cut -d " " -f 5)
 }
 
-on() {
+up() {
   machine=$(_select "$@")
   state=$(_state $machine)
   path=$(_path $machine)
@@ -86,6 +86,10 @@ on() {
   elif [[ $state = "aborted" ]]; then
     vagrant reload
   fi
+
+  if [[ -f mutagen.yml ]]; then
+    mutagen project start
+  fi
 }
 
 pause() {
@@ -105,17 +109,17 @@ pause-all() {
   #vmrun list | grep vmx | xargs --no-run-if-empty  vmrun suspend
 }
 
-off() {
+down() {
   machine=$(_select "$@")
   state=$(_state $machine)
 
-  if [ $state = "running" ]; then
+  if [[ $state = "running" ]]; then
     echo -e "\033[0;36mvagrant stop $machinePath\033[0;m"
     vagrant halt 2> /dev/null
   fi
 }
 
-off-all() {
+down-all() {
   list | grep saved | cut -f 1 -d " "|xargs --no-run-if-empty vagrant halt
   list | grep running | cut -f 1 -d " "|xargs --no-run-if-empty vagrant halt
 
@@ -123,9 +127,11 @@ off-all() {
   # vmrun list | grep vmx | xargs --no-run-if-empty  vmrun stop
 }
 
-restart() {
-  halt "$@"
-  up "$@"
+reload() {
+  machine=$(_select "$@")
+  machineId=$(_key $machine)
+  down $machineId
+  up $machineId
 }
 
 ssh() {
@@ -181,3 +187,4 @@ main() {
 }
 
 main "$@"
+

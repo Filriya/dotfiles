@@ -6,12 +6,12 @@
 #
 
 # git alias
-# zstyle -s ':prezto:module:git:log:medium' format '_git_log_medium_format' \
-#   || _git_log_medium_format='%C(bold)Commit:%C(reset) %C(green)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(cyan)%an <%ae>%n%C(bold)Date:%C(reset)   %C(blue)%ai (%ar)%C(reset)%n%+B'
-# zstyle -s ':prezto:module:git:log:oneline' format '_git_log_oneline_format' \
-#   || _git_log_oneline_format='%C(green)%h%C(reset) %s%C(red)%d%C(reset)%n'
-# zstyle -s ':prezto:module:git:log:brief' format '_git_log_brief_format' \
-#   || _git_log_brief_format='%C(green)%h%C(reset) %s%n%C(blue)(%ar by %an)%C(red)%d%C(reset)%n'
+zstyle -s ':prezto:module:git:log:medium' format '_git_log_medium_format' \
+  || _git_log_medium_format='%C(bold)Commit:%C(reset) %C(green)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(cyan)%an <%ae>%n%C(bold)Date:%C(reset)   %C(blue)%ai (%ar)%C(reset)%n%+B'
+zstyle -s ':prezto:module:git:log:oneline' format '_git_log_oneline_format' \
+  || _git_log_oneline_format='%C(green)%h%C(reset) %s%C(yellow)%d%C(reset)'
+zstyle -s ':prezto:module:git:log:brief' format '_git_log_brief_format' \
+  || _git_log_brief_format='%C(green)%h%C(reset) %s%n%C(blue)(%ar by %an)%C(red)%d%C(reset)%n'
 # Git
 alias g='git'
 
@@ -170,9 +170,14 @@ alias gix='git rm -r --cached'
 alias giX='git rm -rf --cached'
 
 # Log (l)
-alias gl='git log --topo-order --pretty=format:"${_git_log_medium_format}"'
-alias gls='git log --topo-order --stat --pretty=format:"${_git_log_medium_format}"'
-alias glss='git log --topo-order --stat --patch --full-diff --pretty=format:"${_git_log_medium_format}"'
+# lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit
+# lga = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=short
+# lgg = log --stat --pretty=format:'%Cblue%h %Cgreen%ar %Cred%an %Creset%s %Cred%d'
+# lgs = log --stat --abbrev-commit --date=relative
+
+# alias gl='git log --topo-order --pretty=format:"${_git_log_medium_format}"'
+alias gl='git log --topo-order --stat --pretty=format:"${_git_log_medium_format}"'
+alias gls='git log --topo-order --stat --patch --full-diff --pretty=format:"${_git_log_medium_format}"'
 alias glg='git log --topo-order --graph --pretty=format:"${_git_log_oneline_format}"'
 alias gla='git log --topo-order --graph --all --pretty=format:"${_git_log_oneline_format}"'
 alias glr='git reflog'

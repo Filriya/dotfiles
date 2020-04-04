@@ -17,6 +17,7 @@
   "rust.full_docs": true,
   "rust.clippy_preference": "on",
   "python.jediEnabled": false,
+  "intelephense.files.maxSize": 5000000,
   "vetur.experimental.templateInterpolationService": false,
   "vetur.validation.template": false,
   "list.insertMappings": {
@@ -77,14 +78,6 @@
       "command": "docker-langserver",
       "filetypes": ["dockerfile"],
       "args": ["--stdio"]
-    },
-    "php": {
-      "command": "intelephense",
-      "args": ["--stdio"],
-      "settings": {
-         "files.maxSize": 2000000
-      },
-      "filetypes": ["php"]
     }
   }
 }

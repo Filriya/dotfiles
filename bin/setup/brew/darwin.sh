@@ -28,7 +28,15 @@ brew install watch
 # brew install wdiff --with-gettext
 brew install wget
 brew install w3m
+brew install bash-completion
 brew install boost
+brew install cmake
+brew install lua
+brew install luajit
+brew install git
+brew install mercurial
+brew install pcre
+brew install python
 
 brew cask install xquartz
 brew cask install 1password

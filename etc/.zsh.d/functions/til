@@ -2,17 +2,19 @@
 
 function til()
 {
-  rootDir=~/Dropbox/projects/til
-
-  if [ $# = 0 ] ; then
-    echo "第一引数に言語を指定してください"
-    return 1
-  fi
+  # XXX: hardcode
+  rootDir=${HOME}/projects/til
 
   if [ ! -d ${rootDir} ]; then
     echo "tilディレクトリが存在しません"
     return 1
   fi
+
+  if [ $# = 0 ] ; then
+    cd $rootDir
+    return 0
+  fi
+
 
   ext=$1
   langDir=$rootDir/$ext
