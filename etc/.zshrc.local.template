@@ -20,13 +20,14 @@
 #
 #
 
-zstyle ':prezto:module:prompt' theme 'pure'
-
 #develop
-# zstyle ':prezto:module:prompt' theme 'pure' 9
+# zstyle :prompt:pure:user color red
+# zstyle :prompt:pure:host color red
 
 # staging
-# zstyle ':prezto:module:prompt' theme 'mysorin' 6
+# zstyle :prompt:pure:user color cyan
+# zstyle :prompt:pure:host color cyan
 
 # production
-# zstyle ':prezto:module:prompt' theme 'mysorin' 3
+# zstyle :prompt:pure:user color yellow
+# zstyle :prompt:pure:host color yellow

@@ -14,7 +14,7 @@ window:
   #   x: 0
   #   y: 0
 
-  decorations: buttonless
+  # decorations: buttonless
 
   # startup_mode: Maximized
   startup_mode: Windowed
@@ -26,6 +26,9 @@ scrolling:
 # tabspaces: 8
 
 fonts:
+  default: &default
+    size: 18.0
+
   uni: &uni
     normal: {family: "S2G Uni font", style: Regular}
     bold: { family: "S2G Uni font", style: Bold }
@@ -69,7 +72,8 @@ fonts:
 
     # `defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO`
 
-font: *uni
+font: *default
+# font: *uni
 # font: *jetbrains
 # font: *sarasa
 # font: *sourcehan
@@ -140,7 +144,7 @@ cursor:
 live_config_reload: true
 
 shell:
-  program: /usr/local/bin/zsh
+  program: "zsh"
   args:
     - --login
 
@@ -286,7 +290,7 @@ key_bindings:
   - { key: C,      mods: Command,         action: Copy                   }
   - { key: Q,      mods: Command,         action: Quit                   }
   - { key: W,      mods: Command,         action: Quit                   }
-  - { key: F,      mods: Command,         action: ToggleSimpleFullscreen }
+  # - { key: F,      mods: Command,         action: ToggleSimpleFullscreen }
   - { key: N,      mods: Command,         action: SpawnNewInstance       }
   - { key: H,      mods: Command,         command:
       { program: "osascript", args: [ "/Users/filriya/bin/alacritty_hide.scpt" ] }

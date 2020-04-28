@@ -323,3 +323,4 @@ if [ -e "${ZDOTDIR:-$HOME}/.zshrc.local" ]; then
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+### End of Zinit's installer chunk
