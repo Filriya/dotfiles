@@ -17,11 +17,7 @@ brew install gnutls
 
 brew install grep --with-default-names
 brew install gzip
-brew install keychain
-brew install php
-brew install rbenv
-brew install ruby-build
-brew install rdiff-backup
+
 brew install sleepwatcher
 brew install ssh-copy-id
 brew install watch
@@ -31,12 +27,8 @@ brew install w3m
 brew install bash-completion
 brew install boost
 brew install cmake
-brew install lua
-brew install luajit
-brew install git
 brew install mercurial
 brew install pcre
-brew install python
 
 brew cask install xquartz
 brew cask install 1password

@@ -3,7 +3,6 @@
 brew update
 brew upgrade
 
-
 brew install zsh
 # zsh を etc/shells に追加
 if ! `grep "$(brew --prefix)/bin/zsh" /etc/shells > /dev/null` ; then
@@ -22,10 +21,21 @@ brew install fzf
 brew install z
 brew install ghq hub
 brew install screen
+brew install tmux
 brew install the_silver_searcher
 brew install ripgrep
 brew install tig
 brew install cmigemo
+brew install keychain
+brew install php
+brew install rbenv
+brew install ruby-build
+brew install rdiff-backup
+brew install python3
+brew install yarn
+brew install lua
+brew install luajit
+brew install git
 
 # nvim
 brew install vim

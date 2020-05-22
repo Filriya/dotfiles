@@ -112,6 +112,8 @@ repo = 'kana/vim-textobj-indent' # ai / aI
 [[plugins]]
 repo = 'kana/vim-textobj-jabraces' # aj{X}
 [[plugins]]
+repo = 'thinca/vim-textobj-comment' # ac
+[[plugins]]
 repo = 'lucapette/vim-textobj-underscore' #a_
 [[plugins]]
 repo = 'sgur/vim-textobj-parameter' #a,
@@ -134,6 +136,10 @@ rev = 'release'
 
 #
 # debug adaptor client
+[[plugins]]
+repo = "puremourning/vimspector"
+on_ft = ["rust", "javascript", "typescript", "vue"]
+build = "./install_gadget.py --enable-c --force-enable-chrome"
 
 #
 # filetype

@@ -17,7 +17,6 @@
             {
               "type": "frontmost_application_unless",
               "bundle_identifiers": [
-                "^io\\.alacritty$",
                 "^com\\.vmware\\.fusion$",
                 "^com\\.vmware\\.horizon$",
                 "^com\\.vmware\\.view$"
@@ -39,7 +38,6 @@
             {
               "type": "frontmost_application_unless",
               "bundle_identifiers": [
-                "^io\\.alacritty$",
                 "^com\\.vmware\\.fusion$",
                 "^com\\.vmware\\.horizon$",
                 "^com\\.vmware\\.view$"
@@ -80,7 +78,6 @@
             {
               "type": "frontmost_application_unless",
               "bundle_identifiers": [
-                "^io\\.alacritty$",
                 "^com\\.vmware\\.fusion$",
                 "^com\\.vmware\\.horizon$",
                 "^com\\.vmware\\.view$"
@@ -123,10 +120,7 @@
             {
               "type": "frontmost_application_unless",
               "bundle_identifiers": [ 
-                "^io\\.alacritty$",
-                "^com\\.vmware\\.fusion$",
-                "^com\\.vmware\\.horizon$",
-                "^com\\.vmware\\.view$"
+                "^io\\.alacritty$"
               ]
             }
           ]
@@ -160,7 +154,6 @@
             {
               "type": "frontmost_application_unless",
               "bundle_identifiers": [
-                "^io\\.alacritty$",
                 "^com\\.vmware\\.fusion$",
                 "^com\\.vmware\\.horizon$",
                 "^com\\.vmware\\.view$"
@@ -732,134 +725,34 @@
           "conditions": [
             {
               "type": "device_if",
-              "identifiers": [
-                {
-                  "vendor_id": 3897,
-                  "product_id": 1553
-                }
-              ]
+              "identifiers": [ { "vendor_id": 3897, "product_id": 1553 } ]
             }
           ],
           "type": "basic",
           "from": {
             "key_code": "delete_or_backspace",
-            "modifiers": {
-              "optional": [
-                "any"
-              ]
-            }
+            "modifiers": { "optional": [ "any" ] }
           },
           "to": [
-            {
-              "key_code": "backslash"
-            }
+            { "key_code": "backslash" }
           ]
         },
         {
           "conditions": [
             {
               "type": "device_if",
-              "identifiers": [
-                {
-                  "vendor_id": 3897,
-                  "product_id": 1553
-                }
-              ]
+              "identifiers": [ { "vendor_id": 3897, "product_id": 1553 } ]
             }
           ],
           "type": "basic",
           "from": {
             "key_code": "backslash",
-            "modifiers": {
-              "optional": [
-                "any"
-              ]
+            "modifiers": { "optional": [ "any" ]
             }
           },
           "to": [
             {
               "key_code": "delete_or_backspace"
-            }
-          ]
-        },
-        {
-          "conditions": [
-            {
-              "type": "device_if",
-              "identifiers": [
-                {
-                  "vendor_id": 3897,
-                  "product_id": 1553
-                }
-              ]
-            }
-          ],
-          "type": "basic",
-          "from": {
-            "key_code": "escape",
-            "modifiers": {
-              "optional": [
-                "any"
-              ]
-            }
-          },
-          "to": [
-            {
-              "key_code": "grave_accent_and_tilde"
-            }
-          ]
-        },
-        {
-          "conditions": [
-            {
-              "type": "device_if",
-              "identifiers": [
-                {
-                  "vendor_id": 3897,
-                  "product_id": 1553
-                }
-              ]
-            }
-          ],
-          "type": "basic",
-          "from": {
-            "key_code": "grave_accent_and_tilde",
-            "modifiers": {
-              "optional": [
-                "any"
-              ]
-            }
-          },
-          "to": [
-            {
-              "key_code": "escape"
-            }
-          ]
-        },
-        {
-          "conditions": [
-            {
-              "type": "device_if",
-              "identifiers": [
-                {
-                  "vendor_id": 3897,
-                  "product_id": 1553
-                }
-              ]
-            }
-          ],
-          "type": "basic",
-          "from": {
-            "key_code": "right_control",
-            "modifiers": {
-              "optional": [
-                "any"
-              ]
-            }
-          },
-          "to": [
-            {
-              "key_code": "escape"
             }
           ]
         }

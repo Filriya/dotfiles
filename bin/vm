@@ -72,7 +72,7 @@ up() {
 
   echo -e "\033[0;36mvagrant up $machinePath\033[0;m"
 
-  \cd $path
+  cd $path
 
   echo $state
 
@@ -83,35 +83,40 @@ up() {
     vagrant up
   elif [[ $state = "saved" ]]; then
     vagrant resume
+    # if [[ -f mutagen.yml ]]; then
+    #   mutagen project start
+    # fi
   elif [[ $state = "aborted" ]]; then
     vagrant reload
-  fi
-
-  if [[ -f mutagen.yml ]]; then
-    mutagen project start
+    # if [[ -f mutagen.yml ]]; then
+    #   mutagen project start
+    # fi
   fi
 }
 
-pause() {
+suspend() {
   machine=$(_select "$@")
   state=$(_state $machine)
-  
+
   if [ $state = "running" ]; then
     echo -e "\033[0;36mvagrant stop $machinePath\033[0;m"
     vagrant resume 2> /dev/null
   fi
 }
 
-pause-all() {
+suspend-all() {
   list | grep running | cut -f 1 -d " "|xargs --no-run-if-empty vagrant suspend
 
   #vmware用
   #vmrun list | grep vmx | xargs --no-run-if-empty  vmrun suspend
 }
 
-down() {
+halt() {
   machine=$(_select "$@")
   state=$(_state $machine)
+  path=$(_path $machine)
+
+  cd $path
 
   if [[ $state = "running" ]]; then
     echo -e "\033[0;36mvagrant stop $machinePath\033[0;m"
@@ -119,7 +124,7 @@ down() {
   fi
 }
 
-down-all() {
+halt-all() {
   list | grep saved | cut -f 1 -d " "|xargs --no-run-if-empty vagrant halt
   list | grep running | cut -f 1 -d " "|xargs --no-run-if-empty vagrant halt
 
@@ -130,7 +135,7 @@ down-all() {
 reload() {
   machine=$(_select "$@")
   machineId=$(_key $machine)
-  down $machineId
+  halt $machineId
   up $machineId
 }
 
@@ -138,6 +143,24 @@ ssh() {
   machine=$(_select "$@")
   machineId=$(_key $machine)
   vagrant ssh $machineId
+}
+
+ssh-config() {
+  machine=$(_select "$@")
+  path=$(_path $machine)
+  name=$(_name $machine)
+
+  cd $path
+  vagrant ssh-config --host $name
+}
+
+ssh-update() {
+  machine=$(_select "$@")
+  machineId=$(_key $machine)
+  name=$(_name $machine)
+
+  filepath=~/.ssh/conf.d/vagrant/$name
+  ssh-config $machineId > $filepath
 }
 
 _functions() {

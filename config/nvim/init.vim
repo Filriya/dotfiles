@@ -134,8 +134,9 @@ nnoremap <silent> <C-w>0 :<C-u>tabn 10<CR>
 nnoremap <silent> <C-w>c :<C-u>tabnew<CR>:tabmove<CR>
 nnoremap <silent> <C-w><C-c> :<C-u>tabnew<CR>:tabmove<CR>
 
-nnoremap <silent> <C-w>v :<C-u>vsp<CR>
-nnoremap <silent> <C-w>s :<C-u>sp<CR>
+nnoremap <silent> <C-w><bar> :<C-u>vsp<CR>
+nnoremap <silent> <C-w>- :<C-u>sp<CR>
+nnoremap <silent> <C-w>_ <C-w>-
 
 " nnoremap <C-z> `.zz
 
@@ -181,17 +182,17 @@ endif
 if dein#tap('fzf.vim')
   nnoremap <silent> <Leader>f :<C-u>GFiles<CR>
   nnoremap <silent> <Leader>F :<C-u>Files<CR>
-  nnoremap <silent> <Leader>ee :<C-u>SrcFiles<CR>
+  nnoremap <silent> <Leader>ee :<C-u>Dotfiles<CR>
   nnoremap <silent> <Leader>gf :<C-u>GFiles?<CR>
-  nnoremap <silent> <Leader>b :<C-u>Buffers<CR>
+  nnoremap <silent> <Leader>u :<C-u>Buffers<CR>
   " nnoremap <silent> <Leader>b :<C-u>LoadedBuffers<CR>
   " nnoremap          <Leader>a :<C-u>Ag<Space>
   nnoremap          <Leader>a :<C-u>Rg<Space>
   nnoremap <silent> <Leader>/ :<C-u>Lines<CR>
   nnoremap <silent> <Leader>? :<C-u>BLines<CR>
   nnoremap <silent> <Leader>h :<C-u>History<CR>
-  nnoremap <silent> <Leader>u :call fzf#vim#tags(expand('<cword>'))<CR>
-  nnoremap <silent> <Leader>U :<C-u>Tags<CR>
+  nnoremap <silent> <Leader>i :call fzf#vim#tags(expand('<cword>'))<CR>
+  nnoremap <silent> <Leader>I :<C-u>Tags<CR>
 endif
 
 if dein#tap('coc.nvim')
@@ -245,7 +246,7 @@ if dein#tap('coc.nvim')
   " Remap for format selected region
   " 整形
   xmap <silent> gF <Plug>(coc-format-selected)
-  nmap <silent> gF <Plug>(coc-format-selected)
+  " nmap <silent> gF <Plug>(coc-format-selected)
   nnoremap <silent> gF :<C-u>Format<CR>
 
   " 折りたたみ
@@ -343,7 +344,7 @@ if dein#tap('vim-sandwich')
 endif
 
 
-map <C-g> [git]
+map <Leader>g [git]
 if dein#tap("vim-fugitive")
   nnoremap [git]w :Gstatus<CR>
   nnoremap [git]c :Gcommit<CR>
@@ -505,9 +506,9 @@ if dein#tap('defx.nvim')
 
     " open file
     nnoremap <silent><buffer><expr> s
-          \ defx#do_action('multi', [['open', 'split'], 'quit'])
+          \ defx#do_action('multi', ['quit', ['open', 'split']])
     nnoremap <silent><buffer><expr> v
-          \ defx#do_action('multi', [['open', 'vsplit'], 'quit'])
+          \ defx#do_action('multi', ['quit', ['open', 'vsplit']])
     nnoremap <silent><buffer><expr> t
           \ defx#do_action('multi', ['quit', ['open', 'tabnew']])
     nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
@@ -558,11 +559,11 @@ if dein#tap('fzf.vim')
     endif
   endfunction
 
-  function! s:fzf_src_file() abort
+  function! s:fzf_dot_files() abort
     let l:dirname = system("cd $(dirname ".$MYVIMRC."); git rev-parse --show-toplevel")
     let l:dirname = substitute(l:dirname, "[\n\r]", "", "g")
     call fzf#run({
-          \ 'source': 'fd --type f --hidden --follow --exclude ".git/*" . '.l:dirname,
+          \ 'source': 'fd --type f --hidden --follow --exclude ".git/*" --exclude "*.app*" . '.l:dirname,
           \ 'sink': 'tab split',
           \ 'down': '40%'
           \ })
@@ -623,7 +624,7 @@ if dein#tap('fzf.vim')
   " let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
   let g:fzf_tags_command = 'ctags --exclude=node_modules --exclude=vendor'
 
-  command! SrcFiles call s:fzf_src_file()
+  command! Dotfiles call s:fzf_dot_files()
   command! -nargs=? Emoji call s:fzf_emoji(<f-args>)
   command! -bang -nargs=+ -complete=dir Ag call fzf#vim#ag_raw(<q-args>, <bang>0)
 
@@ -685,10 +686,8 @@ if dein#tap('coc.nvim')
   " syntax 構文強調により折畳を定義する
   " diff 変更されていないテキストを折畳対象とする
   " marker テキスト中の印で折畳を定義する
-  " set foldmethod=indent
-  " set foldmethod=syntax
-  set foldmethod=manual
-  set foldlevel=100
+  set foldmethod=indent
+  set foldlevel=1
 
   " use `:OR` for organize import of current buffer
   command! -nargs=0 OR  :call CocAction('runCommand', 'editor.action.organizeImport')
@@ -699,11 +698,11 @@ if dein#tap('coc.nvim')
   let g:coc_global_extensions = [
         \  'coc-lists',
         \  'coc-marketplace',
-        \  'coc-sql',
         \  'coc-snippets',
         \  'coc-json',
         \  'coc-vetur',
         \  'coc-tsserver',
+        \  'coc-eslint',
         \  'coc-rls',
         \  'coc-python',
         \  'coc-html',
@@ -1212,7 +1211,7 @@ endif
 " vim-gitgutter
 "--------------------
 if dein#tap('vim-gitgutter')
-  let g:gitgutter_enabled = 0
+  let g:gitgutter_enabled = 1
   let g:gitgutter_map_keys = 0
   let g:gitgutter_max_signs = 2000
 endif
@@ -1463,6 +1462,7 @@ set ambiwidth=double  " 絵文字>
 set spelllang+=cjk
 set pumblend=15
 set fillchars=eob:\ 
+set iskeyword=@,48-57,_,192-255,#,$
 
 
 "------------------------------

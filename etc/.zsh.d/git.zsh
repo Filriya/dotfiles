@@ -23,9 +23,11 @@ alias gbx='git branch --delete'
 alias gbX='git branch --delete --force'
 alias gbm='git branch --move'
 alias gbM='git branch --move --force'
-alias gbs='git show-branch'
-alias gbS='git show-branch --all'
+# alias gbs='git show-branch'
+# alias gbS='git show-branch --all'
+# alias gbs='git switch'
 alias gbc='git checkout -b'
+# alias gbc='git switch -c'
 alias gbr="git branch --remote"
 
 # # Commit (c)
@@ -69,7 +71,7 @@ alias gfa='git fetch --all --prune'
 alias gfc='git clone --recurse-submodules'
 alias gfp='git pull'
 alias gfr='git pull --rebase'
-alias gfR='git_pull_rebase_all'
+alias gfR='git-pull-rebase-all'
 
 
 # Flow (F)
@@ -208,8 +210,8 @@ alias gri='git rebase --interactive'
 alias grs='git rebase --skip'
 alias gro='git rebase --onto'
 alias grf='git_rebase_root_all'
-alias grb='git_align_branch'
-alias grB='git_align_branch_all'
+alias grb='git-align-branch'
+alias grB='git-align-branch-all'
 
 # Remote (R)
 alias gR='git remote'
@@ -220,19 +222,15 @@ alias gRm='git remote rename'
 alias gRu='git remote update'
 alias gRp='git remote prune'
 alias gRs='git remote show'
-alias gRb='git-hub-browse'
 
 # Stash (s)
 alias gs='git stash'
 alias gsa='git stash apply'
 alias gsx='git stash drop'
-alias gsX='git-stash-clear-interactive'
 alias gsl='git stash list'
-alias gsL='git-stash-dropped'
 alias gsd='git stash show --patch --stat'
-alias gsp='git_stash_pop'
+alias gsp='git-stash-pop'
 alias gsP='git stash pop'
-alias gsr='git-stash-recover'
 alias gss='git stash save --include-untracked'
 alias gsS='git stash save --patch --no-keep-index'
 alias gsw='git stash save --include-untracked --keep-index'
@@ -256,8 +254,8 @@ alias gts='git tag -s'
 alias gtv='git verify-tag'
 
 # Working Copy (w)
-alias gw='git status --ignore-submodules=${_git_status_ignore_submodules} --short && echo "" && git stash list'
-alias gws='git status --ignore-submodules=${_git_status_ignore_submodules}'
+alias gw='git status --short && echo "" && git stash list'
+alias gws='git status'
 alias gwd='git diff --no-ext-diff'
 alias gwD='git diff --no-ext-diff --word-diff'
 alias gwr='git reset --soft' # resetはworkingの方を使う
@@ -276,7 +274,25 @@ alias gwtx='git worktree remove'
 # alias gwtl='git worktree lock'
 
 
-function git_branch_list()
+function git-branch-current {
+
+  if ! command git rev-parse 2> /dev/null; then
+    print "$0: not a repository: $PWD" >&2
+    return 1
+  fi
+
+  local ref="$(command git symbolic-ref HEAD 2> /dev/null)"
+
+  if [[ -n "$ref" ]]; then
+    print "${ref#refs/heads/}"
+    return 0
+  else
+    return 1
+  fi
+
+}
+
+function git-branch-list()
 {
   local local=$(git branch|perl -pe "s/\* /  /")
   local no_branch=$({
@@ -293,9 +309,9 @@ function git_branch_list()
   echo -e "$local_print\n$no_branch_print\n$remote_print"
 }
 
-alias -g B='`git_branch_list| fzf --query="* "| perl -pe "s/^  . //g"`'
+alias -g B='`git-branch-list| fzf --query="* "| perl -pe "s/^  . //g"`'
 
-function git_stash_pop()
+function git-stash-pop()
 {
   stash=$(git stash list|grep "on $(git name-rev --name-only HEAD):"| head -n 1 | perl -lne 'print $1 if /(stash\@\{[0-9]*\})/')
   if [[ $stash != '' ]]; then 
@@ -305,7 +321,7 @@ function git_stash_pop()
   fi
 }
 
-function git_pull_rebase_all()
+function git-pull-rebase-all()
 {
   local current=$(git name-rev --name-only HEAD)
 
@@ -338,7 +354,7 @@ function git_pull_rebase_all()
   git checkout $current >/dev/null
 }
 
-function git_align_branch()
+function git-align-branch()
 {
   # 引数処理
   if [ $# -eq 0 ]; then
@@ -369,7 +385,7 @@ function git_align_branch()
   git checkout $current
 }
 
-function git_align_branch_all()
+function git-align-branch-all()
 {
   # 引数処理
   if [ $# -eq 0 ]; then
@@ -380,19 +396,7 @@ function git_align_branch_all()
   fi
   local branches=($(git branch --no-merged |grep -v $newbase))
   for branch in ${branches[@]}; do
-    git_align_branch "$newbase" "$branch" || return 1
+    git-align-branch "$newbase" "$branch" || return 1
   done
 }
 
-
-function zgit()
-{
-  echo $(cat ~/.zsh.d/git.zsh \
-    | grep --color=never '^alias' \
-    | grep -v 'alias -g'\
-    | perl -pe 's/alias ([^=]+)=(.*)/\1\t\2/' \
-    | fzf \
-    | perl -pe "s/.*['\"]([a-zA-Z \-]+)['\"].*/\1/g"
-  )
-}
-# alias -g Z=zgit

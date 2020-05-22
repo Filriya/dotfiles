@@ -40,7 +40,7 @@ place_template_file () {
   file_name=$(echo $template_file_name|perl -pe "s/\.template//g")
 
   if [ -e $dest_dir/$file_name ]; then
-    continue
+    return
   fi
 
   fulltext=`cat $template_file`

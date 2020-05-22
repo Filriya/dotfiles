@@ -1,32 +1,27 @@
-#!/bin/zsh
+# XXX: hardcode
+rootDir=${HOME}/projects/til
 
-function til()
-{
-  # XXX: hardcode
-  rootDir=${HOME}/projects/til
+if [ ! -d ${rootDir} ]; then
+  echo "tilディレクトリが存在しません"
+  return 1
+fi
 
-  if [ ! -d ${rootDir} ]; then
-    echo "tilディレクトリが存在しません"
-    return 1
-  fi
-
-  if [ $# = 0 ] ; then
-    cd $rootDir
-    return 0
-  fi
+if [ $# = 0 ] ; then
+  cd $rootDir
+  return 0
+fi
 
 
-  ext=$1
-  langDir=$rootDir/$ext
-  file=$langDir/sandbox.$ext
+ext=$1
+langDir=$rootDir/$ext
+file=$langDir/sandbox.$ext
 
-  if [ ! -d ${langDir} ]; then
-    mkdir $langDir
-  fi
+if [ ! -d ${langDir} ]; then
+  mkdir $langDir
+fi
 
-  if [ ! -f ${file} ]; then
-    touch $file
-  fi
+if [ ! -f ${file} ]; then
+  touch $file
+fi
 
-  tm -c $langDir $ext
-}
+tm -c $langDir $ext

@@ -4,13 +4,8 @@ LC_ALL="en_US.UTF-8"
 LANG=ja_JP.UTF-8
 TERM=screen-256color
 
-fpath=(${ZDOTDIR:-$HOME}/.zsh.d/functions $fpath)
+fpath=(${ZDOTDIR:-$HOME}/.zsh.d/**/functions $fpath)
 path=(${ZDOTDIR:-$HOME}/bin $path)
-
-if [ ! -e $HOME/.zsh.bundle/.zprezto ]; then
-    git clone --recursive https://github.com/sorin-ionescu/prezto.git "${HOME}/.zsh.bundle/.zprezto"
-fi
-source "${ZDOTDIR:-$HOME}/.zsh.bundle/.zprezto/init.zsh"
 
 if [ ! -e $HOME/.zsh.bundle/completion ]; then
   mkdir $HOME/.zsh.bundle/completion
@@ -30,20 +25,29 @@ if [ ! -e $HOME/.zinit/bin/zinit.zsh ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 fi
 source "${ZDOTDIR:-$HOME}/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
 
 zinit ice pick"async.zsh" src"pure.zsh"
 zinit light sindresorhus/pure
 zinit light mnowotnik/extra-fzf-completions
 zinit light agkozak/zsh-z
 zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-history-substring-search
 
-EXTRA_FZF_COMPLETIONS_FZF_PREFIX=,
+zinit snippet PZT::modules/editor/init.zsh
+zinit snippet PZT::modules/syntax-highlighting/init.zsh
+zinit snippet PZT::modules/terminal/init.zsh
+zinit snippet PZT::modules/history/init.zsh
+zinit snippet PZT::modules/directory/init.zsh
+zinit snippet PZT::modules/spectrum/init.zsh
+zinit snippet PZT::modules/utility/init.zsh
+zinit snippet PZT::modules/completion/init.zsh
+zinit snippet PZT::modules/osx/init.zsh
+zinit snippet PZT::modules/homebrew/init.zsh
+zinit snippet PZT::modules/command-not-found/init.zsh
+zinit snippet PZT::modules/docker/alias.zsh
 
-# linux keychain
-# if [ "$SSH_TTY" = "" ]; then
-#   keychain ~/.ssh/id_rsa >/dev/null 2>/dev/null
-#   source ~/.keychain/${HOST}-sh
-# fi
 
 # Source OS-specific settings
 case $OSTYPE in
@@ -84,6 +88,8 @@ stty start undef
 if [ -f ~/.zsh.d/fzf.zsh ]; then
   source ~/.zsh.d/fzf.zsh
 fi
+EXTRA_FZF_COMPLETIONS_FZF_PREFIX=,
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # alias
 alias cl="clear"
@@ -145,12 +151,12 @@ bindkey '^q' beginning-of-line
 
 
 # screen
-autoload -Uz sr && sr
-alias sl='screen_list'
+autoload -Uz sr
 _sr_comp() {
   compadd `screen_list`
 }
 compdef _sr_comp sr
+alias sl='screen_list'
 
 #tmux
 autoload -Uz til
@@ -285,11 +291,6 @@ alias vim='nvim'
 
 alias vg='vagrant'
 
-# last
-if (which zprof > /dev/null) ;then
-  zprof | less
-fi
-
 # java
 if [ -e /usr/libexec/java_home ];then
   export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
@@ -303,13 +304,6 @@ if [[ -s "$HOME/.cargo/env" ]]; then
 fi
 export RUST_BACKTRACE=1
 
-
-### Added by zinit's installer
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-### End of zinit installer's chunk
-
 # tabtab source for packages
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
@@ -322,5 +316,33 @@ if [ -e "${ZDOTDIR:-$HOME}/.zshrc.local" ]; then
   source "${ZDOTDIR:-$HOME}/.zshrc.local"
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+function zgit()
+{
+  echo $(cat ~/.zsh.d/git.zsh \
+    | grep --color=never '^alias' \
+    | grep -v 'alias -g'\
+    | perl -pe 's/alias ([^=]+)=(.*)/\1\t\2/' \
+    | fzf \
+    | perl -pe "s/.*['\"]([a-zA-Z \-]+)['\"].*/\1/g"
+  )
+}
+# alias -g Z=zgit
+
+function zdk()
+{
+  echo $(cat ~/.zinit/snippets/PZT::modules--docker/alias.zsh/alias.zsh \
+    | grep --color=never '^alias' \
+    | grep -v 'alias -g'\
+    | perl -pe 's/alias ([^=]+)=(.*)/\1\t\2/' \
+    | fzf \
+    | perl -pe "s/.*['\"]([a-zA-Z \-]+)['\"].*/\1/g"
+  )
+}
+# alias -g Z=zgit
+
+### last
+# zsh プロファイリング
+# if (which zprof > /dev/null 2>&1) ;then
+#   zprof
+# fi
 ### End of Zinit's installer chunk

@@ -1,5 +1,6 @@
 setlocal shiftwidth=2
-setlocal iskeyword=@,48-57,_,192-255,#
+setlocal iskeyword-=-
+setlocal foldmethod=manual
 
 let g:PHP_noArrowMatching = 1
 let g:pdv_cfg_Type = "mixed"

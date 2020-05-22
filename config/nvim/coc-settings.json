@@ -1,5 +1,4 @@
 {
-
   "coc.preferences.formatOnSaveFiletypes": ["rust"],
   "coc.preferences.hoverTarget": "float",
   "diagnostic.messageTarget": "float",
@@ -20,6 +19,7 @@
   "intelephense.files.maxSize": 5000000,
   "vetur.experimental.templateInterpolationService": false,
   "vetur.validation.template": false,
+  "eslint.filetypes": [ "javascript", "typescript", "vue" ],
   "list.insertMappings": {
     "<C-n>": "normal:j",
     "<C-p>": "normal:k",
