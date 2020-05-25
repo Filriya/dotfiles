@@ -21,7 +21,6 @@ window:
 
 scrolling:
   history: 10000
-  auto_scroll: false
 
 # tabspaces: 8
 

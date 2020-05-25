@@ -294,6 +294,7 @@ alias vg='vagrant'
 # java
 if [ -e /usr/libexec/java_home ];then
   export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+  # export JAVA_HOME="$(/usr/libexec/java_home -v 14)"
 fi
 
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -345,4 +346,5 @@ function zdk()
 # if (which zprof > /dev/null 2>&1) ;then
 #   zprof
 # fi
+### End of Zinit's installer chunk
 ### End of Zinit's installer chunk
