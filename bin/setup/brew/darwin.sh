@@ -18,6 +18,7 @@ brew install gnutls
 brew install grep --with-default-names
 brew install gzip
 
+brew install php
 brew install sleepwatcher
 brew install ssh-copy-id
 brew install watch
@@ -28,7 +29,11 @@ brew install bash-completion
 brew install boost
 brew install cmake
 brew install mercurial
+brew install mas
 brew install pcre
+brew install circleci
+brew install --HEAD universal-ctags/universal-ctags/universal-ctags
+
 
 brew cask install xquartz
 brew cask install 1password
@@ -36,6 +41,7 @@ brew cask install alfred
 brew cask install appcleaner
 brew cask install bettertouchtool
 brew cask install dropbox
+brew cask install docker
 brew cask install evernote
 brew cask install firefox
 brew cask install franz
@@ -44,29 +50,29 @@ brew cask install google-chrome-canary
 brew cask install google-japanese-ime
 brew cask install hyperswitch
 brew cask install iterm2
+brew cask install insomnia
+brew cask install java
 brew cask install karabiner-elements
-brew cask install virtualbox
-brew cask install vmware fusion
-brew cask install vagrant
+brew cask install kindle
+brew cask install marshallofsound-google-play-music-player
+brew cask install popclip
+brew cask install translate-tab
 brew cask install todoist
 brew cask install the-unarchiver
 brew cask install skim
-
 brew cask install sublime-text
-brew cask install java
+brew cask install stoplight-studio
+brew cask install virtualbox
+brew cask install vmware fusion
+brew cask install vagrant
 
-brew cask install marshallofsound-google-play-music-player
-brew cask install translate-tab
 
 # brew cask install objektiv
-brew cask install popclip
-brew cask install kindle
 
 brew install selenium-server-standalone
 brew cask install chromedriver
 brew install geckodriver
 
-brew install mas
 
 mas install 539883307 # LINE (5.15.0)
 mas install 585829637 # Todoist (7.1.2)

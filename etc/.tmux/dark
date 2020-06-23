@@ -28,6 +28,6 @@ set -g status-left "#[fg=yellow]#S #[fg=red]#I #[fg=cyan]#P "
 set -g status-right '#{ram_fg_color}M: #{ram_percentage} #[fg=default]| #{cpu_fg_color}C: #{cpu_percentage} #[fg=default]|#{battery_color_fg} B: #{battery_percentage} #[fg=default]| #[fg=cyan][%Y-%m-%d(%a) %T] '
 
 # status window
-setw -g window-status-format "#[fg=Black,bold]#I:#W#{?window_zoomed_flag,:Z,}"
+setw -g window-status-format "#[fg=#505050]#I:#W#{?window_zoomed_flag,:Z,}"
 setw -g window-status-current-format "#{?window_zoomed_flag,#[fg=black]#[bg=yellow]#I:#W:Z,#[fg=white,bold]#I:#W}#[default]"
 setw -g window-status-activity-style "fg=yellow,bg=default"

@@ -21,13 +21,11 @@ brew install fzf
 brew install z
 brew install ghq hub
 brew install screen
-brew install tmux
 brew install the_silver_searcher
 brew install ripgrep
 brew install tig
 brew install cmigemo
 brew install keychain
-brew install php
 brew install rbenv
 brew install ruby-build
 brew install rdiff-backup
@@ -36,6 +34,10 @@ brew install yarn
 brew install lua
 brew install luajit
 brew install git
+brew install nkf
+
+brew tap z80oolong/tmux
+brew install z80oolong/tmux/tmux
 
 # nvim
 brew install vim

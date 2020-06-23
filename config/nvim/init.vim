@@ -664,7 +664,7 @@ if dein#tap('coc.nvim')
   set shortmess+=cI
   set signcolumn=yes
 
-  let g:coc_config_home='~/.config/nvim/coc/'
+  " let g:coc_config_home='~/.config/nvim/coc/'
   augroup cocmygroup
     autocmd!
     " Setup formatexpr specified filetype(s).
@@ -707,10 +707,10 @@ if dein#tap('coc.nvim')
         \  'coc-python',
         \  'coc-html',
         \  'coc-css',
-        \  'coc-phpls',
         \  'coc-yaml'
         \ ]
 
+        "\  'coc-phpls',
 
 endif
 

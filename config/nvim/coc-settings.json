@@ -65,10 +65,18 @@
         }
       }
     },
+    "intelephense": {
+      "command": "intelephense",
+      "args": ["--stdio"],
+      "filetypes": ["php"],
+      "initializationOptions": {
+        "storagePath": "/tmp/intelephense"
+      }
+    },
     "efm": {
       "command": "efm-langserver",
       "args": [],
-      "filetypes": ["vim", "eruby", "markdown", "yaml"]
+      "filetypes": ["vim", "eruby", "markdown", "yaml", "yml"]
     },
     "kotlin": {
       "command": "kotlin-language-server",
