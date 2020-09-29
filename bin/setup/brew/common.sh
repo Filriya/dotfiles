@@ -25,10 +25,10 @@ brew install ripgrep
 brew install tig
 brew install cmigemo
 brew install keychain
-brew install rbenv
-brew install ruby-build
-brew install rdiff-backup
-brew install python3
+# brew install rbenv
+# brew install ruby-build
+# brew install rdiff-backup
+# brew install python3
 brew install yarn
 brew install lua
 brew install luajit
