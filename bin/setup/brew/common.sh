@@ -9,9 +9,8 @@ if ! `grep "$(brew --prefix)/bin/zsh" /etc/shells > /dev/null` ; then
   echo $(brew --prefix)/bin/zsh | sudo tee -a /etc/shells
 fi
 
-brew tap unversal-ctags/universal-ctags
+brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 
-brew install universal-ctags
 brew install gibo
 brew install jq
 brew install fd

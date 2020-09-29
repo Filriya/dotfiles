@@ -33,16 +33,15 @@ fonts:
     bold: { family: "S2G Uni font", style: Bold }
     italic: { family: "S2G Uni font", style: Italic }
     size: 21.5
-    use_thin_strokes: true
+    # use_thin_strokes: true
     offset: {x: 0, y: 12}
 
   jetbrains: &jetbrains
     normal: { family: "JetBrains Mono", style: "Regular" }
     bold: { family: "JetBrains Mono", style: "Bold" }
     italic: { family: "JetBrains Mono", style: "Italic" }
-    # size: 18.0
     size: 19.0
-    use_thin_strokes: true
+    # use_thin_strokes: true
     offset: {x: 0, y: 7}
 
   sarasa: &sarasa
@@ -50,7 +49,7 @@ fonts:
     bold: { family: "更紗等幅ゴシック J", style: Bold }
     italic: { family: "更紗等幅ゴシック J", style: Italic }
     size: 19.0
-    use_thin_strokes: true
+    # use_thin_strokes: true
     offset: {x: 1, y: 2}
 
   sourcehan: &sourcehan
@@ -58,7 +57,7 @@ fonts:
     bold: { family: "源ノ角ゴシック Code JP", style: B }
     italic: { family: "源ノ角ゴシック Code JP", style: N It }
     size: 16.0
-    use_thin_strokes: true
+    # use_thin_strokes: true
     offset: {x: -1, y: 5}
 
   yutapon: &yutapon
@@ -66,7 +65,7 @@ fonts:
     bold: { family: "ゆたぽん（コーディング）Bold", style: Bold }
     italic: { family: "ゆたぽん（コーディング）Bold", style: Bold }
     size: 20.0
-    use_thin_strokes: true
+    # use_thin_strokes: true
     offset: {x: 0, y: 2}
 
     # `defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO`
@@ -295,9 +294,9 @@ key_bindings:
       { program: "osascript", args: [ "/Users/filriya/bin/alacritty_hide.scpt" ] }
     }
 
-  - { key: Paste,                    action: Paste                            }
-  - { key: Copy,                     action: Copy                             }
-  - { key: PageUp,    mods: Shift,   action: ScrollPageUp,   mode: ~Alt       }
-  - { key: PageDown,  mods: Shift,   action: ScrollPageDown, mode: ~Alt       }
-  - { key: Home,      mods: Shift,   action: ScrollToTop,    mode: ~Alt       }
-  - { key: End,       mods: Shift,   action: ScrollToBottom, mode: ~Alt       }
+  # - { key: Paste,                    action: Paste                            }
+  # - { key: Copy,                     action: Copy                             }
+  # - { key: PageUp,    mods: Shift,   action: ScrollPageUp,   mode: ~Alt       }
+  # - { key: PageDown,  mods: Shift,   action: ScrollPageDown, mode: ~Alt       }
+  # - { key: Home,      mods: Shift,   action: ScrollToTop,    mode: ~Alt       }
+  # - { key: End,       mods: Shift,   action: ScrollToBottom, mode: ~Alt       }

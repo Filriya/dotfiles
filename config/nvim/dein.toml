@@ -167,8 +167,11 @@ repo = 'othree/es.next.syntax.vim'
 repo = 'othree/javascript-libraries-syntax.vim'
 [[plugins]]
 repo = "leafgarland/typescript-vim"
+# [[plugins]]
+# repo = "posva/vim-vue"
+# on_ft = ["vue"]
 [[plugins]]
-repo = "posva/vim-vue"
+repo = "leafOfTree/vim-vue-plugin"
 on_ft = ["vue"]
 [[plugins]]
 repo = "digitaltoad/vim-pug"

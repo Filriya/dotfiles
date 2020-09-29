@@ -237,6 +237,12 @@ if dein#tap('coc.nvim')
     endif
   endfunction
 
+  " Introduce function text object
+  " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+  xmap if <Plug>(coc-funcobj-i)
+  xmap af <Plug>(coc-funcobj-a)
+  omap if <Plug>(coc-funcobj-i)
+  omap af <Plug>(coc-funcobj-a)
 
   " Remap for rename current word
   " リネーム
@@ -278,10 +284,10 @@ if dein#tap('coc.nvim')
   nnoremap <silent> gle  :<C-u>CocList extensions<cr>
   " " Show commands
   nnoremap <silent> glc  :<C-u>CocList commands<cr>
-  " " Find symbol of current document
-  " nnoremap <silent> glo  :<C-u>CocList outline<cr>
-  " " Search workspace symbols
-  " nnoremap <silent> gls  :<C-u>CocList -I symbols<cr>
+  " Find symbol of current document
+  nnoremap <silent> glo  :<C-u>CocList outline<cr>
+  " Search workspace symbols
+  nnoremap <silent> gls  :<C-u>CocList -I symbols<cr>
   " " Do default action for next item.
   " nnoremap <silent> gj  :<C-u>CocNext<CR>
   " " Do default action for previous item.
@@ -368,6 +374,7 @@ if dein#tap('vim-gitgutter')
   nmap [git]p <Plug>(GitGutterPreviewHunk)
   nmap [git]a <Plug>(GitGutterStageHunk)
   nmap [git]r <Plug>(GitGutterUndoHunk)
+  nmap [git]t <Plug>(GitGutterSignsToggle)
 endif
 
 if dein#tap('vim-table-mode')
@@ -756,6 +763,25 @@ if dein#tap('tagbar')
     " autocmd ColorScheme * hi TagbarHighlight term=underline cterm=underline gui=underline
     autocmd ColorScheme * hi TagbarHighlight term=underline cterm=underline gui=underline
   augroup END
+
+  let g:tagbar_type_yaml = {
+    \ 'ctagstype' : 'yaml',
+    \ 'kinds' : [
+        \ 'a:anchors',
+        \ 's:section',
+        \ 'e:entry'
+    \ ],
+  \ 'sro' : '.',
+    \ 'scope2kind': {
+      \ 'section': 's',
+      \ 'entry': 'e'
+    \ },
+    \ 'kind2scope': {
+      \ 's': 'section',
+      \ 'e': 'entry'
+    \ },
+    \ 'sort' : 0
+    \ }
 endif
 
 "----------------------
@@ -954,6 +980,16 @@ endif
 if dein#tap('javascript-libraries-syntax.vim')
   let g:used_javascript_libs = 'jquery, vue'
 endif
+
+"--------------------
+" vim-vue-plugin
+"--------------------
+let g:vim_vue_plugin_use_typescript = 1
+let g:vim_vue_plugin_use_sass = 1
+let g:vim_vue_plugin_use_scss = 1
+let g:vim_vue_plugin_highlight_vue_attr = 1
+let g:vim_vue_plugin_highlight_vue_keyword = 1
+
 
 "--------------------
 " kana/vim-smartinput
@@ -1214,6 +1250,7 @@ if dein#tap('vim-gitgutter')
   let g:gitgutter_enabled = 1
   let g:gitgutter_map_keys = 0
   let g:gitgutter_max_signs = 2000
+  let g:gitgutter_signs = 0
 endif
 
 "--------------------

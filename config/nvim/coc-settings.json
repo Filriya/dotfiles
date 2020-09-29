@@ -16,7 +16,6 @@
   "rust.full_docs": true,
   "rust.clippy_preference": "on",
   "python.jediEnabled": false,
-  "intelephense.files.maxSize": 5000000,
   "vetur.experimental.templateInterpolationService": false,
   "vetur.validation.template": false,
   "eslint.filetypes": [ "javascript", "typescript", "vue" ],
@@ -72,11 +71,6 @@
       "initializationOptions": {
         "storagePath": "/tmp/intelephense"
       }
-    },
-    "efm": {
-      "command": "efm-langserver",
-      "args": [],
-      "filetypes": ["vim", "eruby", "markdown", "yaml", "yml"]
     },
     "kotlin": {
       "command": "kotlin-language-server",

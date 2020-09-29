@@ -1202,7 +1202,7 @@
                         "product_id": 32840,
                         "vendor_id": 7375
                     },
-                    "ignore": false,
+                    "ignore": true,
                     "manipulate_caps_lock_led": false,
                     "simple_modifications": []
                 },
@@ -1228,7 +1228,7 @@
                         "product_id": 32840,
                         "vendor_id": 7375
                     },
-                    "ignore": false,
+                    "ignore": true,
                     "manipulate_caps_lock_led": false,
                     "simple_modifications": []
                 }
