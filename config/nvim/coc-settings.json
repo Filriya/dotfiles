@@ -1,7 +1,7 @@
 {
   "coc.preferences.formatOnSaveFiletypes": ["rust"],
-  "coc.preferences.hoverTarget": "float",
   "diagnostic.messageTarget": "float",
+  "css.lint.unknownAtRules": "ignore",
   "signature.target": "float",
   "snippets.priority": 100,
   "snippets.snipmate.enable": false,
@@ -12,13 +12,9 @@
   "suggest.preferCompleteThanJumpPlaceholder":true,
   "suggest.acceptSuggestionOnCommitCharacter": true,
   "suggest.snippetIndicator": "►",
-  "rust.rustfmt_path": "~/.cargo/bin/rustfmt",
-  "rust.full_docs": true,
-  "rust.clippy_preference": "on",
-  "python.jediEnabled": false,
-  "vetur.experimental.templateInterpolationService": false,
-  "vetur.validation.template": false,
-  "eslint.filetypes": [ "javascript", "typescript", "vue" ],
+  "suggest.maxCompleteItemCount": 30,
+  "vetur.experimental.templateInterpolationService": true,
+  "vetur.validation.template": true,
   "list.insertMappings": {
     "<C-n>": "normal:j",
     "<C-p>": "normal:k",
@@ -49,20 +45,29 @@
     "!Not",
     "!Or"
   ],
+  "diagnostic-languageserver.filetypes": {
+    "php": ["phpstan"],
+    "sh": "shellcheck",
+    "bash": "shellcheck",
+    "zsh": "shellcheck"
+  },
+  "diagnostic-languageserver.formatFiletypes": {
+    "sh": "shfmt",
+    "bash": "shfmt",
+    "zsh": "shfmt"
+  },
+  "diagnostic-languageserver.mergeConfig": true,
+  "diagnostic-languageserver.linters": {
+    "phpstan": {
+      "command": "~/.config/composer/vendor/bin/phpstan"
+    }
+  },
 
   "languageserver": {
-    "haskell": {
-      "command": "hie-wrapper",
-      "rootPatterns": [".stack.yaml", "cabal.config", "package.yaml"],
-      "filetypes": ["hs", "lhs", "haskell"],
-      "initializationOptions": {},
-      "settings": {
-        "languageServerHaskell": {
-          "hlintOn": false,
-          "maxNumberOfProblems": 10,
-          "completionSnippetsOn": true
-        }
-      }
+    "yaml": {
+      "command": "yaml-language-server",
+      "args": ["--stdio"],
+      "filetypes": ["yaml", "yml"]
     },
     "intelephense": {
       "command": "intelephense",
@@ -71,15 +76,6 @@
       "initializationOptions": {
         "storagePath": "/tmp/intelephense"
       }
-    },
-    "kotlin": {
-      "command": "kotlin-language-server",
-      "filetypes": ["kt", "kotlin"]
-    },
-    "dockerfile": {
-      "command": "docker-langserver",
-      "filetypes": ["dockerfile"],
-      "args": ["--stdio"]
     }
   }
 }

@@ -11,9 +11,11 @@ fi
 
 brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 
+brew install bat
 brew install gibo
 brew install jq
 brew install fd
+brew install tealdeer
 brew install exa
 brew install peco
 brew install fzf
@@ -23,6 +25,8 @@ brew install screen
 brew install the_silver_searcher
 brew install ripgrep
 brew install tig
+brew install gina
+brew install gh
 brew install cmigemo
 brew install keychain
 # brew install rbenv

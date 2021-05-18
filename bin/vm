@@ -15,54 +15,44 @@ _select() {
   echo $machines | head -n 1
 }
 
-_key() {
+_id() {
   if [ -p /dev/stdin ]; then
-    str=`cat -`
+    cat - | cut -d " " -f 1
   else
-    str=$@
+    echo $@ | cut -d " " -f 1
   fi
-
-  echo $(echo $str | cut -d " " -f 1)
 }
 
 _name() {
   if [ -p /dev/stdin ]; then
-    str=`cat -`
+    cat - | cut -d " " -f 2
   else
-    str=$@
+    echo $@ | cut -d " " -f 2
   fi
-
-  echo $(echo $str | cut -d " " -f 2)
 }
 
 _privider() {
   if [ -p /dev/stdin ]; then
-    str=`cat -`
+    cat - | cut -d " " -f 3
   else
-    str=$@
+    echo $@ | cut -d " " -f 3
   fi
-
-  echo $(echo $str | cut -d " " -f 3)
 }
 
 _state() {
   if [ -p /dev/stdin ]; then
-    str=`cat -`
+    cat - | cut -d " " -f 4
   else
-    str=$@
+    echo $@ | cut -d " " -f 4
   fi
-
-  echo $(echo $str | cut -d " " -f 4)
 }
 
 _path() {
   if [ -p /dev/stdin ]; then
-    str=`cat -`
+    cat - | cut -d " " -f 5
   else
-    str=$@
+    echo $@ | cut -d " " -f 5
   fi
-
-  echo $(echo $str | cut -d " " -f 5)
 }
 
 up() {
@@ -125,8 +115,8 @@ halt() {
 }
 
 halt-all() {
-  list | grep saved | cut -f 1 -d " "|xargs --no-run-if-empty vagrant halt
-  list | grep running | cut -f 1 -d " "|xargs --no-run-if-empty vagrant halt
+  # list | grep saved | cut -f 1 -d " "|xargs --no-run-if-empty vagrant halt
+  list | grep running | _id | gxargs -IXXX --no-run-if-empty vagrant halt XXX
 
   # vmware用
   # vmrun list | grep vmx | xargs --no-run-if-empty  vmrun stop
@@ -134,15 +124,16 @@ halt-all() {
 
 reload() {
   machine=$(_select "$@")
-  machineId=$(_key $machine)
+  machineId=$(_id $machine)
   halt $machineId
   up $machineId
 }
 
 ssh() {
   machine=$(_select "$@")
-  machineId=$(_key $machine)
-  vagrant ssh $machineId
+  name=$(_name $machine)
+  echo $name
+  $(which ssh) $name
 }
 
 ssh-config() {
@@ -156,7 +147,7 @@ ssh-config() {
 
 ssh-update() {
   machine=$(_select "$@")
-  machineId=$(_key $machine)
+  machineId=$(_id $machine)
   name=$(_name $machine)
 
   filepath=~/.ssh/conf.d/vagrant/$name

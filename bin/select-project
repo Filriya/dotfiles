@@ -1,8 +1,0 @@
-#/bin/bash
-ghqroot=$(ghq root)
-hubroot="$ghqroot/github.com"
-
-(ls $ghqroot | grep -v "github.com"; ls $hubroot | xargs -I {} ls $hubroot/{}) \
-    | perl -pse 's/$root\/(.*)\/.git/\1/' -- -root=$ghqroot \
-    | sort \
-    | fzf

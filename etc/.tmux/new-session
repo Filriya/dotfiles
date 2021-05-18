@@ -10,4 +10,6 @@ select-pane -t 2
 split-window -h -p 66 -c '#{pane_current_path}'
 select-pane -t 3
 split-window -h -c '#{pane_current_path}'
+select-pane -t 3
+select-pane -t 2
 select-pane -t 1

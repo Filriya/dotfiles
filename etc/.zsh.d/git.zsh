@@ -254,7 +254,7 @@ alias gts='git tag -s'
 alias gtv='git verify-tag'
 
 # Working Copy (w)
-alias gw='git status --short && echo "" && git stash list'
+alias gw='(git status --short; echo ""; git stash list)'
 alias gws='git status'
 alias gwd='git diff --no-ext-diff'
 alias gwD='git diff --no-ext-diff --word-diff'

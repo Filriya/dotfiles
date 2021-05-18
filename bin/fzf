@@ -1,0 +1,8 @@
+#!/bin/zsh
+origin=$(type fzf | grep -v $HOME | head -n 1 | cut -d " " -f 3)
+
+if [ -p /dev/stdin ]; then
+  cat - | ${origin} $(fzf-color) $@
+else
+  ${origin} $(fzf-color) $@
+fi

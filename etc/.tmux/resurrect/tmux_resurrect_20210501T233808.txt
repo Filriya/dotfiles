@@ -1,0 +1,6 @@
+pane	filriya	1	:zsh	1	:*	1	:/Users/filriya	1	nvim	:-zsh
+nvim
+pane	filriya	2	:zsh	0	:-	1	:/Users/filriya	1	zsh	:-zsh
+window	filriya	1	1	:*	cafe,105x38,0,0,1
+window	filriya	2	0	:-	caff,105x38,0,0,2
+state	filriya	

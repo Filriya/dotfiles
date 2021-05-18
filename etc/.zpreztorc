@@ -35,8 +35,7 @@ zstyle ':prezto:load' pmodule \
   'osx' \
   'homebrew' \
   'history-substring-search' \
-  'command-not-found' \
-  'docker'
+  'command-not-found'
   # 廃止？
   # 'environment' \
 

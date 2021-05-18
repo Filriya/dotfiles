@@ -1,6 +1,6 @@
-# [[plugins]]
-# repo = 'Shougo/dein.vim'
-#
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
 
@@ -8,7 +8,12 @@ repo = 'vim-jp/vimdoc-ja'
 #
 # development:general
 [[plugins]]
+repo = 'junegunn/fzf'
+build = './install --all'
+[[plugins]]
 repo = 'junegunn/fzf.vim'
+
+
 [[plugins]]
 repo = 'Shougo/defx.nvim'
 [[plugins]]
@@ -29,18 +34,13 @@ repo = 'thinca/vim-quickrun'
 repo = 'machakann/vim-sandwich'
 [[plugins]]
 repo = 'deton/jasegment.vim'
-# [[plugins]]
-# repo = 'fuenor/im_control.vim'
 [[plugins]]
 repo = 'soramugi/auto-ctags.vim'
-[[plugins]]
-repo = 'craigemery/vim-autotag'
+
 [[plugins]]
 repo = 'haya14busa/incsearch.vim'
 [[plugins]]
 repo = 'haya14busa/incsearch-migemo.vim'
-[[plugins]]
-repo = 'easymotion/vim-easymotion'
 [[plugins]]
 repo = 'tpope/vim-repeat'
 [[plugins]]
@@ -49,8 +49,6 @@ repo = 'tmhedberg/matchit'
 repo = 'itchyny/vim-parenmatch'
 [[plugins]]
 repo = 'deris/vim-rengbang'
-[[plugins]]
-repo = 'Yggdroot/indentLine'
 [[plugins]]
 repo = 'ntpeters/vim-better-whitespace'
 [[plugins]]
@@ -64,25 +62,30 @@ repo = 'glidenote/memolist.vim'
 [[plugins]]
 repo = 'majutsushi/tagbar'
 [[plugins]]
-repo = 'critiqjo/lldb.nvim'
-
+repo = 'editorconfig/editorconfig-vim'
+[[plugins]]
+repo = 'LeafCage/yankround.vim'
+[[plugins]]
+repo = 'MattesGroeger/vim-bookmarks'
+[[plugins]]
+repo = 'liuchengxu/vista.vim'
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+[[plugins]]
+repo = 'Yggdroot/indentLine'
 
 # git
 [[plugins]]
 repo = 'tpope/vim-fugitive'
-
 # git log
 [[plugins]]
 repo = 'cohama/agit.vim'
-
 # git branch管理
 [[plugins]]
 repo = 'idanarye/vim-merginal'
-
 # git commit
 [[plugins]]
 repo = 'rhysd/committia.vim'
-
 # git 差分表示
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
@@ -127,19 +130,23 @@ repo = 'osyo-manga/vim-textobj-multiblock' #sb
 [[plugins]]
 repo = 'terryma/vim-expand-region'
 
-#
+
 # language server client
 [[plugins]]
 repo = 'neoclide/coc.nvim'
 merged = 0
 rev = 'release'
 
-#
+
 # debug adaptor client
-[[plugins]]
-repo = "puremourning/vimspector"
-on_ft = ["rust", "javascript", "typescript", "vue"]
-build = "./install_gadget.py --enable-c --force-enable-chrome"
+# [[plugins]]
+# repo = "puremourning/vimspector"
+# on_ft = ["php"]
+# build = "./install_gadget.py --force-enable-php"
+# [[plugins]]
+# repo = "puremourning/vimspector"
+# on_ft = ["javascript", "bash", "rust"]
+# build = "./install_gadget.py"
 
 #
 # filetype
@@ -147,58 +154,79 @@ build = "./install_gadget.py --enable-c --force-enable-chrome"
 repo = 'stephpy/vim-yaml'
 [[plugins]]
 repo = 'cespare/vim-toml'
-# [[plugins]]
-# repo = 'elzr/vim-json'
 [[plugins]]
 repo = 'vim-scripts/PDV--phpDocumentor-for-Vim'
 [[plugins]]
-repo = 'vim-vdebug/vdebug'
+repo = 'neoclide/jsonc.vim'
+on_ft = ["jsonc"]
+[[plugins]]
+repo='vim-scripts/php-annotations-syntax'
 on_ft = ["php"]
 [[plugins]]
-repo = 'stephpy/vim-php-cs-fixer'
+repo='StanAngeloff/php.vim'
+on_ft = ["php"]
+[[plugins]]
+repo='docteurklein/vim-symfony'
 on_ft = ["php"]
 [[plugins]]
 repo = 'cakebaker/scss-syntax.vim'
+on_ft = ["scss"]
 [[plugins]]
-repo = 'othree/yajs.vim'
+repo = 'billyvg/tigris.nvim'
+on_ft = ['javascript', 'typescript', 'vue']
+hook_post_update = '''
+  let g:dein#plugin.build = './install.sh'
+'''
 [[plugins]]
-repo = 'othree/es.next.syntax.vim'
-[[plugins]]
-repo = 'othree/javascript-libraries-syntax.vim'
+repo = "pangloss/vim-javascript"
+on_ft = ["javascript, typescript"]
 [[plugins]]
 repo = "leafgarland/typescript-vim"
-# [[plugins]]
-# repo = "posva/vim-vue"
-# on_ft = ["vue"]
+on_ft = ["javascript, typescript"]
 [[plugins]]
-repo = "leafOfTree/vim-vue-plugin"
+repo = "posva/vim-vue"
 on_ft = ["vue"]
-[[plugins]]
-repo = "digitaltoad/vim-pug"
-on_ft = ["vue", "pug"]
-[[plugins]]
-repo = 'udalov/kotlin-vim''
-on_ft = ["kotlin"]
 [[plugins]]
 repo = 'tbastos/vim-lua'
 on_ft = ["lua"]
 [[plugins]]
-repo = 'kmyk/brainfuck-highlight.vim'
-on_ft = ["bf"]
+repo = 'mechatroner/rainbow_csv'
+on_ft = ["csv"]
 [[plugins]]
-repo = 'chr4/nginx.vim'
-on_ft = ["nginx"]
+repo = 'rust-lang/rust.vim'
+on_ft = ["rust"]
 [[plugins]]
-repo = 'chr4/sslsecure.vim'
-on_ft = ["nginx"]
+repo = 'mhinz/vim-crates'
+on_ft = ["toml"]
+[[plugins]]
+repo = 'robertbasic/vim-hugo-helper'
+on_ft = ["hugo"]
 [[plugins]]
 repo = 'vim-scripts/applescript.vim'
 on_ft = ["applescript"]
 [[plugins]]
-repo = 'robertbasic/vim-hugo-helper'
+repo = 'kmyk/brainfuck-highlight.vim'
+on_ft = ["bf"]
 
+# こいつらonにすると重い
+# [[plugins]]
+# repo = 'othree/yajs.vim'
+# on_ft = ["javascript, typescript"]
+# [[plugins]]
+# repo = 'othree/es.next.syntax.vim'
+# on_ft = ["javascript, typescript"]
+# [[plugins]]
+# repo = 'othree/javascript-libraries-syntax.vim'
+# on_ft = ["javascript, typescript"]
+# [[plugins]]
+# repo = 'chr4/nginx.vim'
+# on_ft = ["nginx"]
+# [[plugins]]
+# repo = 'chr4/sslsecure.vim'
+# on_ft = ["nginx"]
 
 # markdown
+
 [[plugins]]
 repo = 'plasticboy/vim-markdown'
 [[plugins]]
@@ -212,19 +240,46 @@ on_ft = ['markdown', 'pandoc.markdown', 'rmd']
 build = 'cd app & yarn install'
 [[plugins]]
 repo = 'vim-scripts/VOoM'
+[[plugins]]
+repo = 'habamax/vim-asciidoctor'
+
 
 # colorscheme
 [[plugins]]
-repo = 'itchyny/lightline.vim'
+repo = 'vim-airline/vim-airline'
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'
+[[plugins]]
+repo = 'ryanoasis/vim-devicons'
 [[plugins]]
 repo = 'mopp/mopkai.vim'
 [[plugins]]
 repo = 'ayu-theme/ayu-vim'
 [[plugins]]
+repo = 'drewtempelmeyer/palenight.vim'
+[[plugins]]
 repo = 'NLKNguyen/papercolor-theme'
 [[plugins]]
+repo = 'preservim/vim-colors-pencil'
+[[plugins]]
 repo = 'rakr/vim-one'
+[[plugins]]
+repo = 'sonph/onehalf'
+rtp = 'vim/'
+[[plugins]]
+repo = 'morhetz/gruvbox'
+[[plugins]]
+repo = 'rakr/vim-two-firewatch'
 
+# 試してイマイチリスト
+# [[plugins]] 
+# repo = 'elzr/vim-json'
+# [[plugins]]
+# repo = 'itchyny/lightline.vim'
+# [[plugins]]
+# repo = 'yarisgutierrez/ayu-lightline'
+# [[plugins]]
+# repo = 'yami-beta/lightline-pencil.vim'
 
 [[plugins]]
 repo = 'thinca/vim-scouter'

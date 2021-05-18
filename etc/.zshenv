@@ -30,3 +30,4 @@ compinit
 
 export PATH="$HOMEBREW_PREFIX/opt/node@10/bin:$PATH"
 path=($(npm config get prefix)/bin $path)
+. "$HOME/.cargo/env"

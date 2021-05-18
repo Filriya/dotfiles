@@ -2,10 +2,7 @@
 LC_CTYPE="en_US.UTF-8"
 LC_ALL="en_US.UTF-8"
 LANG=ja_JP.UTF-8
-TERM=screen-256color
-
-fpath=(${ZDOTDIR:-$HOME}/.zsh.d/**/functions $fpath)
-path=(${ZDOTDIR:-$HOME}/bin $path)
+# TERM=screen-256color
 
 if [ ! -e $HOME/.zsh.bundle/completion ]; then
   mkdir $HOME/.zsh.bundle/completion
@@ -91,6 +88,10 @@ fi
 EXTRA_FZF_COMPLETIONS_FZF_PREFIX=,
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# iterm
+# alias it2-light='echo -ne "\033]1337;SetProfile=light\a" && export ITERM_PROFILE=light && tmux source ~/.tmux/light'
+# alias it2-dark='echo -ne "\033]1337;SetProfile=dark\a" && export ITERM_PROFILE=dark && tmux source ~/.tmux/dark'
+
 # alias
 alias cl="clear"
 alias gosh='rlwrap gosh'
@@ -130,6 +131,9 @@ if type exa > /dev/null; then
   alias lT="exa -lT --time-style=iso --group-directories-first"
 fi
 
+if type exa > /dev/null; then
+  alias man="tldr"
+fi
 
 if [[ -f ~/dircolors/dircolors.solarized && -x `which dircolors` ]]; then
   eval `dircolors ${HOME}/dircolors/dircolors.solarized`
@@ -228,10 +232,13 @@ if [ -f '/Users/filriya/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/f
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
 # composer
-path=(${ZDOTDIR:-$HOME}/.composer/vendor/bin $path)
+path=(${ZDOTDIR:-$HOME}/.config/composer/vendor/bin $path)
 
 # ruby
 path=(/usr/local/lib/ruby/gems/2.6.0 $path)
+
+# yarn
+path=($(yarn global bin) $path)
 
 # qt
 export PATH="$HOMEBREW_PREFIX/opt/qt/bin:$PATH"
@@ -309,9 +316,9 @@ export RUST_BACKTRACE=1
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
 
-if [[ ! -n $TMUX && -z $SSH_TTY ]]; then
-  tm $(tmux list-sessions | grep attached | perl -pe "s/^([^:]*):.*/\1/g")
-fi
+# if [[ ! -n $TMUX && -z $SSH_TTY ]]; then
+#   tm $(tmux list-sessions | grep attached | perl -pe "s/^([^:]*):.*/\1/g")
+# fi
 
 if [ -e "${ZDOTDIR:-$HOME}/.zshrc.local" ]; then
   source "${ZDOTDIR:-$HOME}/.zshrc.local"
@@ -339,6 +346,11 @@ function zdk()
     | perl -pe "s/.*['\"]([a-zA-Z \-]+)['\"].*/\1/g"
   )
 }
+
+fpath=(${ZDOTDIR:-$HOME}/.zsh.d/**/functions $fpath)
+path=(${ZDOTDIR:-$HOME}/bin $path)
+typeset -U PATH # 重複削除
+
 # alias -g Z=zgit
 
 ### last

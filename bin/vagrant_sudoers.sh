@@ -6,10 +6,11 @@
 TMP=$(mktemp)
 cat /etc/sudoers > $TMP
 cat >> $TMP <<EOF
-Cmnd_Alias VAGRANT_EXPORTS_ADD = /usr/bin/tee -a /etc/exports
 Cmnd_Alias VAGRANT_NFSD = /sbin/nfsd restart
+Cmnd_Alias VAGRANT_EXPORTS_ADD = /usr/bin/tee -a /etc/exports
 Cmnd_Alias VAGRANT_EXPORTS_ADD_CU = /usr/local/opt/coreutils/libexec/gnubin/tee -a /etc/exports
 Cmnd_Alias VAGRANT_EXPORTS_REMOVE = /usr/bin/sed -E -e /*/ d -ibak /etc/exports
+# ↓この行中に、上に追記したCmnd_Aliasを追記
 %admin ALL=(root) NOPASSWD: VAGRANT_EXPORTS_ADD, VAGRANT_EXPORTS_ADD_CU, VAGRANT_NFSD, VAGRANT_EXPORTS_REMOVE
 EOF
 

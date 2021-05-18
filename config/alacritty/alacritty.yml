@@ -1,5 +1,5 @@
 env:
-  TERM: screen-256color
+  TERM: xterm-256color
 
 window:
   dimensions:
@@ -14,10 +14,12 @@ window:
   #   x: 0
   #   y: 0
 
-  # decorations: buttonless
+  decorations: buttonless
 
-  # startup_mode: Maximized
-  startup_mode: Windowed
+  # startup_mode: Windowed
+  startup_mode: Maximized
+  # startup_mode: Fullscreen
+  # startup_mode: SimpleFullscreen
 
 scrolling:
   history: 10000
@@ -26,21 +28,68 @@ scrolling:
 
 fonts:
   default: &default
-    size: 18.0
+    size: 22.0
 
   uni: &uni
     normal: {family: "S2G Uni font", style: Regular}
-    bold: { family: "S2G Uni font", style: Bold }
-    italic: { family: "S2G Uni font", style: Italic }
-    size: 21.5
+    bold: { family: "S2G Uni font", style: Regular }
+    italic: { family: "S2G Uni font", style: Regular }
+    # size: 22
+    size: 22
     # use_thin_strokes: true
-    offset: {x: 0, y: 12}
+    offset: {x: 0, y: 0}
+
+  uni_nerd: &uni_nerd
+    normal: {family: "S2Gうにフォント", style: Regular}
+    bold: { family: "S2Gうにフォント", style: Regular }
+    italic: { family: "S2Gうにフォント", style: Regular }
+    # size: 22
+    size: 22
+    # use_thin_strokes: true
+    offset: {x: 0, y: 15}
+
+  ricty: &ricty
+    normal: {family: "Ricty Discord for Powerline", style: Regular}
+    bold: { family: "Ricty Discord for Powerline", style: Bold }
+    italic: { family: "Ricty Discord for Powerline", style: Oblique }
+    # size: 22
+    size: 24
+    # use_thin_strokes: true
+    offset: {x: 0, y: 10}
+
+  moon: &moon
+    normal: { family: "S2G Moon Font", style: Regular }
+    bold: { family: "S2G Moon Font", style: Regular }
+    italic: { family: "S2G Moon Font", style: Regular }
+    # size: 22
+    size: 22
+    # use_thin_strokes: true
+    offset: {x: 0, y: 15}
+
+  luna: &luna
+    normal: { family: "S2G Luna Font", style: Regular }
+    bold: { family: "S2G Luna Font", style: Regular }
+    italic: { family: "S2G Luna Font", style: Regular }
+    # size: 22
+    size: 22
+    # use_thin_strokes: true
+    offset: {x: 0, y: 15}
+
+  sea: &sea
+    normal: { family: "S2G Sea Font", style: Regular }
+    bold: { family: "S2G Sea Font", style: Regular }
+    italic: { family: "S2G Sea Font", style: Regular }
+    # size: 22
+    size: 22
+    # use_thin_strokes: true
+    offset: {x: 0, y: 15}
 
   jetbrains: &jetbrains
     normal: { family: "JetBrains Mono", style: "Regular" }
     bold: { family: "JetBrains Mono", style: "Bold" }
     italic: { family: "JetBrains Mono", style: "Italic" }
-    size: 19.0
+    # size: 19.0
+    size: 22.0
     # use_thin_strokes: true
     offset: {x: 0, y: 7}
 
@@ -48,7 +97,8 @@ fonts:
     normal: { family: "更紗等幅ゴシック J", style: Regular }
     bold: { family: "更紗等幅ゴシック J", style: Bold }
     italic: { family: "更紗等幅ゴシック J", style: Italic }
-    size: 19.0
+    # size: 19.0
+    size: 22.0
     # use_thin_strokes: true
     offset: {x: 1, y: 2}
 
@@ -56,30 +106,40 @@ fonts:
     normal: { family: "源ノ角ゴシック Code JP", style: N }
     bold: { family: "源ノ角ゴシック Code JP", style: B }
     italic: { family: "源ノ角ゴシック Code JP", style: N It }
-    size: 16.0
+    # size: 19.0
+    size: 22.0
     # use_thin_strokes: true
-    offset: {x: -1, y: 5}
+    offset: {x: 0, y: 5}
 
   yutapon: &yutapon
     normal: { family: "ゆたぽん（コーディング）", style: Regular }
     bold: { family: "ゆたぽん（コーディング）Bold", style: Bold }
     italic: { family: "ゆたぽん（コーディング）Bold", style: Bold }
-    size: 20.0
+    # size: 20.0
+    size: 22.0
     # use_thin_strokes: true
-    offset: {x: 0, y: 2}
+    offset: {x: 0, y: 15}
 
-    # `defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO`
+
+# `defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO`
+# !@#$%^&*()-_=
+#
+# +[]{}\|
+# ;:'",./<>?
 
 # font: *default
-font: *uni
+font: *uni_nerd
+# font: *ricty
+# font: *moon
+# font: *luna
+# font: *sea
 # font: *jetbrains
 # font: *sarasa
 # font: *sourcehan
 # font: *yutapon
 
 schemes:
-  ayu: &mirage
-
+  ayu-mirage: &ayu-mirage
     primary:
       # background: '0x243742'
       background: '0x1f2430'
@@ -114,10 +174,39 @@ schemes:
       magenta: '0xD4BFFF'
       cyan: '0x95E6CB'
       white: '0xFFFFFF'
+  palenight: &palenight
+    primary:
+      background: '0x292d3e'
+      foreground: '0x959dcb'
 
+    cursor:
+      text: '0x292d3e'
+      cursor: '0x959dcb'
 
-colors: *mirage
+    normal:
+      black:   '0x292d3e'
+      red:     '0xf07178'
+      green:   '0xc3e88d'
+      yellow:  '0xffcb6b'
+      blue:    '0x82aaff'
+      magenta: '0xc792ea'
+      cyan:    '0x89ddff'
+      white:   '0x959dcb'
 
+    bright:
+      black:   '0x676e95'
+      red:     '0xf78c6c'
+      green:   '0x444267'
+      yellow:  '0x32374d'
+      blue:    '0x8796b0'
+      magenta: '0x959dcb'
+      cyan:    '0xff5370'
+      white:   '0xffffff'
+
+colors: *ayu-mirage
+# colors: *palenight
+
+# draw_bold_text_with_bright_colors: false
 
 # Background opacity
 #

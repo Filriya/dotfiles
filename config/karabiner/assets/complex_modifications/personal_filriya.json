@@ -88,6 +88,55 @@
       ]
     },
     {
+      "description": "toggle IME when press shift-space",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "spacebar",
+            "modifiers": { "mandatory": [ "left_shift" ] }
+          },
+          "to": [
+            {
+              "select_input_source": {
+                "language": "ja" 
+              }
+            }
+          ],
+          "conditions": [
+            {
+              "type": "input_source_if",
+              "input_sources": [
+                { "language": "en" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "spacebar",
+            "modifiers": { "mandatory": [ "left_shift" ] }
+          },
+          "to": [
+            {
+              "select_input_source": {
+                "language": "en" 
+              }
+            }
+          ],
+          "conditions": [
+            {
+              "type": "input_source_if",
+              "input_sources": [
+                { "language": "ja" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "description": "Toggle Alacritty",
       "manipulators": [
         {
@@ -119,7 +168,7 @@
           "conditions": [
             {
               "type": "frontmost_application_unless",
-              "bundle_identifiers": [ 
+              "bundle_identifiers": [
                 "^io\\.alacritty$"
               ]
             }
@@ -827,105 +876,6 @@
               "key_code": "q",
               "modifiers": [
                 "control"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "description": "[App]: Visual Studio Code",
-      "manipulators": [
-        {
-          "conditions": [
-            {
-              "type": "frontmost_application_if",
-              "bundle_identifiers": [
-                "^com\\.microsoft\\.VSCode$"
-              ]
-            }
-          ],
-          "type": "basic",
-          "from": {
-            "key_code": "m",
-            "modifiers": {
-              "mandatory": [
-                "control"
-              ],
-              "optional": [
-                "any"
-              ]
-            }
-          },
-          "to": [
-            {
-              "key_code": "return_or_enter"
-            }
-          ]
-        },
-        {
-          "type": "basic",
-          "conditions": [
-            {
-              "type": "frontmost_application_if",
-              "bundle_identifiers": [
-                "^com\\.apple\\.Terminal$",
-                "^com\\.googlecode\\.iterm2$",
-                "^co\\.zeit\\.hyperterm$",
-                "^co\\.zeit\\.hyper$",
-                "^io\\.alacritty$",
-                "^net\\.kovidgoyal\\.kitty$"
-              ]
-            }
-          ],
-          "from": {
-            "key_code": "a",
-            "modifiers": {
-              "mandatory": [
-                "control"
-              ],
-              "optional": [
-                "any"
-              ]
-            }
-          },
-          "to": [
-            {
-              "key_code": "q",
-              "modifiers": [
-                "control"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "description": "[App]: for Google Keeps",
-      "manipulators": [
-        {
-          "conditions": [
-            {
-              "type": "frontmost_application_if",
-              "bundle_identifiers": [
-                "^com\\.Desktop-Google-Keep-OSX$"
-              ]
-            }
-          ],
-          "type": "basic",
-          "from": {
-            "key_code": "w",
-            "modifiers": {
-              "mandatory": [
-                "command"
-              ]
-            }
-          },
-          "to": [
-            {
-              "key_code": "h",
-              "modifiers": [
-                "command"
               ]
             }
           ]

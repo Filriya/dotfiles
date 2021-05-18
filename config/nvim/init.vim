@@ -1,20 +1,21 @@
-"-----------------------------------------------------------------------------------
-"
-" Mappings                                                                          |
-"-----------------------------------------------------------------------------------"
-" コマンド        | ノーマル | 挿入 | コマンドライン | ビジュアル | 選択 | 演算待ち |
-" map  / noremap  |    @     |  -   |       -        |     @      |  @   |    @     |
-" map! / noremap! |    -     |  @   |       @        |     -      |  -   |    -     |
-" nmap / nnoremap |    @     |  -   |       -        |     -      |  -   |    -     |
-" imap / inoremap |    -     |  @   |       -        |     -      |  -   |    -     |
-" cmap / cnoremap |    -     |  -   |       @        |     -      |  -   |    -     |
-" vmap / vnoremap |    -     |  -   |       -        |     @      |  @   |    -     |
-" xmap / xnoremap |    -     |  -   |       -        |     @      |  -   |    -     |
-" smap / snoremap |    -     |  -   |       -        |     -      |  @   |    -     |
-" omap / onoremap |    -     |  -   |       -        |     -      |  -   |    @     |
-"-----------------------------------------------------------------------------------"
+" |-----------------------------------------------------------------------------------|
+" |                                                                                   |
+" | Mappings                                                                          |
+" |-----------------------------------------------------------------------------------|
+" | コマンド        | ノーマル | 挿入 | コマンドライン | ビジュアル | 選択 | 演算待ち |
+" | map  / noremap  |    @     |  -   |       -        |     @      |  @   |    @     |
+" | map! / noremap! |    -     |  @   |       @        |     -      |  -   |    -     |
+" | nmap / nnoremap |    @     |  -   |       -        |     -      |  -   |    -     |
+" | imap / inoremap |    -     |  @   |       -        |     -      |  -   |    -     |
+" | cmap / cnoremap |    -     |  -   |       @        |     -      |  -   |    -     |
+" | vmap / vnoremap |    -     |  -   |       -        |     @      |  @   |    -     |
+" | xmap / xnoremap |    -     |  -   |       -        |     @      |  -   |    -     |
+" | smap / snoremap |    -     |  -   |       -        |     -      |  @   |    -     |
+" | omap / onoremap |    -     |  -   |       -        |     -      |  -   |    @     |
+" |-----------------------------------------------------------------------------------|
 
 scriptencoding utf-8
+set encoding=UTF-8
 
 filetype off
 filetype plugin indent off
@@ -22,6 +23,9 @@ filetype plugin indent off
 "----------------------
 "dein
 "----------------------
+let g:dotfiles_path = substitute(system("cd $(dirname ".$MYVIMRC."); git rev-parse --show-toplevel"), "[\n\r]", "", "g")
+" let g:dotfiles_path = system("cd $(dirname ".$MYVIMRC."); git rev-parse --show-toplevel")
+" let g:dotfiles_path = "~/projects/dotfiles/"
 let s:dein_dir = expand('~/.config/nvim.bundle')
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim' " dein.vim 本体
 let g:dein#install_process_timeout =  600
@@ -75,6 +79,8 @@ nnoremap <C-I> <C-I>zz
 "screenと被るので、<C-A>を<C-Q>へ
 nnoremap <C-Q> <C-A>
 
+inoremap <C-C> <C-X>
+
 
 "command line windowを表示
 "swap semicolon and colon
@@ -103,17 +109,30 @@ nnoremap zL zO
 nnoremap zh zc
 nnoremap zH zC
 
+" ----------------------------------------
+" <m> commands
+" マーク関連
+" ----------------------------------------
+" 基本マップ
+" nnoremap [Mark] <Nop>
+" nmap m [Mark]
+nnoremap <silent>gm :<C-u>call <SID>AutoMarkrement()<CR>
+
+" 次/前のマーク
+nnoremap ]m ]`
+nnoremap [m [`
+
 
 " ----------------------------------------
 " <t> commands
 " ウィンドウ、タブ、バッファの分割・移動
 " Window Tab Buffer
 " ----------------------------------------
-nnoremap <silent> <C-t>n :echo noaction<CR>
-nnoremap <silent> <C-t><C-n> :echo noaction<CR>
-nnoremap <silent> <C-t>p :echo noaction<CR>
-nnoremap <silent> <C-t><C-p> :echo noaction<CR>
-
+" nnoremap <silent> <C-t>n :echo noaction<CR>
+" nnoremap <silent> <C-t><C-n> :echo noaction<CR>
+" nnoremap <silent> <C-t>p :echo noaction<CR>
+" nnoremap <silent> <C-t><C-p> :echo noaction<CR>
+"
 " タブの操作
 nnoremap <silent> <C-w>n :<C-u>tabnext<CR>
 nnoremap <silent> <C-w><C-n> :<C-u>tabnext<CR>
@@ -133,6 +152,7 @@ nnoremap <silent> <C-w>0 :<C-u>tabn 10<CR>
 
 nnoremap <silent> <C-w>c :<C-u>tabnew<CR>:tabmove<CR>
 nnoremap <silent> <C-w><C-c> :<C-u>tabnew<CR>:tabmove<CR>
+nnoremap <silent> <C-w>Q :<C-u>tabclose<CR>
 
 nnoremap <silent> <C-w><bar> :<C-u>vsp<CR>
 nnoremap <silent> <C-w>- :<C-u>sp<CR>
@@ -141,28 +161,29 @@ nnoremap <silent> <C-w>_ <C-w>-
 " nnoremap <C-z> `.zz
 
 " Moving back and forth between lines of same or lower indentation.
-nnoremap <silent> [l :call NextIndent(0, 0, 0, 1)<CR>
-nnoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<CR>
-nnoremap <silent> [L :call NextIndent(0, 0, 1, 1)<CR>
-nnoremap <silent> ]L :call NextIndent(0, 1, 1, 1)<CR>
-vnoremap <silent> [l <Esc>:call NextIndent(0, 0, 0, 1)<CR>m'gv''
-vnoremap <silent> ]l <Esc>:call NextIndent(0, 1, 0, 1)<CR>m'gv''
-vnoremap <silent> [L <Esc>:call NextIndent(0, 0, 1, 1)<CR>m'gv''
-vnoremap <silent> ]L <Esc>:call NextIndent(0, 1, 1, 1)<CR>m'gv''
-onoremap <silent> [l :call NextIndent(0, 0, 0, 1)<CR>
-onoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<CR>
-onoremap <silent> [L :call NextIndent(1, 0, 1, 1)<CR>
-onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<CR>
-
+" nnoremap <silent> [l :call NextIndent(0, 0, 0, 1)<CR>
+" nnoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<CR>
+" nnoremap <silent> [L :call NextIndent(0, 0, 1, 1)<CR>
+" nnoremap <silent> ]L :call NextIndent(0, 1, 1, 1)<CR>
+" vnoremap <silent> [l <Esc>:call NextIndent(0, 0, 0, 1)<CR>m'gv''
+" vnoremap <silent> ]l <Esc>:call NextIndent(0, 1, 0, 1)<CR>m'gv''
+" vnoremap <silent> [L <Esc>:call NextIndent(0, 0, 1, 1)<CR>m'gv''
+" vnoremap <silent> ]L <Esc>:call NextIndent(0, 1, 1, 1)<CR>m'gv''
+" onoremap <silent> [l :call NextIndent(0, 0, 0, 1)<CR>
+" onoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<CR>
+" onoremap <silent> [L :call NextIndent(1, 0, 1, 1)<CR>
+" onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<CR>
+"
 ".edit config
 nnoremap <silent> <Leader>es :<C-u>source $MYVIMRC<CR>
 nnoremap <silent> <Leader>ev :<C-u>tabnew $MYVIMRC<CR>
+nnoremap <silent> <Leader>et :<C-u>tabnew ~/.config/nvim/dein.toml<CR>
 
 " reload file
-nnoremap <silent> <Leader>R :<C-u>e<CR>
+" nnoremap <silent> <Leader>R :<C-u>e<CR>
 
 " help
-nnoremap          <Leader>H :vert help<space>
+" nnoremap          <Leader>H :vert help<space>
 
 " save and quit
 nnoremap <silent> <Leader>w :w<CR>
@@ -180,24 +201,27 @@ if dein#tap('defx.nvim')
 endif
 
 if dein#tap('fzf.vim')
+  " map <Leader>f [fzf]
   nnoremap <silent> <Leader>f :<C-u>GFiles<CR>
   nnoremap <silent> <Leader>F :<C-u>Files<CR>
-  nnoremap <silent> <Leader>ee :<C-u>Dotfiles<CR>
-  nnoremap <silent> <Leader>gf :<C-u>GFiles?<CR>
+  nnoremap <silent> <Leader>e :<C-u>FzfDotfiles<CR>
   nnoremap <silent> <Leader>u :<C-u>Buffers<CR>
+  nnoremap <silent> <Leader>m :<C-u>Marks<CR>
   " nnoremap <silent> <Leader>b :<C-u>LoadedBuffers<CR>
   " nnoremap          <Leader>a :<C-u>Ag<Space>
   nnoremap          <Leader>a :<C-u>Rg<Space>
   nnoremap <silent> <Leader>/ :<C-u>Lines<CR>
   nnoremap <silent> <Leader>? :<C-u>BLines<CR>
   nnoremap <silent> <Leader>h :<C-u>History<CR>
-  nnoremap <silent> <Leader>i :call fzf#vim#tags(expand('<cword>'))<CR>
-  nnoremap <silent> <Leader>I :<C-u>Tags<CR>
+  nnoremap <silent> <Leader>H :<C-u>Helptags<CR>
+  nnoremap <silent> <Leader>t :call fzf#vim#tags(expand('<cword>'))<CR>
+  nnoremap <silent> <Leader>T :<C-u>Tags<CR>
+  nnoremap <silent> <Leader>j :<C-u>Jump<CR>
 endif
 
 if dein#tap('coc.nvim')
 
-  " ポップアップメニュー 
+  " ポップアップメニュー
   " 補完モードのコマンド(|popupmenu-keys| を参照)
   " <CR>で補完せず下の行
   " <Tab>で補完 スニペットのジャンプ
@@ -214,7 +238,7 @@ if dein#tap('coc.nvim')
     return !col || getline('.')[col - 1]  =~# '\s'
   endfunction
 
-  nnoremap <silent> <C-L> :<C-u>CocRestart<CR>
+  nnoremap <silent> <C-l> :<C-u>Reload<CR>
 
 
   " Use `g[` and `g]` to navigate diagnostics
@@ -265,11 +289,16 @@ if dein#tap('coc.nvim')
 
   " Remap for do codeAction of current line
   " actionのカレント行バージョン
-  nmap <silent> gac  <Plug>(coc-codeaction)
+  nmap <silent> gX  <Plug>(coc-codeaction)
 
   " Fix autofix problem of current line
   " エラーの自動修正
   nmap <silent> gq  <Plug>(coc-fix-current)
+
+
+  " Convert visual selected code to snippet
+  nnoremap <silent> gS  :<C-u>CocCommand snippets.editSnippets<cr>
+  xmap <silent> gS  <Plug>(coc-convert-snippet)
 
   " Use <tab> for select selections ranges, needs server support, like: coc-tsserver, coc-python
   " 謎
@@ -297,6 +326,21 @@ if dein#tap('coc.nvim')
 
 endif
 
+" --------------------
+" vimspector
+" --------------------
+" if dein#tap('vimspector')
+"   nnoremap <F2> :<C-u>call LaunchFileDebug()<CR>
+"   nnoremap <S-F2> :<C-u>VimspectorReset<CR>
+"   nmap <S-F9>F9 <Plug>VimspectorToggleConditionalBreakpoint
+"   nmap <S-F8>F8 <Plug>VimspectorRunToCursor
+" endif
+
+if dein#tap('vista.vim')
+  nnoremap <silent> <Leader>o :<C-u>Vista coc<CR>
+endif
+
+
 if dein#tap('PDV--phpDocumentor-for-Vim')
   augroup php-dev
     autocmd!
@@ -307,22 +351,27 @@ endif
 
 if dein#tap('vim-easy-align')
   " Start interactive EasyAlign in visual mode (e.g. vipga)
-  xmap <Leader>ea <Plug>(EasyAlign)
+  xmap gA <Plug>(EasyAlign)
   " Start interactive EasyAlign for a motion/text object (e.g. gaip)
-  nmap <Leader>ea <Plug>(EasyAlign)
+  nmap gA <Plug>(EasyAlign)
 endif
- 
+
 if dein#tap('caw.vim')
-  "" 行の最初の文字の前にコメント文字をトグル
-  nmap <Leader>c <Plug>(caw:hatpos:toggle)
-  nmap <Leader>C <Plug>(caw:wrap:toggle)
-  vmap <Leader>c <Plug>(caw:hatpos:toggle)
-  vmap <Leader>C <Plug>(caw:wrap:toggle)
+  " 行の最初の文字の前にコメント文字をトグル
+  nmap gc <Plug>(caw:hatpos:toggle)
+  nmap gC <Plug>(caw:wrap:toggle)
+  vmap gc <Plug>(caw:hatpos:toggle)
+  vmap gC <Plug>(caw:wrap:toggle)
 endif
 
 if dein#tap('incsearch-migemo.vim')
   nmap <silent> g/ <Plug>(incsearch-migemo-/)
   " nmap g? <Plug>(incsearch-migemo-?)
+endif
+
+if dein#tap('vim-rengbang')
+  map <Leader>R <Plug>(operator-rengbang)
+  " map <Leader>sp <Plug>(operator-rengbang-useprev)
 endif
 
 if dein#tap('vim-easymotion')
@@ -339,8 +388,8 @@ if dein#tap('vim-easymotion')
   " Move to line
   map <Leader>l <Plug>(easymotion-bd-jk)
   nmap <Leader>l <Plug>(easymotion-overwin-line)
-  map <Leader>j <Plug>(easymotion-j)
-  map <Leader>k <Plug>(easymotion-k)
+  " map <Leader>j <Plug>(easymotion-j)
+  " map <Leader>k <Plug>(easymotion-k)
 endif
 
 if dein#tap('vim-sandwich')
@@ -352,11 +401,12 @@ endif
 
 map <Leader>g [git]
 if dein#tap("vim-fugitive")
+  nnoremap [git]f :<C-u>GFiles?<CR>
   nnoremap [git]w :Gstatus<CR>
   nnoremap [git]c :Gcommit<CR>
   nnoremap [git]d :Gdiff<CR>
-  nnoremap [git]B :Gblame<CR>
-  vnoremap [git]B :Gbrowse<CR>
+  nnoremap [git]B :Git blame<CR>
+  " vnoremap [git]B :Gbrowse<CR>
 endif
 
 if dein#tap("agit.vim")
@@ -400,12 +450,12 @@ endif
 
 if dein#tap('memolist.vim')
   nnoremap <Leader>mn  :MemoNew<CR>
-  nnoremap <Leader>ml  :FzfMemoList<CR>
+  nnoremap <Leader>ml  :FzfMemolist<CR>
   nnoremap <Leader>mg  :MemoGrep<CR>
 endif
 
 if dein#tap('tagbar')
-  nnoremap <Leader>o :TagbarToggle<CR>
+  nnoremap <Leader>O :TagbarToggle<CR>
 endif
 
 " if dein#tap('vim-cutlass')
@@ -449,8 +499,8 @@ endif
 "   nmap <Leader>rr <plug>(SubversiveSubstituteWordRangeConfirm)
 " endif
 
-nnoremap S :%s/\v
-vnoremap S :s/\v
+nnoremap S :%s/
+vnoremap S :s/
 
 " --------------------
 " Keymap ここまで
@@ -495,7 +545,7 @@ if dein#tap('defx.nvim')
           \ defx#do_action('open_tree'):
           \ defx#do_action('drop')
     nnoremap <silent><buffer><expr> L
-          \ defx#do_action('open_tree_recursive', [5]):
+          \ defx#do_action('open_tree', 'recuresive:5'):
     nnoremap <silent><buffer><expr> h
           \ defx#do_action('close_tree')
     nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
@@ -518,23 +568,26 @@ if dein#tap('defx.nvim')
           \ defx#do_action('multi', ['quit', ['open', 'vsplit']])
     nnoremap <silent><buffer><expr> t
           \ defx#do_action('multi', ['quit', ['open', 'tabnew']])
-    nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
+    " nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
 
     " move file
-    nnoremap <silent><buffer><expr> c     defx#do_action('copy')
+    nnoremap <silent><buffer><expr> c    defx#do_action('copy')
     nnoremap <silent><buffer><expr> m     defx#do_action('move')
     nnoremap <silent><buffer><expr> p     defx#do_action('paste')
 
     " edit file
     nnoremap <silent><buffer><expr> K     defx#do_action('new_directory')
     nnoremap <silent><buffer><expr> N     defx#do_action('new_file')
+    nnoremap <silent><buffer><expr> M     defx#do_action('new_multiple_files')
     nnoremap <silent><buffer><expr> d     defx#do_action('remove')
     nnoremap <silent><buffer><expr> r     defx#do_action('rename')
 
     " select file
-    nnoremap <silent><buffer><expr> J     defx#do_action('toggle_select').'j'
-    vnoremap <silent><buffer><expr> J     defx#do_action('toggle_select_visual').'j'
-    nnoremap <silent><buffer><expr> *        defx#do_action('toggle_select_all')
+    nnoremap <silent><buffer><expr> <c-j> defx#do_action('toggle_select').'j'
+    vnoremap <silent><buffer><expr> <c-j> defx#do_action('toggle_select_visual').'j'
+    nnoremap <silent><buffer><expr> <c-k> defx#do_action('toggle_select').'k'
+    vnoremap <silent><buffer><expr> <c-k> defx#do_action('toggle_select_visual').'k'
+    nnoremap <silent><buffer><expr> *     defx#do_action('toggle_select_all')
 
     " other
     nnoremap <silent><buffer><expr> x     defx#do_action('execute_system')
@@ -552,7 +605,7 @@ endif
 "--------------------
 
 if dein#tap('fzf.vim')
-  set rtp+=/usr/local/opt/fzf,/home/linuxbrew/.linuxbrew/opt/fzf
+  set rtp+=/usr/local/opt/fzf,/home/linuxbrew/.linuxbrew/opt/fzf,~/.fzf
   " let g:fzf_command_prefix = 'Fzf'
 
   " TODO: 多分遅い
@@ -565,30 +618,6 @@ if dein#tap('fzf.vim')
       " cc
     endif
   endfunction
-
-  function! s:fzf_dot_files() abort
-    let l:dirname = system("cd $(dirname ".$MYVIMRC."); git rev-parse --show-toplevel")
-    let l:dirname = substitute(l:dirname, "[\n\r]", "", "g")
-    call fzf#run({
-          \ 'source': 'fd --type f --hidden --follow --exclude ".git/*" --exclude "*.app*" . '.l:dirname,
-          \ 'sink': 'tab split',
-          \ 'down': '40%'
-          \ })
-  endfunction
-  " let g:memolist_path = $HOME."/posts/"
-
-  if dein#tap('memolist.vim')
-    function! s:fzf_memolist() abort
-      echo g:memolist_path
-      call fzf#run({
-            \ 'source': 'fd --type f . '.g:memolist_path,
-            \ 'sink': 'tab split',
-            \ 'down': '40%',
-            \ 'options': '--tac'
-            \ })
-    endfunction
-    command! FzfMemoList call s:fzf_memolist()
-  endif
 
   function! s:fzf_emoji(...) abort
     if a:0 >= 1
@@ -615,6 +644,27 @@ if dein#tap('fzf.vim')
     endif
   endfunction
 
+  function! s:get_jumplist() abort
+    redir => cout
+    silent jumps
+    redir END
+    return reverse(split(cout, "\n")[1:])
+  endfunction
+
+  function! s:go_to_jump(jump)
+    let jumpnumber = split(a:jump, '\s\+')[0]
+    execute "normal " . jumpnumber . "\<c-o>"
+  endfunction
+
+  function! s:fzf_jump(...) abort
+    call fzf#run({
+        \ 'source': s:get_jumplist(),
+        \ 'sink': function('s:go_to_jump'),
+        \ 'down': '40%'
+        \ })
+  endfunction
+
+
   " This is the default extra key bindings
   let g:fzf_action = {
         \ 'enter': function('s:build_quickfix_list'),
@@ -631,13 +681,15 @@ if dein#tap('fzf.vim')
   " let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
   let g:fzf_tags_command = 'ctags --exclude=node_modules --exclude=vendor'
 
-  command! Dotfiles call s:fzf_dot_files()
+  command! -bang -nargs=? -complete=dir FzfDotfiles call fzf#vim#files(g:dotfiles_path, <bang>0)
+  command! -bang -nargs=? -complete=dir FzfMemolist call fzf#vim#files(g:memolist_path, <bang>0)
+
   command! -nargs=? Emoji call s:fzf_emoji(<f-args>)
   command! -bang -nargs=+ -complete=dir Ag call fzf#vim#ag_raw(<q-args>, <bang>0)
 
   command! -bang -nargs=* -complete=dir Rg
         \  call fzf#vim#grep(
-        \    'rg --column --line-number --no-heading --color=always --smart-case '.(<q-args>), 1,
+        \    'rg --column --line-number --no-heading --color=always --smart-case -M0 '.(<q-args>), 1,
         \    <bang>0 ? fzf#vim#with_preview('up:60%')
         \            : fzf#vim#with_preview('right:50%:hidden'),
         \    <bang>0)
@@ -649,6 +701,8 @@ if dein#tap('fzf.vim')
   command! -bang -nargs=? -complete=dir Files
         \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
+  command! Jump call s:fzf_jump()
+
   function! s:fzf_statusline()
     " Override statusline as you like
     highlight fzf1 ctermfg=161 ctermbg=251
@@ -657,6 +711,21 @@ if dein#tap('fzf.vim')
     setlocal statusline=%#fzf1#\ >\ %#fzf2#fz%#fzf3#f
   endfunction
   autocmd! User FzfStatusLine call <SID>fzf_statusline()
+
+  let g:fzf_colors =
+    \ { 'fg':      ['fg', 'Normal'],
+      \ 'bg':      ['bg', 'Normal'],
+      \ 'hl':      ['fg', 'Comment'],
+      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+      \ 'hl+':     ['fg', 'Statement'],
+      \ 'info':    ['fg', 'PreProc'],
+      \ 'border':  ['fg', 'Ignore'],
+      \ 'prompt':  ['fg', 'Conditional'],
+      \ 'pointer': ['fg', 'Exception'],
+      \ 'marker':  ['fg', 'Keyword'],
+      \ 'spinner': ['fg', 'Label'],
+      \ 'header':  ['fg', 'Comment'] }
 endif
 
 " --------------------
@@ -693,7 +762,6 @@ if dein#tap('coc.nvim')
   " syntax 構文強調により折畳を定義する
   " diff 変更されていないテキストを折畳対象とする
   " marker テキスト中の印で折畳を定義する
-  set foldmethod=indent
   set foldlevel=1
 
   " use `:OR` for organize import of current buffer
@@ -703,21 +771,225 @@ if dein#tap('coc.nvim')
   set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
   let g:coc_global_extensions = [
-        \  'coc-lists',
-        \  'coc-marketplace',
-        \  'coc-snippets',
-        \  'coc-json',
-        \  'coc-vetur',
-        \  'coc-tsserver',
-        \  'coc-eslint',
-        \  'coc-rls',
-        \  'coc-python',
-        \  'coc-html',
-        \  'coc-css',
-        \  'coc-yaml'
+        \ 'coc-lists',
+        \ 'coc-marketplace',
+        \ 'coc-snippets',
+        \ 'coc-html',
+        \ 'coc-svg',
+        \ 'coc-css',
+        \ 'coc-tailwindcss',
+        \ 'coc-vetur',
+        \ 'coc-tsserver',
+        \ 'coc-eslint',
+        \ 'coc-xml',
+        \ 'coc-json',
+        \ 'coc-sql',
+        \ 'coc-rust-analyzer',
+        \ 'coc-diagnostic',
         \ ]
 
+        "\  'coc-yaml',
         "\  'coc-phpls',
+
+endif
+
+" " --------------------
+" " vimspector
+" " --------------------
+" if dein#tap('vimspector')
+"   let g:vimspector_base_dir=expand( '$HOME/.config/vimspector-config' )
+" 
+"   let g:vimspector_install_gadgets = [
+"        \ 'CodeLLDB',
+"        \ 'vscode-bash-debug',
+"        \ 'vscode-node-debug2',
+"        \ 'debugger-for-chrome',
+"        \ 'vscode-php-debug',
+"        \ ]
+" 
+"   function! LaunchFileDebug()
+"     call vimspector#LaunchWithSettings({'configuration': &filetype.'_file'})
+"   endfunction
+" 
+"   let g:vimspector_enable_mappings = 'HUMAN'
+"   " let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
+"   " Visual Studio
+"   " F5     <Plug>VimspectorContinue              When debugging, continue. Otherwise start debugging.
+"   " S-F5   <Plug>VimspectorStop                  Stop debugging.
+"   " C-S-F5 <Plug>VimspectorRestart               Restart debugging with the same configuration.
+"   " F6     <Plug>VimspectorPause                 Pause debuggee.
+"   " F9     <Plug>VimspectorToggleBreakpoint      Toggle line breakpoint on the current line.
+"   " S-F9   <Plug>VimspectorAddFunctionBreakpoint Add a function breakpoint for the expression under cursor
+"   "
+"   " F10    <Plug>VimspectorStepOver              Step Over
+"   " F11    <Plug>VimspectorStepInto              Step Into
+"   " S-F11  <Plug>VimspectorStepOut               Step out of current function scope
+" 
+"   " human
+"   " F5         <Plug>VimspectorContinue                    When_debugging,_continue._Otherwise_start_debugging.
+"   " F3         <Plug>VimspectorStop                        Stop_debugging.
+"   " F4         <Plug>VimspectorRestart                     Restart_debugging_with_the_same_configuration.
+"   " F6         <Plug>VimspectorPause                       Pause_debuggee.
+"   " F9         <Plug>VimspectorToggleBreakpoint            Toggle_line_breakpoint_on_the_current_line.
+"   " <leader>F9 <Plug>VimspectorToggleConditionalBreakpoint Toggle_conditional_line_breakpoint_on_the_current_line.
+"   "
+"   " F8         <Plug>VimspectorAddFunctionBreakpoint       Add_a_function_breakpoint_for_the_expression_under_cursor
+"   " <leader>F8 <Plug>VimspectorRunToCursor                 Run_to_Cursor
+"   "
+"   " F10        <Plug>VimspectorStepOver                    Step_Over
+"   " F11        <Plug>VimspectorStepInto                    Step_Into
+"   " F12        <Plug>VimspectorStepOut                     Step_out_of_current_function_scope
+" 
+"   " 以下を打つ
+"   " VimspectorInstall
+"   " or
+"   " VimspectorUpdate
+" 
+" endif
+
+" --------------------
+" vista.vim
+" --------------------
+if dein#tap('vista.vim')
+  let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+  let g:vista_fold_toggle_icons = ['▼', '▶']
+
+  let g:vista_blink = [0, 0]
+  let g:vista_top_level_blink = [0, 0]
+  let g:vista_highlight_whole_line = 0
+  let g:vista_echo_cursor = 1
+  let g:vista_update_on_text_changed = 0
+  let g:vista_default_executive = 'ctags'
+  let g:vista_sidebar_width = 50
+  let g:vista_enable_centering_jump = 1
+  let g:vista_fzf_preview = ['right:50%']
+  " let g:vista_stay_on_open = 1
+  " let g:vista_ctags_cmd = {
+  "      \ 'haskell': 'hasktags -x -o - -c',
+  "      \ }
+
+  " set guifont=RobotoMono\ Nerd\ Font
+     "\    'var': "\uf71b",
+
+  let g:vista#renderer#icons = {
+     \    'func': "\uf794",
+     \    'function': "\uf794",
+     \    'functions': "\uf794",
+     \    'var': "\uf71b",
+     \    'variable': "\uf71b",
+     \    'variables': "\uf71b",
+     \    'const': "\uf8ff",
+     \    'constant': "\uf8ff",
+     \    'constructor': "\uf976",
+     \    'method': "\uf6a6",
+     \    'package': "\ue612",
+     \    'packages': "\ue612",
+     \    'enum': "\uf702",
+     \    'enummember': "\uf282",
+     \    'enumerator': "\uf702",
+     \    'module': "\uf136",
+     \    'modules': "\uf136",
+     \    'type': "\uf7fd",
+     \    'typedef': "\uf7fd",
+     \    'types': "\uf7fd",
+     \    'field': "\uf30b",
+     \    'fields': "\uf30b",
+     \    'macro': "\uf8a3",
+     \    'macros': "\uf8a3",
+     \    'map': "\ufb44",
+     \    'class': "\uf0e8",
+     \    'augroup': "\ufb44",
+     \    'struct': "\uf318",
+     \    'union': "\ufacd",
+     \    'member': "\uf02b",
+     \    'target': "\uf893",
+     \    'property': "\ufab6",
+     \    'interface': "\uf7fe",
+     \    'namespace': "\uf475",
+     \    'subroutine': "\uf9af",
+     \    'implementation': "\uf776",
+     \    'typeParameter': "\uf278",
+     \    'default': "\uf29c"
+     \}
+  let g:vista#renderer#enable_icon = 1
+
+  " let g:vista#renderer#icons = {
+  "    \    'func': "\u003e",
+  "    \    'function': "\u003e",
+  "    \    'functions': "\u003e",
+  "    \    'var': "\u003e",
+  "    \    'variable': "\u003e",
+  "    \    'variables': "\u003e",
+  "    \    'const': "\u003e",
+  "    \    'constant': "\u003e",
+  "    \    'constructor': "\u003e",
+  "    \    'method': "\u003e",
+  "    \    'package': "\ue612",
+  "    \    'packages': "\ue612",
+  "    \    'enum': "\u003e",
+  "    \    'enummember': "\u003e",
+  "    \    'enumerator': "\u003e",
+  "    \    'module': "\u003e",
+  "    \    'modules': "\u003e",
+  "    \    'type': "\u003e",
+  "    \    'typedef': "\u003e",
+  "    \    'types': "\u003e",
+  "    \    'field': "\u003e",
+  "    \    'fields': "\u003e",
+  "    \    'macro': "\u003e",
+  "    \    'macros': "\u003e",
+  "    \    'map': "\u003e",
+  "    \    'class': "\u003e",
+  "    \    'augroup': "\u003e",
+  "    \    'struct': "\u003e",
+  "    \    'union': "\u003e",
+  "    \    'member': "\u003e",
+  "    \    'target': "\u003e",
+  "    \    'property': "\u003e",
+  "    \    'inter003e': "\u003e",
+  "    \    'namespace': "\u003e",
+  "    \    'subroutine': "\u003e",
+  "    \    'implementation': "\u003e",
+  "    \    'typeParameter': "\u003e",
+  "    \    'default': "\u003e"
+  "    \}
+  function! NearestMethodOrFunction() abort
+    return get(b:, 'vista_nearest_method_or_function', '')
+  endfunction
+
+  set statusline+=%{NearestMethodOrFunction()}
+
+  augroup vistacmd
+    autocmd!
+    autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+    " autocmd BufEnter,BufRead * Vista coc
+  augroup END
+
+  augroup vistacolor
+    autocmd!
+    " autocmd ColorScheme * hi IncSearch term=underline cterm=underline gui=underline
+
+    autocmd ColorScheme * hi link VistaParenthesis Operator
+    autocmd ColorScheme * hi link VistaScope       CocListFgRed " Title Function
+    autocmd ColorScheme * hi link VistaTag         CocListFgBlue " Type Keyword
+    " autocmd ColorScheme * hi VistaTag term=none cterm=none gui=none " Keyword
+    autocmd ColorScheme * hi link VistaKind        CocListFgMagenta " Constant Type
+    autocmd ColorScheme * hi link VistaScopeKind   CocListFgGreen "Define
+    autocmd ColorScheme * hi link VistaLineNr      LineNr
+    autocmd ColorScheme * hi link VistaColon       SpecialKey
+    autocmd ColorScheme * hi link VistaIcon        CocListFgYellow
+    autocmd ColorScheme * hi link VistaArgs        Comment
+  augroup END
+
+  " CocListFgBlack	CocListFgBlack
+  " CocListFgGrey	CocListFgGrey
+  " CocListFgWhite	CocListFgWhite
+  " CocListFgBlue	CocListFgBlue
+  " CocListFgGreen	CocListFgGreen
+  " CocListFgCyan	CocListFgCyan
+  " CocListFgYellow	CocListFgYellow
+  " CocListFgMagenta	CocListFgMagenta
+  " CocListFgRed	CocListFgRed
 
 endif
 
@@ -726,20 +998,10 @@ endif
 " ------------------
 "  auto-ctagsはコマンドで全生成するのためだけに使う
 if dein#tap('auto-ctags.vim')
-  let g:auto_ctags = 0
-  let g:auto_ctags_tags_args = '--exclude=node_modules --exclude=vendor'
-endif
-
-"--------------------
-" vim-autotags
-" ------------------
-if dein#tap('vim-autotag')
-  let g:autotagCtagsCmd = 'ctags --exclude=node_modules --exclude=vendor'
-  " tags
-  set tagstack
-  if has('path_extra')
-    set tags+=./**2/tags;$HOME
-  endif
+  let g:auto_ctags = 0 "なんかファイルパーミッションがどうので怒られる
+  let g:auto_ctags_directory_list = ['.git', '.svn']
+  let g:auto_ctags_tags_args = ['--tag-relative=yes', '--recurse=yes', '--sort=yes', '--exclude=node_modules', '--exclude=vendor']
+  let g:auto_ctags_set_tags_option = 0
 endif
 
 "--------------------
@@ -765,23 +1027,23 @@ if dein#tap('tagbar')
   augroup END
 
   let g:tagbar_type_yaml = {
-    \ 'ctagstype' : 'yaml',
-    \ 'kinds' : [
+        \ 'ctagstype' : 'yaml',
+        \ 'kinds' : [
         \ 'a:anchors',
         \ 's:section',
         \ 'e:entry'
-    \ ],
-  \ 'sro' : '.',
-    \ 'scope2kind': {
-      \ 'section': 's',
-      \ 'entry': 'e'
-    \ },
-    \ 'kind2scope': {
-      \ 's': 'section',
-      \ 'e': 'entry'
-    \ },
-    \ 'sort' : 0
-    \ }
+        \ ],
+        \ 'sro' : '.',
+        \ 'scope2kind': {
+        \ 'section': 's',
+        \ 'entry': 'e'
+        \ },
+        \ 'kind2scope': {
+        \ 's': 'section',
+        \ 'e': 'entry'
+        \ },
+        \ 'sort' : 0
+        \ }
 endif
 
 "----------------------
@@ -834,133 +1096,167 @@ if dein#tap('vim-expand-region')
 endif
 
 "------------
+" airline
+"------------
+if dein#tap('vim-airline')
+  " set ambiwidth=double  " 絵文字>
+  set ambiwidth=single  " 絵文字>
+  let g:airline_powerline_fonts = 1
+  let g:airline_symbols_ascii = 1
+
+  " let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+  " let g:airline#extensions#tabline#formatter = 'default'
+
+
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tabline#show_buffers = 0
+
+  " 0でそのタブで開いてるウィンドウ数、1で左のタブから連番
+  let g:airline#extensions#tabline#tab_nr_type = 1
+
+  " タブに表示する名前（fnamemodifyの第二引数）
+  let g:airline#extensions#tabline#fnamemod = ':t'
+
+
+endif
+
+"------------
 "lightline
 "------------
-if dein#tap('lightline.vim')
-      "\ 'colorscheme': 'wombat',
-  let g:lightline = {
-        \ 'colorscheme': 'materia',
-        \ 'enable': {
-        \   'statusline': 1,
-        \   'tabline': 0
-        \ },
-        \ 'active': {
-        \   'left': [ [ 'mode', 'paste', 'table', 'jpmode'],
-        \             [ 'file' ],
-        \             [ 'coccurrent' ] ],
-        \   'right': [ [ 'lineinfo' ],
-        \            [ 'percent' ],
-        \            [ 'fileformat', 'fileencoding', 'filetype' ] ]
-        \ },
-        \ 'component_function': {
-        \   'table': 'CurrentTableMode',
-        \   'readonly': 'MyReadonly',
-        \   'modified': 'MyModified',
-        \   'file': 'MyFile',
-        \   'coccurrent': 'CocCurrentFunction'
-        \ }
-        \ }
-
-  if dein#tap('coc.nvim')
-    function! CocCurrentFunction()
-      let info = get(b:, 'coc_diagnostic_info', {})
-      if empty(info) | return '' | endif
-      let msgs = []
-      if get(info, 'error', 0)
-        call add(msgs, 'E:' . info['error'])
-      endif
-      if get(info, 'warning', 0)
-        call add(msgs, 'W:' . info['warning'])
-      endif
-      if get(info, 'hint', 0)
-        call add(msgs, 'H:' . info['hint'])
-      endif
-      return join(msgs, ' ') . ' ' . get(g:, 'coc_status', '')
-    endfunction
-  else 
-    function! CocCurrentFunction()
-      return ""
-    endfunction
-  endif
-
-  if dein#tap('vim-table-mode')
-    function! CurrentTableMode()
-      " 重い?
-      " if tablemode#IsActive()
-      "   return "TABLE"
-      " else
-      "   return ""
-      " endif
-      return ""
-    endfunction
-  else
-    function! CurrentTableMode()
-      return ""
-    endfunction
-  endif
-
-
-
-  function! MyModified()
-    if &filetype == "help"
-      return ""
-    elseif &modified
-      return "+"
-    elseif &modifiable
-      return ""
-    else
-      return ""
-    endif
-  endfunction
-
-  function! MyReadonly()
-    if &filetype == "help"
-      return ""
-    elseif &readonly
-      return ""
-    else
-      return ""
-    endif
-  endfunction
-
-  " function! MyJpMode()
-  "   return IMStatus("JPMODE")
-  " endfunction
-  "
-  " function! MyFile()
-  "   return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-  "        \ ('' != expand('%') ? ShortenPath() : '[No Name]') .
-  "        \ ('' != MyModified() ? ' ' . MyModified() : '')
-  " endfunction
-  function! MyFile()
-    return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-         \ ('' != expand('%') ? fnamemodify(expand("%"), ":~:.") : '[No Name]') .
-         \ ('' != MyModified() ? ' ' . MyModified() : '')
-  endfunction
-
-  function! ShortenPath()
-    let path = substitute(expand('%:h'), $HOME, '~', "g")
-    return substitute(path, '\v/([^/]{1,3})[^/]+', '/\1', "g").'/'.expand('%:t')
-  endfunction
-
-endif
-
-"--------------------
-"vim-quickrun
-"--------------------
-if dein#tap("vim-quickrun")
-  " nnoremap <Leader>\ :w<CR>:QuickRun<CR>
-  let g:quickrun_config = {}
-  let g:quickrun_config.scheme = { 'scheme': { 'command': 'gosh'}}
-endif
-
-"--------------------
-" qfreplace
-"--------------------
-if dein#tap("vim-qfreplace")
-  autocmd FileType qf nnoremap <silent> <buffer> r :Qfreplace<CR>
-endif
-
+" if dein#tap('lightline.vim')
+"   let g:lightline = {}
+"   let g:lightline.enable = {
+"        \ 'statusline': 1,
+"        \ 'tabline': 1 }
+"   let g:lightline.active = {
+"        \ 'left': [ [ 'mode', 'paste', 'table', 'jpmode'],
+"        \           [ 'file' ],
+"        \           [ 'coccurrent' ],
+"        \           [ 'vista' ]
+"        \         ],
+"        \ 'right': [ [ 'lineinfo' ],
+"        \          [ 'percent' ],
+"        \          [ 'fileformat', 'fileencoding', 'filetype' ] ] }
+"   let g:lightline.component_function = {
+"        \   'vista': 'NearestMethodOrFunction',
+"        \   'table': 'CurrentTableMode',
+"        \   'readonly': 'MyReadonly',
+"        \   'modified': 'MyModified',
+"        \   'file': 'MyFile',
+"        \   'coccurrent': 'CocCurrentFunction'
+"        \ }
+"   "
+"   let g:lightline.tabline = {
+"        \ 'left': [ [ 'tabs' ] ],
+"        \ 'right': [ [ 'close' ] ] }
+" 
+"   if dein#tap('coc.nvim')
+"     function! CocCurrentFunction()
+"       let info = get(b:, 'coc_diagnostic_info', {})
+"       if empty(info) | return '' | endif
+"       let msgs = []
+"       if get(info, 'error', 0)
+"         call add(msgs, 'E:' . info['error'])
+"       endif
+"       if get(info, 'warning', 0)
+"         call add(msgs, 'W:' . info['warning'])
+"       endif
+"       if get(info, 'hint', 0)
+"         call add(msgs, 'H:' . info['hint'])
+"       endif
+"       return join(msgs, ' ') . ' ' . get(g:, 'coc_status', '')
+"     endfunction
+"   else
+"     function! CocCurrentFunction()
+"       return ""
+"     endfunction
+"   endif
+" 
+"   if dein#tap('vim-table-mode')
+"     function! CurrentTableMode()
+"       " 重い?
+"       " if tablemode#IsActive()
+"       "   return "TABLE"
+"       " else
+"       "   return ""
+"       " endif
+"       return ""
+"     endfunction
+"   else
+"     function! CurrentTableMode()
+"       return ""
+"     endfunction
+"   endif
+" 
+"   function! MyModified()
+"     if &filetype == "help"
+"       return ""
+"     elseif &modified
+"       return "+"
+"     elseif &modifiable
+"       return ""
+"     else
+"       return ""
+"     endif
+"   endfunction
+" 
+"   function! MyReadonly()
+"     if &filetype == "help"
+"       return ""
+"     elseif &readonly
+"       return ""
+"     else
+"       return ""
+"     endif
+"   endfunction
+" 
+"   " function! MyJpMode()
+"   "   return IMStatus("JPMODE")
+"   " endfunction
+"   "
+"   " function! MyFile()
+"   "   return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+"   "        \ ('' != expand('%') ? ShortenPath() : '[No Name]') .
+"   "        \ ('' != MyModified() ? ' ' . MyModified() : '')
+"   " endfunction
+"   function! MyFile()
+"     return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+"         \ ('' != expand('%') ? fnamemodify(expand("%"), ":~:.") : '[No Name]') .
+"         \ ('' != MyModified() ? ' ' . MyModified() : '')
+"   endfunction
+" 
+"   function! ShortenPath()
+"     let path = substitute(expand('%:h'), $HOME, '~', "g")
+"     return substitute(path, '\v/([^/]{1,3})[^/]+', '/\1', "g").'/'.expand('%:t')
+"   endfunction
+" 
+" endif
+" 
+" "--------------------
+" "vim-quickrun
+" "--------------------
+" if dein#tap("vim-quickrun")
+"   nnoremap <Leader>r :w<CR>:QuickRun<CR>
+"   autocmd FileType quickrun setlocal nofoldenable
+"   let g:quickrun_config = {}
+"   let g:quickrun_config.scheme = { 'scheme': { 'command': 'gosh'}}
+"   let g:quickrun_config.rust = {'exec' : 'cargo run'}
+"   let g:quickrun_config['typescript'] = { 'type' : 'typescript/tsc' }
+"   let g:quickrun_config['typescript/tsc'] = {
+"        \   'command': 'tsc',
+"        \   'exec': ['%c --target esnext --module commonjs %o %s', 'node %s:r.js'],
+"        \   'tempfile': '%{tempname()}.ts',
+"        \   'hook/sweep/files': ['%S:p:r.js'],
+"        \ }
+" endif
+" 
+" "--------------------
+" " qfreplace
+" "--------------------
+" if dein#tap("vim-qfreplace")
+"   autocmd FileType qf nnoremap <silent> <buffer> r :Qfreplace<CR>
+" endif
+" 
 "--------------------
 " indentLine
 "--------------------
@@ -990,68 +1286,87 @@ let g:vim_vue_plugin_use_scss = 1
 let g:vim_vue_plugin_highlight_vue_attr = 1
 let g:vim_vue_plugin_highlight_vue_keyword = 1
 
+"--------------------
+" vim-vue
+"--------------------
+let g:vue_pre_processors = ['scss', 'typescript']
 
 "--------------------
 " kana/vim-smartinput
 "--------------------
 if dein#tap('vim-smartinput')
+
   call smartinput#map_to_trigger('i', '<Space>', '<Space>', '<Space>')
   call smartinput#define_rule({
-        \   'at'    : '(\%#)',
-        \   'char'  : '<Space>',
-        \   'input' : '<Space><Space><Left>',
-        \   })
+       \   'at'    : '(\%#)',
+       \   'char'  : '<Space>',
+       \   'input' : '<Space><Space><Left>',
+       \   })
 
   call smartinput#define_rule({
-        \   'at'    : '( \%# )',
-        \   'char'  : '<BS>',
-        \   'input' : '<Del><BS>',
-        \   })
+       \   'at'    : '( \%# )',
+       \   'char'  : '<BS>',
+       \   'input' : '<Del><BS>',
+       \   })
 
   call smartinput#define_rule({
-        \   'at': '\s\+\%#',
-        \   'char': '<CR>',
-        \   'input': "<C-o>:call setline(line('.'), substitute(getline(line('.')), '\\s\\+$', '', ''))<CR><CR>",
-        \   })
+       \   'at': '\s\+\%#',
+       \   'char': '<CR>',
+       \   'input': "<C-o>:call setline(line('.'), substitute(getline(line('.')), '\\s\\+$', '', ''))<CR><CR>",
+       \   })
 
   call smartinput#map_to_trigger('i', '<bar>', '<bar>', '<bar>')
   call smartinput#define_rule({
-        \  'at': '^\%#',
-        \  'char': '<bar>',
-        \  'input': '<c-o>:TableModeEnable<cr><bar><space>',
-        \  })
+       \  'at': '^\%#',
+       \  'char': '<bar>',
+       \  'input': '<c-o>:TableModeEnable<cr><bar><space>',
+       \  })
 
   call smartinput#map_to_trigger('i', '<Bar>', '<Bar>', '<Bar>')
   call smartinput#define_rule({
-        \    'at': '\%#',
-        \    'char': '<Bar>',
-        \    'input': '<Bar><Bar><Left>',
-        \    'filetype': ['rust'],
-        \ })
+       \    'at': '\%#',
+       \    'char': '<Bar>',
+       \    'input': '<Bar><Bar><Left>',
+       \    'filetype': ['rust'],
+       \ })
   call smartinput#define_rule({
-        \    'at': '\%#|',
-        \    'char': '<Bar>',
-        \    'input': '<Right>',
-        \    'filetype': ['rust'],
-        \ })
+       \    'at': '\%#|',
+       \    'char': '<Bar>',
+       \    'input': '<Right>',
+       \    'filetype': ['rust'],
+       \ })
   call smartinput#define_rule({
-        \    'at': '|\%#|',
-        \    'char': '<BS>',
-        \    'input': '<BS><Del>',
-        \    'filetype': ['rust'],
-        \ })
+       \    'at': '|\%#|',
+       \    'char': '<BS>',
+       \    'input': '<BS><Del>',
+       \    'filetype': ['rust'],
+       \ })
   call smartinput#define_rule({
-        \    'at': '||\%#',
-        \    'char': '<BS>',
-        \    'input': '<BS><BS>',
-        \    'filetype': ['rust'],
-        \ })
+       \    'at': '||\%#',
+       \    'char': '<BS>',
+       \    'input': '<BS><BS>',
+       \    'filetype': ['rust'],
+       \ })
   call smartinput#define_rule({
-        \    'at': '\\\%#',
-        \    'char': '<Bar>',
-        \    'input': '<Bar>',
-        \    'filetype': ['rust'],
-        \ })
+       \    'at': '\\\%#',
+       \    'char': '<Bar>',
+       \    'input': '<Bar>',
+       \    'filetype': ['rust'],
+       \ })
+
+  " call smartinput#define_rule({
+  "      \   'at'       : '\%#',
+  "      \   'char'     : '{',
+  "      \   'input'    : '{};',
+  "      \   'filetype' : ['php'],
+  "      \ })
+
+  " call smartinput#define_rule({
+  "      \   'at'       : '\%#',
+  "      \   'char'     : '{',
+  "      \   'input'    : '{},',
+  "      \   'filetype' : ['javascript', 'typescript', 'vue'],
+  "      \ })
 endif
 
 "--------------------
@@ -1103,10 +1418,19 @@ if dein#tap("vdebug")
     autocmd!
     " autocmd ColorScheme * hi DbgBreakptLine term=reverse ctermfg=White ctermbg=Green guifg=#ffffff guibg=#00ff00
     " autocmd ColorScheme * hi DbgBreakptSign term=reverse ctermfg=White ctermbg=Green guifg=#ffffff guibg=#0
-    autocmd ColorScheme * hi clear DbgBreakptLine
-    autocmd ColorScheme * hi clear DbgBreakptSign
+    " autocmd ColorScheme * hi clear DbgBreakptLine
+    " autocmd ColorScheme * hi clear DbgBreakptSign
   augroup END
 endif
+"--------------------
+" docteurklein/vim-symfony
+"--------------------
+if dein#tap('vim-symfony')
+  let g:symfony_app_console_caller= "php"
+  let g:symfony_app_console_path= "bin/console"
+  let g:symfony_enable_shell_mapping = 0 "disable the mapping of symfony console
+endif
+
 "--------------------
 " committia
 "--------------------
@@ -1135,43 +1459,6 @@ if dein#tap('vim-merginal')
   let g:merginal_windowWidth = 50
 endif
 
-" --------------------
-" im_control.vim
-" --------------------
-"  なんか重い
-" if dein#tap('im_control.vim')
-"   if has('mac')
-"     if has('gui_running')
-"       let IM_CtrlMode = 4
-"     else
-"       let IM_CtrlMode = 1
-"
-"       function! IMCtrl(cmd)
-"         let cmd = a:cmd
-"         if cmd == 'On'
-"           let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {104})" > /dev/null 2>&1')
-"         elseif cmd == 'Off'
-"           let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {102})" > /dev/null 2>&1')
-"         elseif cmd == 'Toggle'
-"           let res = system('osascript -e "tell application \"System Events\" to keystroke (key code {55, 49})" > /dev/null 2>&1')
-"         endif
-"         return ''
-"       endfunction
-"     endif
-"
-"     " 「日本語入力固定モード」のMacVimKaoriya対策を無効化
-"     let IM_CtrlMacVimKaoriya = 0
-"     " ctrl+jで日本語入力固定モードをOnOff
-"     " inoremap <silent> <C-j> <C-^><C-r>=IMState('FixMode')<CR>
-"     " nnoremap <C-j> :<C-u>call IMState('FixMode')<CR>
-"     command! Jp call IMState('FixMode')
-"   endif
-" else
-"   function! IMStatus(...)
-"     return ''
-"   endfunction
-" endif
-
 "--------------------
 " vim-markdown
 "--------------------
@@ -1198,6 +1485,40 @@ if dein#tap('vim-markdown')
   " let g:markdown_enable_spell_checking = 0 " disable spell checking (enabled by default with: 1)
   " let g:markdown_enable_input_abbreviations = 1 " disable abbreviations for punctuation and emoticons (enabled by default with: 1)
   " let g:markdown_enable_conceal = 0 " enable conceal for italic, bold, inline-code and link text (disabled by default with: 0)
+endif
+
+"--------------------
+" vim-asciidoctor
+"--------------------
+if dein#tap('vim-asciidoctor')
+  let g:asciidoctor_executable = 'asciidoctor'
+  " let g:asciidoctor_extensions = ['asciidoctor-diagram', 'asciidoctor-rouge']
+  " asciidoctor-pdf
+  " let g:asciidoctor_pdf_executable = 'asciidoctor-pdf'
+  " let g:asciidoctor_pdf_extensions = ['asciidoctor-diagram']
+  let g:asciidoctor_folding = 1
+  let g:asciidoctor_fold_options = 1
+  let g:asciidoctor_syntax_conceal = 1
+  let g:asciidoctor_syntax_indented = 0
+  let g:asciidoctor_fenced_languages = ['python', 'c', 'javascript']
+  fun! AsciidoctorMappings()
+    noremap <Leader>A [Adoc]
+    " nnoremap <buffer> [Adoc]o :AsciidoctorOpenRAW<CR>
+    " nnoremap <buffer> [Adoc]oh :AsciidoctorOpenHTML<CR>
+    nnoremap <buffer> [Adoc] :AsciidoctorOpenPDF<CR>
+    " nnoremap <buffer> [Adoc]ox :AsciidoctorOpenDOCX<CR>
+    " nnoremap <buffer> [Adoc]ch :Asciidoctor2HTML<CR>
+    " nnoremap <buffer> [Adoc]cp :Asciidoctor2PDF<CR>
+    " nnoremap <buffer> [Adoc]cx :Asciidoctor2DOCX<CR>
+    " nnoremap <buffer> [Adoc]p :AsciidoctorPasteImage<CR>
+    " :make will build pdfs
+    " compiler asciidoctor2pdf
+  endfun
+  " " Call AsciidoctorMappings for all `*.adoc` and `*.asciidoc` files
+  augroup asciidoctor
+      au!
+      au BufEnter *.adoc,*.asciidoc call AsciidoctorMappings()
+  augroup END
 endif
 
 "--------------------
@@ -1269,7 +1590,7 @@ if dein#tap('vim-php-cs-fixer')
   " let g:php_cs_fixer_rules = '{ '
   "     \ . '"@PSR1": true, '
   "     \ . '"@PSR2": true,'
-  "     \ . '"@Symfony": true,' 
+  "     \ . '"@Symfony": true,'
   "     \ . '"braces": { "position_after_control_structures":  "next", "position_after_anonymous_constructs": "next" }'
   "     \ . ' }'
   let g:php_cs_fixer_cache = ".php_cs.cache" " options: --cache-file
@@ -1280,6 +1601,13 @@ if dein#tap('vim-php-cs-fixer')
   let g:php_cs_fixer_dry_run = 0                    " Call command with dry-run option
   let g:php_cs_fixer_verbose = 0                    " Return the output of command if 1, else an inline information.
 endif
+"--------------------
+" php.vim
+"--------------------
+let g:php_version_id = 70414
+let g:php_html_load = 1
+let g:php_htmlInStrings = 1
+
 
 " "--------------------
 " " yoink
@@ -1313,11 +1641,25 @@ if dein#tap('vim-sandwich')
         \    {'buns': ['<', '>']}
         \  ]
 endif
-
+"--------------------
+" vim-sandwich
+"--------------------
+if dein#tap('tigris.nvim')
+  let g:tigris#enabled = 1
+  let g:tigris#on_the_fly_enabled = 1
+  let g:tigris#delay = 300
+endif
 
 "--------------------
 " setting ここまで
 "--------------------
+
+
+
+
+
+
+
 
 
 let g:python3_host_prog = substitute(system('which python3'),"\n","","")
@@ -1348,11 +1690,11 @@ function! s:get_syn_attr(synid)
   let guifg = synIDattr(a:synid, "fg", "gui")
   let guibg = synIDattr(a:synid, "bg", "gui")
   return {
-        \ "name": name,
-        \ "ctermfg": ctermfg,
-        \ "ctermbg": ctermbg,
-        \ "guifg": guifg,
-        \ "guibg": guibg}
+       \ "name": name,
+       \ "ctermfg": ctermfg,
+       \ "ctermbg": ctermbg,
+       \ "guifg": guifg,
+       \ "guibg": guibg}
 endfunction
 
 function! s:get_syn_id(transparent)
@@ -1367,72 +1709,74 @@ function! s:get_highlight_info()
   execute "highlight " . s:get_syn_name(s:get_syn_id(1))
 endfunction
 command! HighlightInfo call s:get_highlight_info()
+command! HighlightInfoAll source $VIMRUNTIME/syntax/hitest.vim
 
-augroup ZenkakuSpace
-  au!
-  au VimEnter,WinEnter,BufRead * let w:m1 = matchadd("ZenkakuSpace", '　')
-augroup END
+" augroup ZenkakuSpace
+"   au!
+"   au VimEnter,WinEnter,BufRead * let w:m1 = matchadd("ZenkakuSpace", '　')
+"   autocmd ColorScheme * hi ZenkakuSpace cterm=underline
+" augroup END
 
 set t_Co=256
 
-if ($ITERM_PROFILE == 'light')
-  set background=light
-else
-  set background=dark
-endif
+command! Reload call s:reload()
+function! s:reload() abort
+  redraw
+  CocRestart
 
+  if dein#tap('lightline.vim')
+    call lightline#init()
+    call lightline#colorscheme()
+    call lightline#update()
+  endif
+endfunction
+
+if system('darkMode') =~ "Dark"
+  set background=dark
+else
+  set background=light
+endif
 
 if (has("termguicolors"))
   set termguicolors
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
-  augroup mycolorscheme
+  augroup mycolorschemelight
     autocmd!
-    "" タブラインの色
-    autocmd ColorScheme * hi TabLineSel  term=bold cterm=bold gui=bold            guibg=none
-    autocmd ColorScheme * hi TabLine     term=none cterm=none gui=none guifg=gray guibg=none
-    autocmd ColorScheme * hi TabLineFill term=none cterm=none gui=none guifg=gray guibg=none
-
-    autocmd ColorScheme * hi ZenkakuSpace cterm=underline
+    autocmd ColorScheme * hi Normal term=none ctermbg=none guibg=none
+    " 折りたたみ箇所の色
+    " autocmd ColorScheme * hi Folded ctermfg=none ctermbg=none guifg=none guibg=none
+    autocmd ColorScheme * hi SignColumn ctermbg=none guibg=none
   augroup END
 
-  if &background == "dark"
-    let ayucolor="mirage" " for mirage version of theme
-    " let ayucolor="dark"   " for dark version of theme
-    augroup mycolorscheme
-
-      "quickfixの色
-      autocmd ColorScheme * hi link QuickFixLine Normal "現在選択中のファイル
-      autocmd ColorScheme * hi link qfFileName Normal "通常のファイル
-
-      autocmd ColorScheme * hi SpecialKey ctermfg=14 guifg=#5C6773
-      autocmd ColorScheme * hi NonText ctermfg=NONE guifg=NONE
-
-      autocmd ColorScheme * hi Normal ctermbg=NONE guibg=NONE
-      autocmd ColorScheme * hi NonText ctermbg=NONE guibg=NONE
-      autocmd ColorScheme * hi SpecialKey ctermbg=NONE guibg=NONE
-      autocmd ColorScheme * hi EndOfBuffer ctermbg=NONE guibg=NONE
-      " autocmd ColorScheme * hi CursorLine ctermbg=NONE guibg=NONE
-      " autocmd ColorScheme * hi CursorLineNr ctermbg=NONE guibg=NONE
-      autocmd ColorScheme * hi SignColumn ctermbg=NONE guibg=NONE
-
-      autocmd ColorScheme * hi link Folded Comment
-
-    augroup END
-    colorscheme ayu
-    " colorscheme one
+  if (&background == 'dark')
+    let ayucolor="mirage"
+    let g:airline_theme='ayu_mirage'
+    " let ayucolor="dark"
+    " let g:airline_theme='ayu_dark'
+  else
+    let ayucolor="light"
+    let g:airline_theme='ayu_light'
   endif
+  colorscheme ayu
 
-  if &background == "light"
-    let ayucolor="light"  " for light version of theme
+  " colorscheme one
+  " let g:airline_theme='one'
 
-    augroup mycolorscheme
-    augroup END
-    colorscheme one
-    " colorscheme PaperColor
-  endif
+  " ぼんやり
+  " let g:gruvbox_contrast_light = "medium"
+  " colorscheme gruvbox
+
+  " ぼんやり
+  " colorscheme PaperColor
+  " let g:airline_theme='papercolor'
+  "
+  " colorscheme pencil
+" endfunction
+"
 else
+  " 256colorの場合
   augroup mycolorscheme
     autocmd!
     "補完メニューの色
@@ -1459,6 +1803,31 @@ else
   colorscheme mopkai
 endif
 
+" if (background == 'dark')
+"   augroup mycolorschemedark
+"     autocmd!
+"     " 左端、アノテーションがでてくるところ
+"     autocmd ColorScheme * hi SignColumn ctermbg=none guibg=none
+"     " quickfixの現在開いているファイルの色
+"     autocmd ColorScheme * hi link QuickFixLine None
+"     " 折りたたみ箇所の色
+"     autocmd ColorScheme * hi Folded ctermbg=none guibg=none
+"     " ラインカラムの文字色
+"     " autocmd ColorScheme * hi LineNr ctermfg=239 guifg=#3e4954
+"     autocmd ColorScheme * hi LineNr ctermfg=239 guifg=#45525f
+"     " 検索系
+"     autocmd ColorScheme * hi Search ctermfg=0 ctermbg=11 guifg=#C7C7C7 guibg=#6045a0
+"     " autocmd ColorScheme * hi IncSearch cterm=underline ctermfg=0 ctermbg=11 gui=underline guifg=#C7C7C7 guibg=#6045a0
+"     " autocmd ColorScheme * hi IncSearch cterm=underline gui=underline
+"     " タブラインの色
+"     autocmd ColorScheme * hi TabLineSel  term=bold cterm=bold gui=bold            guibg=none
+"     autocmd ColorScheme * hi TabLine     term=none cterm=none gui=none guifg=gray guibg=none
+"     autocmd ColorScheme * hi TabLineFill term=none cterm=none gui=none guifg=gray guibg=none
+"   augroup END
+" endif
+
+" let &colorcolumn="80,".join(range(120,999),",")
+
 if dein#tap('vim-better-whitespace')
   let g:better_whitespace_enabled=1
   let g:better_whitespace_ctermcolor='14'
@@ -1471,14 +1840,8 @@ if dein#tap('vim-better-whitespace')
 endif
 
 let g:is_bash = 1
-" colorscheme pencil
-" let g:pencil_higher_contrast_ui = 0
-" let g:pencil_neutral_headings = 1
-" let g:pencil_neutral_code_bg = 1
 
-" let g:python3_host_prog = 1
-
-"set nonumber
+set redrawtime=5000
 set signcolumn=yes
 set number
 set nomore
@@ -1495,11 +1858,12 @@ set display=uhex      " 印字不可能文字を16進数で表示
 set nf=hex            " 数値インクリメントは10進数か16進数
 set splitbelow        " 水平分割時は新しいwindowを下に
 set splitright        " 垂直分割時は新しいwindowを右に
-set ambiwidth=double  " 絵文字>
 set spelllang+=cjk
 set pumblend=15
-set fillchars=eob:\ 
+set fillchars=eob:\   " ファイル末尾以降の行頭は半角スペース
 set iskeyword=@,48-57,_,192-255,#,$
+
+" eob:'~'
 
 
 "------------------------------
@@ -1516,27 +1880,47 @@ set iskeyword=@,48-57,_,192-255,#,$
 " false: Go to line with the same indentation level
 " skipblanks (bool): true: Skip blank lines
 " false: Don't skip blank lines
-function! NextIndent(exclusive, fwd, lowerlevel, skipblanks)
-  let line = line('.')
-  let column = col('.')
-  let lastline = line('$')
-  let indent = indent(line)
-  let stepvalue = a:fwd ? 1 : -1
-  while (line > 0 && line <= lastline)
-    let line = line + stepvalue
-    if ( ! a:lowerlevel && indent(line) == indent ||
-          \ a:lowerlevel && indent(line) < indent)
-      if (! a:skipblanks || strlen(getline(line)) > 0)
-        if (a:exclusive)
-          let line = line - stepvalue
-        endif
-        exe line
-        exe "normal " column . "|"
-        return
-      endif
+" function! NextIndent(exclusive, fwd, lowerlevel, skipblanks)
+"   let line = line('.')
+"   let column = col('.')
+"   let lastline = line('$')
+"   let indent = indent(line)
+"   let stepvalue = a:fwd ? 1 : -1
+"   while (line > 0 && line <= lastline)
+"     let line = line + stepvalue
+"     if ( ! a:lowerlevel && indent(line) == indent ||
+"         \ a:lowerlevel && indent(line) < indent)
+"       if (! a:skipblanks || strlen(getline(line)) > 0)
+"         if (a:exclusive)
+"           let line = line - stepvalue
+"         endif
+"         exe line
+"         exe "normal " column . "|"
+"         return
+"       endif
+"     endif
+"   endwhile
+" endfunction
+
+" 現在位置をマーク
+if !exists('g:markrement_char')
+    let g:markrement_char = [
+    \     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+    \     'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+    \ ]
+endif
+function! s:AutoMarkrement()
+    if !exists('b:markrement_pos')
+        let b:markrement_pos = 0
+    else
+        let b:markrement_pos = (b:markrement_pos + 1) % len(g:markrement_char)
     endif
-  endwhile
+    execute 'mark' g:markrement_char[b:markrement_pos]
+    echo 'marked' g:markrement_char[b:markrement_pos]
 endfunction
+
+" バッファ読み込み時にマークを初期化
+" autocmd MyAutoCmd BufReadPost * delmarks!
 
 
 "------------------------------
@@ -1582,15 +1966,13 @@ endfunction " }}}
 autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
 
 " shebang持ちのファイルの保存時に実行権限を付与
-if executable('chmod')
-  autocmd BufWritePost * :call AddExecmod()
-  function AddExecmod()
+autocmd BufWritePost * :call AddExecmod()
+function AddExecmod()
     let line = getline(1)
     if strpart(line, 0, 2) == "#!"
-      call system("chmod +x ". expand("%"))
+        call system("chmod +x ". expand("%"))
     endif
-  endfunction
-endif
+endfunction
 
 " ファイルを開いた際に、前回終了時の行で起動
 augroup open_last_row
@@ -1603,8 +1985,10 @@ set backspace=start,eol,indent
 
 set scrolloff=0
 set history=1000
+set viminfo=!,'1000,<500,s10,h,f1,%
 
-command! -nargs=? -bang PWD echo expand('%') 
+
+command! -nargs=? -bang PWD echo expand('%')
 
 command! -nargs=? -complete=dir -bang CD  call s:ChangeCurrentDir('<args>', '<bang>')
 function! s:ChangeCurrentDir(directory, bang)
@@ -1619,37 +2003,37 @@ function! s:ChangeCurrentDir(directory, bang)
   endif
 endfunction
 
-set tabline=%!MyTabLine()
-
-function! MyTabLine()
-  let s = ''
-  for i in range(tabpagenr('$'))
-    " select the highlighting
-    if i + 1 == tabpagenr()
-      let s .= '%#TabLineSel#'
-      let issel = "v:true"
-    else
-      let s .= '%#TabLine#'
-      let issel = "v:false"
-    endif
-
-    " set the tab page number (for mouse clicks)
-    let s .= '%' . (i + 1) . 'T'
-
-    " the label is made by MyTabLabel()
-    let s .= ' %{MyTabLabel(' . (i + 1) . ',' . issel . ')} '
-  endfor
-
-  " after the last tab fill with TabLineFill and reset tab page nr
-  let s .= '%#TabLineFill#%T'
-
-  " right-align the label to close the current tab page
-  if tabpagenr('$') > 1
-    let s .= '%=%#TabLine#%999Xclose'
-  endif
-
-  return s
-endfunction
+" set tabline=%!MyTabLine()
+" 
+" function! MyTabLine()
+"   let s = ''
+"   for i in range(tabpagenr('$'))
+"     " select the highlighting
+"     if i + 1 == tabpagenr()
+"       let s .= '%#TabLineSel#'
+"       let issel = "v:true"
+"     else
+"       let s .= '%#TabLine#'
+"       let issel = "v:false"
+"     endif
+" 
+"     " set the tab page number (for mouse clicks)
+"     let s .= '%' . (i + 1) . 'T'
+" 
+"     " the label is made by MyTabLabel()
+"     let s .= ' %{MyTabLabel(' . (i + 1) . ',' . issel . ')} '
+"   endfor
+" 
+"   " after the last tab fill with TabLineFill and reset tab page nr
+"   let s .= '%#TabLineFill#%T'
+" 
+"   " " right-align the label to close the current tab page
+"   " if tabpagenr('$') > 1
+"   "   let s .= '%=%#TabLine#%999Xclose'
+"   " endif
+" 
+"   return s
+" endfunction
 
 set cmdwinheight=5
 
@@ -1729,9 +2113,9 @@ if has('persistent_undo')
 endif
 
 set expandtab
-set tabstop=2
+set tabstop=8
 set softtabstop=-1
-set shiftwidth=2
+" set shiftwidth=2
 set autoindent
 set smartindent
 set smarttab
@@ -1757,12 +2141,12 @@ command! Mac :set ff=mac
 command! Sjis :e ++enc=sjis
 command! Utf8 :e ++enc=utf8
 
-augroup MyXML
-  autocmd!
-  autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
-  autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
-  autocmd Filetype vue inoremap <buffer> </ </<C-x><C-o>
-augroup END
+" augroup MyXML
+"   autocmd!
+"   autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
+"   autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
+"   autocmd Filetype vue inoremap <buffer> </ </<C-x><C-o>
+" augroup END
 
 " Jq
 command! -nargs=? Jq call s:Jq(<f-args>)
@@ -1775,7 +2159,34 @@ function! s:Jq(...)
   execute "%! jq \"" . l:arg . "\""
 endfunction
 
+" column
+" command! -nargs=? PrettyCsv call s:PrettyCsv(<f-args>)
+" function! s:PrettyCsv(...)
+"   " execute "%!perl -pe 's/,(\\s+[^,]*)/,\"\\1\"/g;s/,/,	/g;' | column -t -s='	'"
+"   execute "%!perl -pe 's/([^,]*\\s+),/\"\\1\",/g;s/,/	,/g;' | column -t -s='	'"
+" endfunction
+
+command! -nargs=? UnprettyCsv call s:UnprettyCsv(<f-args>)
+function! s:UnprettyCsv(...)
+  silent! %s/\v,\s+/,/g
+  " silent! %s/\v\s+,/,/g
+endfunction
+
+command! -nargs=? PrettyCsv call s:PrettyCsv(<f-args>)
+function! s:PrettyCsv(...)
+  call s:UnprettyCsv()
+  silent execute "%!perl -pe 's/,(\\s+[^,]*)/,\"\\1\"/g;s/,/,	/g;' | column -t -s='	' 2>/dev/null"
+  " execute "%!perl -pe 's/([^,]*\\s+),/\"\\1\",/g;s/,/	,/g;' | column -t -s='	' 2>/dev/null"
+  " execute "normal \<C-O>"
+endfunction
+
+command! -nargs=? Nfc call s:Nfc(<f-args>)
+function! s:Nfc(...)
+  silent execute "%!/usr/local/bin/nkf -w --ic=UTF8-MAC"
+endfunction
 
 " set helplang=en
 set helplang=ja,en
-filetype plugin indent on
+syntax on
+filetype plugin on
+filetype indent on

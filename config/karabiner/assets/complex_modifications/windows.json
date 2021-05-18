@@ -1,0 +1,780 @@
+{
+  "title": "windows",
+  "rules": [
+    {
+      "description": "[windows] Send jis_eisuu when type esc",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": { "key_code": "escape" },
+          "to": [
+            { "key_code": "escape" },
+            { "key_code": "japanese_eisuu" }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "open_bracket", "modifiers": { "mandatory": [ "control" ], "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "escape" },
+            { "key_code": "japanese_eisuu" }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[windows][gui] switch command and control except for on terminal",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": { "key_code": "left_command", "modifiers": { "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "left_control" }
+          ],
+          "to_if_alone": [
+            { "key_code": "japanese_eisuu" }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "right_command", "modifiers": { "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "right_control" }
+          ],
+          "to_if_alone": [
+            { "key_code": "japanese_kana" }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "left_command", "modifiers": { "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "left_command" }
+          ],
+          "to_if_alone": [
+            { "key_code": "japanese_eisuu" }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "right_command", "modifiers": { "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "right_command" }
+          ],
+          "to_if_alone": [
+            { "key_code": "japanese_kana" }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "left_control", "modifiers": { "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "left_command" }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "right_control", "modifiers": { "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "right_command" }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[windows][gui] reswitch ctrl-tab and cmd-tab",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": { "key_code": "tab", "modifiers": { "mandatory": [ "control" ] } },
+          "to": [
+            { "key_code": "tab", "modifiers": [ "command" ] }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "left_shift", "modifiers": { "mandatory": [ "control" ] } },
+          "to": [
+            { "key_code": "left_shift", "modifiers": [ "command" ] }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "tab", "modifiers": { "mandatory": [ "command" ], "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "tab", "modifiers": [ "control" ] }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[windows][gui] reswitch ctrl-\\ and cmd-\\",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": { "key_code": "backslash", "modifiers": { "mandatory": [ "control" ], "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "backslash", "modifiers": [ "command" ] }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "backslash", "modifiers": { "mandatory": [ "command" ], "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "backslash", "modifiers": [ "control" ] }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[windows][gui] reswitch ctrl-spacebar and cmd-spacebar",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": { "key_code": "spacebar", "modifiers": { "mandatory": [ "control" ] } },
+          "to": [
+            { "key_code": "spacebar", "modifiers": [ "command" ] }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "spacebar", "modifiers": { "mandatory": [ "command" ], "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "spacebar", "modifiers": [ "control" ] },
+            { "key_code": "japanese_eisuu" }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[windows][gui] switch command and control with arrow on terminal",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": { "key_code": "right_arrow", "modifiers": { "mandatory": [ "control" ], "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "right_arrow", "modifiers": [ "command" ] }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "left_arrow", "modifiers": { "mandatory": [ "control" ], "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "left_arrow", "modifiers": [ "command" ] }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "up_arrow", "modifiers": { "mandatory": [ "control" ], "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "up_arrow", "modifiers": [ "command" ] }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "down_arrow", "modifiers": { "mandatory": [ "control" ], "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "down_arrow", "modifiers": [ "command" ] }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "right_arrow", "modifiers": { "mandatory": [ "command" ], "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "right_arrow", "modifiers": [ "control" ] }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "left_arrow", "modifiers": { "mandatory": [ "command" ], "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "left_arrow", "modifiers": [ "control" ] }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "up_arrow", "modifiers": { "mandatory": [ "command" ], "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "up_arrow", "modifiers": [ "control" ] }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "down_arrow", "modifiers": { "mandatory": [ "command" ], "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "down_arrow", "modifiers": [ "control" ] }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[windows][terminal] switch c-q and c-a",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$"
+              ]
+            }
+          ],
+          "type": "basic",
+          "from": { "key_code": "q", "modifiers": { "mandatory": [ "control" ], "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "a", "modifiers": [ "control" ] }
+          ]
+        },
+        {
+          "type": "basic",
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$"
+              ]
+            }
+          ],
+          "from": { "key_code": "a", "modifiers": { "mandatory": [ "control" ], "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "q", "modifiers": [ "control" ] }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[windows][terminal] Disable Cmd-Q and Cmd-w on alacritty",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": { "key_code": "q", "modifiers": { "mandatory": [ "command" ] } },
+          "to": [],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "w", "modifiers": { "mandatory": [ "command" ] } },
+          "to": [],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^io\\.alacritty$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[windows][terminal][gui] Toggle Alacritty",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": { "key_code": "spacebar", "modifiers": { "mandatory": [ "command" ] } },
+          "to": [
+            { "shell_command": "osascript ~/bin/alacritty_hide.scpt" }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [ "^io\\.alacritty$" ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "spacebar", "modifiers": { "mandatory": [ "control" ] } },
+          "to": [
+            { "shell_command": "osascript ~/bin/alacritty_hide.scpt" }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [ "^io\\.alacritty$" ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "spacebar", "modifiers": { "mandatory": [ "command" ] } },
+          "to": [
+            { "shell_command": "open /Applications/Alacritty.app" },
+            { "key_code": "japanese_eisuu" }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^io\\.alacritty$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "spacebar", "modifiers": { "mandatory": [ "control" ] } },
+          "to": [
+            { "shell_command": "open /Applications/Alacritty.app" },
+            { "key_code": "japanese_eisuu" }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^io\\.alacritty$"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[windows] Toggle IME when press shift-space",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": { "key_code": "spacebar", "modifiers": { "mandatory": [ "left_shift" ] } },
+          "to": [
+            { "key_code": "japanese_kana" }
+          ],
+          "conditions": [
+            {
+              "type": "input_source_if",
+              "input_sources": [
+                { "language": "en" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "spacebar", "modifiers": { "mandatory": [ "left_shift" ] } },
+          "to": [
+            { "key_code": "japanese_eisuu" }
+          ],
+          "conditions": [
+            {
+              "type": "input_source_if",
+              "input_sources": [
+                { "language": "ja" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[windows] Send jis_eisuu when activate alfred",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": { "key_code": "spacebar", "modifiers": { "mandatory": [ "option" ], "optional": [ "any" ] } },
+          "to": [
+            { "key_code": "japanese_eisuu" },
+            { "key_code": "spacebar", "modifiers": [ "option" ] }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.vmware\\.fusion$",
+                "^com\\.vmware\\.horizon$",
+                "^com\\.vmware\\.view$"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
