@@ -1710,10 +1710,10 @@ function! s:reload() abort
   endif
 endfunction
 
-if system('darkMode') =~ "Dark"
-  set background=dark
-else
+if system('darkMode') !~ "Dark"
   set background=light
+else
+  set background=dark
 endif
 
 if (has("termguicolors"))
