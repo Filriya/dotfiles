@@ -72,3 +72,13 @@ ln -sf $config_dir/coc/ultisnips $link_to/.config/coc/ultisnips
 # vim
 ln -fs "$config_dir/nvim" "$link_to/.vim"
 ln -fs "$config_dir/nvim/init.vim" "$link_to/.vimrc"
+
+if [ "$(uname)" == 'Darwin' ]; then
+  # link dropbox dir to home
+  ln -sf ${HOME}/Dropbox/.ssh ${HOME}/
+  ln -sf ${HOME}/Dropbox/Downloads ${HOME}/
+  ln -sf ${HOME}/Dropbox/アプリ/.hammerspoon ${HOME}/
+  ln -sf ${HOME}/Dropbox/VSCode/extensions ${HOME}/.vscode/
+  ln -sf ${HOME}/Dropbox/VSCode/User ${HOME}/Library/Application\ Support/Code/
+fi
+

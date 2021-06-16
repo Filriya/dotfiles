@@ -36,7 +36,6 @@ repo = 'machakann/vim-sandwich'
 repo = 'deton/jasegment.vim'
 [[plugins]]
 repo = 'soramugi/auto-ctags.vim'
-
 [[plugins]]
 repo = 'haya14busa/incsearch.vim'
 [[plugins]]
@@ -73,6 +72,11 @@ repo = 'liuchengxu/vista.vim'
 repo = 'easymotion/vim-easymotion'
 [[plugins]]
 repo = 'Yggdroot/indentLine'
+[[plugins]]
+repo = 'osyo-manga/vim-over'
+[[plugins]]
+repo = 'syui/airsave.vim'
+
 
 # git
 [[plugins]]
@@ -90,14 +94,6 @@ repo = 'rhysd/committia.vim'
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
 
-
-# vim-easyclip
-# [[plugins]]
-# repo = "svermeulen/vim-cutlass"
-# [[plugins]]
-# repo = "svermeulen/vim-yoink"
-# [[plugins]]
-# repo = "svermeulen/vim-subversive"
 
 #
 # textobj

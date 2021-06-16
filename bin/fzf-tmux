@@ -1,7 +1,8 @@
-origin=$(type fzf-tmux | grep -v $HOME | head -n 1 | cut -d " " -f 3)
+#!/bin/bash
+origin=/usr/local/bin/fzf-tmux
 
 if [ -p /dev/stdin ]; then
-  cat - | ${origin} $(fzf-color) $@
+  cat - | /usr/local/bin/fzf $(fzf-color) $@
 else
-  ${origin} $(fzf-color) $@
+  /usr/local/bin/fzf $(fzf-color) $@
 fi

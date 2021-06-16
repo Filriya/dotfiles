@@ -11,7 +11,7 @@ function fzf-z-widget
 {
   local res=$(z | sort -rn | cut -c 12- | fzf)
   if [ -n "$res" ]; then
-    BUFFER+="\cd \"$res\""
+    BUFFER+="cd \"$res\""
     zle accept-line
   fi
   zle clear-screen
@@ -20,9 +20,9 @@ zle -N fzf-z-widget
 
 function fzf-open-widget
 {
-  local res=$(fd -d 3 | sort -rn | fzf)
+  local res=$(fd -d 3 --type d| sort -rn | fzf)
   if [ -n "$res" ]; then
-    BUFFER+="\cd \"$res\""
+    BUFFER+="cd \"$res\""
     zle accept-line
   fi
   zle clear-screen

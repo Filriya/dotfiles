@@ -1,9 +1,9 @@
 #!/bin/zsh
 
 bin_dir=$(cd $(dirname $0); pwd)
+repo_name=$(list-project | fzf-tmux --preview-window=hidden --height=100%)
 
-repo_name=$(list-project| ${bin_dir}/fzf-tmux --preview-window=hidden --height=100%)
-
+echo $repo_name
 if [ -n "$repo_name" ]; then
   session_name=$(echo $repo_name|perl -pe 's/github.com\///g'|perl -pse 's/\./_/g'|perl -pe 's/\//__/g')
   tm -c $(ghq root)/${repo_name} $session_name

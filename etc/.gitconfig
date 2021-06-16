@@ -27,7 +27,7 @@
   singlekey = true
   diffFilter = nkf -w
 [core]
-  editor = $(which nvim)
+	editor = nvim
   quotepath = false
   autocrlf = false
   safecrlf = true

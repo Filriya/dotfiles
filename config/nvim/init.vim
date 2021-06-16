@@ -175,8 +175,8 @@ nnoremap <silent> <C-w>_ <C-w>-
 " onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<CR>
 "
 ".edit config
-nnoremap <silent> <Leader>es :<C-u>source $MYVIMRC<CR>
-nnoremap <silent> <Leader>ev :<C-u>tabnew $MYVIMRC<CR>
+nnoremap <silent> <Leader>es :<C-u>source ~/.config/nvim/init.vim<CR>
+nnoremap <silent> <Leader>ev :<C-u>tabnew ~/.config/nvim/init.vim<CR>
 nnoremap <silent> <Leader>et :<C-u>tabnew ~/.config/nvim/dein.toml<CR>
 
 " reload file
@@ -371,7 +371,11 @@ endif
 
 if dein#tap('vim-rengbang')
   map <Leader>R <Plug>(operator-rengbang)
-  " map <Leader>sp <Plug>(operator-rengbang-useprev)
+endif
+
+if dein#tap('vim-over')
+  nnoremap <leader>s :<C-u>OverCommandLine<CR>%s/
+  vnoremap <leader>s :<C-u>OverCommandLine<CR>'<,'>s/
 endif
 
 if dein#tap('vim-easymotion')
@@ -382,7 +386,7 @@ if dein#tap('vim-easymotion')
   map  T <Plug>(easymotion-Tl)
 
   " s{char}{char} to move to {char}{char}
-  nmap <Leader>[ <Plug>(easymotion-overwin-f2)
+  nmap <Leader>[ <Plug>(easymotion-overwin-f2)/
   vmap <Leader>[ <Plug>(easymotion-bd-f2)
 
   " Move to line
@@ -458,49 +462,16 @@ if dein#tap('tagbar')
   nnoremap <Leader>O :TagbarToggle<CR>
 endif
 
-" if dein#tap('vim-cutlass')
-"   nnoremap m d
-"   xnoremap m d
-"   nnoremap mm dd
-"   nnoremap M D
-"
-"   " nnoremap x d
-"   " xnoremap x d
-"   " nnoremap xx dd
-"   " nnoremap X D
-" endif
-"
-
-" if dein#tap('vim-yoink')
-"   nmap <C-n> <plug>(YoinkPostPasteSwapBack)
-"   nmap <C-p> <plug>(YoinkPostPasteSwapForward)
-"
-"   nmap p <plug>(YoinkPaste_p)
-"   nmap P <plug>(YoinkPaste_P)
-"
-"   nmap [y <plug>(YoinkRotateBack)
-"   nmap ]y <plug>(YoinkRotateForward)
-"   nmap <C-=> <plug>(YoinkPostPasteToggleFormat)
-" endif
-
-" if dein#tap('vim-subversive')
-"   nmap s <plug>(SubversiveSubstitute)
-"   nmap ss <plug>(SubversiveSubstituteLine)
-"   " nmap S <plug>(SubversiveSubstituteToEndOfLine)
-"
-"   " 置換したい文字列を範囲指定 -> 変更する範囲を指定
-"   nmap <Leader>s <plug>(SubversiveSubstituteRange)
-"   xmap <Leader>s <plug>(SubversiveSubstituteRange)
-"   nmap <Leader>ss <plug>(SubversiveSubstituteWordRange)
-"
-"   " <Leader>sの確認ありバージョン
-"   nmap <Leader>r <plug>(SubversiveSubstituteRangeConfirm)
-"   xmap <Leader>r <plug>(SubversiveSubstituteRangeConfirm)
-"   nmap <Leader>rr <plug>(SubversiveSubstituteWordRangeConfirm)
-" endif
-
-nnoremap S :%s/
-vnoremap S :s/
+if dein#tap('yankround.vim')
+  nmap p <Plug>(yankround-p)
+  xmap p <Plug>(yankround-p)
+  nmap P <Plug>(yankround-P)
+  nmap gp <Plug>(yankround-gp)
+  xmap gp <Plug>(yankround-gp)
+  nmap gP <Plug>(yankround-gP)
+  nmap <C-p> <Plug>(yankround-prev)
+  nmap <C-n> <Plug>(yankround-next)
+endif
 
 " --------------------
 " Keymap ここまで
@@ -539,11 +510,11 @@ if dein#tap('defx.nvim')
     nnoremap <silent><buffer><expr> <CR>
           \ defx#is_directory() ?
           \ defx#do_action('open'):
-          \ defx#do_action('drop')
+          \ defx#do_action('multi', ['quit', 'open'])
     nnoremap <silent><buffer><expr> l
           \ defx#is_directory() ?
           \ defx#do_action('open_tree'):
-          \ defx#do_action('drop')
+          \ defx#do_action('preview')
     nnoremap <silent><buffer><expr> L
           \ defx#do_action('open_tree', 'recuresive:5'):
     nnoremap <silent><buffer><expr> h
@@ -1064,6 +1035,10 @@ if dein#tap('vim-easymotion')
 endif
 
 " a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+"
+if dein#tap('vim-over')
+  let g:over_command_line_prompt = ""
+endif
 
 " --------------------
 " matchit
@@ -1250,13 +1225,13 @@ endif
 "        \ }
 " endif
 " 
-" "--------------------
-" " qfreplace
-" "--------------------
-" if dein#tap("vim-qfreplace")
-"   autocmd FileType qf nnoremap <silent> <buffer> r :Qfreplace<CR>
-" endif
-" 
+"--------------------
+" qfreplace
+"--------------------
+if dein#tap("vim-qfreplace")
+  autocmd FileType qf nnoremap <silent> <buffer> r :Qfreplace<CR>
+endif
+
 "--------------------
 " indentLine
 "--------------------
@@ -1650,6 +1625,10 @@ if dein#tap('tigris.nvim')
   let g:tigris#delay = 300
 endif
 
+if dein#tap('airsave.vim')
+  let g:auto_write = 1
+endif
+
 "--------------------
 " setting ここまで
 "--------------------
@@ -1753,13 +1732,16 @@ if (has("termguicolors"))
   if (&background == 'dark')
     let ayucolor="mirage"
     let g:airline_theme='ayu_mirage'
+    colorscheme ayu
     " let ayucolor="dark"
     " let g:airline_theme='ayu_dark'
   else
     let ayucolor="light"
     let g:airline_theme='ayu_light'
+    colorscheme ayu
+    " colorscheme one
+    " let g:airline_theme='one'
   endif
-  colorscheme ayu
 
   " colorscheme one
   " let g:airline_theme='one'
@@ -2035,7 +2017,7 @@ endfunction
 "   return s
 " endfunction
 
-set cmdwinheight=5
+set cmdwinheight=2
 
 function! MyTabLabel(n, issel)
   let buflist = tabpagebuflist(a:n)

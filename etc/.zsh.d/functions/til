@@ -1,5 +1,5 @@
 # XXX: hardcode
-rootDir=${HOME}/projects/til
+rootDir=${HOME}/til
 
 if [ ! -d ${rootDir} ]; then
   echo "tilディレクトリが存在しません"

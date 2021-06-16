@@ -4,21 +4,25 @@ LC_ALL="en_US.UTF-8"
 LANG=ja_JP.UTF-8
 # TERM=screen-256color
 
-if [ ! -e $HOME/.zsh.bundle/completion ]; then
-  mkdir $HOME/.zsh.bundle/completion
+if [ ! -e "$HOME"/.zsh.bundle/completion ]; then
+  mkdir "$HOME"/.zsh.bundle/completion
 fi
 
-if [ ! -e $HOME/.zsh.bundle/completion/_docker ]; then
-  curl -L https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker > $HOME/.zsh.bundle/completion/_docker
-  curl -L https://raw.githubusercontent.com/docker/compose/master/contrib/completion/zsh/_docker-compose  > $HOME/.zsh.bundle/completion/_docker-compose
+# if [ ! -e "$HOME"/.zsh.bundle/enhancd ]; then
+#   git clone https://github.com/b4b4r07/enhancd "${HOME}/.zsh.bundle/enhancd"
+# fi
+
+if [ ! -e "$HOME"/.zsh.bundle/completion/_docker ]; then
+  curl -L https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker > "$HOME"/.zsh.bundle/completion/_docker
+  curl -L https://raw.githubusercontent.com/docker/compose/master/contrib/completion/zsh/_docker-compose  > "$HOME"/.zsh.bundle/completion/_docker-compose
 fi
 
-if [ ! -e $HOME/.tmux.bundle/tpm ]; then
+if [ ! -e "$HOME"/.tmux.bundle/tpm ]; then
     git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux.bundle/tpm"
 fi
 
 # zinit
-if [ ! -e $HOME/.zinit/bin/zinit.zsh ]; then
+if [ ! -e "$HOME"/.zinit/bin/zinit.zsh ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 fi
 source "${ZDOTDIR:-$HOME}/.zinit/bin/zinit.zsh"
@@ -139,6 +143,8 @@ if [[ -f ~/dircolors/dircolors.solarized && -x `which dircolors` ]]; then
   eval `dircolors ${HOME}/dircolors/dircolors.solarized`
   zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 fi
+
+# source "$HOME"/.zsh.bundle/enhancd/init.sh
 
 
 function cdup() {
@@ -307,9 +313,6 @@ fi
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # rust
-if [[ -s "$HOME/.cargo/env" ]]; then
-  source "$HOME/.cargo/env"
-fi
 export RUST_BACKTRACE=1
 
 # tabtab source for packages

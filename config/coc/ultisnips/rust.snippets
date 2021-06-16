@@ -23,27 +23,24 @@
 #    endsnippet
 #
 # Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
+snippet printval "print val" i
+println!("{}", ${1});
+endsnippet
 
-snippet read "read io" b
-fn read<T: std::str::FromStr>() -> T {
-    let mut s = String::new();
-    std::io::stdin().read_line(&mut s).ok();
-    s.trim().parse().ok().unwrap()
+snippet gcd "Description" b
+fn gcd(mut a: i32, mut b: i32) -> i32 {
+	let mut r = a % b;
+	while r != 0 {
+		a = b;
+		b = r;
+		r = a % b;
+	}
+	b
 }
+endsnippet
 
-fn read_vec<T: std::str::FromStr>() -> Vec<T> {
-    read::<String>()
-        .split_whitespace()
-        .map(|e| e.parse().ok().unwrap())
-        .collect()
-}
-
-fn read_vec2<T: std::str::FromStr>(n: u32) -> Vec<Vec<T>> {
-    (0..n).map(|_| read_vec()).collect()
-}
-
-fn write_vec<T: ToString>(vec: Vec<T>) {
-    let str_vec: Vec<String> = vec.iter().map(|x| x.to_string()).collect();
-    println!("{}", str_vec.join(" "));
+snippet lcm "Description" b
+fn lcm(a: i32, b: i32) -> i32 {
+	a * b / gcd(a, b)
 }
 endsnippet

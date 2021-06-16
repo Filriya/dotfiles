@@ -45,7 +45,7 @@ brew install z80oolong/tmux/tmux
 # nvim
 brew install vim
 brew install nvim
-pip3 install --user pynvim
+pip3 install --user pynvim neovim
 
 brew cleanup -s
 

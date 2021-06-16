@@ -1,4 +1,4 @@
-# A valid snippet should starts with:
+ A valid snippet should starts with:
 #
 #		snippet trigger_word [ "description" [ options ] ]
 #
@@ -23,3 +23,10 @@
 #		endsnippet
 #
 # Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
+
+snippet swap "swap function" b
+const swap = (x: any[], i: number, j: number)  => {
+	x[j] = x.splice(i, 1, x[j])[0]
+	return x
+}
+endsnippet

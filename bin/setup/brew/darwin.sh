@@ -35,42 +35,42 @@ brew install circleci
 brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 
 
-brew cask install xquartz
-brew cask install 1password
-brew cask install alfred
-brew cask install appcleaner
-brew cask install bettertouchtool
-brew cask install dropbox
-brew cask install docker
-brew cask install evernote
-brew cask install firefox
-brew cask install franz
-brew cask install google-chrome
-brew cask install google-chrome-canary
-brew cask install google-japanese-ime
-brew cask install hyperswitch
-brew cask install iterm2
-brew cask install insomnia
-brew cask install java
-brew cask install karabiner-elements
-brew cask install kindle
-brew cask install marshallofsound-google-play-music-player
-brew cask install popclip
-brew cask install translate-tab
-brew cask install todoist
-brew cask install the-unarchiver
-brew cask install skim
-brew cask install sublime-text
-brew cask install stoplight-studio
-brew cask install virtualbox
-brew cask install vmware fusion
-brew cask install vagrant
+brew install xquartz
+brew install 1password
+brew install alfred
+brew install appcleaner
+brew install bettertouchtool
+brew install dropbox
+brew install docker
+brew install evernote
+brew install firefox
+brew install franz
+brew install google-chrome
+brew install google-chrome-canary
+brew install google-japanese-ime
+brew install hyperswitch
+brew install iterm2
+brew install insomnia
+brew install java
+brew install karabiner-elements
+brew install kindle
+brew install marshallofsound-google-play-music-player
+brew install popclip
+brew install translate-tab
+brew install todoist
+brew install the-unarchiver
+brew install skim
+brew install sublime-text
+brew install stoplight-studio
+brew install virtualbox
+brew install vmware fusion
+brew install vagrant
 
 
 # brew cask install objektiv
 
 brew install selenium-server-standalone
-brew cask install chromedriver
+brew install chromedriver
 brew install geckodriver
 
 
@@ -83,9 +83,3 @@ mas install 458887729 # Translate Tab (2.0.3)
 
 brew cleanup
 
-# link dropbox dir to home
-ln -sf ${HOME}/Dropbox/.ssh ${HOME}/
-ln -sf ${HOME}/Dropbox/Downloads ${HOME}/
-ln -sf ${HOME}/Dropbox/アプリ/.hammerspoon ${HOME}/
-ln -sf ${HOME}/Dropbox/VSCode/extensions ${HOME}/.vscode/
-ln -sf ${HOME}/Dropbox/VSCode/User ${HOME}/Library/Application\ Support/Code/
