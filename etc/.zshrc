@@ -355,6 +355,7 @@ path=(${ZDOTDIR:-$HOME}/.symfony/bin $path)
 typeset -U PATH # 重複削除
 
 # alias -g Z=zgit
+export LESSCHARSET=utf-8
 
 ### last
 # zsh プロファイリング

@@ -4,19 +4,14 @@ cd `pwd -P` # symlinkを無視した位置に移動
 cd ../../ # 2つ上がる
 
 src_dir=`pwd -P`
-bin_dir="$src_dir/bin"
-etc_dir="$src_dir/etc"
-config_dir="$src_dir/config"
 
 # マシンを選択
 if [ $# -eq 0 ]; then
-  link_to=$HOME
+  dest=$HOME
 else
-  link_to=$1
+  dest=$1
 fi
 
-
-# | grep -vE '\.template$' | xargs -I{} ln -nfs $etc_dir/{} $link_to
 link_etc_files () {
   source_dir=$1
   dest_dir=$2
@@ -58,20 +53,26 @@ place_template_file () {
 }
 
 # bin
-ln -nfs $bin_dir $link_to
+ln -nfs "$src_dir/bin" $dest
 
 # etc
-link_etc_files $etc_dir $link_to
+link_etc_files "$src_dir/etc" $dest
 
 # config
-mkdir -p "$link_to/.config"
-mkdir -p "$link_to/.config/coc"
-ls $config_dir | grep -v 'coc' | xargs -I{} ln -sf "$config_dir/{}" $link_to/.config
-ln -sf $config_dir/coc/ultisnips $link_to/.config/coc/ultisnips
+config_dir="$src_dir/config"
+
+mkdir -p "$dest/.config"
+mkdir -p "$dest/.config/coc"
+ln -fs "$config_dir/coc/ultisnips" "$dest/.config/coc/"
+
+ln -fs "$config_dir/alacritty" "$dest/.config/"
+ln -fs "$config_dir/karabiner" "$dest/.config/"
+ln -fs "$config_dir/kitty" "$dest/.config/"
+ln -fs "$config_dir/nvim" "$dest/.config/"
 
 # vim
-ln -fs "$config_dir/nvim" "$link_to/.vim"
-ln -fs "$config_dir/nvim/init.vim" "$link_to/.vimrc"
+# ln -fs "$config_dir/nvim" "$dest/.vim"
+# ln -fs "$config_dir/nvim/init.vim" "$dest/.vimrc"
 
 if [ "$(uname)" == 'Darwin' ]; then
   # link dropbox dir to home

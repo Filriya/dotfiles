@@ -1,5 +1,0 @@
-pane	filriya	1	:zsh	0	:-	1	:/Users/filriya	1	zsh	:-zsh
-pane	filriya	2	:zsh	1	:*	1	:/Users/filriya	1	zsh	:-zsh
-window	filriya	1	0	:-	cafd,105x38,0,0,0
-window	filriya	2	1	:*	cafe,105x38,0,0,1
-state	filriya	

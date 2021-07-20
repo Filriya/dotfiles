@@ -33,3 +33,4 @@ config/nvim/sessions/*
 !config/coc/ultisnips/
 
 etc/.tmux/plugins/*
+etc/.tmux/resurrect

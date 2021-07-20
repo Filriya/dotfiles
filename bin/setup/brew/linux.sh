@@ -19,8 +19,10 @@ brew install exa
 brew install docker
 brew install docker-compose
 
-brew cleanup -s
+brew install gcc #ctags用
+brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 
+brew cleanup -s
 chsh -s /home/linuxbrew/.linuxbrew/bin/zsh
 
 pip3 install pynvim neovim
