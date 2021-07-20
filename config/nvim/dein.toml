@@ -182,6 +182,12 @@ on_ft = ["javascript, typescript"]
 [[plugins]]
 repo = "posva/vim-vue"
 on_ft = ["vue"]
+# [[plugins]]
+# repo = "leafOfTree/vim-matchtag"
+# on_ft = ["vue"]
+# [[plugins]]
+# repo = "leafOfTree/vim-vue-plugin"
+# on_ft = ["vue"]
 [[plugins]]
 repo = 'tbastos/vim-lua'
 on_ft = ["lua"]
@@ -203,6 +209,9 @@ on_ft = ["applescript"]
 [[plugins]]
 repo = 'kmyk/brainfuck-highlight.vim'
 on_ft = ["bf"]
+[[plugins]]
+repo = 'nelsyeung/twig.vim'
+on_ft = ["twig"]
 
 # こいつらonにすると重い
 # [[plugins]]
@@ -214,12 +223,12 @@ on_ft = ["bf"]
 # [[plugins]]
 # repo = 'othree/javascript-libraries-syntax.vim'
 # on_ft = ["javascript, typescript"]
-# [[plugins]]
-# repo = 'chr4/nginx.vim'
-# on_ft = ["nginx"]
-# [[plugins]]
-# repo = 'chr4/sslsecure.vim'
-# on_ft = ["nginx"]
+[[plugins]]
+repo = 'chr4/nginx.vim'
+on_ft = ["nginx"]
+[[plugins]]
+repo = 'chr4/sslsecure.vim'
+on_ft = ["nginx"]
 
 # markdown
 

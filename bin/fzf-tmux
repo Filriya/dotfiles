@@ -1,8 +1,0 @@
-#!/bin/bash
-origin=/usr/local/bin/fzf-tmux
-
-if [ -p /dev/stdin ]; then
-  cat - | /usr/local/bin/fzf $(fzf-color) $@
-else
-  /usr/local/bin/fzf $(fzf-color) $@
-fi

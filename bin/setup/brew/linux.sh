@@ -1,30 +1,27 @@
 #!/bin/bash 
+# Make sure using latest Homebrew
+brew update
+brew upgrade
 
-# # ulanncher
-# sudo add-apt-repository ppa:agornostal/ulauncher
-# sudo apt install ulauncher
-# # linuxbrew
-# sudo apt install build-essential curl git m4 ruby texinfo libbz2-dev libcurl4-openssl-dev libexpat-dev libncurses-dev zliblg-dev gettext file linuxbrew-wrapper
-# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-# 
-# # alacritty
-# add-apt-repository ppa:mmstick76/alacritty
+brew install zsh
+# zsh を etc/shells に追加
+if ! `grep "$(brew --prefix)/bin/zsh" /etc/shells > /dev/null` ; then
+  echo $(brew --prefix)/bin/zsh | sudo tee -a /etc/shells
+fi
+# nvim
+brew install nvim
 
-# albert
-# curl https://build.opensuse.org/projects/home:manuelschneid3r/public_key | sudo apt-key add -
-# 
-# sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/manuelscheneid3r/xUbuntu_19.10/ /' > /etc/apt/sources.list.d/home:manuelschneid3r.list"
-# 
-# sudo apt update
-# sudo apt install albert
+brew install ansible
+brew install ripgrep
+brew install yarn
+brew install nkf
+brew install exa
+brew install docker
+brew install docker-compose
 
-# xremap
-# cd /tmp
-# git clone https://github.com/k0kubun/xremap
-# cd xremap 
-# sudo make 
-# sudo make install
+brew cleanup -s
 
-# xkeysnail
-# sudo apt install python3-pip
-# sudo pip3 install xkeysnail
+chsh -s /home/linuxbrew/.linuxbrew/bin/zsh
+
+pip3 install pynvim neovim
+yarn global add neovim

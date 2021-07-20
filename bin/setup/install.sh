@@ -6,7 +6,6 @@ if [ "$(uname)" == 'Darwin' ]; then
   if ! type "brew" > /dev/null 2>&1; then
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
-  ./brew/common.sh
   ./brew/darwin.sh
 elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
   if ! type "brew" > /dev/null 2>&1; then
@@ -18,6 +17,5 @@ elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
     test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
     echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
   fi
-  ./brew/common.sh
   ./brew/linux.sh
 fi

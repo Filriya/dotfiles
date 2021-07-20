@@ -1,11 +1,9 @@
-# LANG="C.UTF-8"
-LC_CTYPE="en_US.UTF-8"
-LC_ALL="en_US.UTF-8"
-LANG=ja_JP.UTF-8
+#!/bin/zsh
+# LANG="C.UTF-8" LC_CTYPE="en_US.UTF-8" LC_ALL="en_US.UTF-8" LANG=ja_JP.UTF-8
 # TERM=screen-256color
 
 if [ ! -e "$HOME"/.zsh.bundle/completion ]; then
-  mkdir "$HOME"/.zsh.bundle/completion
+  mkdir -p "$HOME"/.zsh.bundle/completion
 fi
 
 # if [ ! -e "$HOME"/.zsh.bundle/enhancd ]; then
@@ -352,6 +350,8 @@ function zdk()
 
 fpath=(${ZDOTDIR:-$HOME}/.zsh.d/**/functions $fpath)
 path=(${ZDOTDIR:-$HOME}/bin $path)
+
+path=(${ZDOTDIR:-$HOME}/.symfony/bin $path)
 typeset -U PATH # 重複削除
 
 # alias -g Z=zgit

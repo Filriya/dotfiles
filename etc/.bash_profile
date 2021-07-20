@@ -16,3 +16,4 @@ if [ -e /Users/filriya/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/filriy
 
 eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 . "$HOME/.cargo/env"
+eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)

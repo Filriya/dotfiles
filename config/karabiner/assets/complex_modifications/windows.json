@@ -51,9 +51,6 @@
           "to": [
             { "key_code": "left_control" }
           ],
-          "to_if_alone": [
-            { "key_code": "japanese_eisuu" }
-          ],
           "conditions": [
             {
               "type": "frontmost_application_unless",
@@ -77,64 +74,9 @@
           "to": [
             { "key_code": "right_control" }
           ],
-          "to_if_alone": [
-            { "key_code": "japanese_kana" }
-          ],
           "conditions": [
             {
               "type": "frontmost_application_unless",
-              "bundle_identifiers": [
-                "^com\\.apple\\.Terminal$",
-                "^com\\.googlecode\\.iterm2$",
-                "^co\\.zeit\\.hyperterm$",
-                "^co\\.zeit\\.hyper$",
-                "^io\\.alacritty$",
-                "^net\\.kovidgoyal\\.kitty$",
-                "^com\\.vmware\\.fusion$",
-                "^com\\.vmware\\.horizon$",
-                "^com\\.vmware\\.view$"
-              ]
-            }
-          ]
-        },
-        {
-          "type": "basic",
-          "from": { "key_code": "left_command", "modifiers": { "optional": [ "any" ] } },
-          "to": [
-            { "key_code": "left_command" }
-          ],
-          "to_if_alone": [
-            { "key_code": "japanese_eisuu" }
-          ],
-          "conditions": [
-            {
-              "type": "frontmost_application_if",
-              "bundle_identifiers": [
-                "^com\\.apple\\.Terminal$",
-                "^com\\.googlecode\\.iterm2$",
-                "^co\\.zeit\\.hyperterm$",
-                "^co\\.zeit\\.hyper$",
-                "^io\\.alacritty$",
-                "^net\\.kovidgoyal\\.kitty$",
-                "^com\\.vmware\\.fusion$",
-                "^com\\.vmware\\.horizon$",
-                "^com\\.vmware\\.view$"
-              ]
-            }
-          ]
-        },
-        {
-          "type": "basic",
-          "from": { "key_code": "right_command", "modifiers": { "optional": [ "any" ] } },
-          "to": [
-            { "key_code": "right_command" }
-          ],
-          "to_if_alone": [
-            { "key_code": "japanese_kana" }
-          ],
-          "conditions": [
-            {
-              "type": "frontmost_application_if",
               "bundle_identifiers": [
                 "^com\\.apple\\.Terminal$",
                 "^com\\.googlecode\\.iterm2$",
@@ -609,7 +551,7 @@
       ]
     },
     {
-      "description": "[windows][terminal] Disable Cmd-Q and Cmd-w on alacritty",
+      "description": "[windows][terminal] Disable Cmd-Q and Cmd-w on terminal",
       "manipulators": [
         {
           "type": "basic",
@@ -649,69 +591,6 @@
                 "^com\\.vmware\\.fusion$",
                 "^com\\.vmware\\.horizon$",
                 "^com\\.vmware\\.view$"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "description": "[windows][terminal][gui] Toggle Alacritty",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": { "key_code": "spacebar", "modifiers": { "mandatory": [ "command" ] } },
-          "to": [
-            { "shell_command": "osascript ~/bin/alacritty_hide.scpt" }
-          ],
-          "conditions": [
-            {
-              "type": "frontmost_application_if",
-              "bundle_identifiers": [ "^io\\.alacritty$" ]
-            }
-          ]
-        },
-        {
-          "type": "basic",
-          "from": { "key_code": "spacebar", "modifiers": { "mandatory": [ "control" ] } },
-          "to": [
-            { "shell_command": "osascript ~/bin/alacritty_hide.scpt" }
-          ],
-          "conditions": [
-            {
-              "type": "frontmost_application_if",
-              "bundle_identifiers": [ "^io\\.alacritty$" ]
-            }
-          ]
-        },
-        {
-          "type": "basic",
-          "from": { "key_code": "spacebar", "modifiers": { "mandatory": [ "command" ] } },
-          "to": [
-            { "shell_command": "open /Applications/Alacritty.app" },
-            { "key_code": "japanese_eisuu" }
-          ],
-          "conditions": [
-            {
-              "type": "frontmost_application_unless",
-              "bundle_identifiers": [
-                "^io\\.alacritty$"
-              ]
-            }
-          ]
-        },
-        {
-          "type": "basic",
-          "from": { "key_code": "spacebar", "modifiers": { "mandatory": [ "control" ] } },
-          "to": [
-            { "shell_command": "open /Applications/Alacritty.app" },
-            { "key_code": "japanese_eisuu" }
-          ],
-          "conditions": [
-            {
-              "type": "frontmost_application_unless",
-              "bundle_identifiers": [
-                "^io\\.alacritty$"
               ]
             }
           ]

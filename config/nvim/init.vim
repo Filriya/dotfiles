@@ -86,7 +86,7 @@ inoremap <C-C> <C-X>
 "swap semicolon and colon
 noremap : ;
 noremap ; :
-set cedit=\<C-w>
+set cedit=\<C-f>
 
 " 検索時語句を中心にする
 nnoremap * *zz
@@ -197,14 +197,14 @@ nnoremap <silent> <C-j> :call search ("^". matchstr (getline (line (".")), '\(\s
 
 if dein#tap('defx.nvim')
   " nnoremap <silent> <C-e> :Defx -split=vertical -winwidth=40 -direction=topleft<CR>
-  nnoremap <silent> <C-e> :Defx -split=vertical -winwidth=40 -direction=topleft `expand('%:p:h')` -search=`expand('%:p')` <CR>
+  nnoremap <silent> <C-e> :Defx -split=vertical -winwidth=60 -direction=topleft `expand('%:p:h')` -search=`expand('%:p')` <CR>
 endif
 
 if dein#tap('fzf.vim')
   " map <Leader>f [fzf]
   nnoremap <silent> <Leader>f :<C-u>GFiles<CR>
   nnoremap <silent> <Leader>F :<C-u>Files<CR>
-  nnoremap <silent> <Leader>e :<C-u>FzfDotfiles<CR>
+  nnoremap <silent> <Leader>ee :<C-u>FzfDotfiles<CR>
   nnoremap <silent> <Leader>u :<C-u>Buffers<CR>
   nnoremap <silent> <Leader>m :<C-u>Marks<CR>
   " nnoremap <silent> <Leader>b :<C-u>LoadedBuffers<CR>
@@ -428,28 +428,31 @@ if dein#tap('vim-gitgutter')
   nmap [git]p <Plug>(GitGutterPreviewHunk)
   nmap [git]a <Plug>(GitGutterStageHunk)
   nmap [git]r <Plug>(GitGutterUndoHunk)
-  nmap [git]t <Plug>(GitGutterSignsToggle)
+  nmap [git]t <Plug>(GitGutterLineHighlightsToggle)
 endif
 
 if dein#tap('vim-table-mode')
-  let g:table_mode_disable_mappings = 0
+  let g:table_mode_disable_mappings = 1
 
-  let g:table_mode_map_prefix = "<C-t>"
-  let g:table_mode_corner = "|"
-  let g:table_mode_toggle_map = 'm'
-  let g:table_mode_tableize_map = '<C-t>T'
-  let g:table_mode_tableize_d_map = '<C-t>t'
+  let g:table_mode_map_prefix = ""
+  " let g:table_mode_corner = "|"
+  let g:table_mode_toggle_map = '<C-t>m'
+
   let g:table_mode_motion_up_map = '<C-k>'
   let g:table_mode_motion_down_map = '<C-j>'
   let g:table_mode_motion_left_map = '<C-h>'
   let g:table_mode_motion_right_map = '<C-l>'
+
+  " 以下ノーマルモード
+  let g:table_mode_tableize_map = '<C-t>T'
+  let g:table_mode_tableize_d_map = '<C-t>t'
   let g:table_mode_realign_map = '<C-t>r'
   let g:table_mode_delete_row_map = '<C-t>dr'
   let g:table_mode_delete_column_map = '<C-t>dc'
-  let g:table_mode_add_formula_map = '<C-t>fa'
-  let g:table_mode_eval_formula_map = '<C-t>fe'
+  " let g:table_mode_add_formula_map = '<C-t>fa'
+  " let g:table_mode_eval_formula_map = '<C-t>fe'
   let g:table_mode_echo_cell_map = '<C-t>?'
-  let g:table_mode_sort_map = '<C-t>s'
+  " let g:table_mode_sort_map = '<C-t>s'
 endif
 
 if dein#tap('memolist.vim')
@@ -476,8 +479,6 @@ endif
 " --------------------
 " Keymap ここまで
 " --------------------
-
-
 
 
 
@@ -1084,15 +1085,53 @@ if dein#tap('vim-airline')
 
 
   let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tabline#show_buffers = 0
 
-  " 0でそのタブで開いてるウィンドウ数、1で左のタブから連番
-  let g:airline#extensions#tabline#tab_nr_type = 1
+  let g:airline#extensions#tabline#fnamemod = ':t' " タブに表示する名前（fnamemodifyの第二引数）
+  let g:airline#extensions#tabline#show_splits = 1 "enable/disable displaying open splits per tab (only when tabs are opened). >
+  let g:airline#extensions#tabline#show_buffers = 0 " enable/disable displaying buffers with a single tab
+  let g:airline#extensions#tabline#tab_nr_type = 0 " 0でそのタブで開いてるウィンドウ数、1で左のタブから連番
+  let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
+  let airline#extensions#tabline#current_first = 0
 
-  " タブに表示する名前（fnamemodifyの第二引数）
-  let g:airline#extensions#tabline#fnamemod = ':t'
+  let g:airline#extensions#tabline#tabtitle_formatter = 'MyTabTitleFormatter'
+  function MyTabTitleFormatter(n)
+    let buflist = tabpagebuflist(a:n)
+    let winnr = tabpagewinnr(a:n)
+    let bufname =  bufname(buflist[winnr - 1])
+    let filename = fnamemodify(bufname, ":t:r")
+    let extension = fnamemodify(bufname, ":e")
+    if extension != ""
+      let label = filename . "." . extension
+    else
+      let label = filename
+    endif
+    return label
+  endfunction
 
-
+  " function! MyTabLine()
+  "   let s = ''
+  "   for i in range(tabpagenr('$'))
+  "     " select the highlighting
+  "     if i + 1 == tabpagenr()
+  "       let s .= '%#TabLineSel#'
+  "       let issel = "v:true"
+  "     else
+  "       let s .= '%#TabLine#'
+  "       let issel = "v:false"
+  "     endif
+  "     " set the tab page number (for mouse clicks)
+  "     let s .= '%' . (i + 1) . 'T'
+  "     " the label is made by MyTabLabelFormatter()
+  "     let s .= ' %{MyTabLabel(' . (i + 1) . ',' . issel . ')} '
+  "   endfor
+  "   " after the last tab fill with TabLineFill and reset tab page nr
+  "   let s .= '%#TabLineFill#%T'
+  "   " " right-align the label to close the current tab page
+  "   " if tabpagenr('$') > 1
+  "   "   let s .= '%=%#TabLine#%999Xclose'
+  "   " endif
+  "   return s
+  " endfunction
 endif
 
 "------------
@@ -1206,25 +1245,27 @@ endif
 "   endfunction
 " 
 " endif
-" 
-" "--------------------
-" "vim-quickrun
-" "--------------------
-" if dein#tap("vim-quickrun")
-"   nnoremap <Leader>r :w<CR>:QuickRun<CR>
-"   autocmd FileType quickrun setlocal nofoldenable
-"   let g:quickrun_config = {}
-"   let g:quickrun_config.scheme = { 'scheme': { 'command': 'gosh'}}
-"   let g:quickrun_config.rust = {'exec' : 'cargo run'}
-"   let g:quickrun_config['typescript'] = { 'type' : 'typescript/tsc' }
-"   let g:quickrun_config['typescript/tsc'] = {
-"        \   'command': 'tsc',
-"        \   'exec': ['%c --target esnext --module commonjs %o %s', 'node %s:r.js'],
-"        \   'tempfile': '%{tempname()}.ts',
-"        \   'hook/sweep/files': ['%S:p:r.js'],
-"        \ }
-" endif
-" 
+
+
+"--------------------
+"vim-quickrun
+"--------------------
+if dein#tap("vim-quickrun")
+  nnoremap <Leader>\ :w<CR>:QuickRun<CR>
+  autocmd FileType quickrun setlocal nofoldenable
+  let g:quickrun_config = {}
+  let g:quickrun_no_default_key_mappings = 1
+  let g:quickrun_config.scheme = { 'scheme': { 'command': 'gosh'}}
+  let g:quickrun_config.rust = {'exec' : 'cargo run'}
+  let g:quickrun_config['typescript'] = { 'type' : 'typescript/tsc' }
+  let g:quickrun_config['typescript/tsc'] = {
+       \   'command': 'tsc',
+       \   'exec': ['%c --target esnext --module commonjs %o %s', 'node %s:r.js'],
+       \   'tempfile': '%{tempname()}.ts',
+       \   'hook/sweep/files': ['%S:p:r.js'],
+       \ }
+endif
+
 "--------------------
 " qfreplace
 "--------------------
@@ -1255,16 +1296,31 @@ endif
 "--------------------
 " vim-vue-plugin
 "--------------------
-let g:vim_vue_plugin_use_typescript = 1
-let g:vim_vue_plugin_use_sass = 1
-let g:vim_vue_plugin_use_scss = 1
-let g:vim_vue_plugin_highlight_vue_attr = 1
-let g:vim_vue_plugin_highlight_vue_keyword = 1
+if dein#tap('vim-vue-plugin')
+  let g:vim_vue_plugin_config = {
+       \'syntax': {
+      \   'template': ['html'],
+      \   'script': ['typescript', 'javascript'],
+      \   'style': ['scss'],
+      \   'i18n': ['json'],
+      \   'route': 'json',
+      \},
+      \'full_syntax': [],
+      \'initial_indent': [],
+      \'attribute': 0,
+      \'keyword': 0,
+      \'foldexpr': 0,
+      \'debug': 0,
+      \}
+endif
 
 "--------------------
-" vim-vue
+" leafOfTree/vim-matchtag
 "--------------------
-let g:vue_pre_processors = ['scss', 'typescript']
+if dein#tap('vim-matchtag')
+  let g:vim_matchtag_enable_by_default = 1
+  let g:vim_matchtag_files = '*.html,*.xml,*.vue'
+endif
 
 "--------------------
 " kana/vim-smartinput
@@ -1328,20 +1384,6 @@ if dein#tap('vim-smartinput')
        \    'input': '<Bar>',
        \    'filetype': ['rust'],
        \ })
-
-  " call smartinput#define_rule({
-  "      \   'at'       : '\%#',
-  "      \   'char'     : '{',
-  "      \   'input'    : '{};',
-  "      \   'filetype' : ['php'],
-  "      \ })
-
-  " call smartinput#define_rule({
-  "      \   'at'       : '\%#',
-  "      \   'char'     : '{',
-  "      \   'input'    : '{},',
-  "      \   'filetype' : ['javascript', 'typescript', 'vue'],
-  "      \ })
 endif
 
 "--------------------
@@ -1546,7 +1588,9 @@ if dein#tap('vim-gitgutter')
   let g:gitgutter_enabled = 1
   let g:gitgutter_map_keys = 0
   let g:gitgutter_max_signs = 2000
-  let g:gitgutter_signs = 0
+  let g:gitgutter_signs = 1
+  let g:gitgutter_highlight_linenrs = 0
+  let g:gitgutter_sign_allow_clobber = 1
 endif
 
 "--------------------
@@ -1567,7 +1611,7 @@ if dein#tap('vim-php-cs-fixer')
   "     \ . '"@PSR2": true,'
   "     \ . '"@Symfony": true,'
   "     \ . '"braces": { "position_after_control_structures":  "next", "position_after_anonymous_constructs": "next" }'
-  "     \ . ' }'
+  "     \ . ' }t]n'
   let g:php_cs_fixer_cache = ".php_cs.cache" " options: --cache-file
   let g:php_cs_fixer_config_file = '.php_cs' " options: --config
 
@@ -1661,7 +1705,6 @@ function! s:get_syn_id(transparent)
     return synid
   endif
 endfunction
-
 function! s:get_syn_attr(synid)
   let name = synIDattr(a:synid, "name")
   let ctermfg = synIDattr(a:synid, "fg", "cterm")
@@ -1669,25 +1712,28 @@ function! s:get_syn_attr(synid)
   let guifg = synIDattr(a:synid, "fg", "gui")
   let guibg = synIDattr(a:synid, "bg", "gui")
   return {
-       \ "name": name,
-       \ "ctermfg": ctermfg,
-       \ "ctermbg": ctermbg,
-       \ "guifg": guifg,
-       \ "guibg": guibg}
+        \ "name": name,
+        \ "ctermfg": ctermfg,
+        \ "ctermbg": ctermbg,
+        \ "guifg": guifg,
+        \ "guibg": guibg}
 endfunction
-
-function! s:get_syn_id(transparent)
-  let synid = synID(line('.'), col('.'), 1)
-  return a:transparent ? synIDtrans(synid) : synid
+function! s:get_syn_info()
+  let baseSyn = s:get_syn_attr(s:get_syn_id(0))
+  echo "name: " . baseSyn.name .
+        \ " ctermfg: " . baseSyn.ctermfg .
+        \ " ctermbg: " . baseSyn.ctermbg .
+        \ " guifg: " . baseSyn.guifg .
+        \ " guibg: " . baseSyn.guibg
+  let linkedSyn = s:get_syn_attr(s:get_syn_id(1))
+  echo "link to"
+  echo "name: " . linkedSyn.name .
+        \ " ctermfg: " . linkedSyn.ctermfg .
+        \ " ctermbg: " . linkedSyn.ctermbg .
+        \ " guifg: " . linkedSyn.guifg .
+        \ " guibg: " . linkedSyn.guibg
 endfunction
-function! s:get_syn_name(synid)
-  return synIDattr(a:synid, 'name')
-endfunction
-function! s:get_highlight_info()
-  execute "highlight " . s:get_syn_name(s:get_syn_id(0))
-  execute "highlight " . s:get_syn_name(s:get_syn_id(1))
-endfunction
-command! HighlightInfo call s:get_highlight_info()
+command! HighlightInfo call s:get_syn_info()
 command! HighlightInfoAll source $VIMRUNTIME/syntax/hitest.vim
 
 " augroup ZenkakuSpace
@@ -1710,10 +1756,12 @@ function! s:reload() abort
   endif
 endfunction
 
-if system('darkMode') !~ "Dark"
-  set background=light
-else
+if !has('mac')
   set background=dark
+elseif system('darkMode') =~ "Dark"
+  set background=dark
+else
+  set background=light
 endif
 
 if (has("termguicolors"))
@@ -1721,33 +1769,41 @@ if (has("termguicolors"))
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
-  augroup mycolorschemelight
+  augroup mycolorscheme
     autocmd!
     autocmd ColorScheme * hi Normal term=none ctermbg=none guibg=none
-    " 折りたたみ箇所の色
-    " autocmd ColorScheme * hi Folded ctermfg=none ctermbg=none guifg=none guibg=none
-    autocmd ColorScheme * hi SignColumn ctermbg=none guibg=none
   augroup END
+
 
   if (&background == 'dark')
     let ayucolor="mirage"
     let g:airline_theme='ayu_mirage'
     colorscheme ayu
+
     " let ayucolor="dark"
     " let g:airline_theme='ayu_dark'
+    " colorscheme ayu
+
+    " let g:airline_theme='onedark'
+    " colorscheme one
+    augroup mycolorschemedark
+      " autocmd ColorScheme * hi LineNr ctermbg=224 guibg=#F3F3F3
+      autocmd ColorScheme * hi! link SignColumn ColorColumn
+      autocmd ColorScheme * hi! link VertSplit ColorColumn
+    augroup END
   else
     let ayucolor="light"
     let g:airline_theme='ayu_light'
     colorscheme ayu
-    " colorscheme one
-    " let g:airline_theme='one'
+    augroup mycolorschemelight
+      " autocmd ColorScheme * hi LineNr ctermbg=224 guibg=#F3F3F3
+      autocmd ColorScheme * hi! link SignColumn ColorColumn
+      autocmd ColorScheme * hi! link VertSplit ColorColumn
+      " autocmd ColorScheme * hi VertSplit ctermbg=224 guifg=none guibg=#F3F3F3
+    augroup END
   endif
-
-  " colorscheme one
-  " let g:airline_theme='one'
-
   " ぼんやり
-  " let g:gruvbox_contrast_light = "medium"
+  " let g:gruvbox_contrast_light = 'medium'
   " colorscheme gruvbox
 
   " ぼんやり
@@ -1755,8 +1811,7 @@ if (has("termguicolors"))
   " let g:airline_theme='papercolor'
   "
   " colorscheme pencil
-" endfunction
-"
+  " let g:airline_theme='pencil'
 else
   " 256colorの場合
   augroup mycolorscheme
@@ -1774,10 +1829,6 @@ else
     autocmd ColorScheme * hi LineNr ctermfg=239
     autocmd ColorScheme * hi CursorLineNr ctermfg=250
 
-    " その他
-    " autocmd ColorScheme * hi clear CursorLine
-    " autocmd ColorScheme * hi CursorLine ctermbg=236
-
     autocmd ColorScheme * hi Delimiter ctermfg=247
     autocmd ColorScheme * hi Comment ctermfg=73
   augroup END
@@ -1785,35 +1836,18 @@ else
   colorscheme mopkai
 endif
 
-" if (background == 'dark')
-"   augroup mycolorschemedark
-"     autocmd!
-"     " 左端、アノテーションがでてくるところ
-"     autocmd ColorScheme * hi SignColumn ctermbg=none guibg=none
-"     " quickfixの現在開いているファイルの色
-"     autocmd ColorScheme * hi link QuickFixLine None
-"     " 折りたたみ箇所の色
-"     autocmd ColorScheme * hi Folded ctermbg=none guibg=none
-"     " ラインカラムの文字色
-"     " autocmd ColorScheme * hi LineNr ctermfg=239 guifg=#3e4954
-"     autocmd ColorScheme * hi LineNr ctermfg=239 guifg=#45525f
-"     " 検索系
-"     autocmd ColorScheme * hi Search ctermfg=0 ctermbg=11 guifg=#C7C7C7 guibg=#6045a0
-"     " autocmd ColorScheme * hi IncSearch cterm=underline ctermfg=0 ctermbg=11 gui=underline guifg=#C7C7C7 guibg=#6045a0
-"     " autocmd ColorScheme * hi IncSearch cterm=underline gui=underline
-"     " タブラインの色
-"     autocmd ColorScheme * hi TabLineSel  term=bold cterm=bold gui=bold            guibg=none
-"     autocmd ColorScheme * hi TabLine     term=none cterm=none gui=none guifg=gray guibg=none
-"     autocmd ColorScheme * hi TabLineFill term=none cterm=none gui=none guifg=gray guibg=none
-"   augroup END
-" endif
-
 " let &colorcolumn="80,".join(range(120,999),",")
+" let &colorcolumn=join(range(120,999),",")
 
 if dein#tap('vim-better-whitespace')
   let g:better_whitespace_enabled=1
-  let g:better_whitespace_ctermcolor='14'
-  let g:better_whitespace_guicolor='#5C6773'
+  if (&background == 'dark')
+    let g:better_whitespace_ctermcolor='14'
+    let g:better_whitespace_guicolor='#5C6773'
+  else
+    let g:better_whitespace_ctermcolor='4'
+    let g:better_whitespace_guicolor='#ABB0B6'
+  endif
   " let g:strip_whitespace_on_save=1
   " let g:strip_whitespace_on_save = 1
   " let g:strip_max_file_size = 1000
@@ -1851,39 +1885,6 @@ set iskeyword=@,48-57,_,192-255,#,$
 "------------------------------
 " 移動系
 "------------------------------
-" Jump to the next or previous line that has the same level or a lower
-" level of indentation than the current line.
-"
-" exclusive (bool): true: Motion is exclusive
-" false: Motion is inclusive
-" fwd (bool): true: Go to next line
-" false: Go to previous line
-" lowerlevel (bool): true: Go to line with lower indentation level
-" false: Go to line with the same indentation level
-" skipblanks (bool): true: Skip blank lines
-" false: Don't skip blank lines
-" function! NextIndent(exclusive, fwd, lowerlevel, skipblanks)
-"   let line = line('.')
-"   let column = col('.')
-"   let lastline = line('$')
-"   let indent = indent(line)
-"   let stepvalue = a:fwd ? 1 : -1
-"   while (line > 0 && line <= lastline)
-"     let line = line + stepvalue
-"     if ( ! a:lowerlevel && indent(line) == indent ||
-"         \ a:lowerlevel && indent(line) < indent)
-"       if (! a:skipblanks || strlen(getline(line)) > 0)
-"         if (a:exclusive)
-"           let line = line - stepvalue
-"         endif
-"         exe line
-"         exe "normal " column . "|"
-"         return
-"       endif
-"     endif
-"   endwhile
-" endfunction
-
 " 現在位置をマーク
 if !exists('g:markrement_char')
     let g:markrement_char = [
@@ -1985,62 +1986,8 @@ function! s:ChangeCurrentDir(directory, bang)
   endif
 endfunction
 
-" set tabline=%!MyTabLine()
-" 
-" function! MyTabLine()
-"   let s = ''
-"   for i in range(tabpagenr('$'))
-"     " select the highlighting
-"     if i + 1 == tabpagenr()
-"       let s .= '%#TabLineSel#'
-"       let issel = "v:true"
-"     else
-"       let s .= '%#TabLine#'
-"       let issel = "v:false"
-"     endif
-" 
-"     " set the tab page number (for mouse clicks)
-"     let s .= '%' . (i + 1) . 'T'
-" 
-"     " the label is made by MyTabLabel()
-"     let s .= ' %{MyTabLabel(' . (i + 1) . ',' . issel . ')} '
-"   endfor
-" 
-"   " after the last tab fill with TabLineFill and reset tab page nr
-"   let s .= '%#TabLineFill#%T'
-" 
-"   " " right-align the label to close the current tab page
-"   " if tabpagenr('$') > 1
-"   "   let s .= '%=%#TabLine#%999Xclose'
-"   " endif
-" 
-"   return s
-" endfunction
-
 set cmdwinheight=2
 
-function! MyTabLabel(n, issel)
-  let buflist = tabpagebuflist(a:n)
-  let winnr = tabpagewinnr(a:n)
-  let bufname =  bufname(buflist[winnr - 1])
-  let filename = fnamemodify(bufname, ":t:r")
-  let extension = fnamemodify(bufname, ":e")
-
-  let strlength = 8
-  if strlen(substitute(filename, ".", "x", "g")) > strlength && !a:issel
-    let splitted = split(filename, '\zs')
-    let filename = join(splitted[0:strlength], "") . '..'
-  endif
-
-  "タブ番号を付加
-  if extension != ""
-    let label = a:n . ':' . filename . "." . extension
-  else
-    let label = a:n . ':' . filename
-  endif
-
-  return label
-endfunction
 
 " https://qiita.com/tmsanrinsha/items/6a2e844768568cd937e1
 function! ProfileCursorMove() abort

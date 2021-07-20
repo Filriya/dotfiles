@@ -1,1 +1,1 @@
-au Syntax dotenv source $VIMRUNTIME/syntax/sh.vim
+" au Syntax dotenv source $VIMRUNTIME/syntax/sh.vim
